@@ -1,2 +1,2 @@
 # Project-Survivor
-A mutliplayer "Survivor-like" game using NGO
+A mutliplayer "Survivor-like" game using NGO (NetCode for GameObject)
