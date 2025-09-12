@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Zombie : EnemyMelee
 {
     public override void OnNetworkSpawn()

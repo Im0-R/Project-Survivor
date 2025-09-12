@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHUD : MonoBehaviour
+public class PlayerUI : MonoBehaviour
 {
-    public static PlayerHUD Instance;
+    public static PlayerUI Instance;
 
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider xpBar;
-    [SerializeField] public PlayerStats playerStats;
-    private PlayerEntity playerEnt;
+
+
+    [SerializeField] private PlayerEntity playerEnt;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class PlayerHUD : MonoBehaviour
     public void SetPlayer(PlayerEntity p)
     {
         playerEnt = p;
-        UpdateUI();
+        //Hide 
     }
 
     private void Update()
@@ -31,7 +32,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void UpdateUI()
     {
-        healthBar.value = playerEnt.health.Value / playerStats.maxHealth; 
-        xpBar.value = playerStats.experience / playerStats.experience;
+        healthBar.value = (playerEnt.currentHealth.Value / playerEnt.currentHealth.Value) * 100f;
+        xpBar.value = (playerEnt.experience.Value / playerEnt.maxExperience.Value) * 100f;
     }
 }

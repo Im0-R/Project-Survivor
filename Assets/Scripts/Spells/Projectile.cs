@@ -18,11 +18,8 @@ public class Projectile : NetworkBehaviour
         damage = dmg;
         speed = spd;
         direction = (target != null) ? (target.position - transform.position).normalized : transform.forward;
-        if (IsServer)
-        {
-            Invoke(nameof(DespawnSelf), lifeTime);
 
-        }
+            Invoke(nameof(DespawnSelf), lifeTime);
     }
 
     void Update()
@@ -46,12 +43,13 @@ public class Projectile : NetworkBehaviour
 
         var otherNetEntity = other.GetComponent<NetworkEntity>();
 
-        if (otherNetEntity == null)
-        {
-            Debug.Log("Projectile hit non-entity object ," + other.name);
-        }
         if (otherNetEntity != null && otherNetEntity != owner)
         {
+            //Check for friendly fire
+            if (otherNetEntity is PlayerEntity && owner is PlayerEntity) return;
+            if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
+
+
             otherNetEntity.ApplyDamageServerRpc(damage);
             DespawnSelf();
             Debug.Log("Projectile applied damage and despawned.");

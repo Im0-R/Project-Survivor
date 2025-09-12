@@ -6,7 +6,6 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] private GameObject loginCanvas;
-    [SerializeField] private GameObject loadingCanvas;
     [SerializeField] private GameObject gameUICanvas;
 
     private void Awake()
@@ -40,7 +39,11 @@ public class UIManager : MonoBehaviour
         // Only switch UI if this is the local player
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            ShowLoadingUI();
+            ShowGameUI();
+            //connect the UI to the player entity
+            var player = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId).GetComponent<PlayerEntity>();
+
+            PlayerUI.Instance.SetPlayer(player);
         }
     }
 
@@ -56,21 +59,18 @@ public class UIManager : MonoBehaviour
     public void ShowLoginUI()
     {
         loginCanvas.SetActive(true);
-        loadingCanvas.SetActive(false);
         gameUICanvas.SetActive(false);
     }
 
     public void ShowLoadingUI()
     {
         loginCanvas.SetActive(false);
-        loadingCanvas.SetActive(true);
         gameUICanvas.SetActive(false);
     }
 
     public void ShowGameUI()
     {
         loginCanvas.SetActive(false);
-        loadingCanvas.SetActive(false);
         gameUICanvas.SetActive(true);
     }
 

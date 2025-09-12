@@ -3,35 +3,30 @@ using UnityEngine;
 
 public class FireballSpell : Spell
 {
+    // Constructeur vide obligatoire pour Activator
+    public FireballSpell() { }
 
-    public FireballSpell(GameObject prefab, Transform firePoint, float range, float cooldown ,bool autoCast = false)
-        : base(cooldown, autoCast , firePoint , range , prefab)
-    {
-        data.prefab = prefab;
-        data.firePoint = firePoint;
-        data.range = range;
-
-    }
-
-    public override void ExecuteServer(Entity owner)
+    public override void ExecuteServer(NetworkEntity owner)
     {
         Transform target = null;
 
-        var netOwner = owner.NetEntity; // le NetworkEntity réel (PlayerEntity ou EnemyEntity)
+        var netOwner = owner; // le NetworkEntity réel (PlayerEntity ou EnemyEntity)
 
+        // Trouve la bonne cible selon le camp
         if (netOwner is PlayerEntity)
-            target = TargetHelper.FindClosestTarget(data.firePoint.position, "Enemy", data.range);
+            target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
         else if (netOwner is EnemyEntity)
-            target = TargetHelper.FindClosestTarget(data.firePoint.position, "Player", data.range);
+            target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
 
         if (target == null) return;
 
-        var obj = GameObject.Instantiate(data.prefab, data.firePoint.position, Quaternion.identity);
+        // Instancie le projectile
+        var obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
         var proj = obj.GetComponent<Projectile>();
 
-        // ✅ nouvelle signature avec cible
-        proj?.Initialize(netOwner, target, 10f, 10f);
+        proj?.Initialize(netOwner, target, data.damage, data.speed);   // Initialise avec les bonnes stats (ici j’ai mis data.damage & data.speed)
 
+        // Spawn réseau
         obj.GetComponent<NetworkObject>()?.Spawn(true);
     }
 }

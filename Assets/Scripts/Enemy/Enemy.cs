@@ -4,15 +4,11 @@ using UnityEngine.AI;
 
 public class Enemy : EnemyEntity
 {
-    [SerializeField] int maxHealth = 100;
-    int currentHealth;
-
     [SerializeField] public float attackRange = 2f;
     [SerializeField] public float attackDamage = 10f;
 
     [SerializeField] public float movementSpeed = 1f;
     NavMeshAgent agent;
-    Transform targetPlayer;
 
     IEnemyState currentState;
 
@@ -23,10 +19,10 @@ public class Enemy : EnemyEntity
         agent = GetComponent<NavMeshAgent>();
         agent.speed = movementSpeed;
 
-        currentHealth = maxHealth;
-
         // Premier état = Chase
         ChangeState(new EnemyChaseState());
+
+        InitFromSO();
     }
 
     protected override void Update()
@@ -73,8 +69,8 @@ public class Enemy : EnemyEntity
     {
         if (!IsServer) return;
 
-        currentHealth -= dmg;
-        if (currentHealth <= 0)
+        currentHealth.Value -= dmg;
+        if (currentHealth.Value <= 0)
         {
             ChangeState(new EnemyDeadState());
         }

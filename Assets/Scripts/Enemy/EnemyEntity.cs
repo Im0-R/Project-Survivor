@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyEntity : NetworkEntity
@@ -9,6 +10,6 @@ public class EnemyEntity : NetworkEntity
         base.Awake();
 
         // Fireball auto-cast toutes les 2s
-        entity.AddSpell(new FireballSpell(SpellsManager.Instance.fireballPrefab, firePoint, 15f ,1.5f, autoCast: true));
+        AddSpell(SpellsManager.Instance.GetSpell("Fireball"));
     }
 }

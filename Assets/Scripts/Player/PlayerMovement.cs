@@ -58,4 +58,8 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
+    public void Update()
+    {
+
+    }
 }

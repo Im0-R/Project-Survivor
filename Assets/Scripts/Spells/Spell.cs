@@ -1,40 +1,47 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public abstract class Spell
 {
+    public Spell() { }
+    public Spell(SpellData spellData)
+    {
+        this.data = spellData;
+    }
+    [System.Serializable]
     public class SpellData
     {
+        public SpellTypeReference spellType;
+        public Sprite UISprite;
+        public string spellName;
+        public GameObject prefab;
+        public float damage;
+        public float speed;
+        public float range;
+        public float duration;
+        public int manaCost;
         public float cooldown = 2f;
         public float lastCastTime;
         public bool autoCast = true;
         public Transform firePoint;
-        public float range = 10f;
-        public GameObject prefab;
-        public SpellData(float cooldown, bool autoCast, Transform firePoint ,float range, GameObject prefab)
-        {
-            this.cooldown = cooldown;
-            this.autoCast = autoCast;
-            this.firePoint = firePoint;
-            this.range = range;
-            this.prefab = prefab;
-        }
+        public NetworkEntity owner;
     }
     protected SpellData data;
-    public Spell(float cooldown, bool autoCast, Transform firePoint, float range, GameObject prefab)
+
+    public void Init(SpellData spellData)
     {
-        data = new SpellData(cooldown, autoCast, firePoint, range, prefab);
+        this.data = spellData;
     }
+    public virtual void OnAdd(NetworkEntity owner) { }
+    public virtual void OnRemove(NetworkEntity owner) { }
 
-    public virtual void OnAdd(Entity owner) { }
-    public virtual void OnRemove(Entity owner) { }
-
-    public virtual void UpdateSpell(Entity owner)
+    public virtual void UpdateSpell(NetworkEntity owner)
     {
         if (this.data.autoCast && Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
-            if (owner.NetEntity != null)
+            if (owner != null)
             {
-                owner.NetEntity.CastSpellServerRpc(GetType().Name);
+                owner.CastSpellServerRpc(GetType().Name);
             }
             else
             {
@@ -44,18 +51,18 @@ public abstract class Spell
         }
     }
 
-    public void TryCast(Entity owner, NetworkEntity netEntity)
+    public void TryCast(NetworkEntity netEntity)
     {
         if (Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
             if (netEntity != null)
                 netEntity.CastSpellServerRpc(GetType().Name);
             else
-                ExecuteServer(owner);
+                ExecuteServer(netEntity);
 
             this.data.lastCastTime = Time.time;
         }
     }
-
-    public abstract void ExecuteServer(Entity owner);
+    public SpellData GetData() { return data; }
+    public abstract void ExecuteServer(NetworkEntity owner);
 }

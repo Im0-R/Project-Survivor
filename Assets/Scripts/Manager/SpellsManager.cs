@@ -1,38 +1,13 @@
-using JetBrains.Annotations;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
+using static Spell;
 
 public class SpellsManager : MonoBehaviour
 {
-    public class SpellProjStats
-    {
-        public Image UIImage;
-        public string spellName;
-        public float damage;
-        public float speed;
-        public float cooldown;
-        public float range;
-        public int manaCost;
-        public SpellProjStats(Image Image,string name, float dmg, float spd, float cd, float rng, int mana)
-        {
-            UIImage = Image;
-            spellName = name;
-            damage = dmg;
-            speed = spd;
-            cooldown = cd;
-            range = rng;
-            manaCost = mana;
-        }
-    }
     public static SpellsManager Instance { get; private set; }
 
-    [Header("Projectiles")]
-    public GameObject[] projsSpellsGO;
-    public GameObject fireballPrefab;
-    public GameObject iceboltPrefab;
-
-    [Header("Autres sorts")]
-    public GameObject healPrefab;
+    [Header("Spells")]
+    public SerializableDictionary<string, SpellData> spellsDictionary = new SerializableDictionary<string, SpellData>();
 
     private void Awake()
     {
@@ -42,22 +17,50 @@ public class SpellsManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // optionnel si tu veux qu'il survive aux scènes
+        DontDestroyOnLoad(gameObject);
     }
 
-    public GameObject GetPrefab(string spellName)
+    /// <summary>
+    /// Return a random spell from the spellsDictionary
+    /// </summary>
+    public Spell GetRandomSpell()
     {
-        return spellName switch
+        if (spellsDictionary.Count == 0)
         {
-            "Fireball" => fireballPrefab,
-            "Icebolt" => iceboltPrefab,
-            "Heal" => healPrefab,
-            _ => null
-        };
-    }
+            Debug.LogWarning("Aucun spell dans le dictionnaire !");
+            return null;
+        }
 
-    //public Spell GetSpell()
-    //{
-    //    return new Spell();
-    //}
+        int index = UnityEngine.Random.Range(0, spellsDictionary.Count);
+        var spellData = spellsDictionary.ElementAt(index).Value;
+
+        Type spellType = spellData.spellType.SpellType;
+        if (spellType == null)
+        {
+            Debug.LogError("SpellType missing in SpellData !");
+            return null;
+        }
+
+        Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
+        spellInstance.Init(spellData);
+        return spellInstance;
+    }
+    public Spell GetSpell(string spellName)
+    {
+        if (spellsDictionary.TryGetValue(spellName, out SpellData spellData))
+        {
+            Type spellType = spellData.spellType.SpellType;
+            if (spellType == null)
+            {
+                Debug.LogError("SpellType missing in SpellData !");
+                return null;
+            }
+            Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
+            spellInstance.Init(spellData);
+            return spellInstance;
+
+        }
+        Debug.LogError($"Spell '{spellName}' not found in dictionary !");
+        return null;
+    }
 }

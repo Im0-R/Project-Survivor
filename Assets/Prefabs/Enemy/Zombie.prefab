@@ -150,10 +150,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  health:
+  SO: {fileID: 11400000, guid: b87507f304c4a8549b9148c9e5ade104, type: 2}
+  level:
+    m_InternalValue: 1
+  experience:
+    m_InternalValue: 0
+  maxExperience:
     m_InternalValue: 100
+  expMultiPerLevel:
+    m_InternalValue: 1.2
+  maxHealth:
+    m_InternalValue: 0
+  maxMana:
+    m_InternalValue: 0
+  currentHealth:
+    m_InternalValue: 0
+  currentMana:
+    m_InternalValue: 0
+  healthRegen:
+    m_InternalValue: 0
+  manaRegen:
+    m_InternalValue: 0
+  movementSpeedMultiplier:
+    m_InternalValue: 0
+  cooldownReduction:
+    m_InternalValue: 1
+  criticalStrikeChance:
+    m_InternalValue: 0.1
+  criticalStrikeDamage:
+    m_InternalValue: 1.5
+  projectileSpeed:
+    m_InternalValue: 0
+  durationMultiplier:
+    m_InternalValue: 0
+  damageMultiplier:
+    m_InternalValue: 0
   firePoint: {fileID: 8913022215254427481}
-  maxHealth: 100
   attackRange: 2
   attackDamage: 10
   movementSpeed: 0.5

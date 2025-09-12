@@ -1,15 +1,19 @@
+using System;
+using System.Reflection;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerEntity : NetworkEntity
 {
     public Transform firePoint;
+    private PlayerUI playerUI;   
 
     protected override void Awake()
     {
         base.Awake();
-
-        // Fireball manuel
-        entity.AddSpell(new FireballSpell(SpellsManager.Instance.fireballPrefab, firePoint, 1.5f, 1.5f, autoCast: false));
+        AddSpell(SpellsManager.Instance.GetRandomSpell());
+        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier.Value;
     }
 
     protected override void Update()
@@ -20,8 +24,15 @@ public class PlayerEntity : NetworkEntity
 
         if (Input.GetMouseButtonDown(0))
         {
-            var fireball = entity.GetSpell<FireballSpell>();
-            fireball?.TryCast(entity, this);
+            var fireball = GetSpell<FireballSpell>();
+            fireball?.TryCast(this);
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+        playerUI = FindAnyObjectByType<PlayerUI>(FindObjectsInactive.Include);
+        playerUI.SetPlayer(this);
     }
 }
