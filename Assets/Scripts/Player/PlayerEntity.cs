@@ -7,13 +7,13 @@ using UnityEngine.AI;
 public class PlayerEntity : NetworkEntity
 {
     public Transform firePoint;
-    private PlayerUI playerUI;   
 
     protected override void Awake()
     {
         base.Awake();
         AddSpell(SpellsManager.Instance.GetRandomSpell());
-        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier.Value;
+
+        if (!IsOwner) return;
     }
 
     protected override void Update()
@@ -27,12 +27,17 @@ public class PlayerEntity : NetworkEntity
             var fireball = GetSpell<FireballSpell>();
             fireball?.TryCast(this);
         }
+
+        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier.Value;
     }
 
     public override void OnNetworkSpawn()
     {
+        InitFromSO();
+
         if (!IsOwner) return;
-        playerUI = FindAnyObjectByType<PlayerUI>(FindObjectsInactive.Include);
-        playerUI.SetPlayer(this);
+
+        PlayerUI.Instance.SetPlayer(this);
+        CameraFollow.Instance.SetTarget(transform);
     }
 }

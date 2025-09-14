@@ -21,12 +21,12 @@ public class PlayerUI : MonoBehaviour
     public void SetPlayer(PlayerEntity p)
     {
         playerEnt = p;
-        //Hide 
     }
-
     private void Update()
     {
-        if (playerEnt != null)
+        if (playerEnt == null) return;
+
+
             UpdateUI();
     }
 

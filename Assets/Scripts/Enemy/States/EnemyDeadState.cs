@@ -4,7 +4,6 @@ public class EnemyDeadState : IEnemyState
 {
     public void Enter(Enemy enemy)
     {
-        Debug.Log("L’ennemi est mort !");
         GameObject.Destroy(enemy.gameObject);
     }
 

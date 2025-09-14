@@ -12,8 +12,8 @@ public class NetworkEntity : NetworkBehaviour
     protected List<Spell> activeSpells = new List<Spell>();
 
 
-     // Stats to give at start
-   [SerializeField] private StatsDataSO SO;
+    // Stats to give at start
+    [SerializeField] private StatsDataSO SO;
 
     // Leveling Stats
     public NetworkVariable<int> level = new NetworkVariable<int>(1);
@@ -38,70 +38,6 @@ public class NetworkEntity : NetworkBehaviour
     public NetworkVariable<float> durationMultiplier = new NetworkVariable<float>(0f);
     public NetworkVariable<float> damageMultiplier = new NetworkVariable<float>(0f);
 
-    public void ApplyStatsFromSO(StatsDataSO statsDataSO)
-    {
-
-        var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
-        var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (var soField in soFields)
-        {
-            // Cherche un champ du même nom dans NetworkEntity
-            var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
-            if (entityField == null) continue;
-
-            var soValue = soField.GetValue(statsDataSO);
-            var entityValue = entityField.GetValue(this);
-
-            // Vérifie si c'est un NetworkVariable<>
-            var entityType = entityField.FieldType;
-            if (entityType.IsGenericType && entityType.GetGenericTypeDefinition() == typeof(NetworkVariable<>))
-            {
-                // Récupère la propriété "Value" et l'assigne
-                var valueProp = entityType.GetProperty("Value");
-                valueProp.SetValue(entityValue, soValue);
-            }
-        }
-
-        //level.Value = SO.level;
-        //experience.Value = SO.experience;
-        //maxExperience.Value = SO.maxExperience;
-        //expMultiPerLevel.Value = SO.expMultiPerLevel;
-        //maxHealth.Value = SO.maxHealth;
-        //maxMana.Value = SO.maxMana;
-        //currentHealth.Value = SO.currentHealth;
-        //currentMana.Value = SO.currentMana;
-        //healthRegen.Value = SO.healthRegen;
-        //manaRegen.Value = SO.manaRegen;
-        //movementSpeedMultiplier.Value = SO.movementSpeedMultiplier;
-        //cooldownReduction.Value = SO.cooldownReduction;
-        //criticalStrikeChance.Value = SO.criticalStrikeChance;
-        //criticalStrikeDamage.Value = SO.criticalStrikeDamage;
-        //projectileSpeed.Value = SO.projectileSpeed;
-        //durationMultiplier.Value = SO.durationMultiplier;
-        //damageMultiplier.Value = SO.damageMultiplier;
-    }
-    public void InitFromSO()
-    {
-        if (SO != null)
-        {
-            ApplyStatsFromSO(SO);
-        }
-        else
-        {
-            Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
-        }
-    }
-    public override void OnNetworkSpawn()
-    {
-        Debug.Log($"[NetworkEntity] OnNetworkSpawn for {name}");
-        if (IsServer)
-        {
-            Debug.Log($"[NetworkEntity] OnNetworkSpawn Server for {name}");
-            // On initialise côté serveur
-            InitFromSO();
-        }
-    }
     protected virtual void Awake()
     {
         if (SO == null)
@@ -110,7 +46,6 @@ public class NetworkEntity : NetworkBehaviour
             return;
         }
     }
-
     protected virtual void Start()
     {
         // Exemple : abonner un UI ou effet sur la vie
@@ -135,8 +70,54 @@ public class NetworkEntity : NetworkBehaviour
             UpdateSpells();
         }
     }
+    public void ApplyStatsFromSO(StatsDataSO statsDataSO)
+    {
+        Debug.Log($"Applying stats from SO to {name}");
+        var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
-    [ServerRpc(RequireOwnership = false)]
+        foreach (var soField in soFields)
+        {
+            // Cherche un champ du même nom dans NetworkEntity
+            var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
+            if (entityField == null) continue;
+
+            var soValue = soField.GetValue(statsDataSO);
+            var entityValue = entityField.GetValue(this);
+
+            // Vérifie si c'est un NetworkVariable<>
+            var entityType = entityField.FieldType;
+            if (entityType.IsGenericType && entityType.GetGenericTypeDefinition() == typeof(NetworkVariable<>))
+            {
+                // Récupère la propriété "Value" et l'assigne
+                var valueProp = entityType.GetProperty("Value");
+                valueProp.SetValue(entityValue, soValue);
+            }
+        }
+    }
+    public void InitFromSO()
+    {
+        if (SO != null)
+        {
+            ApplyStatsFromSO(SO);
+        }
+        else
+        {
+            Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
+        }
+    }
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log($"[NetworkEntity] OnNetworkSpawn for {name}");
+        if (IsServer)
+        {
+            Debug.Log($"[NetworkEntity] OnNetworkSpawn Server for {name}");
+            // On initialise côté serveur
+            InitFromSO();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = true)]
     public void CastSpellServerRpc(string spellName)
     {
         Spell spell = GetSpellByName(spellName);
@@ -144,7 +125,7 @@ public class NetworkEntity : NetworkBehaviour
         Debug.Log($"{name} cast spell {spellName}");
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = true)]
     public void ApplyDamageServerRpc(float amount)
     {
         currentHealth.Value -= amount;

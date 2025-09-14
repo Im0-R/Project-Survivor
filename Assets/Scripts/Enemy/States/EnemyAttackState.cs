@@ -24,8 +24,7 @@ public class EnemyAttackState : IEnemyState
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            Debug.Log("Attaque le joueur !");
-            // Ici → appliquer des dégâts au joueur
+            // damage on player here
             timer = attackCooldown;
         }
 

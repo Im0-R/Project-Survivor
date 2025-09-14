@@ -7,22 +7,20 @@ public class Enemy : EnemyEntity
     [SerializeField] public float attackRange = 2f;
     [SerializeField] public float attackDamage = 10f;
 
-    [SerializeField] public float movementSpeed = 1f;
     NavMeshAgent agent;
 
     IEnemyState currentState;
 
     public override void OnNetworkSpawn()
     {
+        //Since the enemy is controlled by the server, we only run this code on the server
         if (!IsServer) return;
 
+        InitFromSO();
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = movementSpeed;
 
         // Premier état = Chase
         ChangeState(new EnemyChaseState());
-
-        InitFromSO();
     }
 
     protected override void Update()
@@ -32,7 +30,10 @@ public class Enemy : EnemyEntity
 
         // 2) Puis l’IA uniquement serveur
         if (!IsServer) return;
+
         currentState?.Update(this);
+        agent.speed = movementSpeedMultiplier.Value;
+
     }
 
 

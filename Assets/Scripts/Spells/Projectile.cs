@@ -18,8 +18,8 @@ public class Projectile : NetworkBehaviour
         damage = dmg;
         speed = spd;
         direction = (target != null) ? (target.position - transform.position).normalized : transform.forward;
-
-            Invoke(nameof(DespawnSelf), lifeTime);
+        transform.forward = direction;
+        Invoke(nameof(DespawnSelf), lifeTime);
     }
 
     void Update()
