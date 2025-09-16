@@ -39,10 +39,10 @@ public class UIManager : MonoBehaviour
         // Only switch UI if this is the local player
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            ShowGameUI();
             //connect the UI to the player entity
             var player = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId).GetComponent<PlayerEntity>();
 
+            ShowGameUI();
             PlayerUI.Instance.SetPlayer(player);
         }
     }

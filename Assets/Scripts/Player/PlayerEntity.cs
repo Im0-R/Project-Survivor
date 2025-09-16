@@ -37,7 +37,6 @@ public class PlayerEntity : NetworkEntity
 
         if (!IsOwner) return;
 
-        PlayerUI.Instance.SetPlayer(this);
         CameraFollow.Instance.SetTarget(transform);
     }
 }

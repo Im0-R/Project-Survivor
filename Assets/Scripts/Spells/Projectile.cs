@@ -10,6 +10,7 @@ public class Projectile : NetworkBehaviour
     private Vector3 direction;
 
     [SerializeField] private float lifeTime = 3f;
+    private bool hasDespawned = false;
 
     public void Initialize(NetworkEntity ownerEntity, Transform targetTransform, float dmg, float spd = 10f)
     {
@@ -19,7 +20,11 @@ public class Projectile : NetworkBehaviour
         speed = spd;
         direction = (target != null) ? (target.position - transform.position).normalized : transform.forward;
         transform.forward = direction;
-        Invoke(nameof(DespawnSelf), lifeTime);
+
+        if (IsServer) // important : seul le serveur gère le despawn
+        {
+            Invoke(nameof(DespawnSelf), lifeTime);
+        }
     }
 
     void Update()
@@ -38,36 +43,39 @@ public class Projectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Projectile hit: " + other.name);
         if (!IsServer) return;
 
         var otherNetEntity = other.GetComponent<NetworkEntity>();
-
         if (otherNetEntity != null && otherNetEntity != owner)
         {
-            //Check for friendly fire
+            // Check friendly fire
             if (otherNetEntity is PlayerEntity && owner is PlayerEntity) return;
             if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
 
-
             otherNetEntity.ApplyDamageServerRpc(damage);
             DespawnSelf();
-            Debug.Log("Projectile applied damage and despawned.");
         }
     }
 
     private void DespawnSelf()
     {
-        if (TryGetComponent<NetworkObject>(out var netObj))
+        if (hasDespawned) return; // évite le double despawn
+        hasDespawned = true;
+
+        if (IsServer && TryGetComponent<NetworkObject>(out var netObj))
         {
-            // Force la destruction réseau et locale
-            netObj.Despawn(destroy: true);
+            if (netObj.IsSpawned) // sécurité : seulement si spawné
+            {
+                netObj.Despawn(destroy: true);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
-            // Destruction locale si pas de NetworkObject (sécurité)
             Destroy(gameObject);
         }
     }
-
 }

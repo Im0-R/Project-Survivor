@@ -7,7 +7,7 @@ public class PlayerMovement : NetworkBehaviour
 {
     private NavMeshAgent agent;
     private PlayerInputActions inputActions;
-    private Camera mainCamera;  
+    private Camera mainCamera;
 
     void Awake()
     {
@@ -28,11 +28,7 @@ public class PlayerMovement : NetworkBehaviour
 
     void Start()
     {
-        if (!IsOwner)
-        {
-            GetComponent<Renderer>().material.color = Color.red;
-            return;
-        }
+        if (!IsOwner) return;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;  // désactive la rotation automatique
