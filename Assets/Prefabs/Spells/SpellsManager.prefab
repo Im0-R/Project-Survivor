@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3715434953735101320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4925910351199631616}
+  - component: {fileID: 7668567396355051700}
+  m_Layer: 0
+  m_Name: SpellsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4925910351199631616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3715434953735101320}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7668567396355051700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3715434953735101320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860e09e68569a8d458e04ff5891c7f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellsDictionary:
+    entries:
+    - Key: Fireball
+      Value:
+        spellType:
+          className: FireballSpell, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        UISprite: {fileID: 21300000, guid: af8f4914b7b3ea341a9884bd339b0cca, type: 3}
+        spellName: Fireball
+        prefab: {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
+        damage: 10
+        speed: 6
+        range: 25
+        duration: 0
+        manaCost: 0
+        cooldown: 2
+        lastCastTime: 0
+        autoCast: 1
+        firePoint: {fileID: 0}
+        owner: {fileID: 0}
+        maxLevel: 3
+        currentLevel: 1

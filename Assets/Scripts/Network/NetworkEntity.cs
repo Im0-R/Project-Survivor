@@ -57,39 +57,35 @@ public class NetworkEntity : NetworkBehaviour
 
     protected virtual void Update()
     {
-        // Entités côté serveur (ennemis, objets IA non possédés)
-        if (IsServer && !IsOwner)
+        if (IsServer)
         {
-            UpdateSpells();
-            return; // évite double appel
-        }
-
-        // Entités possédées (joueur local)
-        if (IsOwner)
-        {
+            // Update auto casts spells server-side 
             UpdateSpells();
         }
     }
+
     public void ApplyStatsFromSO(StatsDataSO statsDataSO)
     {
+        if (!IsServer) return; //  block client-side execution
+
         Debug.Log($"Applying stats from SO to {name}");
         var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
         var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var soField in soFields)
         {
-            // Cherche un champ du même nom dans NetworkEntity
+            //Looking for a field with the same name in NetworkEntity
             var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
             if (entityField == null) continue;
 
             var soValue = soField.GetValue(statsDataSO);
             var entityValue = entityField.GetValue(this);
 
-            // Vérifie si c'est un NetworkVariable<>
+            //Check if it's a NetworkVariable<>
             var entityType = entityField.FieldType;
             if (entityType.IsGenericType && entityType.GetGenericTypeDefinition() == typeof(NetworkVariable<>))
             {
-                // Récupère la propriété "Value" et l'assigne
+                //Getting the value of the NetworkVariable
                 var valueProp = entityType.GetProperty("Value");
                 valueProp.SetValue(entityValue, soValue);
             }
@@ -143,7 +139,6 @@ public class NetworkEntity : NetworkBehaviour
     }
 
     //Spells management side
-
     public void AddRandomSpell()
     {
 

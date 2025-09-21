@@ -6,24 +6,22 @@ public class EnemySpawner : NetworkBehaviour
     [Header("Spawner Settings")]
     [SerializeField] private GameObject[] enemyPrefabs; // tes prefabs (Zombie, etc.)
     [SerializeField] private float spawnRadius = 10f;   // rayon autour du joueur
-    [SerializeField] private int maxEnemies = 10;       // max sur la map
-    [SerializeField] private float spawnInterval = 3f;  // temps entre les spawns
+    [SerializeField] private float spawnRate = 3f;  // temps entre les spawns
 
-    private float timer = 0f;
-    private int currentEnemyCount = 0;
+    private float timer = 0;
     void Start()
     {
-        timer = 3f;
+        timer = spawnRate;
     }
     void Update()
     {
         if (!IsServer) return; // seulement le Host spawn les ennemis
 
         timer -= Time.deltaTime;
-        if (timer <= 0f && currentEnemyCount < maxEnemies)
+        if (timer <= 0f)
         {
             SpawnEnemyNearPlayer();
-            timer = spawnInterval;
+            timer = spawnRate;
         }
     }
 
@@ -45,6 +43,5 @@ public class EnemySpawner : NetworkBehaviour
         // Instancier et spawn sur le réseau
         GameObject enemyInstance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
-        currentEnemyCount++;
     }
 }

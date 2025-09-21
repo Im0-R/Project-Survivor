@@ -22,12 +22,6 @@ public class PlayerEntity : NetworkEntity
 
         if (!IsOwner) return;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            var fireball = GetSpell<FireballSpell>();
-            fireball?.TryCast(this);
-        }
-
         GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier.Value;
     }
 

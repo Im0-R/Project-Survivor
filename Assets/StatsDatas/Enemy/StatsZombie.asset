@@ -16,9 +16,9 @@ MonoBehaviour:
   experience: 0
   maxExperience: 100
   expMultiPerLevel: 1.5
-  maxHealth: 100
+  maxHealth: 20
   maxMana: 100
-  currentHealth: 100
+  currentHealth: 20
   currentMana: 40
   healthRegen: 2
   manaRegen: 2

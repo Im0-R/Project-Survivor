@@ -25,6 +25,8 @@ public abstract class Spell
         public bool autoCast = true;
         public Transform firePoint;
         public NetworkEntity owner;
+        public int maxLevel = 3;
+        public int currentLevel = 1;
     }
     protected SpellData data;
 
@@ -65,4 +67,15 @@ public abstract class Spell
     }
     public SpellData GetData() { return data; }
     public abstract void ExecuteServer(NetworkEntity owner);
+
+    public void LevelUp()
+    {
+        if (data.currentLevel < data.maxLevel)
+        {
+            data.currentLevel++;
+            // Example scaling logic
+            data.damage *= 1.2f;
+            data.cooldown = Mathf.Max(0.5f, data.cooldown / -0.8f);
+        }
+    }
 }

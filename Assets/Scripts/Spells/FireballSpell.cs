@@ -24,7 +24,8 @@ public class FireballSpell : Spell
         var obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
         var proj = obj.GetComponent<Projectile>();
 
-        proj?.Initialize(netOwner, target, data.damage, data.speed);   // Initialise avec les bonnes stats (ici j’ai mis data.damage & data.speed)
+        proj?.Initialize(netOwner, target, data.damage, data.speed);   // Initialise avec les bonnes
+                                                                       // (ici j’ai mis data.damage & data.speed)
 
         // Spawn réseau
         obj.GetComponent<NetworkObject>()?.Spawn(true);
