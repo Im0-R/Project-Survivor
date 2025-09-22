@@ -5,8 +5,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [SerializeField] private GameObject generalCanvasParent;
     [SerializeField] private GameObject loginCanvas;
     [SerializeField] private GameObject gameUICanvas;
+    [SerializeField] private GameObject spellsRewardCanvas;
 
     private void Awake()
     {
@@ -31,6 +33,12 @@ public class UIManager : MonoBehaviour
         if (gameUICanvas.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
             DisconnectAndReturnToLogin();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("R key pressed - Showing Spells Reward UI");
+            ShowSpellsRewardUI();
         }
     }
 
@@ -73,7 +81,22 @@ public class UIManager : MonoBehaviour
         loginCanvas.SetActive(false);
         gameUICanvas.SetActive(true);
     }
-
+    public void ShowSpellsRewardUI()
+    {
+        Instantiate(spellsRewardCanvas, generalCanvasParent.transform);
+        gameUICanvas.SetActive(false);
+        TimeManager.Instance.PauseGame();
+    }
+    public void HideSpellsRewardUI()
+    {
+        var rewardCanvas = FindFirstObjectByType<RewardSpellsCanvas>();
+        if (rewardCanvas != null)
+        {
+            Destroy(rewardCanvas.gameObject);
+        }
+        gameUICanvas.SetActive(true);
+        TimeManager.Instance.ResumeGame();
+    }
     public void DisconnectAndReturnToLogin()
     {
         // Shut down network session

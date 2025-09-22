@@ -9,7 +9,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Slider xpBar;
 
 
-    [SerializeField] private PlayerEntity playerEnt;
+    [SerializeField] public PlayerEntity playerEnt;
 
     private void Awake()
     {

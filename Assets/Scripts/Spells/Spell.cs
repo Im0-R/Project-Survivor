@@ -78,4 +78,14 @@ public abstract class Spell
             data.cooldown = Mathf.Max(0.5f, data.cooldown / -0.8f);
         }
     }
+
+    public void Upgrade()
+    {
+        data.currentLevel++;
+    }
+
+    public bool IsMaxLevel()
+    {
+        return data.currentLevel >= data.maxLevel;
+    }
 }

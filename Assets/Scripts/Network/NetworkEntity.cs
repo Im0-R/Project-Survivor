@@ -178,4 +178,36 @@ public class NetworkEntity : NetworkBehaviour
             spell.UpdateSpell(this);
         }
     }
+    public void UpgradeSpell(string spellName)
+    {
+        Spell spell = GetSpellByName(spellName);
+        if (spell != null)
+        {
+            // Assuming Spell has a method to upgrade itself
+            MethodInfo upgradeMethod = spell.GetType().GetMethod("Upgrade");
+            if (upgradeMethod != null)
+            {
+                upgradeMethod.Invoke(spell, null);
+                Debug.Log($"Spell {spellName} upgraded.");
+            }
+            else
+            {
+                Debug.LogWarning($"Spell {spellName} does not have an Upgrade method.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Spell {spellName} not found on entity.");
+        }
+    }
+    public Spell GetRandomSpellFromActivesSpells()
+    {
+        if (activeSpells.Count == 0) return null;
+        int index = UnityEngine.Random.Range(0, activeSpells.Count);
+        return activeSpells[index];
+    }
+    public List<Spell> GetAllActiveSpells()
+    {
+        return activeSpells;
+    }
 }

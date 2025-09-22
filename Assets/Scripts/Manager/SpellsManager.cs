@@ -1,13 +1,11 @@
 using System;
 using UnityEngine;
-using static Spell;
-
 public class SpellsManager : MonoBehaviour
 {
     public static SpellsManager Instance { get; private set; }
 
     [Header("Spells")]
-    public SerializableDictionary<string, SpellData> spellsDictionary = new SerializableDictionary<string, SpellData>();
+    public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new SerializableDictionary<string, Spell.SpellData>();
 
     private void Awake()
     {
@@ -47,7 +45,7 @@ public class SpellsManager : MonoBehaviour
     }
     public Spell GetSpell(string spellName)
     {
-        if (spellsDictionary.TryGetValue(spellName, out SpellData spellData))
+        if (spellsDictionary.TryGetValue(spellName, out Spell.SpellData spellData))
         {
             Type spellType = spellData.spellType.SpellType;
             if (spellType == null)
