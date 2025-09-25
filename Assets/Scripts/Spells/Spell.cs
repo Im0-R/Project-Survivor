@@ -27,6 +27,7 @@ public abstract class Spell
         public NetworkEntity owner;
         public int maxLevel = 3;
         public int currentLevel = 1;
+        public string description;
     }
     protected SpellData data;
 
@@ -73,7 +74,6 @@ public abstract class Spell
         if (data.currentLevel < data.maxLevel)
         {
             data.currentLevel++;
-            // Example scaling logic
             data.damage *= 1.2f;
             data.cooldown = Mathf.Max(0.5f, data.cooldown / -0.8f);
         }

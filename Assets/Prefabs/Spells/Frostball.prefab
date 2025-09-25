@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 2126195639342199119}
   - component: {fileID: -29433857440865035}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: Frostball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 406cc1c0ab7cb58478f3c638ee63d5a9, type: 3}
+  - {fileID: -876546973899608171, guid: 57d2d6a2c2bf90945b5cb2c6bf03826a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1186049445
+  GlobalObjectIdHash: 1292832107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

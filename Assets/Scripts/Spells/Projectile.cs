@@ -12,18 +12,23 @@ public class Projectile : NetworkBehaviour
     [SerializeField] private float lifeTime = 3f;
     private bool hasDespawned = false;
 
-    public void Initialize(NetworkEntity ownerEntity, Transform targetTransform, float dmg, float spd = 10f)
+    public void Initialize(NetworkEntity ownerEntity, Transform targetTransform, float dmg, float spd = 10f, float scale = 1f)
     {
         owner = ownerEntity;
         target = targetTransform;
         damage = dmg;
         speed = spd;
         direction = (target != null) ? (target.position - transform.position).normalized : transform.forward;
+        //projectile can't go down or up
+        direction.y = 0;
         transform.forward = direction;
+
+        transform.localScale = transform.localScale * scale;
 
         if (IsServer) // important : seul le serveur gère le despawn
         {
             Invoke(nameof(DespawnSelf), lifeTime);
+            // lifeTime
         }
     }
 
@@ -38,6 +43,11 @@ public class Projectile : NetworkBehaviour
         else
         {
             transform.position += transform.forward * speed * Time.deltaTime;
+        }
+        lifeTime -= Time.deltaTime;
+        if (lifeTime <= 0f)
+        {
+            DespawnSelf();
         }
     }
 

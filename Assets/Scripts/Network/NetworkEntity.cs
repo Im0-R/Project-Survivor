@@ -51,7 +51,7 @@ public class NetworkEntity : NetworkBehaviour
         // Exemple : abonner un UI ou effet sur la vie
         currentHealth.OnValueChanged += (oldValue, newValue) =>
         {
-            Debug.Log($"{name} health: {oldValue} → {newValue}");
+            Debug.Log($"{name} took {oldValue - newValue} damage");
         };
     }
 
@@ -116,9 +116,9 @@ public class NetworkEntity : NetworkBehaviour
     [ServerRpc(RequireOwnership = true)]
     public void CastSpellServerRpc(string spellName)
     {
-        Spell spell = GetSpellByName(spellName);
+        Spell spell = GetSpellByTypeName(spellName);
         spell?.ExecuteServer(this);
-        Debug.Log($"{name} cast spell {spellName}");
+        Debug.Log($"{name} cast spellLinked {spellName}");
     }
 
     [ServerRpc(RequireOwnership = true)]
@@ -164,13 +164,18 @@ public class NetworkEntity : NetworkBehaviour
         return null;
     }
 
-    public Spell GetSpellByName(string name)
+    public Spell GetSpellByTypeName(string name)
     {
         foreach (var s in activeSpells)
             if (s.GetType().Name == name) return s;
         return null;
     }
-
+    public Spell GetSpellByName(string spellName)
+    {
+        foreach (var s in activeSpells)
+            if (s.GetData().spellName == spellName) return s;
+        return null;
+    }
     public void UpdateSpells()
     {
         foreach (var spell in activeSpells)

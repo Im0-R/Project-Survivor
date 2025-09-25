@@ -1,10 +1,10 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-public class FireballSpell : Spell
+public class FrostballSpell : Spell
 {
     //viable Constructor for Activator
-    public FireballSpell() { }
+    public FrostballSpell() { }
 
     public override void ExecuteServer(NetworkEntity owner)
     {
