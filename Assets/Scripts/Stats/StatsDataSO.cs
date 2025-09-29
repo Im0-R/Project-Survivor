@@ -26,4 +26,5 @@ public class StatsDataSO : ScriptableObject
     public float projectileSpeed = 0f;
     public float durationMultiplier = 0f;
     public float damageMultiplier = 1f;
+    public float experienceGiven = 10f;
 }

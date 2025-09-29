@@ -6,7 +6,6 @@ public class Enemy : EnemyEntity
 {
     [SerializeField] public float attackRange = 2f;
     [SerializeField] public float attackDamage = 10f;
-
     NavMeshAgent agent;
 
     IEnemyState currentState;
@@ -21,6 +20,7 @@ public class Enemy : EnemyEntity
 
         // Premier état = Chase
         ChangeState(new EnemyChaseState());
+        OnDeath += OnDeathEffects;
     }
 
     protected override void Update()
@@ -74,6 +74,22 @@ public class Enemy : EnemyEntity
         if (currentHealth.Value <= 0)
         {
             ChangeState(new EnemyDeadState());
+        }
+    }
+    public void OnDeathEffects()
+    {
+        GiveExpToPlayers();
+    }
+    public void GiveExpToPlayers()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+                PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
+                if (playerEntity != null)
+                {
+                    playerEntity.GainExperience(experienceGiven.Value);
+                }
         }
     }
 }

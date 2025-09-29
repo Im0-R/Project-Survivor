@@ -7,6 +7,7 @@ public class EnemySpawner : NetworkBehaviour
     [SerializeField] private GameObject[] enemyPrefabs; // tes prefabs (Zombie, etc.)
     [SerializeField] private float spawnRadius = 10f;   // rayon autour du joueur
     [SerializeField] private float spawnRate = 3f;  // temps entre les spawns
+    [SerializeField] private int swarmSize = 3; // nombre d'ennemis à spawn à chaque fois
 
     private float timer = 0;
     void Start()
@@ -20,7 +21,10 @@ public class EnemySpawner : NetworkBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            SpawnEnemyNearPlayer();
+            for (int i = 0; i < swarmSize; i++)
+            {
+                SpawnEnemyNearPlayer();
+            }
             timer = spawnRate;
         }
     }

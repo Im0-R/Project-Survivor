@@ -37,7 +37,9 @@ public class NetworkEntity : NetworkBehaviour
     public NetworkVariable<float> projectileSpeed = new NetworkVariable<float>(0f);
     public NetworkVariable<float> durationMultiplier = new NetworkVariable<float>(0f);
     public NetworkVariable<float> damageMultiplier = new NetworkVariable<float>(0f);
+    public NetworkVariable<float> experienceGiven = new NetworkVariable<float>(0f);
 
+    public event Action OnDeath;
     protected virtual void Awake()
     {
         if (SO == null)
@@ -48,11 +50,10 @@ public class NetworkEntity : NetworkBehaviour
     }
     protected virtual void Start()
     {
-        // Exemple : abonner un UI ou effet sur la vie
         currentHealth.OnValueChanged += (oldValue, newValue) =>
         {
-            Debug.Log($"{name} took {oldValue - newValue} damage");
         };
+        OnDeath += Die;
     }
 
     protected virtual void Update()
@@ -68,7 +69,6 @@ public class NetworkEntity : NetworkBehaviour
     {
         if (!IsServer) return; //  block client-side execution
 
-        Debug.Log($"Applying stats from SO to {name}");
         var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
         var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
@@ -113,25 +113,8 @@ public class NetworkEntity : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = true)]
-    public void CastSpellServerRpc(string spellName)
-    {
-        Spell spell = GetSpellByTypeName(spellName);
-        spell?.ExecuteServer(this);
-        Debug.Log($"{name} cast spellLinked {spellName}");
-    }
-
-    [ServerRpc(RequireOwnership = true)]
-    public void ApplyDamageServerRpc(float amount)
-    {
-        currentHealth.Value -= amount;
-        if (currentHealth.Value <= 0)
-            Die();
-    }
-
     protected virtual void Die()
     {
-        Debug.Log($"{name} died!");
         if (TryGetComponent<NetworkObject>(out var netObj))
             netObj.Despawn(true);
         else
@@ -139,6 +122,21 @@ public class NetworkEntity : NetworkBehaviour
     }
 
     //Spells management side
+
+    [ServerRpc(RequireOwnership = true)]
+    public void CastSpellServerRpc(string spellName)
+    {
+        Spell spell = GetSpellByTypeName(spellName);
+        spell?.ExecuteServer(this);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    public void ApplyDamageServerRpc(float amount)
+    {
+        currentHealth.Value -= amount;
+        if (currentHealth.Value <= 0)
+            OnDeath?.Invoke();
+    }
     public void AddRandomSpell()
     {
 
@@ -147,14 +145,12 @@ public class NetworkEntity : NetworkBehaviour
     {
         spell.OnAdd(this);
         activeSpells.Add(spell);
-        Debug.Log($"Spell {spell.GetType().Name} added to entity.");
     }
 
     public void RemoveSpell(Spell spell)
     {
         spell.OnRemove(this);
         activeSpells.Remove(spell);
-        Debug.Log($"Spell {spell.GetType().Name} removed from entity.");
     }
 
     public T GetSpell<T>() where T : Spell
@@ -188,12 +184,10 @@ public class NetworkEntity : NetworkBehaviour
         Spell spell = GetSpellByName(spellName);
         if (spell != null)
         {
-            // Assuming Spell has a method to upgrade itself
             MethodInfo upgradeMethod = spell.GetType().GetMethod("Upgrade");
             if (upgradeMethod != null)
             {
                 upgradeMethod.Invoke(spell, null);
-                Debug.Log($"Spell {spellName} upgraded.");
             }
             else
             {
@@ -214,5 +208,31 @@ public class NetworkEntity : NetworkBehaviour
     public List<Spell> GetAllActiveSpells()
     {
         return activeSpells;
+    }
+
+    //Exp and Leveling
+
+    public void GainExperience(float amount)
+    {
+        if (!IsServer) return; //  block client-side execution
+        experience.Value += amount;
+        while (experience.Value >= maxExperience.Value)
+        {
+            LevelUp();
+        }
+    }
+    public void LevelUp()
+    {
+        if (!IsServer) return; //  block client-side execution
+
+        Debug.Log($"{name} leveled up to level {level.Value + 1}!");
+        experience.Value -= maxExperience.Value;
+        level.Value++;
+        maxExperience.Value *= expMultiPerLevel.Value;
+        // On level up, increase stats a bit
+        maxHealth.Value *= 1.1f;
+        currentHealth.Value += maxHealth.Value / 10f; // Heal 10 % of max health on level up
+        maxMana.Value *= 1.1f;
+        currentMana.Value = maxMana.Value; // Refill mana on level up
     }
 }

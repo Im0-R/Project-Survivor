@@ -42,13 +42,13 @@ public class GameLobbyManager : MonoBehaviour
             // Évite le double sign-in
             if (AuthenticationService.Instance.IsSignedIn)
             {
-                Debug.Log("Déjà connecté à UGS.");
+                Debug.LogWarning("Déjà connecté à UGS.");
                 return;
             }
 
             if (_isAuthenticating)
             {
-                Debug.Log("Authentification déjà en cours...");
+                Debug.LogWarning("Authentification déjà en cours...");
                 return;
             }
 
