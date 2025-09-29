@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+
 public class SpellsManager : MonoBehaviour
 {
     public static SpellsManager Instance { get; private set; }
@@ -28,17 +29,19 @@ public class SpellsManager : MonoBehaviour
                 Debug.LogError("SpellType missing in SpellData !");
                 return null;
             }
-            Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
-            spellInstance.Init(spellData);
-            return spellInstance;
 
+            // new instance of SpellData to avoid shared reference 
+
+            Spell.SpellData clonedData = spellData.Clone();
+
+            Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
+            spellInstance.Init(clonedData);
+            return spellInstance;
         }
         Debug.LogError($"Spell '{spellName}' not found in dictionary !");
         return null;
     }
-    /// <summary>
-    /// Return a random spell from the spellsDictionary
-    /// </summary>
+
     public Spell GetRandomSpell()
     {
         if (spellsDictionary.Count == 0)
@@ -56,23 +59,30 @@ public class SpellsManager : MonoBehaviour
             Debug.LogError("SpellType missing in SpellData !");
             return null;
         }
-        Debug.Log($"Random spell selected: {spellData.spellName} of type {spellType.Name}");
+
+        // new instance of SpellData to avoid shared reference 
+
+        Spell.SpellData clonedData = spellData.Clone();
 
         Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
-
-        spellInstance.Init(spellData);
+        spellInstance.Init(clonedData);
         return spellInstance;
     }
+
     public Spell GetRandomSpellNotOwned()
     {
         var playerEnt = PlayerUI.Instance.playerEnt;
-        var ownedSpellsNames = playerEnt.GetAllActiveSpells().Select(s => s.GetData().spellName).ToHashSet();
+        var ownedSpellsNames = System.Linq.Enumerable.ToHashSet(
+            playerEnt.GetAllActiveSpells().Select(s => s.GetData().spellName)
+        );
         var availableSpells = spellsDictionary.Values.Where(sd => !ownedSpellsNames.Contains(sd.spellName)).ToList();
+
         if (availableSpells.Count == 0)
         {
             Debug.LogWarning("Player already owns all spells !");
             return null;
         }
+
         int index = UnityEngine.Random.Range(0, availableSpells.Count);
         Spell.SpellData spellData = availableSpells[index];
         Type spellType = spellData.spellType.SpellType;
@@ -81,9 +91,14 @@ public class SpellsManager : MonoBehaviour
             Debug.LogError("SpellType missing in SpellData !");
             return null;
         }
-        Debug.Log($"Random not owned spell selected: {spellData.spellName} of type {spellType.Name}");
+
+        // new instance of SpellData to avoid shared reference 
+
+        Spell.SpellData clonedData = spellData.Clone();
+
         Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
-        spellInstance.Init(spellData);
+        spellInstance.Init(clonedData);
         return spellInstance;
     }
+
 }

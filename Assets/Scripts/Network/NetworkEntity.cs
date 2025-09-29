@@ -143,6 +143,7 @@ public class NetworkEntity : NetworkBehaviour
     }
     public void AddSpell(Spell spell)
     {
+        Debug.Log($"[NetworkEntity] Adding spell {spell.GetData().spellName} to {name}");
         spell.OnAdd(this);
         activeSpells.Add(spell);
     }

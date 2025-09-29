@@ -6,6 +6,7 @@ public class Zombie : EnemyMelee
 
         if (!IsServer) return;
 
+        AddSpell(SpellsManager.Instance.GetSpell("Fireball"));
         ChangeState(new EnemyIdleState());
     }
 }

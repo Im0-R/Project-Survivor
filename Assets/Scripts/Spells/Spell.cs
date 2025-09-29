@@ -28,6 +28,11 @@ public abstract class Spell
         public int maxLevel = 3;
         public int currentLevel = 1;
         public string description;
+
+        public SpellData Clone()
+        {
+            return (SpellData)this.MemberwiseClone();
+        }
     }
     protected SpellData data;
 
@@ -37,7 +42,6 @@ public abstract class Spell
     }
     public virtual void OnAdd(NetworkEntity owner) { }
     public virtual void OnRemove(NetworkEntity owner) { }
-
     public virtual void UpdateSpell(NetworkEntity owner)
     {
         if (this.data.autoCast && Time.time >= this.data.lastCastTime + this.data.cooldown)

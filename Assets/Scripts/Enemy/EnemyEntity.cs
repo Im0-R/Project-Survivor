@@ -10,6 +10,5 @@ public class EnemyEntity : NetworkEntity
         base.Awake();
 
         // Fireball auto-cast toutes les 2s
-        AddSpell(SpellsManager.Instance.GetSpell("Fireball"));
     }
 }
