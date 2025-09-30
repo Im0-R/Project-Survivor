@@ -11,7 +11,7 @@ public class PlayerEntity : NetworkEntity
     protected override void Awake()
     {
         base.Awake();
-        //AddSpell(SpellsManager.Instance.GetRandomSpell());
+        AddSpell(SpellsManager.Instance.GetSpell("Slash"));
         if (!IsOwner) return;
     }
 

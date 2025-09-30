@@ -2431,9 +2431,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 2.5377254
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.26886275, z: 0}
 --- !u!114 &6513045804190130508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2643,6 +2643,8 @@ MonoBehaviour:
   durationMultiplier:
     m_InternalValue: 0
   damageMultiplier:
+    m_InternalValue: 0
+  experienceGiven:
     m_InternalValue: 0
   firePoint: {fileID: 0}
 --- !u!1 &8349008975104809151
