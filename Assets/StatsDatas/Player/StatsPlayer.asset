@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90c500f9603d9c40a450f4a92e031c9, type: 3}
   m_Name: StatsPlayer
   m_EditorClassIdentifier: 
+  entityName: Player
   level: 1
   experience: 0
   maxExperience: 100
@@ -29,3 +30,4 @@ MonoBehaviour:
   projectileSpeed: 0
   durationMultiplier: 1
   damageMultiplier: 1
+  experienceGiven: 10

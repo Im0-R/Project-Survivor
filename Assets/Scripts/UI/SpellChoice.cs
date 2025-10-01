@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,18 @@ public class SpellChoice : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI spellLevelText;
     [SerializeField] TMPro.TextMeshProUGUI spellDescriptionText;
     [SerializeField] Image spellIconImage;
+
     public bool isNewSpell = false;
+    public float fadeSpeed = 2.0f;
+    private bool hasFaded = false;
     public SpellChoice()
     {
     }
     public void Start()
     {
+        //do a little animation where the spell icon scales up from 0 to 1
+        gameObject.transform.localScale = Vector3.zero;
+
         //random spell (50 % for new spell, 50 % for upgrade) but if no spell new spell
 
         if (Random.value < 0.5f || PlayerUI.Instance.playerEnt.GetAllActiveSpells().Count == 0)
@@ -49,7 +56,6 @@ public class SpellChoice : MonoBehaviour
         spellIconImage.sprite = spellLinked.GetData().UISprite;
 
 
-
         if (isNewSpell)
         {
             spellLevelText.text = "New Spell";
@@ -66,6 +72,10 @@ public class SpellChoice : MonoBehaviour
             }
         }
     }
+    public void Update()
+    {
+        AnimationSpawnCard();
+    }
     public void OnChoosed()
     {
         if (isNewSpell)
@@ -80,11 +90,6 @@ public class SpellChoice : MonoBehaviour
             }
         }
 
-
-
-
-
-
         UIManager.Instance.HideSpellsRewardUI();
     }
     public void UpgradeSpell()
@@ -92,6 +97,19 @@ public class SpellChoice : MonoBehaviour
         if (PlayerUI.Instance != null)
         {
             PlayerUI.Instance.playerEnt.UpgradeSpell(spellLinked.GetData().spellName);//Find the player and upgrade the spell
+        }
+    }
+    public void AnimationSpawnCard()
+    {
+        //do a little animation where the spell icon scales up from 0 to 1 , lerp over 0.5 second with ease out back
+        if (gameObject.transform.localScale != Vector3.one && !hasFaded)
+        {
+            gameObject.transform.localScale += fadeSpeed * Time.fixedDeltaTime * Vector3.one;
+            if (gameObject.transform.localScale.x >= 1.0f)
+            {
+                gameObject.transform.localScale = Vector3.one;
+                hasFaded = true;
+            }
         }
     }
 }

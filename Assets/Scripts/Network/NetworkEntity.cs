@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-
 public class NetworkEntity : NetworkBehaviour
 {
 
@@ -16,6 +16,8 @@ public class NetworkEntity : NetworkBehaviour
     [SerializeField] private StatsDataSO SO;
 
     // Leveling Stats
+    public NetworkVariable<FixedString32Bytes> entityName = new NetworkVariable<FixedString32Bytes>("Entity");
+
     public NetworkVariable<int> level = new NetworkVariable<int>(1);
     public NetworkVariable<float> experience = new NetworkVariable<float>(0);
     public NetworkVariable<float> maxExperience = new NetworkVariable<float>(100);
@@ -40,6 +42,7 @@ public class NetworkEntity : NetworkBehaviour
     public NetworkVariable<float> experienceGiven = new NetworkVariable<float>(0f);
 
     public event Action OnDeath;
+    public event Action OnLevelUp;
     protected virtual void Awake()
     {
         if (SO == null)
@@ -54,6 +57,7 @@ public class NetworkEntity : NetworkBehaviour
         {
         };
         OnDeath += Die;
+        OnLevelUp += LevelUp;
     }
 
     protected virtual void Update()
@@ -219,7 +223,7 @@ public class NetworkEntity : NetworkBehaviour
         experience.Value += amount;
         while (experience.Value >= maxExperience.Value)
         {
-            LevelUp();
+            OnLevelUp?.Invoke();
         }
     }
     public void LevelUp()
@@ -235,5 +239,9 @@ public class NetworkEntity : NetworkBehaviour
         currentHealth.Value += maxHealth.Value / 10f; // Heal 10 % of max health on level up
         maxMana.Value *= 1.1f;
         currentMana.Value = maxMana.Value; // Refill mana on level up
+    }
+    public float GetHealthPourcentage()
+    {
+        return (currentHealth.Value / maxHealth.Value) * 100f;
     }
 }

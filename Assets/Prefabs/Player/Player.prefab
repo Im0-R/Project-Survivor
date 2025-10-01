@@ -2527,7 +2527,7 @@ Rigidbody:
   m_GameObject: {fileID: 7691504422253265128}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0
+  m_Drag: 200
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -2573,13 +2573,13 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.3
   m_Speed: 4.5
-  m_Acceleration: 20
+  m_Acceleration: 200
   avoidancePriority: 50
-  m_AngularSpeed: 20
+  m_AngularSpeed: 200
   m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 1
-  m_AutoRepath: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 0
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
@@ -2610,6 +2610,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   SO: {fileID: 11400000, guid: 7218e8b1566667649a33f474867513c2, type: 2}
+  entityName:
+    m_InternalValue:
+      utf8LengthInBytes: 6
+      bytes:
+        offset0000:
+          byte0000: 69
+          byte0001: 110
+          byte0002: 116
+          byte0003: 105
+          byte0004: 116
+          byte0005: 121
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
   level:
     m_InternalValue: 1
   experience:

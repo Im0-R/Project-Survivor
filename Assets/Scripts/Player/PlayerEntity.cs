@@ -10,9 +10,11 @@ public class PlayerEntity : NetworkEntity
 
     protected override void Awake()
     {
+        //if (!IsOwner) return;
         base.Awake();
         AddSpell(SpellsManager.Instance.GetSpell("Slash"));
-        if (!IsOwner) return;
+        OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
+        Debug.Log("PlayerEntity Awake completed");
     }
 
     protected override void Update()

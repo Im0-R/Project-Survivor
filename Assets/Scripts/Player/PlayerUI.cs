@@ -9,7 +9,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Slider xpBar;
 
 
-    [SerializeField] public PlayerEntity playerEnt;
+    public PlayerEntity playerEnt;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        healthBar.value = (playerEnt.currentHealth.Value / playerEnt.currentHealth.Value) * 100f;
+        healthBar.value = (playerEnt.currentHealth.Value / playerEnt.maxHealth.Value) * 100f;
         xpBar.value = (playerEnt.experience.Value / playerEnt.maxExperience.Value) * 100f;
     }
 }

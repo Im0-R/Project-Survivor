@@ -18,6 +18,8 @@ public class SlashBehaviour : NetworkBehaviour
     private Vector3 initialRight;
     private Vector3 initialForward;
 
+    private TrailRenderer trailRenderer;
+
     public void Initialize(NetworkEntity ownerEntity, float dmg, float dur, float rad)
     {
         owner = ownerEntity;
@@ -29,6 +31,10 @@ public class SlashBehaviour : NetworkBehaviour
         // On capture l'orientation du joueur au moment du cast
         initialRight = player.right;
         initialForward = player.forward;
+
+        trailRenderer = GetComponent<TrailRenderer>();
+
+        trailRenderer.widthMultiplier = radius / 4f;
 
         if (IsServer) // seul le serveur gère le despawn
         {
@@ -45,6 +51,8 @@ public class SlashBehaviour : NetworkBehaviour
         float t = Mathf.Clamp01(elapsed / duration);
 
         float angle = Mathf.Lerp(0, 180f, t);
+
+        
 
         // Starting Left Side
         Vector3 baseDir = -initialRight;

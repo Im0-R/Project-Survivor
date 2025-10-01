@@ -20,6 +20,9 @@ public class TestLobbyUI : MonoBehaviour
         if (GUILayout.Button("Créer un Lobby", bigButton, GUILayout.Height(60)))
         {
             lobbyCode = await GameLobbyManager.Instance.CreateGameAsync();
+
+            //Hide the GUI after creating a lobby
+            this.enabled = false;
         }
 
         GUILayout.Space(20);
@@ -33,10 +36,14 @@ public class TestLobbyUI : MonoBehaviour
         if (GUILayout.Button("Rejoindre un Lobby", bigButton, GUILayout.Height(60)))
         {
             await GameLobbyManager.Instance.JoinGameAsync(lobbyCode);
+
+            //Hide the GUI after joining a lobby
+            this.enabled = false;
         }
 
         GUILayout.FlexibleSpace(); // équilibre en bas
 
         GUILayout.EndArea();
+
     }
 }
