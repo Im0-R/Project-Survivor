@@ -24,8 +24,9 @@ public class EnemyAttackState : IEnemyState
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            // damage on player here
+
             timer = attackCooldown;
+            enemy.humanoidAnimator.StartAttackAnim();
         }
 
         float dist = Vector3.Distance(enemy.transform.position, target.position);

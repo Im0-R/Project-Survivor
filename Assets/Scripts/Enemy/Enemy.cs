@@ -8,8 +8,9 @@ public class Enemy : EnemyEntity
     [SerializeField] public float attackDamage = 10f;
     NavMeshAgent agent;
 
+    public HitboxHitHumanoidMonster hitboxHit;
+    public HumanoidAnimator humanoidAnimator;
     IEnemyState currentState;
-
     public override void OnNetworkSpawn()
     {
         //Since the enemy is controlled by the server, we only run this code on the server
@@ -33,7 +34,6 @@ public class Enemy : EnemyEntity
 
         currentState?.Update(this);
         agent.speed = movementSpeedMultiplier.Value;
-
     }
 
 
@@ -85,11 +85,41 @@ public class Enemy : EnemyEntity
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject p in players)
         {
-                PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
-                if (playerEntity != null)
-                {
-                    playerEntity.GainExperience(experienceGiven.Value);
-                }
+            PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
+            if (playerEntity != null)
+            {
+                playerEntity.GainExperience(experienceGiven.Value);
+            }
+        }
+    }
+    public void CanDealMeleeDamage()
+    {
+        hitboxHit.EnableHitbox();
+    }
+    public void Attack()
+    {
+        GetComponent<HitboxHitHumanoidMonster>().EnableHitbox();
+    }
+    public void DisactiveAttack()
+    {
+        GetComponent<HitboxHitHumanoidMonster>().DisableHitbox();
+    }
+
+    public void StopMoving()
+    {
+        agent.isStopped = true;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Here you can call a method on the player to deal damage
+            PlayerEntity player = collision.gameObject.GetComponent<PlayerEntity>();
+            if (player != null)
+            {
+                Debug.Log("Player found, dealing damage.");
+            }
         }
     }
 }

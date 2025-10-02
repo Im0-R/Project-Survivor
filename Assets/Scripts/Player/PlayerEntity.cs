@@ -12,7 +12,6 @@ public class PlayerEntity : NetworkEntity
     {
         //if (!IsOwner) return;
         base.Awake();
-        AddSpell(SpellsManager.Instance.GetSpell("Slash"));
         OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
         Debug.Log("PlayerEntity Awake completed");
     }
