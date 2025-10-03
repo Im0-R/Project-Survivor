@@ -3,7 +3,7 @@
 public class EnemyAttackState : IEnemyState
 {
     Transform target;
-    float attackCooldown = 1.5f;
+    float attackCooldown = 3.5f;
     float timer = 0;
 
     public EnemyAttackState(Transform player)
@@ -24,13 +24,12 @@ public class EnemyAttackState : IEnemyState
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-
             timer = attackCooldown;
             enemy.humanoidAnimator.StartAttackAnim();
         }
 
         float dist = Vector3.Distance(enemy.transform.position, target.position);
-        if (dist > 2.5f)
+        if (dist > enemy.attackDamage)
         {
             enemy.ChangeState(new EnemyChaseState());
         }

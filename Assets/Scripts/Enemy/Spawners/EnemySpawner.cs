@@ -12,7 +12,7 @@ public class EnemySpawner : NetworkBehaviour
     private float timer = 0;
     void Start()
     {
-        timer = spawnRate;
+        timer = 0;
     }
     void Update()
     {

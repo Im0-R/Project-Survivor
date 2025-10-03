@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.AI;
+using UnityEditor;
 
 public class Enemy : EnemyEntity
 {
@@ -26,10 +27,10 @@ public class Enemy : EnemyEntity
 
     protected override void Update()
     {
-        // 1) D’abord faire tourner les spells via la base
+        // 1) (health regen, mana regen, etc.)
         base.Update();
 
-        // 2) Puis l’IA uniquement serveur
+        // 2) AI only on server
         if (!IsServer) return;
 
         currentState?.Update(this);

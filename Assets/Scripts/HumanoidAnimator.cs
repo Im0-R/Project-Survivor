@@ -7,7 +7,7 @@ public class HumanoidAnimator : MonoBehaviour
     Animator animator;
     void Start()
     {
-        enemy = GetComponentInParent<Enemy>();
+        enemy = GetComponent<Enemy>();
         if (enemy == null)
         {
             Debug.LogError("Enemy component not found in parent.");

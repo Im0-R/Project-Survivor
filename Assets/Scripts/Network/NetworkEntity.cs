@@ -15,9 +15,8 @@ public class NetworkEntity : NetworkBehaviour
     // Stats to give at start
     [SerializeField] private StatsDataSO SO;
 
+    public NetworkVariable<FixedString128Bytes> entityName = new NetworkVariable<FixedString128Bytes>("Unnamed Entity");
     // Leveling Stats
-    public NetworkVariable<FixedString32Bytes> entityName = new NetworkVariable<FixedString32Bytes>("Entity");
-
     public NetworkVariable<int> level = new NetworkVariable<int>(1);
     public NetworkVariable<float> experience = new NetworkVariable<float>(0);
     public NetworkVariable<float> maxExperience = new NetworkVariable<float>(100);
@@ -94,6 +93,8 @@ public class NetworkEntity : NetworkBehaviour
                 valueProp.SetValue(entityValue, soValue);
             }
         }
+        // Set the entity name from SO' string name (not worth to do a whole if for just one case)
+        entityName.Value = statsDataSO.stringName;
     }
     public void InitFromSO()
     {
