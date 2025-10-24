@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+﻿using Mirror;
 using UnityEngine;
 
 public class FrostballSpell : Spell
@@ -27,6 +27,7 @@ public class FrostballSpell : Spell
         proj?.Initialize(netOwner, target, data.damage, data.speed, data.currentLevel);   // Initialize the projectile with damage , speed and scale
 
         //Network spawn
-        obj.GetComponent<NetworkObject>()?.Spawn(true);
+        NetworkServer.Spawn(obj);
+
     }
 }

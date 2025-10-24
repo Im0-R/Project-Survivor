@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unity.Collections;
-using Unity.Netcode;
 using UnityEngine;
 public class NetworkEntity : NetworkBehaviour
 {
@@ -15,88 +14,78 @@ public class NetworkEntity : NetworkBehaviour
     // Stats to give at start
     [SerializeField] private StatsDataSO SO;
 
-    public NetworkVariable<FixedString128Bytes> entityName = new NetworkVariable<FixedString128Bytes>("Unnamed Entity");
+    [SyncVar] public String entityName;
     // Leveling Stats
-    public NetworkVariable<int> level = new NetworkVariable<int>(1);
-    public NetworkVariable<float> experience = new NetworkVariable<float>(0);
-    public NetworkVariable<float> maxExperience = new NetworkVariable<float>(100);
-    public NetworkVariable<float> expMultiPerLevel = new NetworkVariable<float>(1.2f);
+    [SyncVar] public int level;
+    [SyncVar] public float experience;
+    [SyncVar] public float maxExperience;
+    [SyncVar] public float expMultiPerLevel;
     // Defensive stats
-    public NetworkVariable<float> maxHealth;
-    public NetworkVariable<float> maxMana;
-    public NetworkVariable<float> currentHealth = new NetworkVariable<float>(0);
-    public NetworkVariable<float> currentMana = new NetworkVariable<float>(0);
+    [SyncVar] public float maxHealth;
+    [SyncVar] public float maxMana;
+    [SyncVar] public float currentHealth;
+    [SyncVar] public float currentMana;
 
-    public NetworkVariable<float> healthRegen = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> manaRegen = new NetworkVariable<float>(0f);
+    [SyncVar] public float healthRegen;
+    [SyncVar] public float manaRegen;
 
     //Offensive stats
-    public NetworkVariable<float> movementSpeedMultiplier = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> cooldownReduction = new NetworkVariable<float>(1f);
-    public NetworkVariable<float> criticalStrikeChance = new NetworkVariable<float>(0.1f);
-    public NetworkVariable<float> criticalStrikeDamage = new NetworkVariable<float>(1.5f);
-    public NetworkVariable<float> projectileSpeed = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> durationMultiplier = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> damageMultiplier = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> experienceGiven = new NetworkVariable<float>(0f);
+    [SyncVar] public float movementSpeedMultiplier;
+    [SyncVar] public float cooldownReduction;
+    [SyncVar] public float criticalStrikeChance;
+    [SyncVar] public float criticalStrikeDamage;
+    [SyncVar] public float projectileSpeed;
+    [SyncVar] public float durationMultiplier;
+    [SyncVar] public float damageMultiplier;
+    [SyncVar] public float experienceGiven;
 
     public event Action OnDeath;
     public event Action OnLevelUp;
-    protected virtual void Awake()
-    {
-        if (SO == null)
-        {
-            Debug.LogError("StatsDataSO not assigned on " + name);
-            return;
-        }
-    }
+    protected virtual void Awake() {; }
     protected virtual void Start()
     {
-        currentHealth.OnValueChanged += (oldValue, newValue) =>
-        {
-        };
+        if (!isServer) return; //  block client-side execution
+        InitStatsFromSO();
+
         OnDeath += Die;
         OnLevelUp += LevelUp;
     }
 
     protected virtual void Update()
     {
-        if (IsServer)
-        {
-            // Update auto casts spells server-side 
-            UpdateSpells();
-        }
+        if (!isServer) return;
+        // Update auto casts spells server-side 
+        UpdateSpells();
     }
 
     public void ApplyStatsFromSO(StatsDataSO statsDataSO)
     {
-        if (!IsServer) return; //  block client-side execution
+        if (!isServer) return; // Exécuter seulement sur le serveur
 
         var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
         var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var soField in soFields)
         {
-            //Looking for a field with the same name in NetworkEntity
+            // Cherche un champ avec le même nom dans NetworkEntity
             var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
             if (entityField == null) continue;
 
+            // Récupère la valeur du SO
             var soValue = soField.GetValue(statsDataSO);
-            var entityValue = entityField.GetValue(this);
 
-            //Check if it's a NetworkVariable<>
-            var entityType = entityField.FieldType;
-            if (entityType.IsGenericType && entityType.GetGenericTypeDefinition() == typeof(NetworkVariable<>))
+            // Assure que le champ est modifiable et pas readonly
+            if (entityField.IsPublic && !entityField.IsInitOnly)
             {
-                //Getting the value of the NetworkVariable
-                var valueProp = entityType.GetProperty("Value");
-                valueProp.SetValue(entityValue, soValue);
+                // Assigne la valeur directement
+                entityField.SetValue(this, soValue);
             }
         }
-        // Set the entity name from SO' string name (not worth to do a whole if for just one case)
-        entityName.Value = statsDataSO.stringName;
+
+        // Affecte le nom séparément
+        entityName = statsDataSO.stringName;
     }
-    public void InitFromSO()
+    public void InitStatsFromSO()
     {
         if (SO != null)
         {
@@ -107,41 +96,36 @@ public class NetworkEntity : NetworkBehaviour
             Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
         }
     }
-    public override void OnNetworkSpawn()
-    {
-        Debug.Log($"[NetworkEntity] OnNetworkSpawn for {name}");
-        if (IsServer)
-        {
-            Debug.Log($"[NetworkEntity] OnNetworkSpawn Server for {name}");
-            // On initialise côté serveur
-            InitFromSO();
-        }
-    }
+
 
     protected virtual void Die()
     {
-        if (TryGetComponent<NetworkObject>(out var netObj))
-            netObj.Despawn(true);
-        else
-            Destroy(gameObject);
+        if (isServer) // On ne détruit que depuis le serveur
+        {
+            if (TryGetComponent<NetworkIdentity>(out var netIdentity))
+            {
+                NetworkServer.Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
     }
-
+    public void CmdApplyDamage(float amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+            OnDeath?.Invoke();
+    }
     //Spells management side
-
-    [ServerRpc(RequireOwnership = true)]
-    public void CastSpellServerRpc(string spellName)
+    [Command]
+    public void CmdCastSpell(string spellName)
     {
         Spell spell = GetSpellByTypeName(spellName);
         spell?.ExecuteServer(this);
     }
-
-    [ServerRpc(RequireOwnership = true)]
-    public void ApplyDamageServerRpc(float amount)
-    {
-        currentHealth.Value -= amount;
-        if (currentHealth.Value <= 0)
-            OnDeath?.Invoke();
-    }
+    [Command]
     public void AddRandomSpell()
     {
 
@@ -220,29 +204,29 @@ public class NetworkEntity : NetworkBehaviour
 
     public void GainExperience(float amount)
     {
-        if (!IsServer) return; //  block client-side execution
-        experience.Value += amount;
-        while (experience.Value >= maxExperience.Value)
+        if (!isServer) return; //  block client-side execution
+        experience += amount;
+        while (experience >= maxExperience)
         {
             OnLevelUp?.Invoke();
         }
     }
     public void LevelUp()
     {
-        if (!IsServer) return; //  block client-side execution
+        if (!isServer) return; //  block client-side execution
 
-        Debug.Log($"{name} leveled up to level {level.Value + 1}!");
-        experience.Value -= maxExperience.Value;
-        level.Value++;
-        maxExperience.Value *= expMultiPerLevel.Value;
+        Debug.Log($"{name} leveled up to level {level + 1}!");
+        experience -= maxExperience;
+        level++;
+        maxExperience *= expMultiPerLevel;
         // On level up, increase stats a bit
-        maxHealth.Value *= 1.1f;
-        currentHealth.Value += maxHealth.Value / 10f; // Heal 10 % of max health on level up
-        maxMana.Value *= 1.1f;
-        currentMana.Value = maxMana.Value; // Refill mana on level up
+        maxHealth *= 1.1f;
+        currentHealth += maxHealth / 10f; // Heal 10 % of max health on level up
+        maxMana *= 1.1f;
+        currentMana = maxMana; // Refill mana on level up
     }
     public float GetHealthPourcentage()
     {
-        return (currentHealth.Value / maxHealth.Value) * 100f;
+        return (currentHealth / maxHealth) * 100f;
     }
 }

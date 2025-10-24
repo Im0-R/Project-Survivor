@@ -1,11 +1,10 @@
 public class Zombie : EnemyMelee
 {
-    public override void OnNetworkSpawn()
+    public override void OnStartServer()
     {
-        base.OnNetworkSpawn();
+        base.OnStartServer();
 
-        if (!IsServer) return;
-
+        if (!isServer) return;
         ChangeState(new EnemyIdleState());
     }
 }

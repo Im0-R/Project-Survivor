@@ -394,12 +394,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8913022215254427481}
   - component: {fileID: 7090106335135874817}
-  - component: {fileID: 20562086375589395}
   - component: {fileID: 332349140155361133}
-  - component: {fileID: 8085109945753204259}
   - component: {fileID: 7237563171414369568}
   - component: {fileID: 3966264665843785687}
   - component: {fileID: 6373443025740128648}
+  - component: {fileID: 8944850199700879988}
+  - component: {fileID: -7508718722912385178}
+  - component: {fileID: -3437862459983905959}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -444,31 +445,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64683914, y: 1.6699823, z: 0.44534016}
   m_Center: {x: -0.008746147, y: 0.8615368, z: 0.07183647}
---- !u!114 &20562086375589395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180879256419302217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1019554780
-  InScenePlacedSourceGlobalObjectIdHash: 1019554780
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &332349140155361133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,130 +457,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66ea22f653d76348bede956d0890536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   SO: {fileID: 11400000, guid: b87507f304c4a8549b9148c9e5ade104, type: 2}
-  entityName:
-    m_InternalValue:
-      utf8LengthInBytes: 6
-      bytes:
-        offset0000:
-          byte0000: 69
-          byte0001: 110
-          byte0002: 116
-          byte0003: 105
-          byte0004: 116
-          byte0005: 121
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        byte0016: 0
-        byte0017: 0
-        byte0018: 0
-        byte0019: 0
-        byte0020: 0
-        byte0021: 0
-        byte0022: 0
-        byte0023: 0
-        byte0024: 0
-        byte0025: 0
-        byte0026: 0
-        byte0027: 0
-        byte0028: 0
-        byte0029: 0
-  level:
-    m_InternalValue: 1
-  experience:
-    m_InternalValue: 0
-  maxExperience:
-    m_InternalValue: 100
-  expMultiPerLevel:
-    m_InternalValue: 1.2
-  maxHealth:
-    m_InternalValue: 0
-  maxMana:
-    m_InternalValue: 0
-  currentHealth:
-    m_InternalValue: 0
-  currentMana:
-    m_InternalValue: 0
-  healthRegen:
-    m_InternalValue: 0
-  manaRegen:
-    m_InternalValue: 0
-  movementSpeedMultiplier:
-    m_InternalValue: 0
-  cooldownReduction:
-    m_InternalValue: 1
-  criticalStrikeChance:
-    m_InternalValue: 0.1
-  criticalStrikeDamage:
-    m_InternalValue: 1.5
-  projectileSpeed:
-    m_InternalValue: 0
-  durationMultiplier:
-    m_InternalValue: 0
-  damageMultiplier:
-    m_InternalValue: 0
-  experienceGiven:
-    m_InternalValue: 0
+  entityName: Zombie
+  level: 0
+  experience: 0
+  maxExperience: 0
+  expMultiPerLevel: 0
+  maxHealth: 0
+  maxMana: 0
+  currentHealth: 0
+  currentMana: 0
+  healthRegen: 0
+  manaRegen: 0
+  movementSpeedMultiplier: 0
+  cooldownReduction: 0
+  criticalStrikeChance: 0
+  criticalStrikeDamage: 0
+  projectileSpeed: 0
+  durationMultiplier: 0
+  damageMultiplier: 0
+  experienceGiven: 0
   firePoint: {fileID: 8913022215254427481}
   attackRange: 2
   attackDamage: 10
   hitboxHit: {fileID: 8228046526072054306}
   humanoidAnimator: {fileID: 6373443025740128648}
---- !u!114 &8085109945753204259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180879256419302217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 1
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!195 &7237563171414369568
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -624,7 +504,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!95 &3966264665843785687
@@ -661,6 +541,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3058f7885a0a4214eb5edff31f216d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8944850199700879988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180879256419302217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
+  sceneId: 0
+  _assetId: 1255735553
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &-7508718722912385178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180879256419302217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8557eb515c0a6664290892ba18adc7c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SmoothNetworkTransform
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  sendInterval: 0.15
+  positionLerpSpeed: 10
+  rotationLerpSpeed: 10
+  targetPosition: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &-3437862459983905959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180879256419302217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkAnimator
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0.2
+  clientAuthority: 0
+  animator: {fileID: 3966264665843785687}
 --- !u!1 &3434415214065281038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,10 +1131,12 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8205024132658386507, guid: 2a7b26ecfc1487247aa46fbafa31dc67, type: 3}
+  - {fileID: 2100000, guid: e974acdd56a2bf14dae5e0f8cfde67c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1218,6 +1154,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1225,7 +1162,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 537426791416092083, guid: 2a7b26ecfc1487247aa46fbafa31dc67, type: 3}
+  m_Mesh: {fileID: 537426791416092083, guid: a8810726e1b6d3a4d93b2aa85a404e35, type: 3}
   m_Bones:
   - {fileID: 4304802944589456075}
   - {fileID: 2935568950428916366}

@@ -1,6 +1,4 @@
-using System;
-using System.Reflection;
-using Unity.Netcode;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,27 +8,65 @@ public class PlayerEntity : NetworkEntity
 
     protected override void Awake()
     {
-        //if (!IsOwner) return;
         base.Awake();
-        OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
-        Debug.Log("PlayerEntity Awake completed");
     }
 
     protected override void Update()
     {
+        if (!isServer) return;
         base.Update();
-
-        if (!IsOwner) return;
-
-        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier.Value;
+        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier;
     }
 
-    public override void OnNetworkSpawn()
+    public override void OnStartServer()
     {
-        InitFromSO();
+        base.OnStartServer();
+        InitStatsFromSO();
+        OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
+    }
 
-        if (!IsOwner) return;
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
 
-        CameraFollow.Instance.SetTarget(transform);
+        // 1) Set camera (only on the local client)
+        if (CameraFollow.Instance != null)
+            CameraFollow.Instance.SetTarget(transform);
+        else
+            Debug.LogWarning("[PlayerEntity] CameraFollow.Instance is null in OnStartLocalPlayer.");
+
+        // 2) Try to link UI right away, or we wait a bit
+        if (PlayerUI.Instance != null)
+        {
+            PlayerUI.Instance.SetPlayer(this);
+            Debug.Log("[PlayerEntity] PlayerUI linked immediately.");
+        }
+        else
+        {
+            Debug.Log("[PlayerEntity] PlayerUI not ready yet, starting waiter coroutine.");
+            StartCoroutine(WaitForUIAndSet());
+        }
+    }
+
+    private IEnumerator WaitForUIAndSet()
+    {
+        float timeout = 5f;
+        float t = 0f;
+
+        while (PlayerUI.Instance == null && t < timeout)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if (PlayerUI.Instance != null)
+        {
+            PlayerUI.Instance.SetPlayer(this);
+            Debug.Log("[PlayerEntity] PlayerUI linked after wait.");
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerEntity] PlayerUI still null after waiting. Vérifie que PlayerUI est présent dans la scène et que son Awake a été appelé.");
+        }
     }
 }

@@ -48,7 +48,7 @@ public abstract class Spell
         {
             if (owner != null)
             {
-                owner.CastSpellServerRpc(GetType().Name);
+                owner.CmdCastSpell(GetType().Name);
             }
             else
             {
@@ -63,7 +63,7 @@ public abstract class Spell
         if (Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
             if (netEntity != null)
-                netEntity.CastSpellServerRpc(GetType().Name);
+                netEntity.CmdCastSpell(GetType().Name);
             else
                 ExecuteServer(netEntity);
 

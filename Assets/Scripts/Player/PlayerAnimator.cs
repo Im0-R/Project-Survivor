@@ -22,7 +22,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         // Magnitude de la vitesse pour animer
         float speed = agent.velocity.magnitude;
-        float health = netEntity.currentHealth.Value;
+        float health = netEntity.currentHealth;
 
         animator.SetFloat("Speed", speed);
         animator.SetFloat("Health", health);

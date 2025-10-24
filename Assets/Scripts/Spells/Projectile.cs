@@ -1,5 +1,5 @@
+using Mirror;
 using UnityEngine;
-using Unity.Netcode;
 
 public class Projectile : NetworkBehaviour
 {
@@ -25,7 +25,7 @@ public class Projectile : NetworkBehaviour
 
         transform.localScale = transform.localScale * scale;
 
-        if (IsServer) // important : seul le serveur gère le despawn
+        if (isServer) // important : seul le serveur gère le despawn
         {
             Invoke(nameof(DespawnSelf), lifeTime);
             // lifeTime
@@ -34,7 +34,7 @@ public class Projectile : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer) return;
+        if (!isServer) return;
 
         if (target != null)
         {
@@ -53,7 +53,7 @@ public class Projectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsServer) return;
+        if (!isServer) return;
 
         var otherNetEntity = other.GetComponent<NetworkEntity>();
         if (otherNetEntity != null && otherNetEntity != owner)
@@ -62,29 +62,24 @@ public class Projectile : NetworkBehaviour
             if (otherNetEntity is PlayerEntity && owner is PlayerEntity) return;
             if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
 
-            otherNetEntity.ApplyDamageServerRpc(damage);
+            otherNetEntity.CmdApplyDamage(damage);
             DespawnSelf();
         }
     }
-
+    [Server]
     private void DespawnSelf()
     {
-        if (hasDespawned) return; // évite le double despawn
+        if (hasDespawned) return;
         hasDespawned = true;
 
-        if (IsServer && TryGetComponent<NetworkObject>(out var netObj))
+        if (isServer)
         {
-            if (netObj.IsSpawned) // sécurité : seulement si spawné
-            {
-                netObj.Despawn(destroy: true);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            // Détruit l'objet sur le serveur ET tous les clients
+            NetworkServer.Destroy(gameObject);
         }
         else
         {
+            // Si on n'est pas sur le serveur (ex: client local), on le détruit juste localement
             Destroy(gameObject);
         }
     }

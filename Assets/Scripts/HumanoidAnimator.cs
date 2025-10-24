@@ -17,15 +17,18 @@ public class HumanoidAnimator : MonoBehaviour
     }
     void Update()
     {
-        animator.SetFloat("Speed", enemy.GetAgent().velocity.magnitude);
-        animator.SetFloat("Health", enemy.currentHealth.Value);
+        if (animator == null || enemy.GetAgent() == null) return;
+            animator.SetFloat("Speed", enemy.GetAgent().velocity.magnitude);
+            animator.SetFloat("Health", enemy.currentHealth);
     }
     public void EnableAttackHitbox()
     {
+        enemy.Attack();
         enemy.hitboxHit.EnableHitbox();
     }
     public void DisableAttackHitbox()
     {
+        enemy.DisactiveAttack();
         enemy.hitboxHit.DisableHitbox();
     }
     public void StartAttackAnim()

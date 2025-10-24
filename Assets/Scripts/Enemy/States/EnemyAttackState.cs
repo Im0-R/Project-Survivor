@@ -3,7 +3,7 @@
 public class EnemyAttackState : IEnemyState
 {
     Transform target;
-    float attackCooldown = 3.5f;
+    float attackCooldown = 2.5f;
     float timer = 0;
 
     public EnemyAttackState(Transform player)
@@ -11,7 +11,13 @@ public class EnemyAttackState : IEnemyState
         target = player;
     }
 
-    public void Enter(Enemy enemy) { timer = 0; }
+    public void Enter(Enemy enemy) 
+    {
+        timer = 0;
+        //Get the skinned mesh renderer color to red in children to indicate attack state
+
+        enemy.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = Color.red;
+    }
 
     public void Update(Enemy enemy)
     {

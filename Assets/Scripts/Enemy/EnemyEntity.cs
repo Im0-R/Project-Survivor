@@ -8,7 +8,5 @@ public class EnemyEntity : NetworkEntity
     protected override void Awake()
     {
         base.Awake();
-
-        // Fireball auto-cast toutes les 2s
     }
 }

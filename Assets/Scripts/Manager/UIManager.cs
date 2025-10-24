@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -21,46 +20,14 @@ public class UIManager : MonoBehaviour
     {
         // Start with login UI visible
         ShowLoginUI();
-
-        // Listen for network events
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
     void Update()
     {
-        // Check for ESC key press while in-game
-        if (gameUICanvas.activeSelf && Input.GetKeyDown(KeyCode.Escape))
-        {
-            DisconnectAndReturnToLogin();
-        }
-
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("R key pressed - Showing Spells Reward UI");
             ShowSpellsRewardUI();
-        }
-    }
-
-    private void OnClientConnected(ulong clientId)
-    {
-        // Only switch UI if this is the local player
-        if (clientId == NetworkManager.Singleton.LocalClientId)
-        {
-            //connect the UI to the player entity
-            var player = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId).GetComponent<PlayerEntity>();
-
-            ShowGameUI();
-            PlayerUI.Instance.SetPlayer(player);
-        }
-    }
-
-    private void OnClientDisconnected(ulong clientId)
-    {
-        // Only reset UI if this is the local player
-        if (clientId == NetworkManager.Singleton.LocalClientId)
-        {
-            ShowLoginUI();
         }
     }
 
@@ -96,16 +63,5 @@ public class UIManager : MonoBehaviour
         }
         gameUICanvas.SetActive(true);
         TimeManager.Instance.ResumeGame();
-    }
-    public void DisconnectAndReturnToLogin()
-    {
-        // Shut down network session
-        if (NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.Shutdown();
-        }
-
-        // Reset UI back to login
-        ShowLoginUI();
     }
 }

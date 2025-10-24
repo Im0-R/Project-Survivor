@@ -1,6 +1,4 @@
 using System;
-using Unity.Collections;
-using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewStatsData", menuName = "Stats/StatsData")]

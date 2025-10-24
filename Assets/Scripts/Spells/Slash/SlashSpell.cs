@@ -1,4 +1,4 @@
-using Unity.Netcode;
+using Mirror;
 using UnityEngine;
 
 public class SlashSpell : Spell
@@ -21,6 +21,6 @@ public class SlashSpell : Spell
         }
 
         // Network spawn (même pattern que pour FrostballSpell)
-        obj.GetComponent<NetworkObject>()?.Spawn(true);
+        NetworkServer.Spawn(obj);
     }
 }

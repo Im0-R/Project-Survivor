@@ -17,7 +17,6 @@ public class PlayerUI : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
-
     public void SetPlayer(PlayerEntity p)
     {
         playerEnt = p;
@@ -25,14 +24,12 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         if (playerEnt == null) return;
-
-
             UpdateUI();
     }
 
     private void UpdateUI()
     {
-        healthBar.value = (playerEnt.currentHealth.Value / playerEnt.maxHealth.Value) * 100f;
-        xpBar.value = (playerEnt.experience.Value / playerEnt.maxExperience.Value) * 100f;
+        healthBar.value = (playerEnt.currentHealth / playerEnt.maxHealth) * 100f;
+        xpBar.value = (playerEnt.experience / playerEnt.maxExperience) * 100f;
     }
 }

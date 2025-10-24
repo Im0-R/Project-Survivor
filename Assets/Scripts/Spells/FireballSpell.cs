@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+﻿using Mirror;
 using UnityEngine;
 
 public class FireballSpell : Spell
@@ -27,6 +27,6 @@ public class FireballSpell : Spell
         proj?.Initialize(netOwner, target, data.damage, data.speed, data.currentLevel);   // Initialize the projectile with damage , speed and scale
 
         //Network spawn
-        obj.GetComponent<NetworkObject>()?.Spawn(true);
+        NetworkServer.Spawn(obj);
     }
 }

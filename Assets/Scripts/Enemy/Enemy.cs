@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.AI;
 using UnityEditor;
+using Mirror;
 
 public class Enemy : EnemyEntity
 {
@@ -12,31 +12,24 @@ public class Enemy : EnemyEntity
     public HitboxHitHumanoidMonster hitboxHit;
     public HumanoidAnimator humanoidAnimator;
     IEnemyState currentState;
-    public override void OnNetworkSpawn()
+    public override void OnStartServer()
     {
         //Since the enemy is controlled by the server, we only run this code on the server
-        if (!IsServer) return;
+        if (!isServer) return;
 
-        InitFromSO();
+        InitStatsFromSO();
         agent = GetComponent<NavMeshAgent>();
 
-        // Premier état = Chase
+        // Initialize State = Chase
         ChangeState(new EnemyChaseState());
         OnDeath += OnDeathEffects;
     }
-
-    protected override void Update()
+    public void Tick(float dt)
     {
-        // 1) (health regen, mana regen, etc.)
-        base.Update();
-
-        // 2) AI only on server
-        if (!IsServer) return;
-
+        if (!isServer) return;
         currentState?.Update(this);
-        agent.speed = movementSpeedMultiplier.Value;
+        agent.speed = movementSpeedMultiplier;
     }
-
 
     public void ChangeState(IEnemyState newState)
     {
@@ -66,13 +59,13 @@ public class Enemy : EnemyEntity
         return best;
     }
 
-    [ServerRpc]
-    public void TakeDamageServerRpc(int dmg)
+    [Command]
+    public void CmdTakeDamage(int dmg)
     {
-        if (!IsServer) return;
+        if (!isServer) return;
 
-        currentHealth.Value -= dmg;
-        if (currentHealth.Value <= 0)
+        currentHealth -= dmg;
+        if (currentHealth <= 0)
         {
             ChangeState(new EnemyDeadState());
         }
@@ -89,7 +82,7 @@ public class Enemy : EnemyEntity
             PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
             if (playerEntity != null)
             {
-                playerEntity.GainExperience(experienceGiven.Value);
+                playerEntity.GainExperience(experienceGiven);
             }
         }
     }
@@ -99,11 +92,13 @@ public class Enemy : EnemyEntity
     }
     public void Attack()
     {
-        GetComponent<HitboxHitHumanoidMonster>().EnableHitbox();
+        hitboxHit.EnableHitbox();
     }
     public void DisactiveAttack()
     {
-        GetComponent<HitboxHitHumanoidMonster>().DisableHitbox();
+        //switch the enemy to Chase state after attacking
+        hitboxHit.DisableHitbox();
+        ChangeState(new EnemyChaseState());
     }
 
     public void StopMoving()
@@ -122,5 +117,17 @@ public class Enemy : EnemyEntity
                 Debug.Log("Player found, dealing damage.");
             }
         }
+    }
+    private void OnDisable()
+    {
+        if (isServer) EnemyManager.Instance?.UnregisterEnemy(this);
+    }
+    public void ResetState()
+    {
+        ChangeState(new EnemyIdleState());
+    }
+    public void SleepState()
+    {
+        ChangeState(new EnemySleepState());
     }
 }

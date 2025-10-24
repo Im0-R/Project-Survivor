@@ -1,6 +1,4 @@
-using System;
-using System.Reflection;
-using Unity.Netcode;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -12,40 +10,27 @@ public class Stats : NetworkBehaviour
     [SerializeField] private StatsDataSO SO;
 
     // Leveling Stats
-    public NetworkVariable<int> level = new NetworkVariable<int>(1);
-    public NetworkVariable<float> experience = new NetworkVariable<float>(0);
-    public NetworkVariable<float> maxExperience = new NetworkVariable<float>(100);
-    public NetworkVariable<float> expMultiPerLevel = new NetworkVariable<float>(1.2f);
+    [SyncVar] public int level = 1;
+    [SyncVar] public float experience = 0;
+    [SyncVar] public float maxExperience = 100;
+    [SyncVar] public float expMultiPerLevel = 1.2f;
     // Defensive stats
-    public NetworkVariable<float> maxHealth;
-    public NetworkVariable<float> maxMana;
-    public NetworkVariable<float> currentHealth = new NetworkVariable<float>(0);
-    public NetworkVariable<float> currentMana = new NetworkVariable<float>(0);
+    [SyncVar] public float maxHealth;
+    [SyncVar] public float maxMana;
+    [SyncVar] public float currentHealth = 0;
+    [SyncVar] public float currentMana = 0;
 
-    public NetworkVariable<float> healthRegen = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> manaRegen = new NetworkVariable<float>(0f);
+    [SyncVar] public float healthRegen = 0f;
+    [SyncVar] public float manaRegen = 0f;
 
     //Offensive stats
-    public NetworkVariable<float> movementSpeedMultiplier = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> cooldownReduction = new NetworkVariable<float>(1f);
-    public NetworkVariable<float> criticalStrikeChance = new NetworkVariable<float>(0.1f);
-    public NetworkVariable<float> criticalStrikeDamage = new NetworkVariable<float>(1.5f);
-    public NetworkVariable<float> projectileSpeed = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> durationMultiplier = new NetworkVariable<float>(0f);
-    public NetworkVariable<float> damageMultiplier = new NetworkVariable<float>(0f);
-
-    public override void OnNetworkSpawn()
-    {
-        Debug.Log($"[Stats] OnNetworkSpawn for {name}");
-        if (IsServer)
-        {
-            Debug.Log($"[Stats] OnNetworkSpawn Server for {name}");
-            // On initialise côté serveur
-        }
-        // On s'abonne aux changements pour MAJ l'UI côté client
-        currentHealth.OnValueChanged += OnHealthChanged;
-        currentMana.OnValueChanged += OnManaChanged;
-    }
+    [SyncVar] public float movementSpeedMultiplier = 0f;
+    [SyncVar] public float cooldownReduction = 1f;
+    [SyncVar] public float criticalStrikeChance = 0.1f;
+    [SyncVar] public float criticalStrikeDamage = 1.5f;
+    [SyncVar] public float projectileSpeed = 0f;
+    [SyncVar] public float durationMultiplier = 0f;
+    [SyncVar] public float damageMultiplier = 0f;
 
     private void OnHealthChanged(float oldValue, float newValue)
     {
@@ -58,41 +43,42 @@ public class Stats : NetworkBehaviour
         Debug.Log($"{name} Mana: {oldValue} -> {newValue}");
     }
 
-    // Server side methods to modify stats
-
-    [ServerRpc]
-    public void TakeDamageServerRpc(float amount)
+    // Command methods to modify stats
+    [Command]
+    void CmdTakeDamage(float amount)
     {
-        currentHealth.Value = Mathf.Max(0, currentHealth.Value - amount);
+        currentHealth = Mathf.Max(0, currentHealth - amount);
     }
-
-    [ServerRpc]
-    public void UseManaServerRpc(float amount)
+    [Command]
+    void CmdUseManag(float amount)
     {
-        currentMana.Value = Mathf.Max(0, currentMana.Value - amount);
+        currentMana = Mathf.Max(0, currentMana - amount);
     }
-
-    [ServerRpc]
-    public void HealServerRpc(float amount)
+    [Command]
+    public void CmdHeal(float amount)
     {
-        currentHealth.Value = Mathf.Min(maxHealth.Value, currentHealth.Value + amount);
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
     }
-
+    [Command]
+    public void CmdRestoreMana(float amount)
+    {
+        currentMana = Mathf.Min(maxMana, currentMana + amount);
+    }
     public void GainExperience(int amount)
     {
-        experience.Value += amount;
-        if (experience.Value >= maxExperience.Value)
+        experience += amount;
+        if (experience >= maxExperience)
         {
             LevelUp();
         }
     }
     private void LevelUp()
     {
-        level.Value++;
-        experience.Value -= maxExperience.Value;
-        maxExperience.Value = maxExperience.Value * expMultiPerLevel.Value;
-        cooldownReduction.Value += 0.05f;
-        criticalStrikeDamage.Value += 0.1f;
+        level++;
+        experience -= maxExperience;
+        maxExperience = maxExperience * expMultiPerLevel;
+        cooldownReduction += 0.05f;
+        criticalStrikeDamage += 0.1f;
         Debug.Log($"Leveled up to {level}! New max XP: {maxExperience}, Speed Multiplier: {movementSpeedMultiplier}, Damage Multiplier: {movementSpeedMultiplier}");
     }
 

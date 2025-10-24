@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class EnemyMelee : Enemy
 {
-    public override void OnNetworkSpawn()
+    public override void OnStartServer()
     {
-        base.OnNetworkSpawn();
-        if (!IsServer) return;
+        base.OnStartServer();
+        if (!isServer) return;
 
         // Commence en Idle ou directement en Chase
         ChangeState(new EnemyChaseState());

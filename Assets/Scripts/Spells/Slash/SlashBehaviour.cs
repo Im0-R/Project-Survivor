@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Unity.Netcode;
+﻿using Mirror;
+using UnityEngine;
 
 public class SlashBehaviour : NetworkBehaviour
 {
@@ -36,7 +36,7 @@ public class SlashBehaviour : NetworkBehaviour
 
         trailRenderer.widthMultiplier = radius / 4f;
 
-        if (IsServer) // seul le serveur gère le despawn
+        if (isServer) // seul le serveur gère le despawn
         {
             Invoke(nameof(DespawnSelf), lifeTime);
         }
@@ -44,7 +44,7 @@ public class SlashBehaviour : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer) return;
+        if (!isServer) return;
         if (player == null) return;
 
         elapsed += Time.deltaTime;
@@ -82,7 +82,7 @@ public class SlashBehaviour : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsServer) return;
+        if (!isServer) return;
 
         var otherNetEntity = other.GetComponent<NetworkEntity>();
         if (otherNetEntity != null && otherNetEntity != owner)
@@ -92,7 +92,7 @@ public class SlashBehaviour : NetworkBehaviour
             if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
 
             // Appliquer les dégâts
-            otherNetEntity.ApplyDamageServerRpc(damage);
+            otherNetEntity.CmdApplyDamage(damage);
         }
     }
 
@@ -101,16 +101,16 @@ public class SlashBehaviour : NetworkBehaviour
         if (hasDespawned) return;
         hasDespawned = true;
 
-        if (IsServer && TryGetComponent<NetworkObject>(out var netObj))
+        if (isServer)
         {
-            if (netObj.IsSpawned)
-                netObj.Despawn(destroy: true);
-            else
-                Destroy(gameObject);
+            // Détruit l'objet sur le serveur ET tous les clients
+            NetworkServer.Destroy(gameObject);
         }
         else
         {
+            // Si on n'est pas sur le serveur (ex: client local), on le détruit juste localement
             Destroy(gameObject);
         }
     }
+
 }
