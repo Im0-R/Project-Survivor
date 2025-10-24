@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 52548
+  controlID: 18
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 52549
+  controlID: 19
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 410
+    y: 465
     width: 909
     height: 347
   m_SerializedDataModeController:
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 79
     width: 909
     height: 360
   m_SerializedDataModeController:
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 783
+    y: 838
     width: 909
     height: 148
   m_SerializedDataModeController:
@@ -1193,8 +1193,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 911
-    y: 24
+    x: 910
+    y: 79
     width: 303
     height: 907
   m_SerializedDataModeController:
@@ -1211,9 +1211,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: f035faff92e8fbffd69efcff0cf0fcff2cf0fcff4cf0fcffac13fdffb013fdffb613fdff0214fdff363ffdff9c69fdff487bfdff46a0fdff4aa0fdff4ea0fdff62a0fdff66a0fdff6aa0fdff7aa0fdff8ea0fdff98a0fdff9ca0fdffb0a0fdff2ee0fdff32e0fdff46e0fdff9c34feffa034feffb434feff2235feff2635feff3a35feffa835feffac35feffc035feff2e36feff3236feff4636feff2eb3ffff32b3ffff46b3ffffe8dbffff4efafffff4ffffff86fc0000c4fd0000e2fd0000be2f050090300500045605008ac80500b2c8050092da05004865060082650600
+      m_SelectedIDs: 92dbfdff
+      m_LastClickedID: -140398
+      m_ExpandedIDs: 8cd5fdff92dbfdff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1259,8 +1259,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1216
-    y: 24
+    x: 1215
+    y: 79
     width: 273
     height: 907
   m_SerializedDataModeController:
@@ -1284,8 +1284,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets
+    m_Folders: []
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1296,14 +1295,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror
+  m_LastProjectPath: D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 00000000ae1c01006c1d01005a1f0100882101008a2101008c2101008e21010090210100922101009421010096210100982101009a2101009c2101009e210100a0210100a2210100a4210100a6210100a8210100aa210100ac210100ae210100b0210100b2210100b4210100b6210100b8210100ba210100bc210100be210100c0210100c2210100c4210100c6210100c8210100ca210100cc210100ce210100
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1332,7 +1331,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ae1c01006c1d01005a1f0100882101008a2101008c2101008e21010090210100922101009421010096210100982101009a2101009c2101009e210100a0210100a2210100a4210100a6210100a8210100aa210100ac210100ae210100b0210100b2210100b4210100b6210100b8210100ba210100bc210100be210100c0210100c2210100c4210100c6210100c8210100ca210100cc210100ce210100
+    m_ExpandedIDs: ffffffffdee0010060b50200
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1411,8 +1410,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1491
-    y: 24
+    x: 1490
+    y: 79
     width: 429
     height: 907
   m_SerializedDataModeController:
