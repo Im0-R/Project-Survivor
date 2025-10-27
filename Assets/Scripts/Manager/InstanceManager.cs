@@ -18,11 +18,9 @@ public class InstanceManager : NetworkBehaviour
             return;
         }
         Instance = this;
-    }
-    private void Start()
-    {
         DontDestroyOnLoad(gameObject);
     }
+
     [Server]
     public void CreateInstance(NetworkConnectionToClient conn)
     {
@@ -32,7 +30,7 @@ public class InstanceManager : NetworkBehaviour
         int seed = Random.Range(0, 999999);
 
         // Start the server process 
-        ProcessStartInfo psi = new ProcessStartInfo
+        var psi = new ProcessStartInfo
         {
             FileName = "MyServerBuild.exe",
             Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",

@@ -17,11 +17,9 @@ public class ClientSideInstanceManager : MonoBehaviour
         }
 
         Instance = this;
-    }
-    private void Start()
-    {
         DontDestroyOnLoad(gameObject);
     }
+
     public void SwitchToInstance(string ip, ushort port)
     {
         StartCoroutine(SwitchRoutine(ip, port));
@@ -39,7 +37,7 @@ public class ClientSideInstanceManager : MonoBehaviour
         }
 
         // Get KcpTransport
-        KcpTransport kcp = Transport.active as KcpTransport;
+        var kcp = Transport.active as KcpTransport;
         if (kcp == null)
         {
             Debug.LogError("KcpTransport not found or inactive!");

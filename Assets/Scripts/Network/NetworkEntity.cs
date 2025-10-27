@@ -41,11 +41,18 @@ public class NetworkEntity : NetworkBehaviour
 
     public event Action OnDeath;
     public event Action OnLevelUp;
-    protected virtual void Awake() {; }
+    protected virtual void Awake()
+    {
+        if (SO == null)
+        {
+            Debug.LogError("StatsDataSO not assigned on " + entityName);
+            return;
+        }
+    }
     protected virtual void Start()
     {
         if (!isServer) return; //  block client-side execution
-        InitStatsFromSO();
+        InitFromSO();
 
         OnDeath += Die;
         OnLevelUp += LevelUp;
@@ -60,32 +67,30 @@ public class NetworkEntity : NetworkBehaviour
 
     public void ApplyStatsFromSO(StatsDataSO statsDataSO)
     {
-        if (!isServer) return; // Exécuter seulement sur le serveur
+        if (!isServer) return; // Only Server
 
         var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
         var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var soField in soFields)
         {
-            // Cherche un champ avec le même nom dans NetworkEntity
+            // Look for a matching field in NetworkEntity
             var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
             if (entityField == null) continue;
 
-            // Récupère la valeur du SO
+            // Get the value from the ScriptableObject
             var soValue = soField.GetValue(statsDataSO);
 
-            // Assure que le champ est modifiable et pas readonly
+            // Make sure the field is not read-only
             if (entityField.IsPublic && !entityField.IsInitOnly)
             {
-                // Assigne la valeur directement
+                // Assign the value to the NetworkEntity field
                 entityField.SetValue(this, soValue);
             }
         }
-
-        // Affecte le nom séparément
         entityName = statsDataSO.stringName;
     }
-    public void InitStatsFromSO()
+    public void InitFromSO()
     {
         if (SO != null)
         {
@@ -100,7 +105,7 @@ public class NetworkEntity : NetworkBehaviour
 
     protected virtual void Die()
     {
-        if (isServer) // On ne détruit que depuis le serveur
+        if (isServer) //Only Server can destroy objects
         {
             if (TryGetComponent<NetworkIdentity>(out var netIdentity))
             {
@@ -118,7 +123,11 @@ public class NetworkEntity : NetworkBehaviour
         if (currentHealth <= 0)
             OnDeath?.Invoke();
     }
-    //Spells management side
+
+
+
+
+    //------------------------------------------------Spells management side-----------------------------------------\\
     [Command]
     public void CmdCastSpell(string spellName)
     {
@@ -221,9 +230,10 @@ public class NetworkEntity : NetworkBehaviour
         maxExperience *= expMultiPerLevel;
         // On level up, increase stats a bit
         maxHealth *= 1.1f;
-        currentHealth += maxHealth / 10f; // Heal 10 % of max health on level up
         maxMana *= 1.1f;
         currentMana = maxMana; // Refill mana on level up
+        currentHealth += maxHealth / 10f; // Heal 10 % of max health on level up
+
     }
     public float GetHealthPourcentage()
     {

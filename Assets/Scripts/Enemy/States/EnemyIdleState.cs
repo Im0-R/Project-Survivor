@@ -5,7 +5,7 @@ public class EnemyIdleState : IEnemyState
     public void Enter(Enemy enemy) { }
     public void Update(Enemy enemy)
     {
-        //after idling, start chasing the closest player
+        // Après un temps, chercher un joueur
         Transform target = enemy.GetClosestPlayer();
         if (target != null)
         {

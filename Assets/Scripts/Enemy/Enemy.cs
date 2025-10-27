@@ -17,19 +17,23 @@ public class Enemy : EnemyEntity
         //Since the enemy is controlled by the server, we only run this code on the server
         if (!isServer) return;
 
-        InitStatsFromSO();
+        InitFromSO();
         agent = GetComponent<NavMeshAgent>();
 
-        // Initialize State = Chase
+        // Premier état = Chase
         ChangeState(new EnemyChaseState());
         OnDeath += OnDeathEffects;
     }
-    public void Tick(float dt)
+
+    protected override void Update()
     {
         if (!isServer) return;
+
+        base.Update();
         currentState?.Update(this);
         agent.speed = movementSpeedMultiplier;
     }
+
 
     public void ChangeState(IEnemyState newState)
     {
@@ -92,13 +96,11 @@ public class Enemy : EnemyEntity
     }
     public void Attack()
     {
-        hitboxHit.EnableHitbox();
+        GetComponent<HitboxHitHumanoidMonster>().EnableHitbox();
     }
     public void DisactiveAttack()
     {
-        //switch the enemy to Chase state after attacking
-        hitboxHit.DisableHitbox();
-        ChangeState(new EnemyChaseState());
+        GetComponent<HitboxHitHumanoidMonster>().DisableHitbox();
     }
 
     public void StopMoving()
@@ -117,17 +119,5 @@ public class Enemy : EnemyEntity
                 Debug.Log("Player found, dealing damage.");
             }
         }
-    }
-    private void OnDisable()
-    {
-        if (isServer) EnemyManager.Instance?.UnregisterEnemy(this);
-    }
-    public void ResetState()
-    {
-        ChangeState(new EnemyIdleState());
-    }
-    public void SleepState()
-    {
-        ChangeState(new EnemySleepState());
     }
 }
