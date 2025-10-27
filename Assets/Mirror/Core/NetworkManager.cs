@@ -694,7 +694,8 @@ namespace Mirror
                     // Force the object to scene root, in case user made it a child of something
                     // in the scene since DDOL is only allowed for scene root objects
                     transform.SetParent(null);
-                    DontDestroyOnLoad(gameObject);
+                    
+
                 }
             }
             else

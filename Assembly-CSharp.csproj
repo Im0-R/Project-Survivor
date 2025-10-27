@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{166D3527-D177-CE81-3200-4FFD22F1BE85}</ProjectGuid>
+    <ProjectGuid>{265D3B64-B4EF-B699-5A05-AC699320506E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -82,9 +82,11 @@
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyPool.cs" />
     <Compile Include="Assets\Scripts\Misc\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Spells\Spell.cs" />
+    <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
@@ -94,11 +96,13 @@
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
+    <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyRanged.cs" />
     <Compile Include="Assets\Scripts\Spells\Projectile.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyIdleState.cs" />
+    <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashSpell.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEntity.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
@@ -1560,55 +1564,55 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.Components.csproj">
-      <Project>{43E333A3-7B05-D61D-3F9E-95024231027B}</Project>
+      <Project>{ADB119E0-8813-F31B-AF26-C08A78111C88}</Project>
       <Name>Mirror.Components</Name>
     </ProjectReference>
     <ProjectReference Include="kcp2k.csproj">
-      <Project>{82D538A5-A3A7-B989-BFF8-EEA0C0F88125}</Project>
+      <Project>{0069EB4A-2006-271E-0FEA-C9CBDC5A4CCF}</Project>
       <Name>kcp2k</Name>
     </ProjectReference>
     <ProjectReference Include="Edgegap.csproj">
-      <Project>{971984C9-E96C-798B-F84E-A653BF363725}</Project>
+      <Project>{2CA37DF6-9215-FB12-8264-88B7296B4431}</Project>
       <Name>Edgegap</Name>
     </ProjectReference>
     <ProjectReference Include="Mirage.Profiler.csproj">
-      <Project>{DDAD8B9A-B8F1-31D2-7637-C83000709CD8}</Project>
+      <Project>{E35D260A-9A3D-5998-8A5A-3B48E8A45867}</Project>
       <Name>Mirage.Profiler</Name>
     </ProjectReference>
     <ProjectReference Include="SimpleWebTransport.csproj">
-      <Project>{25B769AF-8E1E-BDD7-CE54-266CB4BCB25A}</Project>
+      <Project>{6E00888B-1BBB-2C78-BFCE-A25308A7AF30}</Project>
       <Name>SimpleWebTransport</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Transports.csproj">
-      <Project>{B262A51F-D2D0-767D-B794-225FA6ED8334}</Project>
+      <Project>{494D6C80-A2FF-6130-104B-32E2C6BF591A}</Project>
       <Name>Mirror.Transports</Name>
     </ProjectReference>
     <ProjectReference Include="Mirage.Profiler.Editor.csproj">
-      <Project>{FB5564C4-3C3F-046E-3B7F-87161D7F609A}</Project>
+      <Project>{D1595D05-A5B6-9472-C706-347BDC3AF291}</Project>
       <Name>Mirage.Profiler.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="EncryptionTransportEditor.csproj">
-      <Project>{35F31438-4F08-59B7-39BF-0551A56B320B}</Project>
+      <Project>{6B087B21-BD60-3989-4E48-6BB3C70B62F8}</Project>
       <Name>EncryptionTransportEditor</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Editor.csproj">
-      <Project>{CFC5A686-1275-F290-5D9B-44BDA266CD89}</Project>
+      <Project>{4ED38B52-B7B0-D36A-21DB-10AED66F4C4A}</Project>
       <Name>Mirror.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Authenticators.csproj">
-      <Project>{6527C95E-F1B1-52E7-0A93-9FED6C6BA18E}</Project>
+      <Project>{DF185E8C-4611-F3B0-65AB-33BED3E34ECB}</Project>
       <Name>Mirror.Authenticators</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.CompilerSymbols.csproj">
-      <Project>{8BF78940-3065-A312-A6AA-A93340AE1102}</Project>
+      <Project>{02BCDDAD-B9B5-5A4B-5303-72EA2FD8E846}</Project>
       <Name>Mirror.CompilerSymbols</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{464A5670-4631-445F-52DC-18972BB4FEA2}</Project>
+      <Project>{C1714B8F-A4A8-77C0-E600-B01C087C4B7E}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
     <ProjectReference Include="Telepathy.csproj">
-      <Project>{B2830540-3BE6-6D51-1E0E-336EE47F2952}</Project>
+      <Project>{4A555890-485B-A843-0227-6135FD7C5000}</Project>
       <Name>Telepathy</Name>
     </ProjectReference>
   </ItemGroup>

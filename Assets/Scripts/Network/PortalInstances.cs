@@ -7,5 +7,6 @@ public class PortalInstances : MonoBehaviour , IInteractable
         // Teleport the player to another instances of the MapScene
 
         Debug.Log("Interacted with portal");
+        //InstanceManager.Instance.RequestInstanceChange();
     }
 }

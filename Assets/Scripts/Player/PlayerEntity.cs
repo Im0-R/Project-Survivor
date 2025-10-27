@@ -21,7 +21,7 @@ public class PlayerEntity : NetworkEntity
     public override void OnStartServer()
     {
         base.OnStartServer();
-        InitFromSO();
+        InitStatsFromSO();
         OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
     }
 

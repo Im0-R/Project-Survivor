@@ -17,7 +17,16 @@ public class SpellsManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+    private void Start()
+    {
         DontDestroyOnLoad(gameObject);
+        // Debug log all spell names in the dictionary
+        Debug.Log("Spells available:");
+        foreach (var spellName in spellsDictionary.Keys)
+        {
+            Debug.Log(spellName);
+        }
     }
     public Spell GetSpell(string spellName)
     {

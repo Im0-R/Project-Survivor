@@ -41,18 +41,11 @@ public class NetworkEntity : NetworkBehaviour
 
     public event Action OnDeath;
     public event Action OnLevelUp;
-    protected virtual void Awake()
-    {
-        if (SO == null)
-        {
-            Debug.LogError("StatsDataSO not assigned on " + entityName);
-            return;
-        }
-    }
+    protected virtual void Awake() {; }
     protected virtual void Start()
     {
         if (!isServer) return; //  block client-side execution
-        InitFromSO();
+        InitStatsFromSO();
 
         OnDeath += Die;
         OnLevelUp += LevelUp;
@@ -90,7 +83,7 @@ public class NetworkEntity : NetworkBehaviour
         }
         entityName = statsDataSO.stringName;
     }
-    public void InitFromSO()
+    public void InitStatsFromSO()
     {
         if (SO != null)
         {

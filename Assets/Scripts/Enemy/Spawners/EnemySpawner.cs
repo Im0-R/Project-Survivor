@@ -4,19 +4,16 @@ using Mirror;
 public class EnemySpawner : NetworkBehaviour
 {
     [Header("Spawner Settings")]
-    [SerializeField] private GameObject[] enemyPrefabs; // tes prefabs (Zombie, etc.)
-    [SerializeField] private float spawnRadius = 10f;   // rayon autour du joueur
-    [SerializeField] private float spawnRate = 3f;  // temps entre les spawns
-    [SerializeField] private int swarmSize = 3; // nombre d'ennemis à spawn à chaque fois
+    [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private float spawnRadius = 10f;   //radius around player
+    [SerializeField] private float spawnRate = 3f;
+    [SerializeField] private int swarmSize = 3; // number of enemies to spawn each interval
 
     [SerializeField] float timer = 0;
-    void Start()
-    {
-        timer = 0;
-    }
+
     void Update()
     {
-        if (!isServer) return; // seulement le Host spawn les ennemis
+        if (!isServer) return; // only Host /Server should handle spawning
 
         timer -= Time.deltaTime;
         if (timer <= 0f)
@@ -34,19 +31,23 @@ public class EnemySpawner : NetworkBehaviour
         var players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length == 0) return;
 
-        // Choisir un joueur aléatoire
+        //Choose a random player
         GameObject player = players[Random.Range(0, players.Length)];
 
-        // Générer une position aléatoire autour du joueur
+        //Spawn position around the player
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
         Vector3 spawnPos = player.transform.position + new Vector3(circle.x, 0, circle.y);
 
-        // Choisir un prefab aléatoire
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        // Choose a random enemy prefab
+        //GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-        // Instancier et spawn sur le réseau
-        GameObject enemyInstance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-        NetworkServer.Spawn(enemyInstance);
+        //// Instantiate and spawn the enemy on the network
+        //GameObject enemyInstance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        //NetworkServer.Spawn(enemyInstance);
+
+
+        // Using EnemyPool to spawn enemy
+        GameObject enemyInstance = EnemyPool.Instance.SpawnEnemy(spawnPos);
 
     }
 }

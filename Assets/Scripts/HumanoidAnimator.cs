@@ -23,10 +23,12 @@ public class HumanoidAnimator : MonoBehaviour
     }
     public void EnableAttackHitbox()
     {
+        enemy.Attack();
         enemy.hitboxHit.EnableHitbox();
     }
     public void DisableAttackHitbox()
     {
+        enemy.DisactiveAttack();
         enemy.hitboxHit.DisableHitbox();
     }
     public void StartAttackAnim()

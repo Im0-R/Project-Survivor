@@ -7,6 +7,9 @@ public class EnemyChaseState : IEnemyState
     public void Enter(Enemy enemy)
     {
         target = enemy.GetClosestPlayer();
+        //Get the skinned mesh renderer color to green in children to indicate chase state
+
+        enemy.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = Color.green;
     }
 
     public void Update(Enemy enemy)

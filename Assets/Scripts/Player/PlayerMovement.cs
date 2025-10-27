@@ -8,6 +8,8 @@ public class PlayerMovement : NetworkBehaviour
     private NavMeshAgent agent;
     private PlayerInputActions inputActions;
     private Camera mainCamera;
+    private GameObject interactableTarget;
+    private bool isHoldingClick = false;
 
     void Awake()
     {
@@ -17,12 +19,14 @@ public class PlayerMovement : NetworkBehaviour
     void OnEnable()
     {
         inputActions.Enable();
-        inputActions.Player.MoveClick.performed += OnMoveClick;
+        inputActions.Player.MoveClick.started += ctx => isHoldingClick = true;
+        inputActions.Player.MoveClick.canceled += ctx => isHoldingClick = false;
     }
 
     void OnDisable()
     {
-        inputActions.Player.MoveClick.performed -= OnMoveClick;
+        inputActions.Player.MoveClick.started -= ctx => isHoldingClick = true;
+        inputActions.Player.MoveClick.canceled -= ctx => isHoldingClick = false;
         inputActions.Disable();
     }
 
@@ -34,8 +38,22 @@ public class PlayerMovement : NetworkBehaviour
         agent.updateRotation = false;  // disable automatic rotation
         mainCamera = Camera.main;
     }
+    private void Update()
+    {
+        if (!isLocalPlayer) return;
 
-    private void OnMoveClick(InputAction.CallbackContext context)
+
+        InteractTarget();
+    }
+    private void FixedUpdate()
+    {
+        if (!isLocalPlayer) return;
+        if (isHoldingClick)
+        {
+            MoveToCursor();
+        }
+    }
+    private void MoveToCursor()
     {
         if (!isLocalPlayer) return;
 
@@ -56,16 +74,36 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
+
     private bool ClickInteractable(RaycastHit hit)
     {
-        if (GetComponent<Collider>().TryGetComponent<IInteractable>(out IInteractable interactable))
+        if (hit.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-            if (Vector3.Distance(transform.position, hit.point) <= 1f)
-            {
-                interactable.OnInteract();
-                return true;
-            }
+            interactableTarget = hit.collider.gameObject;
+            agent.SetDestination(interactableTarget.transform.position);
         }
         return false;
+    }
+    private void OnDrawGizmos()
+    {
+        if (agent != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(agent.destination, 0.2f);
+        }
+    }
+    private void InteractTarget()
+    {
+        if (!interactableTarget) return;
+
+        float distance = Vector3.Distance(transform.position, interactableTarget.transform.position);
+        if (distance < 3f)
+        {
+            if (interactableTarget.TryGetComponent<IInteractable>(out IInteractable interactable))
+            {
+                interactable.OnInteract();
+                interactableTarget = null;
+            }
+        }
     }
 }
