@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{DDAD8B9A-B8F1-31D2-7637-C83000709CD8}</ProjectGuid>
+    <ProjectGuid>{E35D260A-9A3D-5998-8A5A-3B48E8A45867}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Mirage.Profiler</AssemblyName>
@@ -1157,7 +1157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{464A5670-4631-445F-52DC-18972BB4FEA2}</Project>
+      <Project>{C1714B8F-A4A8-77C0-E600-B01C087C4B7E}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
   </ItemGroup>

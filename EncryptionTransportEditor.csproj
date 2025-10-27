@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{35F31438-4F08-59B7-39BF-0551A56B320B}</ProjectGuid>
+    <ProjectGuid>{6B087B21-BD60-3989-4E48-6BB3C70B62F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>EncryptionTransportEditor</AssemblyName>
@@ -1174,7 +1174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.Transports.csproj">
-      <Project>{B262A51F-D2D0-767D-B794-225FA6ED8334}</Project>
+      <Project>{494D6C80-A2FF-6130-104B-32E2C6BF591A}</Project>
       <Name>Mirror.Transports</Name>
     </ProjectReference>
   </ItemGroup>
