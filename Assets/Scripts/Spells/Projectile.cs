@@ -28,7 +28,6 @@ public class Projectile : NetworkBehaviour
         if (isServer) // important : seul le serveur gère le despawn
         {
             Invoke(nameof(DespawnSelf), lifeTime);
-            // lifeTime
         }
     }
 
