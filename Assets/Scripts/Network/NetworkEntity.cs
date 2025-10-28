@@ -129,6 +129,7 @@ public class NetworkEntity : NetworkBehaviour
         if (spell != null)
         {
             spell.ExecuteServer(this);
+            Debug.Log($"CmdCastSpell received from {netIdentity.netId} on server");
         }
         else
         {
