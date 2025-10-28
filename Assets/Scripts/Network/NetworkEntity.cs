@@ -124,8 +124,16 @@ public class NetworkEntity : NetworkBehaviour
     [Command]
     public void CmdCastSpell(string spellName)
     {
-        Spell spell = GetSpellByTypeName(spellName);
-        spell?.ExecuteServer(this);
+        // Cette méthode est exécutée sur le serveur uniquement
+        Spell spell = SpellsManager.Instance.GetSpell(spellName);
+        if (spell != null)
+        {
+            spell.ExecuteServer(this);
+        }
+        else
+        {
+            Debug.LogWarning($"Spell '{spellName}' not found for entity {name}");
+        }
     }
     [Command]
     public void AddRandomSpell()
