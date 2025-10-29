@@ -10,6 +10,12 @@ public class NetworkEntity : NetworkBehaviour
     // ----------------------- Spells ----------------------- //
     protected List<Spell> activeSpells = new List<Spell>();
 
+
+    // Client list of spells for UI synchronization
+    public readonly SyncList<SpellSyncData> syncedSpells = new SyncList<SpellSyncData>();
+
+
+
     [SerializeField] private StatsDataSO SO;
 
     [SyncVar] public string entityName;
@@ -54,7 +60,10 @@ public class NetworkEntity : NetworkBehaviour
         // 👇 Ici tu peux attribuer un ou plusieurs spells par défaut au spawn si tu veux :
         // AddSpell(SpellsManager.Instance.GetSpell("FireballSpell"));
     }
-
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+    }
     protected virtual void Start()
     {
         // Rien ici — toute la logique d'initialisation est côté serveur
@@ -138,33 +147,61 @@ public class NetworkEntity : NetworkBehaviour
             return;
         }
 
-        AddSpell(spell);
+        AddSpell(spellName);
     }
 
-    public void AddSpell(Spell spell)
+    [Server]
+    public void AddSpell(string spellName)
     {
-        if (!isServer)
+        // 1. Récupérer le modèle dans SpellsManager
+        Spell template = SpellsManager.Instance.GetSpell(spellName);
+        if (template == null)
         {
-            Debug.LogWarning("[CLIENT] AddSpell appelé sur le client — ignoré. Utilise CmdAddSpell.");
+            Debug.LogWarning($"[SERVER] AddSpell failed: spell '{spellName}' not found.");
             return;
         }
 
-        if (spell == null)
-        {
-            Debug.LogWarning("[SERVER] AddSpell reçu un spell null.");
-            return;
-        }
+        // 2. Créer une instance du spell
+        Spell newSpell = (Spell)Activator.CreateInstance(template.GetType());
+        Spell.SpellData newData = template.GetData().Clone();
+        newSpell.Init(newData);
 
-        Debug.Log($"[SERVER] Adding spell {spell.GetData().spellName} to {entityName}");
-        spell.OnAdd(this);
-        activeSpells.Add(spell);
+        // 3. Ajouter à la liste serveur
+        activeSpells.Add(newSpell);
+        newSpell.OnAdd(this);
+
+        // 4. Remplir le SpellSyncData pour le client
+        SpellSyncData syncData = new SpellSyncData(
+            newData.spellName,
+            newData.spellTypeID,
+            newData.description,
+            newData.manaCost,
+            newData.cooldown,
+            newData.damage,
+            newData.range,
+            newData.speed,
+            newData.currentLevel,
+            newData.maxLevel
+        );
+
+        // 5. Ajouter dans la SyncList
+        syncedSpells.Add(syncData);
+
+        Debug.Log($"[SERVER] Spell ajouté: {newData.spellName} à {entityName}");
     }
 
-    public void RemoveSpell(Spell spell)
+    [Server]
+    public void RemoveSpell(string spellName)
     {
-        if (!isServer) return;
-        spell.OnRemove(this);
+        Spell spell = GetSpellByName(spellName);
+        if (spell == null) return;
+
         activeSpells.Remove(spell);
+        spell.OnRemove(this);
+
+        int index = syncedSpells.FindIndex(s => s.spellName == spellName);
+        if (index >= 0)
+            syncedSpells.RemoveAt(index);
     }
 
     public T GetSpell<T>() where T : Spell

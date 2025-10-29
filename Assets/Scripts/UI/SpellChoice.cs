@@ -79,7 +79,7 @@ public class SpellChoice : MonoBehaviour
     {
         if (isNewSpell)
         {
-            PlayerUI.Instance.playerEnt.AddSpell(spellLinked);
+            PlayerUI.Instance.playerEnt.CmdAddSpell(spellLinked.GetData().spellName);
         }
         else
         {

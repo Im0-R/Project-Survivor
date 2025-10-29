@@ -6,7 +6,8 @@ public class SpellsManager : MonoBehaviour
 {
     public static SpellsManager Instance { get; private set; }
 
-    [Header("Spells")]
+    [Header("Spells Database")]
+    [Tooltip("Liste des sorts disponibles dans le jeu.")]
     public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new SerializableDictionary<string, Spell.SpellData>();
 
     private void Awake()
@@ -17,17 +18,19 @@ public class SpellsManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
-        // Debug log all spell names in the dictionary
-        Debug.Log("Spells available:");
-        foreach (var spellName in spellsDictionary.Keys)
-        {
-            Debug.Log(spellName);
-        }
+        Debug.Log($"[SpellsManager] {spellsDictionary.Count} spells enregistrés :");
+        foreach (var key in spellsDictionary.Keys)
+            Debug.Log($" - {key}");
     }
+
+    /// <summary>
+    /// Récupère une nouvelle instance de Spell à partir de son nom.
+    /// </summary>
     public Spell GetSpell(string spellName)
     {
         if (spellsDictionary.TryGetValue(spellName, out Spell.SpellData spellData))
@@ -35,27 +38,28 @@ public class SpellsManager : MonoBehaviour
             Type spellType = spellData.spellType.SpellType;
             if (spellType == null)
             {
-                Debug.LogError("SpellType missing in SpellData !");
+                Debug.LogError($"[SpellsManager] SpellType manquant pour {spellName} !");
                 return null;
             }
 
-            // new instance of SpellData to avoid shared reference 
-
             Spell.SpellData clonedData = spellData.Clone();
-
             Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
             spellInstance.Init(clonedData);
             return spellInstance;
         }
-        Debug.LogError($"Spell '{spellName}' not found in dictionary !");
+
+        Debug.LogError($"[SpellsManager] Spell '{spellName}' introuvable dans le dictionnaire !");
         return null;
     }
 
+    /// <summary>
+    /// Retourne une instance aléatoire d'un spell (parmi tous les spells disponibles).
+    /// </summary>
     public Spell GetRandomSpell()
     {
         if (spellsDictionary.Count == 0)
         {
-            Debug.LogWarning("Aucun spellLinked dans le dictionnaire !");
+            Debug.LogWarning("[SpellsManager] Aucun spell dans le dictionnaire !");
             return null;
         }
 
@@ -65,30 +69,33 @@ public class SpellsManager : MonoBehaviour
         Type spellType = spellData.spellType.SpellType;
         if (spellType == null)
         {
-            Debug.LogError("SpellType missing in SpellData !");
+            Debug.LogError("[SpellsManager] SpellType manquant !");
             return null;
         }
 
-        // new instance of SpellData to avoid shared reference 
-
         Spell.SpellData clonedData = spellData.Clone();
-
         Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
         spellInstance.Init(clonedData);
         return spellInstance;
     }
 
+    /// <summary>
+    /// Retourne une instance d'un spell aléatoire que le joueur ne possède pas encore.
+    /// </summary>
     public Spell GetRandomSpellNotOwned()
     {
         var playerEnt = PlayerUI.Instance.playerEnt;
-        var ownedSpellsNames = System.Linq.Enumerable.ToHashSet(
-            playerEnt.GetAllActiveSpells().Select(s => s.GetData().spellName)
-        );
-        var availableSpells = spellsDictionary.Values.Where(sd => !ownedSpellsNames.Contains(sd.spellName)).ToList();
+        var ownedSpells = playerEnt.GetAllActiveSpells()
+            .Select(s => s.GetData().spellName)
+            .ToHashSet();
+
+        var availableSpells = spellsDictionary.Values
+            .Where(sd => !ownedSpells.Contains(sd.spellName))
+            .ToList();
 
         if (availableSpells.Count == 0)
         {
-            Debug.LogWarning("Player already owns all spells !");
+            Debug.LogWarning("[SpellsManager] Le joueur possède déjà tous les sorts !");
             return null;
         }
 
@@ -97,17 +104,33 @@ public class SpellsManager : MonoBehaviour
         Type spellType = spellData.spellType.SpellType;
         if (spellType == null)
         {
-            Debug.LogError("SpellType missing in SpellData !");
+            Debug.LogError("[SpellsManager] SpellType manquant !");
             return null;
         }
 
-        // new instance of SpellData to avoid shared reference 
-
         Spell.SpellData clonedData = spellData.Clone();
-
         Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
         spellInstance.Init(clonedData);
         return spellInstance;
     }
 
+    /// <summary>
+    /// Retourne l'icône Sprite d'un spell à partir de son ID (spellName ou spellTypeID).
+    /// </summary>
+    public Sprite GetSpellIcon(string spellTypeID)
+    {
+        // 1. Essaye avec spellName
+        if (spellsDictionary.TryGetValue(spellTypeID, out var dataByName))
+            return dataByName.UISprite;
+
+        // 2. Si c'est un type ID, on cherche dans les valeurs
+        foreach (var kvp in spellsDictionary)
+        {
+            if (kvp.Value.spellTypeID == spellTypeID)
+                return kvp.Value.UISprite;
+        }
+
+        Debug.LogWarning($"[SpellsManager] Icône introuvable pour '{spellTypeID}'");
+        return null;
+    }
 }
