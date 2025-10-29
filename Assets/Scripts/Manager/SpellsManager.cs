@@ -117,20 +117,20 @@ public class SpellsManager : MonoBehaviour
     /// <summary>
     /// Retourne l'icône Sprite d'un spell à partir de son ID (spellName ou spellTypeID).
     /// </summary>
-    public Sprite GetSpellIcon(string spellTypeID)
+    public Sprite GetSpellIcon(string spellName)
     {
         // 1. Essaye avec spellName
-        if (spellsDictionary.TryGetValue(spellTypeID, out var dataByName))
+        if (spellsDictionary.TryGetValue(spellName, out var dataByName))
             return dataByName.UISprite;
 
         // 2. Si c'est un type ID, on cherche dans les valeurs
         foreach (var kvp in spellsDictionary)
         {
-            if (kvp.Value.spellTypeID == spellTypeID)
+            if (kvp.Value.spellName == spellName)
                 return kvp.Value.UISprite;
         }
 
-        Debug.LogWarning($"[SpellsManager] Icône introuvable pour '{spellTypeID}'");
+        Debug.LogWarning($"[SpellsManager] Icône introuvable pour '{spellName}'");
         return null;
     }
 }

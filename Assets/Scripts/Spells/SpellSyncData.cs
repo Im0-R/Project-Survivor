@@ -3,7 +3,6 @@ using Mirror;
 public struct SpellSyncData
 {
     public string spellName;
-    public string spellTypeID;
     public string description;
     public int manaCost;
     public float cooldown;
@@ -15,7 +14,6 @@ public struct SpellSyncData
 
     public SpellSyncData(
         string spellName,
-        string spellTypeID,
         string description,
         int manaCost,
         float cooldown,
@@ -26,7 +24,6 @@ public struct SpellSyncData
         int maxLevel)
     {
         this.spellName = spellName;
-        this.spellTypeID = spellTypeID;
         this.description = description;
         this.manaCost = manaCost;
         this.cooldown = cooldown;

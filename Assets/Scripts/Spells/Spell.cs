@@ -12,7 +12,6 @@ public abstract class Spell
     public class SpellData
     {
         public SpellTypeReference spellType;
-        public string spellTypeID;
         public Sprite UISprite;
         public string spellName;
         public GameObject prefab;

@@ -173,7 +173,6 @@ public class NetworkEntity : NetworkBehaviour
         // 4. Remplir le SpellSyncData pour le client
         SpellSyncData syncData = new SpellSyncData(
             newData.spellName,
-            newData.spellTypeID,
             newData.description,
             newData.manaCost,
             newData.cooldown,
