@@ -104,7 +104,19 @@ public class NetworkEntity : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Debug.Log($"[CLIENT] {entityName} initialized with {syncedSpells.Count} spells");
+
+        // 1) écouter les changements
+        syncedSpells.Callback += OnSyncedSpellsChanged;
+
+        // 2) synchro initiale (si le client arrive après)
+        RebuildLocalSpellsFromSynced();
+    }
+
+    public override void OnStopClient()
+    {
+        // proprement se désabonner
+        syncedSpells.Callback -= OnSyncedSpellsChanged;
+        base.OnStopClient();
     }
 
     protected virtual void Start()
@@ -168,18 +180,19 @@ public class NetworkEntity : NetworkBehaviour
     [Command]
     public void CmdCastSpell(string spellName)
     {
-        Spell spell = GetSpellByName(spellName);
-        if (spell != null)
-        {
-            spell.ExecuteServer(this);
-            Debug.Log($"[SERVER] CmdCastSpell: {entityName} cast {spellName}");
-        }
-        else
-        {
-            Debug.LogWarning($"[SERVER] Spell '{spellName}' not found on {entityName}");
-        }
+        var spell = GetSpellByName(spellName);
+        if (spell == null) { Debug.LogWarning($"[SERVER] {spellName} introuvable"); return; }
+
+        spell.ExecuteServer(this);
+        RpcCastSpell(spellName); // tous les clients, y compris l’initiateur
     }
 
+    [ClientRpc]
+    void RpcCastSpell(string spellName)
+    {
+        var spell = GetSpellByName(spellName);
+        spell?.ExecuteClient(this); // VFX / anim côté client
+    }
     [Command]
     public void CmdAddSpell(string spellName)
     {
@@ -295,6 +308,92 @@ public class NetworkEntity : NetworkBehaviour
         int index = UnityEngine.Random.Range(0, activeSpells.Count);
         return activeSpells[index];
     }
+    // Callback commun à TOUTES les opérations (add, removeAt, clear, set, insert)
+    private void OnSyncedSpellsChanged(Mirror.SyncList<SpellSyncData>.Operation op, int index, SpellSyncData oldItem, SpellSyncData newItem)
+    {
+        // Peu importe l'opération, on régénère proprement la table locale
+        RebuildLocalSpellsFromSynced();
+    }
+
+    // Reconstruit activeSpells côté CLIENT à partir de syncedSpells + SpellsManager
+    private void RebuildLocalSpellsFromSynced()
+    {
+        if (!isClient) return;
+        if (SpellsManager.Instance == null)
+        {
+            Debug.LogError("[CLIENT] SpellsManager non initialisé !");
+            return;
+        }
+
+        // On jette l’ancien cache local et on repart de la vérité réseau
+        activeSpells.Clear();
+
+        foreach (var s in syncedSpells)
+        {
+            // Récupération depuis la banque (ta “DB” locale)
+            Spell spell = SpellsManager.Instance.GetSpell(s.spellName);
+            if (spell == null)
+            {
+                Debug.LogWarning($"[CLIENT] Spell '{s.spellName}' introuvable dans SpellsManager.");
+                continue;
+            }
+
+            // Appliquer les champs dynamiques syncés
+            var d = spell.GetData();
+            d.currentLevel = s.currentLevel;
+            d.maxLevel = s.maxLevel;
+            d.cooldown = s.cooldown;
+            d.manaCost = s.manaCost;
+            d.damage = s.damage;
+            d.description = s.description;
+            spell.Init(d);
+
+            activeSpells.Add(spell);
+        }
+
+        Debug.Log($"[CLIENT] Rebuild spells OK, {activeSpells.Count} sorts pour {entityName}.");
+    }
+
+    private void LocalAddSpell(SpellSyncData data)
+    {
+        if (SpellsManager.Instance == null)
+        {
+            Debug.LogError("[CLIENT] SpellsManager non initialisé !");
+            return;
+        }
+
+        // On récupère la définition depuis la banque (et pas un nouveau type inventé)
+        Spell spell = SpellsManager.Instance.GetSpell(data.spellName);
+        if (spell == null)
+        {
+            Debug.LogWarning($"[CLIENT] Spell '{data.spellName}' introuvable dans SpellsManager !");
+            return;
+        }
+
+        // Appliquer les stats synchronisées (niveau, cooldown, etc.)
+        var spellData = spell.GetData();
+        spellData.currentLevel = data.currentLevel;
+        spellData.maxLevel = data.maxLevel;
+        spellData.cooldown = data.cooldown;
+        spellData.manaCost = data.manaCost;
+        spellData.damage = data.damage;
+        spellData.description = data.description;
+        spell.Init(spellData);
+
+        activeSpells.Add(spell);
+        Debug.Log($"[CLIENT] Spell '{spellData.spellName}' ajouté localement à {entityName}");
+    }
+
+    private void LocalRemoveSpell(string spellName)
+    {
+        Spell spell = GetSpellByName(spellName);
+        if (spell != null)
+        {
+            activeSpells.Remove(spell);
+            Debug.Log($"[CLIENT] Spell '{spellName}' retiré localement de {entityName}");
+        }
+    }
+
 
     public List<Spell> GetAllActiveSpells() => activeSpells;
 

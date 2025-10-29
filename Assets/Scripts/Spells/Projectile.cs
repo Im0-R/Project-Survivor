@@ -57,7 +57,7 @@ public class Projectile : NetworkBehaviour
         var otherNetEntity = other.GetComponent<NetworkEntity>();
         if (otherNetEntity != null && otherNetEntity != owner)
         {
-            // Check friendly fire
+            // Check friendly fire 
             if (otherNetEntity is PlayerEntity && owner is PlayerEntity) return;
             if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
 
@@ -66,20 +66,8 @@ public class Projectile : NetworkBehaviour
         }
     }
     [Server]
-    private void DespawnSelf()
+    public void DespawnSelf()
     {
-        if (hasDespawned) return;
-        hasDespawned = true;
-
-        if (isServer)
-        {
-            // Détruit l'objet sur le serveur ET tous les clients
-            NetworkServer.Destroy(gameObject);
-        }
-        else
-        {
-            // Si on n'est pas sur le serveur (ex: client local), on le détruit juste localement
-            Destroy(gameObject);
-        }
+        EnemyPool.Instance?.DespawnEnemy(gameObject);
     }
 }

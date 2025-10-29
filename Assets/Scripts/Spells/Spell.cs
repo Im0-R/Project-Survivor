@@ -67,6 +67,10 @@ public abstract class Spell
 
     public SpellData GetData() { return data; }
     public abstract void ExecuteServer(NetworkEntity owner);
+    public virtual void ExecuteClient(NetworkEntity owner)
+    {
+        Debug.Log($"[CLIENT] Visuel de cast de {data.spellName} pour {owner.entityName}");
+    }
 
     public void LevelUp()
     {
