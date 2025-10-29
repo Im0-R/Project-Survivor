@@ -177,6 +177,7 @@ public class NetworkEntity : NetworkBehaviour
     {
         foreach (var spell in activeSpells)
         {
+            Debug.Log($"[NetworkEntity] Updating spell {spell.GetData().spellName} for {name}");
             spell.UpdateSpell(this);
         }
     }

@@ -29,7 +29,6 @@ public class SpellChoice : MonoBehaviour
             {
                 isNewSpell = true;
                 spellLinked = SpellsManager.Instance.GetRandomSpellNotOwned();
-                Debug.Log("Got new spell: " + spellLinked.GetData().spellName);
             }
             else
             {

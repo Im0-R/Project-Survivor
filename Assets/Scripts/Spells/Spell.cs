@@ -46,9 +46,11 @@ public abstract class Spell
     {
         if (this.data.autoCast && Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
+            Debug.Log($"Auto TryCast called on server for {owner}");
             if (owner != null)
             {
                 owner.CmdCastSpell(GetType().Name);
+                Debug.Log("Spell Command sent");
             }
             else
             {
@@ -60,10 +62,14 @@ public abstract class Spell
 
     public void TryCast(NetworkEntity netEntity)
     {
+        Debug.Log($"TryCast called on client, hasAuthority = {netEntity}");
         if (Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
             if (netEntity != null)
+            {
                 netEntity.CmdCastSpell(GetType().Name);
+                Debug.Log("Spell Command sent");
+            }
             else
                 ExecuteServer(netEntity);
 
