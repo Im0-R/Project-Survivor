@@ -5,16 +5,60 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
+#region 🔧 Mirror custom writer/reader registration
+
+public static class MirrorWritersRegistration
+{
+    [RuntimeInitializeOnLoadMethod]
+    static void RegisterCustomWriters()
+    {
+        // Writer for SpellSyncData
+        Writer<SpellSyncData>.write = (writer, value) =>
+        {
+            writer.WriteString(value.spellName);
+            writer.WriteString(value.description);
+            writer.WriteInt(value.manaCost);
+            writer.WriteFloat(value.cooldown);
+            writer.WriteFloat(value.damage);
+            writer.WriteFloat(value.range);
+            writer.WriteFloat(value.speed);
+            writer.WriteInt(value.currentLevel);
+            writer.WriteInt(value.maxLevel);
+        };
+
+        // Reader for SpellSyncData
+        Reader<SpellSyncData>.read = reader =>
+        {
+            SpellSyncData data = new SpellSyncData();
+            data.spellName = reader.ReadString();
+            data.description = reader.ReadString();
+            data.manaCost = reader.ReadInt();
+            data.cooldown = reader.ReadFloat();
+            data.damage = reader.ReadFloat();
+            data.range = reader.ReadFloat();
+            data.speed = reader.ReadFloat();
+            data.currentLevel = reader.ReadInt();
+            data.maxLevel = reader.ReadInt();
+            return data;
+        };
+
+        Debug.Log("[Mirror] Custom Writers/Readers for SpellSyncData registered successfully.");
+    }
+}
+
+#endregion
+
+// ========================================================================== //
+// ==============================  NetworkEntity  =========================== //
+// ========================================================================== //
+
 public class NetworkEntity : NetworkBehaviour
 {
     // ----------------------- Spells ----------------------- //
     protected List<Spell> activeSpells = new List<Spell>();
 
-
     // Client list of spells for UI synchronization
     public readonly SyncList<SpellSyncData> syncedSpells = new SyncList<SpellSyncData>();
-
-
 
     [SerializeField] private StatsDataSO SO;
 
@@ -31,7 +75,6 @@ public class NetworkEntity : NetworkBehaviour
     [SyncVar] public float maxMana;
     [SyncVar] public float currentHealth;
     [SyncVar] public float currentMana;
-
     [SyncVar] public float healthRegen;
     [SyncVar] public float manaRegen;
 
@@ -56,14 +99,14 @@ public class NetworkEntity : NetworkBehaviour
         InitStatsFromSO();
         OnDeath += Die;
         OnLevelUp += LevelUp;
-
-        // 👇 Ici tu peux attribuer un ou plusieurs spells par défaut au spawn si tu veux :
-        // AddSpell(SpellsManager.Instance.GetSpell("FireballSpell"));
     }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
+        Debug.Log($"[CLIENT] {entityName} initialized with {syncedSpells.Count} spells");
     }
+
     protected virtual void Start()
     {
         // Rien ici — toute la logique d'initialisation est côté serveur
@@ -153,7 +196,6 @@ public class NetworkEntity : NetworkBehaviour
     [Server]
     public void AddSpell(string spellName)
     {
-        // 1. Récupérer le modèle dans SpellsManager
         Spell template = SpellsManager.Instance.GetSpell(spellName);
         if (template == null)
         {
@@ -161,16 +203,13 @@ public class NetworkEntity : NetworkBehaviour
             return;
         }
 
-        // 2. Créer une instance du spell
         Spell newSpell = (Spell)Activator.CreateInstance(template.GetType());
         Spell.SpellData newData = template.GetData().Clone();
         newSpell.Init(newData);
 
-        // 3. Ajouter à la liste serveur
         activeSpells.Add(newSpell);
         newSpell.OnAdd(this);
 
-        // 4. Remplir le SpellSyncData pour le client
         SpellSyncData syncData = new SpellSyncData(
             newData.spellName,
             newData.description,
@@ -183,9 +222,7 @@ public class NetworkEntity : NetworkBehaviour
             newData.maxLevel
         );
 
-        // 5. Ajouter dans la SyncList
         syncedSpells.Add(syncData);
-
         Debug.Log($"[SERVER] Spell ajouté: {newData.spellName} à {entityName}");
     }
 
@@ -226,7 +263,6 @@ public class NetworkEntity : NetworkBehaviour
 
     public void UpdateSpells()
     {
-        Debug.Log($"[SERVER] {entityName} has {activeSpells.Count} active spells");
         foreach (var spell in activeSpells)
             spell.UpdateSpell(this);
     }
