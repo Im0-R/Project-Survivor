@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 4289
+  controlID: 5116
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 4290
+  controlID: 5117
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -1001,8 +1001,8 @@ MonoBehaviour:
     y: 0
     width: 305
     height: 933
-  m_MinSize: {x: 202, y: 226}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 5ac8feff
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 5ac8feff0efbfffff4ffffff3afb0000
       m_RenameOverlay:
@@ -1147,7 +1147,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Spells
+    - Assets/Scripts/Enemy
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1192,7 +1192,7 @@ MonoBehaviour:
       m_ResourceFile: 
   m_AssetTreeState:
     scrollPos: {x: 0, y: 227}
-    m_SelectedIDs: 5ac8feff
+    m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: ffffffff00000000940200009602000076fa00007eff000094ff0000d6360100d8360100da360100dc360100de360100e0360100e2360100e4360100e6360100e8360100ea360100ec360100ee360100f0360100f2360100f4360100f6360100fa360100fc360100fe36010000370100023701000437010006370100083701000a3701000e370100123701001437010016370100183701001e37010020370100223701002437010026370100283701002a3701002c3701002e370100303701003237010034370100363701000c3801002238010026380100
     m_RenameOverlay:
@@ -1220,8 +1220,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 5ac8feff
-    m_LastClickedInstanceID: -79782
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:

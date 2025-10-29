@@ -47,35 +47,24 @@ public abstract class Spell
         if (this.data.autoCast && Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
             Debug.Log($"Auto TryCast called on server for {owner}");
-            if (owner != null)
-            {
-                owner.CmdCastSpell(GetType().Name);
-                Debug.Log("Spell Command sent");
-            }
-            else
-            {
-                ExecuteServer(owner);
-            }
+            ExecuteServer(owner);
             this.data.lastCastTime = Time.time;
         }
     }
 
     public void TryCast(NetworkEntity netEntity)
     {
-        Debug.Log($"TryCast called on client, hasAuthority = {netEntity}");
-        if (Time.time >= this.data.lastCastTime + this.data.cooldown)
-        {
-            if (netEntity != null)
-            {
-                netEntity.CmdCastSpell(GetType().Name);
-                Debug.Log("Spell Command sent");
-            }
-            else
-                ExecuteServer(netEntity);
+        // Only the server can execute spells
+        if (!netEntity.isServer) return;
 
-            this.data.lastCastTime = Time.time;
+        if (Time.time >= data.lastCastTime + data.cooldown)
+        {
+            Debug.Log($"[SERVER] Manual cast {data.spellName} from {netEntity.name}");
+            ExecuteServer(netEntity);
+            data.lastCastTime = Time.time;
         }
     }
+
     public SpellData GetData() { return data; }
     public abstract void ExecuteServer(NetworkEntity owner);
 
