@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+
 public class NetworkEntity : NetworkBehaviour
 {
-
-    // List of active spells on this entity
+    // ----------------------- Spells ----------------------- //
     protected List<Spell> activeSpells = new List<Spell>();
 
-
-    // Stats to give at start
     [SerializeField] private StatsDataSO SO;
 
-    [SyncVar] public String entityName;
-    // Leveling Stats
+    [SyncVar] public string entityName;
+
+    // Leveling stats
     [SyncVar] public int level;
     [SyncVar] public float experience;
     [SyncVar] public float maxExperience;
     [SyncVar] public float expMultiPerLevel;
+
     // Defensive stats
     [SyncVar] public float maxHealth;
     [SyncVar] public float maxMana;
@@ -29,7 +29,7 @@ public class NetworkEntity : NetworkBehaviour
     [SyncVar] public float healthRegen;
     [SyncVar] public float manaRegen;
 
-    //Offensive stats
+    // Offensive stats
     [SyncVar] public float movementSpeedMultiplier;
     [SyncVar] public float cooldownReduction;
     [SyncVar] public float criticalStrikeChance;
@@ -41,75 +41,69 @@ public class NetworkEntity : NetworkBehaviour
 
     public event Action OnDeath;
     public event Action OnLevelUp;
-    protected virtual void Awake() {; }
-    protected virtual void Start()
-    {
-        if (!isServer) return; //  block client-side execution
-        InitStatsFromSO();
 
+    protected virtual void Awake() { }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        InitStatsFromSO();
         OnDeath += Die;
         OnLevelUp += LevelUp;
+
+        // 👇 Ici tu peux attribuer un ou plusieurs spells par défaut au spawn si tu veux :
+        // AddSpell(SpellsManager.Instance.GetSpell("FireballSpell"));
+    }
+
+    protected virtual void Start()
+    {
+        // Rien ici — toute la logique d'initialisation est côté serveur
     }
 
     protected virtual void Update()
     {
         if (!isServer) return;
-        // Update auto casts spells server-side 
         UpdateSpells();
     }
 
+    // ----------------------- Stats ----------------------- //
+
     public void ApplyStatsFromSO(StatsDataSO statsDataSO)
     {
-        if (!isServer) return; // Only Server
+        if (!isServer) return;
 
         var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
         var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var soField in soFields)
         {
-            // Look for a matching field in NetworkEntity
             var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
             if (entityField == null) continue;
 
-            // Get the value from the ScriptableObject
             var soValue = soField.GetValue(statsDataSO);
-
-            // Make sure the field is not read-only
             if (entityField.IsPublic && !entityField.IsInitOnly)
-            {
-                // Assign the value to the NetworkEntity field
                 entityField.SetValue(this, soValue);
-            }
         }
+
         entityName = statsDataSO.stringName;
     }
+
     public void InitStatsFromSO()
     {
-        if (SO != null)
-        {
-            ApplyStatsFromSO(SO);
-        }
-        else
-        {
-            Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
-        }
+        if (SO != null) ApplyStatsFromSO(SO);
+        else Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
     }
-
 
     protected virtual void Die()
     {
-        if (isServer) //Only Server can destroy objects
-        {
-            if (TryGetComponent<NetworkIdentity>(out var netIdentity))
-            {
-                NetworkServer.Destroy(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        if (!isServer) return;
+
+        if (TryGetComponent<NetworkIdentity>(out var netIdentity))
+            NetworkServer.Destroy(gameObject);
+        else
+            Destroy(gameObject);
     }
+
     public void CmdApplyDamage(float amount)
     {
         currentHealth -= amount;
@@ -117,39 +111,58 @@ public class NetworkEntity : NetworkBehaviour
             OnDeath?.Invoke();
     }
 
+    // ----------------------- Spells ----------------------- //
 
-
-
-    //------------------------------------------------Spells management side-----------------------------------------\\
     [Command]
     public void CmdCastSpell(string spellName)
     {
-        // Cette méthode est exécutée sur le serveur uniquement
-        Spell spell = SpellsManager.Instance.GetSpell(spellName);
+        Spell spell = GetSpellByName(spellName);
         if (spell != null)
         {
             spell.ExecuteServer(this);
-            Debug.Log($"CmdCastSpell received from {netIdentity.netId} on server");
+            Debug.Log($"[SERVER] CmdCastSpell: {entityName} cast {spellName}");
         }
         else
         {
-            Debug.LogWarning($"Spell '{spellName}' not found for entity {name}");
+            Debug.LogWarning($"[SERVER] Spell '{spellName}' not found on {entityName}");
         }
     }
-    [Command]
-    public void AddRandomSpell()
-    {
 
+    [Command]
+    public void CmdAddSpell(string spellName)
+    {
+        Spell spell = SpellsManager.Instance.GetSpell(spellName);
+        if (spell == null)
+        {
+            Debug.LogWarning($"[SERVER] CmdAddSpell failed: spell '{spellName}' not found.");
+            return;
+        }
+
+        AddSpell(spell);
     }
+
     public void AddSpell(Spell spell)
     {
-        Debug.Log($"[NetworkEntity] Adding spell {spell.GetData().spellName} to {name}");
+        if (!isServer)
+        {
+            Debug.LogWarning("[CLIENT] AddSpell appelé sur le client — ignoré. Utilise CmdAddSpell.");
+            return;
+        }
+
+        if (spell == null)
+        {
+            Debug.LogWarning("[SERVER] AddSpell reçu un spell null.");
+            return;
+        }
+
+        Debug.Log($"[SERVER] Adding spell {spell.GetData().spellName} to {entityName}");
         spell.OnAdd(this);
         activeSpells.Add(spell);
     }
 
     public void RemoveSpell(Spell spell)
     {
+        if (!isServer) return;
         spell.OnRemove(this);
         activeSpells.Remove(spell);
     }
@@ -167,79 +180,75 @@ public class NetworkEntity : NetworkBehaviour
             if (s.GetType().Name == name) return s;
         return null;
     }
+
     public Spell GetSpellByName(string spellName)
     {
         foreach (var s in activeSpells)
             if (s.GetData().spellName == spellName) return s;
         return null;
     }
+
     public void UpdateSpells()
     {
+        Debug.Log($"[SERVER] {entityName} has {activeSpells.Count} active spells");
         foreach (var spell in activeSpells)
-        {
-            Debug.Log($"[NetworkEntity] Updating spell {spell.GetData().spellName} for {name}");
             spell.UpdateSpell(this);
-        }
     }
+
     public void UpgradeSpell(string spellName)
     {
         Spell spell = GetSpellByName(spellName);
         if (spell != null)
         {
-            MethodInfo upgradeMethod = spell.GetType().GetMethod("Upgrade");
+            var upgradeMethod = spell.GetType().GetMethod("Upgrade");
             if (upgradeMethod != null)
             {
                 upgradeMethod.Invoke(spell, null);
+                Debug.Log($"[SERVER] {spellName} upgraded for {entityName}");
             }
             else
             {
-                Debug.LogWarning($"Spell {spellName} does not have an Upgrade method.");
+                Debug.LogWarning($"[SERVER] Spell {spellName} does not have an Upgrade method.");
             }
         }
         else
         {
-            Debug.LogWarning($"Spell {spellName} not found on entity.");
+            Debug.LogWarning($"[SERVER] Spell {spellName} not found on {entityName}.");
         }
     }
+
     public Spell GetRandomSpellFromActivesSpells()
     {
         if (activeSpells.Count == 0) return null;
         int index = UnityEngine.Random.Range(0, activeSpells.Count);
         return activeSpells[index];
     }
-    public List<Spell> GetAllActiveSpells()
-    {
-        return activeSpells;
-    }
 
-    //Exp and Leveling
+    public List<Spell> GetAllActiveSpells() => activeSpells;
+
+    // ----------------------- XP & Level ----------------------- //
 
     public void GainExperience(float amount)
     {
-        if (!isServer) return; //  block client-side execution
+        if (!isServer) return;
         experience += amount;
         while (experience >= maxExperience)
-        {
             OnLevelUp?.Invoke();
-        }
     }
+
     public void LevelUp()
     {
-        if (!isServer) return; //  block client-side execution
+        if (!isServer) return;
 
-        Debug.Log($"{name} leveled up to level {level + 1}!");
+        Debug.Log($"{entityName} leveled up to level {level + 1}!");
         experience -= maxExperience;
         level++;
         maxExperience *= expMultiPerLevel;
-        // On level up, increase stats a bit
         maxHealth *= 1.1f;
         maxMana *= 1.1f;
-        currentMana = maxMana; // Refill mana on level up
-        currentHealth += maxHealth / 10f; // Heal 10 % of max health on level up
+        currentMana = maxMana;
+        currentHealth += maxHealth / 10f;
+    }
 
-    }
-    public float GetHealthPourcentage()
-    {
-        return (currentHealth / maxHealth) * 100f;
-    }
+    public float GetHealthPourcentage() => (currentHealth / maxHealth) * 100f;
 }
