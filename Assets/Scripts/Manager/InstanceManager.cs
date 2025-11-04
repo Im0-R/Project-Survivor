@@ -9,7 +9,7 @@ public class InstanceManager : NetworkBehaviour
 
     private readonly Dictionary<int, InstanceInfo> activeInstances = new();
     private int nextInstanceId = 1;
-
+    public const string ipAddress = "72.60.212.58";
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,7 +59,7 @@ public class InstanceManager : NetworkBehaviour
     {
         // Call the client-side instance manager to switch
         if (ClientSideInstanceManager.Instance != null)
-            ClientSideInstanceManager.Instance.SwitchToInstance(ip, (ushort)port);
+            ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port , ip);
         else
             UnityEngine.Debug.LogWarning("ClientSideInstanceManager instance not found!");
     }

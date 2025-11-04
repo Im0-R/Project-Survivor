@@ -22,12 +22,12 @@ public class ClientSideInstanceManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
     }
-    public void SwitchToInstance(string ip, ushort port)
+    public void SwitchToInstance(ushort port, string ip = InstanceManager.ipAddress)
     {
-        StartCoroutine(SwitchRoutine(ip, port));
+        StartCoroutine(SwitchRoutine(port, ip));
     }
 
-    private IEnumerator SwitchRoutine(string ip, ushort port)
+    private IEnumerator SwitchRoutine(ushort port , string ip)
     {
         Debug.Log("Preparing to switch instance...");
 
@@ -57,7 +57,7 @@ public class ClientSideInstanceManager : MonoBehaviour
         while (!asyncLoad.isDone)
             yield return null;
 
-        // Stating client
+        // Starting client
         NetworkManager.singleton.StartClient();
 
         Debug.Log("Switched to new instance successfully!");

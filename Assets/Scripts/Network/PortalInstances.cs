@@ -1,12 +1,20 @@
 using UnityEngine;
+using Mirror;
 
-public class PortalInstances : MonoBehaviour , IInteractable
+public class PortalInstances : NetworkBehaviour, IInteractable
 {
     public void OnInteract()
     {
-        // Teleport the player to another instances of the MapScene
-
+        if (!NetworkClient.active) return; // sécurité client
         Debug.Log("Interacted with portal");
-        //InstanceManager.Instance.RequestInstanceChange();
+        CmdRequestInstance();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdRequestInstance(NetworkConnectionToClient sender = null)
+    {
+        Debug.Log($"[PortalInstances] Creating instance for {sender?.connectionId}");
+        InstanceManager.Instance.CreateInstance(sender);
     }
 }
+
