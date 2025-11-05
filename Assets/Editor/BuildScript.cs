@@ -45,7 +45,7 @@ public static class BuildScript
         else
         {
             UnityEngine.Debug.Log($"Build succeeded: {report.summary.outputPath}");
-            UnityEngine.Debug.Log("Version: " + BuildInfo.Version);
+            BuildInfo.Version = "Build " + System.DateTime.Now.ToString("yyyyMMddHHmm");
         }
     }
 }
