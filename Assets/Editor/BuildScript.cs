@@ -38,11 +38,11 @@ public static class BuildScript
         // result logging
         if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
-            UnityEngine.Debug.LogError($"❌ Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");
+            UnityEngine.Debug.LogError($"Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");
         }
         else
         {
-            UnityEngine.Debug.Log($"✅ Build succeeded: {report.summary.outputPath}");
+            UnityEngine.Debug.Log($"Build succeeded: {report.summary.outputPath}");
         }
     }
 }
