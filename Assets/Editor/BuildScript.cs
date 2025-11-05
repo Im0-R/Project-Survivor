@@ -1,12 +1,14 @@
 ﻿using UnityEditor;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 
 public static class BuildScript
 {
     [MenuItem("Build/Server Build")]
     public static void BuildServer()
     {
+
         string buildPath = "Builds/Server";
         if (!Directory.Exists(buildPath))
             Directory.CreateDirectory(buildPath);
@@ -43,6 +45,7 @@ public static class BuildScript
         else
         {
             UnityEngine.Debug.Log($"Build succeeded: {report.summary.outputPath}");
+            UnityEngine.Debug.Log("Version: " + BuildInfo.Version);
         }
     }
 }

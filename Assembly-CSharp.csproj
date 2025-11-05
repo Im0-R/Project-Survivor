@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\Network\BuildInfo.cs" />
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />

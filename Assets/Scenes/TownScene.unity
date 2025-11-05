@@ -458,6 +458,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2138752905301465689, guid: 3c7a97355c25a2b4da731b53876f8a8b, type: 3}
   m_PrefabInstance: {fileID: 310876515}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &359643832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2566785785800312774, guid: 002ab5bb5634d7d48901f22ed9cce88a, type: 3}
+  m_PrefabInstance: {fileID: 1541228553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &359643838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359643832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2160eebf5bfc76469b9bf9481277d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &424996772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1740,7 +1757,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2566785785800312774, guid: 002ab5bb5634d7d48901f22ed9cce88a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 359643838}
   m_SourcePrefab: {fileID: 100100000, guid: 002ab5bb5634d7d48901f22ed9cce88a, type: 3}
 --- !u!1001 &1557014118
 PrefabInstance:
@@ -2409,10 +2429,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1481406578576358041, guid: 556b42445743ec848b2f7703994182ac, type: 3}
-      propertyPath: sceneId
-      value: 1658712346
-      objectReference: {fileID: 0}
     - target: {fileID: 1524442625486576030, guid: 556b42445743ec848b2f7703994182ac, type: 3}
       propertyPath: m_Name
       value: Portal
