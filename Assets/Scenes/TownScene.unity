@@ -2096,10 +2096,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1152892697}
     - target: {fileID: 8213340274938504867, guid: 94268539bb0b0d24498e69d0977b969e, type: 3}
-      propertyPath: spellsRewardCanvas
-      value: 
-      objectReference: {fileID: 7970449152423747912, guid: 38bac2f36e8c85145bd343d2aa8ef0bc, type: 3}
-    - target: {fileID: 8213340274938504867, guid: 94268539bb0b0d24498e69d0977b969e, type: 3}
       propertyPath: generalCanvasParent
       value: 
       objectReference: {fileID: 659415917}
@@ -2344,15 +2340,15 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 51247073}
   - {fileID: 284822508}
+  - {fileID: 51247073}
   - {fileID: 6335939334054515804}
   - {fileID: 4816113937487602734}
-  - {fileID: 1541228553}
   - {fileID: 659415918}
-  - {fileID: 1586061595}
   - {fileID: 585299904}
-  - {fileID: 1863240517}
   - {fileID: 546854741}
+  - {fileID: 1586061595}
+  - {fileID: 1541228553}
+  - {fileID: 1863240517}
   - {fileID: 1342974962}
   - {fileID: 1568925587}
