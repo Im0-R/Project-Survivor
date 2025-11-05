@@ -24,7 +24,7 @@ public static class BuildScript
             target = BuildTarget.StandaloneLinux64,
 
             //  Activation du mode headless et compression pour réduire la taille
-            options = BuildOptions.CompressWithLz4 | BuildOptions.EnableHeadlessMode
+            options = BuildOptions.CompressWithLz4 | StandaloneBuildSubtarget.Server
         };
 
         // Sous-target Serveur (indique à Unity de builder sans rendu)

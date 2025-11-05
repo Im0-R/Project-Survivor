@@ -1,4 +1,4 @@
-Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+Library: D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --platform=Linux
 --minimum-os-version=
 --backend=burst-llvm-19
@@ -9,12 +9,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobParallelForExtensions+ParallelForJobStruct`1[[GLTFast.Export.ExportJobs+ConvertTangentHalfJob, glTFast.Export, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(GLTFast.Export.ExportJobs+ConvertTangentHalfJob&, glTFast.Export, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--6e479db039e9ac0230c2332b83e158d7
@@ -127,12 +126,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobParallelForExtensions+ParallelForJobStruct`1[[GLTFast.Export.ExportJobs+ConvertTangentHalfJob, glTFast.Export, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(GLTFast.Export.ExportJobs+ConvertTangentHalfJob&, glTFast.Export, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--6e479db039e9ac0230c2332b83e158d7
@@ -247,12 +245,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --target-framework=NetFramework
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.ZBinningJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.ZBinningJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--77fc393cb521ac129b1392d4eb94d29a
@@ -269,12 +266,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --target-framework=NetFramework
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.ZBinningJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.ZBinningJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--77fc393cb521ac129b1392d4eb94d29a
@@ -289,12 +285,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.Rendering.GPUResidentDrawerBurst, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::ClassifyMaterials(Unity.Collections.NativeArray`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeParallelHashMap`2+ReadOnly[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[UnityEngine.Rendering.BatchMaterialID, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[UnityEngine.Rendering.GPUDrivenPackedMaterialData, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null)--f259e9421b556600f769263137cdc7bc
@@ -407,12 +402,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.Rendering.GPUResidentDrawerBurst, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::ClassifyMaterials(Unity.Collections.NativeArray`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeParallelHashMap`2+ReadOnly[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[UnityEngine.Rendering.BatchMaterialID, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeList`1[[UnityEngine.Rendering.GPUDrivenPackedMaterialData, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null)--f259e9421b556600f769263137cdc7bc
@@ -525,12 +519,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.Rendering.InstanceDataSystemBurst, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::FreeInstances(Unity.Collections.NativeArray`1+ReadOnly[[UnityEngine.Rendering.InstanceHandle, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.InstanceAllocators&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUPerCameraInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUSharedInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeParallelMultiHashMap`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[UnityEngine.Rendering.InstanceHandle, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null)--e3ec85dbfb115f04962960abd8f31fec
@@ -573,12 +566,11 @@ Library: D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\Burst
---debug=Full
+--temp-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\Burst
 --enable-frame-info-registration
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.6f2/Editor/Data/PlaybackEngines/LinuxStandaloneSupport
---decode-folder=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Library\Burst
---output=D:\SVN\Eleves\lpvray\Projets Perso\ConversionToMirror\Temp\BurstOutput\Data\Plugins\lib_burst_generated
+--decode-folder=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Library\Burst
+--output=D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Temp\BurstOutput\Data\Plugins\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.Rendering.InstanceDataSystemBurst, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::FreeInstances(Unity.Collections.NativeArray`1+ReadOnly[[UnityEngine.Rendering.InstanceHandle, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.InstanceAllocators&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUPerCameraInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|UnityEngine.Rendering.CPUSharedInstanceData&, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Collections.NativeParallelMultiHashMap`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[UnityEngine.Rendering.InstanceHandle, Unity.RenderPipelines.GPUDriven.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null)--e3ec85dbfb115f04962960abd8f31fec
