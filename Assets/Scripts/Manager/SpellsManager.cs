@@ -7,7 +7,7 @@ public class SpellsManager : MonoBehaviour
     public static SpellsManager Instance { get; private set; }
 
     [Header("Spells Database")]
-    [Tooltip("Liste des sorts disponibles dans le jeu.")]
+    [Tooltip("List of all spells in the game")]
     public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new SerializableDictionary<string, Spell.SpellData>();
 
     private void Awake()
@@ -23,7 +23,7 @@ public class SpellsManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"[SpellsManager] {spellsDictionary.Count} spells enregistrés :");
+        Debug.Log($"[SpellsManager] {spellsDictionary.Count} spells registered :");
         foreach (var key in spellsDictionary.Keys)
             Debug.Log($" - {key}");
     }
@@ -38,7 +38,7 @@ public class SpellsManager : MonoBehaviour
             Type spellType = spellData.spellType.SpellType;
             if (spellType == null)
             {
-                Debug.LogError($"[SpellsManager] SpellType manquant pour {spellName} !");
+                Debug.LogError($"[SpellsManager] missing SpellType for {spellName} !");
                 return null;
             }
 
@@ -48,7 +48,7 @@ public class SpellsManager : MonoBehaviour
             return spellInstance;
         }
 
-        Debug.LogError($"[SpellsManager] Spell '{spellName}' introuvable dans le dictionnaire !");
+        Debug.LogError($"[SpellsManager] Spell '{spellName}' missing in dictionnary !");
         return null;
     }
 
@@ -59,7 +59,7 @@ public class SpellsManager : MonoBehaviour
     {
         if (spellsDictionary.Count == 0)
         {
-            Debug.LogWarning("[SpellsManager] Aucun spell dans le dictionnaire !");
+            Debug.LogWarning("[SpellsManager] no spell in the dictionnary !");
             return null;
         }
 
@@ -69,7 +69,7 @@ public class SpellsManager : MonoBehaviour
         Type spellType = spellData.spellType.SpellType;
         if (spellType == null)
         {
-            Debug.LogError("[SpellsManager] SpellType manquant !");
+            Debug.LogError("[SpellsManager] SpellType missing !");
             return null;
         }
 
