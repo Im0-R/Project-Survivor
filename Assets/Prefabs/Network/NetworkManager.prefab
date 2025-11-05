@@ -53,7 +53,7 @@ MonoBehaviour:
   editorAutoStart: 0
   sendRate: 45
   offlineScene: 
-  onlineScene: 
+  onlineScene: Assets/Scenes/TownScene.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2756691690596845048}
   networkAddress: 72.60.212.58
