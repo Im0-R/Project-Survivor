@@ -2,6 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using System.IO;
 
 public class InstanceManager : NetworkBehaviour
 {
@@ -32,15 +33,22 @@ public class InstanceManager : NetworkBehaviour
         int seed = Random.Range(0, 999999);
 
         // Start the server process 
-        ProcessStartInfo psi = new ProcessStartInfo
+        string buildPath = "/home/server/ServerBuild.x86_64";
+        if (!File.Exists(buildPath))
         {
-            FileName = "MyServerBuild.exe",
-            Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
-            CreateNoWindow = true,
-            UseShellExecute = false
-        };
+            UnityEngine.Debug.LogError($"[InstanceManager] Server build introuvable: {buildPath}");
+            return;
+        }
 
-        Process.Start(psi);
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = buildPath,
+            Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        });
 
         activeInstances[id] = new InstanceInfo
         {
