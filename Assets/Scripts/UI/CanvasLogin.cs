@@ -4,19 +4,17 @@ using TMPro;
 public class CanvasLogin : MonoBehaviour
 {
     private NetworkManager manager;
-    public TMP_InputField addressInput;
+    [SerializeField] TMP_InputField IF_username;
+    [SerializeField] TMP_InputField IF_password;
     void Start()
     {
         manager = FindAnyObjectByType<NetworkManager>();
-        addressInput.text = NetworkManager.singleton.networkAddress;
-        if (addressInput == null)
-        {
-            Debug.LogError("[CanvasLogin] Aucun InputField trouvé dans les enfants !");
-        }
+    
         if (manager == null)
         {
-            Debug.LogError("[CustomNetworkGUI] Aucun NetworkManager trouvé sur cet objet !");
+            Debug.LogError("[CustomNetworkGUI] No NetworkManager found in this object !");
         }
+
     }
     public void StartHost()
     {
@@ -30,7 +28,6 @@ public class CanvasLogin : MonoBehaviour
     }
     public void StartClient()
     {
-        manager.networkAddress = addressInput.text;
         manager.StartClient();
         UIManager.Instance.ShowGameUI();
     }
@@ -44,5 +41,17 @@ public class CanvasLogin : MonoBehaviour
         manager.StopServer();
         manager.StopClient();
         UIManager.Instance.ShowLoginUI();
+    }
+
+    //Localhost client for testing
+    public void StartLocalClient()
+    {
+        manager.networkAddress = "localhost";
+        manager.StartClient();
+        UIManager.Instance.ShowGameUI();
+    }
+    public void TryLogin()
+    {
+
     }
 }

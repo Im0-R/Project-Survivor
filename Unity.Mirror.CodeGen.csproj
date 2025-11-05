@@ -56,6 +56,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\sqlite-net-pcl.1.9.172\lib\netstandard2.0\SQLite-net.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.bundle_green.2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.provider.e_sqlite3.2.1.2\lib\netstandard2.0\SQLitePCLRaw.provider.e_sqlite3.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.core.2.1.2\lib\netstandard2.0\SQLitePCLRaw.core.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />

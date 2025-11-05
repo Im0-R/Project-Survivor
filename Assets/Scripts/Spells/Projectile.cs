@@ -10,7 +10,7 @@ public class Projectile : NetworkBehaviour
     private Vector3 direction;
 
     [SerializeField] private float lifeTime = 3f;
-    private bool hasDespawned = false;
+    //private bool hasDespawned = false;
 
     public void Initialize(NetworkEntity ownerEntity, Transform targetTransform, float dmg, float spd = 10f, float scale = 1f)
     {

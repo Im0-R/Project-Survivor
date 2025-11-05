@@ -56,6 +56,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\sqlite-net-pcl.1.9.172\lib\netstandard2.0\SQLite-net.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.bundle_green.2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.provider.e_sqlite3.2.1.2\lib\netstandard2.0\SQLitePCLRaw.provider.e_sqlite3.dll" />
+    <Analyzer Include="D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor\Assets\Packages\SQLitePCLRaw.core.2.1.2\lib\netstandard2.0\SQLitePCLRaw.core.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -711,6 +715,30 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>Library\PackageCache\com.unity.collections@d49facba0036\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NuGetForUnity.PluginAPI">
+      <HintPath>Assets\NuGet\Editor\NuGetForUnity.PluginAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NugetForUnity">
+      <HintPath>Assets\NuGet\Editor\NugetForUnity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <HintPath>Assets\Packages\SQLitePCLRaw.provider.e_sqlite3.2.1.2\lib\netstandard2.0\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>Assets\Packages\SQLitePCLRaw.core.2.1.2\lib\netstandard2.0\SQLitePCLRaw.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>Assets\Packages\SQLitePCLRaw.bundle_green.2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>Assets\Packages\sqlite-net-pcl.1.9.172\lib\netstandard2.0\SQLite-net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

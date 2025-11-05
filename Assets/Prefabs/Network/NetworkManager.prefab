@@ -52,8 +52,8 @@ MonoBehaviour:
   headlessStartMode: 1
   editorAutoStart: 0
   sendRate: 45
-  offlineScene: 
-  onlineScene: Assets/Scenes/TownScene.unity
+  offlineScene: Assets/Scenes/Menu.unity
+  onlineScene: Assets/Scenes/Town.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2756691690596845048}
   networkAddress: 72.60.212.58
@@ -138,4 +138,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955da8d277a11e94693b4807abfd3006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasLogin
-  addressInput: {fileID: 0}
+  IF_username: {fileID: 0}
+  IF_password: {fileID: 0}
