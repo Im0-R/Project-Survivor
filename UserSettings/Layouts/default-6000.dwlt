@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Inspector
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 170
+  controlID: 155
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -959,7 +959,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 960, y: 630, z: 0}
+    m_Target: {x: 13.890965, y: 1.6000568, z: 0.14618656}
     speed: 2
     m_Value: {x: 960, y: 630, z: 0}
   m_RenderMode: 0
@@ -1007,11 +1007,11 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.0452895, y: -0.013203786, z: 0.00059252634, w: -0.9988968}
+    m_Target: {x: -0.35396564, y: -0.0036500623, z: 0.0013809258, w: -0.93525326}
     speed: 2
     m_Value: {x: -0.0452895, y: -0.013203786, z: 0.00059252634, w: -0.9988967}
   m_Size:
-    m_Target: 515.237
+    m_Target: 7.388676
     speed: 2
     m_Value: 515.237
   m_Ortho:
@@ -1196,7 +1196,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0efbffff
+      m_ExpandedIDs: eaf0ffffdcf5ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1279,14 +1279,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor
+  m_LastProjectPath: D:\Projects\PersonnalProjects\Hack'n Slash\Project-Survivor
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 00000000321001003410010036100100381001003a1001003c1001003e10010040100100421001004410010046100100481001004a1001004c1001004e10010050100100
+    m_ExpandedIDs: 00000000e0020000480501004a0501004c0501004e05010050050100520501005405010056050100580501005a0501005c0501005e05010060050100620501006405010066050100680501006a050100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1315,7 +1315,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000321001003410010036100100381001003a1001003c1001003e10010040100100421001004410010046100100481001004a1001004c1001004e10010050100100
+    m_ExpandedIDs: ffffffff00000000e002000032ff0000480501004a0501004c0501004e05010050050100520501005405010056050100580501005a0501005e05010060050100620501006405010066050100680501006a0501005a1c0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
