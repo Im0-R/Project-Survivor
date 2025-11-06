@@ -68,6 +68,7 @@ public class CanvasSwitcher : MonoBehaviour
         {
             if (menu[i].canvas.gameObject.name == menuName)
             {
+                Debug.Log("Switching to menu: " + menuName + " in " + gameObject.name);
                 SwitchCanvas(i);
                 return;
             }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9125191490142077684}
   - component: {fileID: 2756691690596845048}
   - component: {fileID: 5073950128032601462}
-  - component: {fileID: 4851132595944117922}
+  - component: {fileID: 4168362351876152525}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5b42cbfc38b1c4d86fd25905b19e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Mirage.Profiler::Mirage.NetworkProfiler.NetworkProfilerRecorder
---- !u!114 &4851132595944117922
+--- !u!114 &4168362351876152525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,8 +135,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2566785785800312774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955da8d277a11e94693b4807abfd3006, type: 3}
+  m_Script: {fileID: 11500000, guid: ad7e980538c9eef47ba02e5e0a23a7f3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CanvasLogin
-  IF_username: {fileID: 0}
-  IF_password: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::DatabaseInitializer

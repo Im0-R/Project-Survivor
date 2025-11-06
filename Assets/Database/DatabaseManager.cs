@@ -13,7 +13,6 @@ public class UserAccount
 public static class DatabaseManager
 {
     private static SQLiteConnection db;
-
     public static void Initialize()
     {
         string dbPath = Path.Combine(Application.persistentDataPath, " database.db ");
@@ -72,25 +71,8 @@ public static class DatabaseManager
     {
         db.Close();
     }
-}
-
-public class TestSQLite : MonoBehaviour
-{
-    private SQLiteConnection db;
-
-    void Start()
+    public static bool isInitialized()
     {
-
-        //Creating and inserting a new user
-        UserAccount newUser = new UserAccount { Username = "Imogen", Password = "1234" };
-        db.Insert(newUser);
-        Debug.Log($"[DB] Inserted user: {newUser.Username}");
-
-        //Querying the first user from the database
-        UserAccount user = db.Table<UserAccount>().FirstOrDefault();
-        if (user != null)
-            Debug.Log($"[DB] Found user: {user.Username} / {user.Password}");
-        else
-            Debug.LogWarning("[DB] No users found in database.");
+        return db != null;
     }
 }

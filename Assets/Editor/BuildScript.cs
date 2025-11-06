@@ -1,8 +1,6 @@
 ﻿using UnityEditor;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
-
 public static class BuildScript
 {
     [MenuItem("Build/Server Build")]
@@ -37,7 +35,7 @@ public static class BuildScript
         // Launch build
         var report = BuildPipeline.BuildPlayer(options);
 
-        // result logging
+        // BuildResult logging
         if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
             UnityEngine.Debug.LogError($"Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");

@@ -335,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1093273292687002122, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1093273292687002122, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -352,6 +352,10 @@ PrefabInstance:
     - target: {fileID: 1093273292687002122, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: CanvasSwitcher, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093273292687002122, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: CanvasCreateAccount
       objectReference: {fileID: 0}
     - target: {fileID: 1093273292687002122, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -443,7 +447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6805289342050658890, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -466,6 +470,10 @@ PrefabInstance:
     - target: {fileID: 622367738800223563, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
       propertyPath: m_Name
       value: CanvasCreateAccount
+      objectReference: {fileID: 0}
+    - target: {fileID: 622367738800223563, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1561753036018661623, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
       propertyPath: m_Pivot.x
@@ -595,6 +603,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: 3376386469610588371, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4908018308766864580, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -618,6 +630,10 @@ PrefabInstance:
     - target: {fileID: 7416228688127160801, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
       propertyPath: m_margin.x
       value: 14.659729
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114845355367019967, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8648786500033893699, guid: 3fff5495fb95c8644b1f6ac1e44c231f, type: 3}
       propertyPath: m_SizeDelta.x
@@ -706,6 +722,18 @@ PrefabInstance:
     - target: {fileID: 1396163259922920319, guid: 01a7fe6dec5162047808ae3395aebe38, type: 3}
       propertyPath: m_Name
       value: CanvasJoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396163259922920319, guid: 01a7fe6dec5162047808ae3395aebe38, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658872786997086336, guid: 01a7fe6dec5162047808ae3395aebe38, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457469481045111376, guid: 01a7fe6dec5162047808ae3395aebe38, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7280480119567055676, guid: 01a7fe6dec5162047808ae3395aebe38, type: 3}
       propertyPath: m_Pivot.x
