@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasLogin
   IF_username: {fileID: 0}
-  IF_password: {fileID: 0}
+  IF_password: {fileID: 2451572436097692735}
 --- !u!1 &6855785042708047074
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Inspector
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 49
+  controlID: 26
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 50
+  controlID: 27
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -959,9 +959,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 13.890965, y: 1.6000568, z: 0.14618656}
+    m_Target: {x: 960, y: 740, z: 0}
     speed: 2
-    m_Value: {x: 13.890965, y: 1.6000568, z: 0.14618656}
+    m_Value: {x: 960, y: 740, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1007,13 +1007,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.35396564, y: -0.0036500623, z: 0.0013809258, w: -0.93525326}
+    m_Target: {x: -0.0452895, y: -0.013203786, z: 0.00059252634, w: -0.9988968}
     speed: 2
-    m_Value: {x: -0.3539656, y: -0.0036500623, z: 0.0013809258, w: -0.9352532}
+    m_Value: {x: -0.045289036, y: -0.013203651, z: 0.0005925203, w: -0.9988865}
   m_Size:
-    m_Target: 7.388676
+    m_Target: 394.98215
     speed: 2
-    m_Value: 7.388676
+    m_Value: 394.98215
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1194,9 +1194,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 9c110100
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0efbffff
+      m_ExpandedIDs: d4f6ffffc6f7ffffccf7ffffdaf7fffff4fffffff606010008070100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1213,7 +1213,7 @@ MonoBehaviour:
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
-        m_ClientGUIView: {fileID: 10}
+        m_ClientGUIView: {fileID: 7}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -1278,14 +1278,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\Projects\PersonnalProjects\Hack'n Slash\Project-Survivor
+  m_LastProjectPath: D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 00000000e00200003410010036100100381001003a1001003c1001003e10010040100100421001004410010046100100481001004a1001004c1001004e1001005010010052100100541001005610010058100100
+    m_ExpandedIDs: 00000000b0160100b2160100b4160100b6160100b8160100ba160100bc160100be160100c0160100c2160100c4160100c6160100c8160100ca160100cc160100ce160100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1314,18 +1314,18 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000e00200003410010036100100381001003c1001003e1001004210010046100100481001004c1001004e1001005010010054100100561001002e11010062110100
+    m_ExpandedIDs: ffffffff0000000098000100b0160100b4160100b8160100be160100c0160100c2160100c4160100c6160100c8160100cc160100ce160100b0170100bc230100be230100ec4001000c4101000e410100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: ClientAccountAPI
-      m_OriginalName: ClientAccountAPI
+      m_Name: SceneLoader
+      m_OriginalName: SceneLoader
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 70044
+      m_UserData: 82164
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0

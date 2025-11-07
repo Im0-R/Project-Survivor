@@ -17,7 +17,7 @@ public class CanvasCreateAccount : MonoBehaviour
             return;
         }
         //Change for command to server
-        DatabaseManager.InsertUser(username, password);
+        ClientAccountAPI.Instance.TryRegister(username, password);
         Debug.Log($"Account created for user: {username}");
         GetComponentInParent<CanvasSwitcher>().SwitchCanvas("CanvasLogin");
     }

@@ -441,6 +441,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2451572436097692735, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_InputType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451572436097692735, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_ContentType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239474323049714836, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: IF_username
+      value: 
+      objectReference: {fileID: 8778480686210665761}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3417370314704195601}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TryLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CanvasLogin, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860673588039536645, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6805289342050658890, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
       propertyPath: m_Name
       value: CanvasLogin
@@ -454,11 +494,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+--- !u!114 &3417370314704195601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239474323049714836, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+  m_PrefabInstance: {fileID: 1565374011266565253}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955da8d277a11e94693b4807abfd3006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CanvasLogin
 --- !u!224 &3802457082810938165 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2412902235566585776, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
   m_PrefabInstance: {fileID: 1565374011266565253}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8778480686210665761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7812125716540737956, guid: 9734dc9b3cc406b4ca428e96d0e0ab3b, type: 3}
+  m_PrefabInstance: {fileID: 1565374011266565253}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_InputField
 --- !u!1001 &6940076541411364365
 PrefabInstance:
   m_ObjectHideFlags: 0

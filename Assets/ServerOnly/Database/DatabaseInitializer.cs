@@ -1,4 +1,4 @@
-#if UNITY_SERVER
+#if UNITY_SERVER || UNITY_EDITOR
 using Mirror;
 using UnityEngine;
 
@@ -8,7 +8,8 @@ public class DatabaseInitializer : MonoBehaviour
     {
         if (NetworkServer.active)
         {
-            if (DatabaseManager.isInitialized()) return;
+            if (DatabaseManager.IsInitialized()) return;
+
             DatabaseManager.Initialize();
             Debug.Log("[Server] Database initialized");
         }
@@ -17,7 +18,9 @@ public class DatabaseInitializer : MonoBehaviour
     void OnApplicationQuit()
     {
         if (NetworkServer.active)
+        {
             DatabaseManager.Close();
+        }
     }
 }
 #endif

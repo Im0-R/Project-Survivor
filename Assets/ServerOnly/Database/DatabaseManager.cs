@@ -1,4 +1,4 @@
-﻿#if UNITY_SERVER
+﻿#if UNITY_SERVER || UNITY_EDITOR
 using SQLite;
 using System.IO;
 using System.Linq;
@@ -7,15 +7,15 @@ using System.Security.Cryptography;
 using System.Text;
 
 /// <summary>
-/// DatabaseManager — version serveur uniquement
-/// Gère les comptes utilisateurs et les modifications persistantes.
+/// DatabaseManager — server only.
+/// manages user accounts and data using SQLite.
 /// </summary>
 public static class DatabaseManager
 {
     private static SQLiteConnection db;
 
-    // ==============================
-    // 🔧 INITIALISATION
+    // ==============================Initialize
+    // INITIALISATION DATABASE
     // ==============================
     public static void Initialize()
     {
@@ -27,7 +27,7 @@ public static class DatabaseManager
     }
 
     // ==============================
-    // 👤 UTILISATEURS
+    // USER
     // ==============================
 
     public static bool ValidateUser(string username, string password)
@@ -89,9 +89,8 @@ public static class DatabaseManager
     {
         return db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
     }
-
     // ==============================
-    // 🧰 MÉTHODES GÉNÉRALES
+    // GENERALS METHODS
     // ==============================
     public static void Close()
     {
@@ -106,7 +105,7 @@ public static class DatabaseManager
     }
 
     // ==============================
-    // 🔐 SECURITÉ
+    // SECURITY
     // ==============================
     private static string HashPassword(string input)
     {
@@ -119,7 +118,7 @@ public static class DatabaseManager
 }
 
 /// <summary>
-/// Structure de données utilisateur stockée dans la base.
+/// User-Data connected to the database.
 /// </summary>
 public class UserAccount
 {
@@ -131,8 +130,7 @@ public class UserAccount
 
     public string Password { get; set; }
 
-    // Tu peux ajouter ici des champs persistants
-    // comme les stats, items, XP, etc.
+    // comme stats , items etc.
     public string EquippedItem { get; set; } = "none";
     public int Level { get; set; } = 1;
     public int Experience { get; set; } = 0;

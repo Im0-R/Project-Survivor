@@ -1,9 +1,33 @@
-#if UNITY_SERVER
+﻿#if UNITY_SERVER || UNITY_EDITOR
 using Mirror;
 using UnityEngine;
 using System;
 
-public class ServerCommandHandler : NetworkBehaviour
+// ======================
+// MESSAGES DEFINITIONS
+// ======================
+public struct RegisterMessage : NetworkMessage
+{
+    public string username;
+    public string password;
+}
+
+public struct LoginMessage : NetworkMessage
+{
+    public string username;
+    public string password;
+}
+
+public struct AuthResponseMessage : NetworkMessage
+{
+    public bool success;
+    public string message;
+}
+
+// ======================
+// SERVER HANDLER
+// ======================
+public class ServerCommandHandler : MonoBehaviour
 {
     public static ServerCommandHandler Instance { get; private set; }
 
@@ -20,73 +44,99 @@ public class ServerCommandHandler : NetworkBehaviour
 
         DatabaseManager.Initialize();
         Debug.Log("[ServerCommandHandler] Initialized and DB ready.");
+
+        RegisterNetworkHandlers();
+    }
+
+    private void RegisterNetworkHandlers()
+    {
+        NetworkServer.RegisterHandler<RegisterMessage>(OnRegisterMessageReceived);
+        NetworkServer.RegisterHandler<LoginMessage>(OnLoginMessageReceived);
+        Debug.Log("[ServerCommandHandler] NetworkMessage handlers registered.");
     }
 
     // ==========================================================
-    // ========== REGISTER / LOGIN HANDLERS =====================
+    // ========== REGISTER / LOGIN LOGIC =========================
     // ==========================================================
 
-    [Server]
-    public void HandleRegister(NetworkConnectionToClient conn, string username, string password)
+    private void OnRegisterMessageReceived(NetworkConnectionToClient conn, RegisterMessage msg)
     {
+        Debug.Log($"[Server] Received register message from {conn.connectionId}");
         try
         {
-            if (DatabaseManager.GetUser(username) != null)
+            Debug.Log($"[Server] Register request from {conn.connectionId}: {msg.username}");
+
+            if (DatabaseManager.GetUser(msg.username) != null)
             {
-                SendRegisterResponse(conn, false, "Username already taken.");
+                SendAuthResponse(conn, false, "Username already taken.");
                 return;
             }
 
-            DatabaseManager.InsertUser(username, password);
-            conn.authenticationData = username;
+            DatabaseManager.InsertUser(msg.username, msg.password);
+            conn.authenticationData = msg.username;
 
-            Debug.Log($"[Server] User '{username}' registered successfully.");
-            SendRegisterResponse(conn, true, "Account created successfully.");
+            Debug.Log($"[Server] User '{msg.username}' registered successfully.");
+            SendAuthResponse(conn, true, "Account created successfully.");
         }
         catch (Exception ex)
         {
             Debug.LogError($"[ServerCommandHandler] Register error: {ex}");
-            SendRegisterResponse(conn, false, "Internal server error.");
+            SendAuthResponse(conn, false, "Internal server error.");
         }
     }
 
-    [Server]
-    public void HandleLogin(NetworkConnectionToClient conn, string username, string password)
+    private void OnLoginMessageReceived(NetworkConnectionToClient conn, LoginMessage msg)
     {
+        Debug.Log($"[Server] Received login message from {conn.connectionId}");
         try
         {
-            bool valid = DatabaseManager.ValidateUser(username, password);
+            Debug.Log($"[Server] Login request from {conn.connectionId}: {msg.username}");
+
+            bool valid = DatabaseManager.ValidateUser(msg.username, msg.password);
             if (!valid)
             {
-                SendLoginResponse(conn, false, "Invalid username or password.");
+                SendAuthResponse(conn, false, "Invalid username or password.");
                 return;
             }
 
-            conn.authenticationData = username;
+            conn.authenticationData = msg.username;
 
-            Debug.Log($"[Server] User '{username}' logged in.");
-            SendLoginResponse(conn, true, "Login successful.");
+            // no duplicate players per connection
+            if (conn.identity != null)
+            {
+                Debug.LogWarning($"[Server] Connection {conn.connectionId} already has a player!");
+                SendAuthResponse(conn, true, "Already logged in.");
+                return;
+            }
+
+            //spawn player object 
+            GameObject playerPrefab = NetworkManager.singleton.playerPrefab;
+            GameObject playerInstance = Instantiate(playerPrefab);
+
+            NetworkServer.AddPlayerForConnection(conn, playerInstance);
+            Debug.Log($"[Server] Player '{msg.username}' spawned for connection {conn.connectionId}.");
+
+            SendAuthResponse(conn, true, "Login successful!");
         }
         catch (Exception ex)
         {
             Debug.LogError($"[ServerCommandHandler] Login error: {ex}");
-            SendLoginResponse(conn, false, "Internal server error.");
+            SendAuthResponse(conn, false, "Internal server error.");
         }
     }
 
     // ==========================================================
-    // ========== RESPONSE TO CLIENTS ===========================
+    // ========== RESPONSE TO CLIENT ============================
     // ==========================================================
-    [TargetRpc]
-    private void SendRegisterResponse(NetworkConnection target, bool success, string message)
+    private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
-        Debug.Log($"[Server -> Client] Register result: {message}");
-    }
+        conn.Send(new AuthResponseMessage
+        {
+            success = success,
+            message = message
+        });
 
-    [TargetRpc]
-    private void SendLoginResponse(NetworkConnection target, bool success, string message)
-    {
-        Debug.Log($"[Server -> Client] Login result: {message}");
+        Debug.Log($"[Server → Client] Auth response: {message}");
     }
 }
 #endif
