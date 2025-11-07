@@ -68,7 +68,6 @@
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyAttackState.cs" />
-    <Compile Include="Assets\Database\DatabaseManager.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsDataSO.cs" />
     <Compile Include="Assets\Scripts\Manager\InstanceManager.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
@@ -80,6 +79,8 @@
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
     <Compile Include="Assets\Scripts\Network\InterestManagement\ProximityInterestManagement.cs" />
+    <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
+    <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\AuthentificatorLogin.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />
@@ -95,11 +96,13 @@
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
     <Compile Include="Assets\Scripts\Network\BuildInfo.cs" />
+    <Compile Include="Assets\Scripts\Player\ClientAccountAPI.cs" />
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyRanged.cs" />
@@ -120,7 +123,6 @@
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
-    <Compile Include="Assets\Database\DatabaseInitializer.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>
   <ItemGroup>

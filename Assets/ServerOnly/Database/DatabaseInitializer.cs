@@ -1,3 +1,4 @@
+#if UNITY_SERVER
 using Mirror;
 using UnityEngine;
 
@@ -19,3 +20,4 @@ public class DatabaseInitializer : MonoBehaviour
             DatabaseManager.Close();
     }
 }
+#endif

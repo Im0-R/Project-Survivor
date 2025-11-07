@@ -16,6 +16,7 @@ public class CanvasCreateAccount : MonoBehaviour
             Debug.LogWarning("Username or Password cannot be empty.");
             return;
         }
+        //Change for command to server
         DatabaseManager.InsertUser(username, password);
         Debug.Log($"Account created for user: {username}");
         GetComponentInParent<CanvasSwitcher>().SwitchCanvas("CanvasLogin");
