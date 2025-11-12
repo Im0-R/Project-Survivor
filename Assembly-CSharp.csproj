@@ -102,6 +102,7 @@
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerBootStrap.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
