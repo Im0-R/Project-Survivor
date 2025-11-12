@@ -171,6 +171,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ServerNetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9125191490142077684, guid: 002ab5bb5634d7d48901f22ed9cce88a, type: 3}
+      propertyPath: onlineScene
+      value: Assets/Scenes/Server/Server_Main.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125191490142077684, guid: 002ab5bb5634d7d48901f22ed9cce88a, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/Town.unity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
