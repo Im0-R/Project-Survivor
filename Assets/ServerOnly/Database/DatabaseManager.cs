@@ -19,13 +19,17 @@ public static class DatabaseManager
     // ==============================
     public static void Initialize()
     {
-        string dbPath = Path.Combine(Application.dataPath, "database.db");
+#if UNITY_SERVER
+        string dbPath = "/home/server/database.db";
+#else
+    string dbPath = Path.Combine(Application.persistentDataPath, "database_client.db");
+#endif
+
         db = new SQLiteConnection(dbPath);
         db.CreateTable<UserAccount>();
 
         Debug.Log($"[DB] Initialized at: {dbPath}");
     }
-
     // ==============================
     // USER
     // ==============================
@@ -33,7 +37,7 @@ public static class DatabaseManager
     public static bool ValidateUser(string username, string password)
     {
         string hashed = HashPassword(password);
-        var user = db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
+        UserAccount user = db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
         return user != null && user.Password == hashed;
     }
 

@@ -15,7 +15,6 @@ public class ClientAccountAPI : MonoBehaviour
 
     void Start()
     {
-        // ✅ écoute les réponses du serveur
         NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse);
     }
 

@@ -1,59 +1,97 @@
-using Unity.VisualScripting;
+﻿#if !UNITY_SERVER
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SpellChoice : MonoBehaviour
 {
-    Spell spellLinked; // The spell associated with this choice
-    [SerializeField] TMPro.TextMeshProUGUI spellNameText;
-    [SerializeField] TMPro.TextMeshProUGUI spellLevelText;
-    [SerializeField] TMPro.TextMeshProUGUI spellDescriptionText;
-    [SerializeField] Image spellIconImage;
+    private Spell spellLinked;
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI spellNameText;
+    [SerializeField] private TextMeshProUGUI spellLevelText;
+    [SerializeField] private TextMeshProUGUI spellDescriptionText;
+    [SerializeField] private Image spellIconImage;
+
+    [Header("FX")]
     public bool isNewSpell = false;
     public float fadeSpeed = 2.0f;
     private bool hasFaded = false;
-    public SpellChoice()
+
+    private void Start()
     {
+        transform.localScale = Vector3.zero;
+        ChooseSpell();
+        PopulateUI();
     }
-    public void Start()
+
+    private void Update()
     {
-        //do a little animation where the spell icon scales up from 0 to 1
-        gameObject.transform.localScale = Vector3.zero;
+        AnimationSpawnCard();
+    }
 
-        //random spell (50 % for new spell, 50 % for upgrade) but if no spell new spell
+    private void ChooseSpell()
+    {
+        var playerEnt = PlayerUI.Instance?.playerEnt;
 
-        if (Random.value < 0.5f || PlayerUI.Instance.playerEnt.GetAllActiveSpells().Count == 0)
+        if (playerEnt == null)
         {
-            if (SpellsManager.Instance.GetRandomSpellNotOwned() != null)
+            Debug.LogWarning("[SpellChoice] playerEnt introuvable, fallback GetRandomSpell()");
+            spellLinked = SpellsManager.Instance.GetRandomSpell();
+            isNewSpell  = true;
+            return;
+        }
+
+        int activeCount = playerEnt.GetAllActiveSpells().Count;
+        bool hasAny = activeCount > 0;
+        bool wantNew = (Random.value < 0.5f) || !hasAny;
+
+        if (wantNew)
+        {
+            spellLinked = SpellsManager.Instance.GetRandomSpellClient();
+            isNewSpell  = (spellLinked != null);
+
+            if (spellLinked == null && hasAny)
             {
-                isNewSpell = true;
-                spellLinked = SpellsManager.Instance.GetRandomSpellNotOwned();
-            }
-            else
-            {
-                if (PlayerUI.Instance.playerEnt.GetAllActiveSpells().Count != 0)
-                {
-                    spellLinked = PlayerUI.Instance.playerEnt.GetRandomSpellFromActivesSpells();
-                }
+                spellLinked = playerEnt.GetRandomSpellFromActivesSpells();
+                isNewSpell  = false;
             }
         }
-        else if (Random.value >= 0.5f || SpellsManager.Instance.GetRandomSpellNotOwned() == null)
+        else
         {
-            spellLinked = PlayerUI.Instance.playerEnt.GetRandomSpellFromActivesSpells();
-            Debug.Log("Got upgrade spell: " + spellLinked.GetData().spellName);
+            spellLinked = playerEnt.GetRandomSpellFromActivesSpells();
+            isNewSpell  = false;
+
+            if (spellLinked == null)
+            {
+                spellLinked = SpellsManager.Instance.GetRandomSpellClient();
+                isNewSpell  = (spellLinked != null);
+            }
         }
 
         if (spellLinked == null)
         {
-            isNewSpell = true;
-            spellLinked = SpellsManager.Instance.GetRandomSpellNotOwned();
+            Debug.LogWarning("[SpellChoice] Aucun sort dispo, fallback GetRandomSpell()");
+            spellLinked = SpellsManager.Instance.GetRandomSpell();
+            isNewSpell  = true;
+        }
+    }
+
+    private void PopulateUI()
+    {
+        if (spellLinked == null)
+        {
+            spellNameText.text = "No Spell";
+            spellDescriptionText.text = "Aucun sort disponible.";
+            if (spellIconImage) spellIconImage.sprite = null;
+            spellLevelText.text = "";
+            return;
         }
 
-        spellNameText.text = spellLinked.GetData().spellName;
-        spellDescriptionText.text = spellLinked.GetData().description;
-        spellIconImage.sprite = spellLinked.GetData().UISprite;
-
+        var data = spellLinked.GetData();
+        spellNameText.text = data.spellName;
+        spellDescriptionText.text = data.description;
+        if (spellIconImage) spellIconImage.sprite = data.UISprite;
 
         if (isNewSpell)
         {
@@ -61,54 +99,48 @@ public class SpellChoice : MonoBehaviour
         }
         else
         {
-            if (spellLinked.IsMaxLevel())
-            {
-                spellLevelText.text = "Max Level";
-            }
-            else
-            {
-                spellLevelText.text = "Level " + spellLinked.GetData().currentLevel + " -> " + (spellLinked.GetData().currentLevel + 1);
-            }
+            spellLevelText.text = spellLinked.IsMaxLevel()
+                ? "Max Level"
+                : $"Level {data.currentLevel} -> {data.currentLevel + 1}";
         }
     }
-    public void Update()
-    {
-        AnimationSpawnCard();
-    }
+
     public void OnChoosed()
     {
+        if (spellLinked == null)
+        {
+            UIManager.Instance.HideSpellsRewardUI();
+            return;
+        }
+
+        var playerEnt = PlayerUI.Instance?.playerEnt;
+        if (playerEnt == null)
+        {
+            Debug.LogWarning("[SpellChoice] playerEnt introuvable au moment du choix.");
+            UIManager.Instance.HideSpellsRewardUI();
+            return;
+        }
+
         if (isNewSpell)
         {
-            PlayerUI.Instance.playerEnt.CmdAddSpell(spellLinked.GetData().spellName);
+            playerEnt.CmdAddSpell(spellLinked.GetData().spellName);
         }
-        else
+        else if (!spellLinked.IsMaxLevel())
         {
-            if (!spellLinked.IsMaxLevel()) //Can only upgrade if not max level
-            {
-                UpgradeSpell();
-            }
+            playerEnt.UpgradeSpell(spellLinked.GetData().spellName);
         }
 
         UIManager.Instance.HideSpellsRewardUI();
     }
-    public void UpgradeSpell()
+
+    private void AnimationSpawnCard()
     {
-        if (PlayerUI.Instance != null)
+        if (!hasFaded)
         {
-            PlayerUI.Instance.playerEnt.UpgradeSpell(spellLinked.GetData().spellName);//Find the player and upgrade the spell
-        }
-    }
-    public void AnimationSpawnCard()
-    {
-        //do a little animation where the spell icon scales up from 0 to 1 , lerp over 0.5 second with ease out back
-        if (gameObject.transform.localScale != Vector3.one && !hasFaded)
-        {
-            gameObject.transform.localScale += fadeSpeed * Time.fixedDeltaTime * Vector3.one;
-            if (gameObject.transform.localScale.x >= 1.0f)
-            {
-                gameObject.transform.localScale = Vector3.one;
-                hasFaded = true;
-            }
+            float step = fadeSpeed * Time.deltaTime;
+            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, step);
+            if (transform.localScale == Vector3.one) hasFaded = true;
         }
     }
 }
+#endif

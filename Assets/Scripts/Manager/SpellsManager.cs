@@ -2,14 +2,20 @@ using System;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Central spell database & factory (shared between client and server).
+/// </summary>
 public class SpellsManager : MonoBehaviour
 {
     public static SpellsManager Instance { get; private set; }
 
     [Header("Spells Database")]
-    [Tooltip("List of all spells in the game")]
-    public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new SerializableDictionary<string, Spell.SpellData>();
+    [Tooltip("All available spells (used by both client and server)")]
+    public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new();
 
+    // ==========================================================
+    // == INITIALIZATION ========================================
+    // ==========================================================
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,6 +23,7 @@ public class SpellsManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -25,112 +32,137 @@ public class SpellsManager : MonoBehaviour
     {
         Debug.Log($"[SpellsManager] {spellsDictionary.Count} spells registered :");
         foreach (var key in spellsDictionary.Keys)
-            Debug.Log($" - {key}");
+            Debug.Log($"  - {key}");
     }
 
+    // ==========================================================
+    // == SHARED METHODS (usable by both Client & Server) =======
+    // ==========================================================
+
     /// <summary>
-    /// Récupère une nouvelle instance de Spell à partir de son nom.
+    /// Instantiates a new Spell by its name.
     /// </summary>
     public Spell GetSpell(string spellName)
     {
-        if (spellsDictionary.TryGetValue(spellName, out Spell.SpellData spellData))
+        if (!spellsDictionary.TryGetValue(spellName, out Spell.SpellData spellData))
         {
-            Type spellType = spellData.spellType.SpellType;
-            if (spellType == null)
-            {
-                Debug.LogError($"[SpellsManager] missing SpellType for {spellName} !");
-                return null;
-            }
-
-            Spell.SpellData clonedData = spellData.Clone();
-            Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
-            spellInstance.Init(clonedData);
-            return spellInstance;
+            Debug.LogError($"[SpellsManager] Spell '{spellName}' not found in dictionary!");
+            return null;
         }
 
-        Debug.LogError($"[SpellsManager] Spell '{spellName}' missing in dictionnary !");
-        return null;
+        Type spellType = spellData.spellType.SpellType;
+        if (spellType == null)
+        {
+            Debug.LogError($"[SpellsManager] Missing SpellType for '{spellName}'!");
+            return null;
+        }
+
+        Spell.SpellData clonedData = spellData.Clone();
+        Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
+        spellInstance.Init(clonedData);
+        return spellInstance;
     }
 
     /// <summary>
-    /// Retourne une instance aléatoire d'un spell (parmi tous les spells disponibles).
+    /// Returns a random spell from the entire dictionary.
     /// </summary>
     public Spell GetRandomSpell()
     {
         if (spellsDictionary.Count == 0)
         {
-            Debug.LogWarning("[SpellsManager] no spell in the dictionnary !");
+            Debug.LogWarning("[SpellsManager] No spells registered!");
             return null;
         }
 
         int index = UnityEngine.Random.Range(0, spellsDictionary.Count);
         Spell.SpellData spellData = spellsDictionary.ElementAt(index).Value;
 
-        Type spellType = spellData.spellType.SpellType;
-        if (spellType == null)
+        if (spellData.spellType?.SpellType == null)
         {
-            Debug.LogError("[SpellsManager] SpellType missing !");
+            Debug.LogError("[SpellsManager] Invalid SpellType!");
             return null;
         }
 
         Spell.SpellData clonedData = spellData.Clone();
-        Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
+        Spell spellInstance = (Spell)Activator.CreateInstance(spellData.spellType.SpellType);
         spellInstance.Init(clonedData);
         return spellInstance;
     }
 
     /// <summary>
-    /// Retourne une instance d'un spell aléatoire que le joueur ne possède pas encore.
+    /// Returns a random spell not already owned, given a set of owned spell names.
+    /// Safe to call from the server.
     /// </summary>
-    public Spell GetRandomSpellNotOwned()
+    public Spell GetRandomSpellServer(System.Collections.Generic.HashSet<string> ownedSpellNames)
     {
-        var playerEnt = PlayerUI.Instance.playerEnt;
-        var ownedSpells = playerEnt.GetAllActiveSpells()
+        var available = spellsDictionary.Values
+            .Where(sd => !ownedSpellNames.Contains(sd.spellName))
+            .ToList();
+
+        if (available.Count == 0)
+        {
+            Debug.LogWarning("[SpellsManager] No unowned spells available (Server)!");
+            return null;
+        }
+
+        int index = UnityEngine.Random.Range(0, available.Count);
+        Spell.SpellData spellData = available[index];
+
+        if (spellData.spellType?.SpellType == null)
+        {
+            Debug.LogError("[SpellsManager] Invalid SpellType (Server)!");
+            return null;
+        }
+
+        Spell.SpellData clonedData = spellData.Clone();
+        Spell spellInstance = (Spell)Activator.CreateInstance(spellData.spellType.SpellType);
+        spellInstance.Init(clonedData);
+        return spellInstance;
+    }
+
+    // ==========================================================
+    // == CLIENT-ONLY METHODS ==================================
+    // ==========================================================
+#if !UNITY_SERVER
+    /// <summary>
+    /// Returns a random spell the player does not yet own (Client only).
+    /// </summary>
+    public Spell GetRandomSpellClient()
+    {
+        if (PlayerUI.Instance == null || PlayerUI.Instance.playerEnt == null)
+        {
+            Debug.LogWarning("[SpellsManager] PlayerUI or playerEnt not found!");
+            return null;
+        }
+
+        var owned = PlayerUI.Instance.playerEnt.GetAllActiveSpells()
             .Select(s => s.GetData().spellName)
             .ToHashSet();
 
-        var availableSpells = spellsDictionary.Values
-            .Where(sd => !ownedSpells.Contains(sd.spellName))
-            .ToList();
-
-        if (availableSpells.Count == 0)
-        {
-            Debug.LogWarning("[SpellsManager] Le joueur possède déjà tous les sorts !");
-            return null;
-        }
-
-        int index = UnityEngine.Random.Range(0, availableSpells.Count);
-        Spell.SpellData spellData = availableSpells[index];
-        Type spellType = spellData.spellType.SpellType;
-        if (spellType == null)
-        {
-            Debug.LogError("[SpellsManager] SpellType manquant !");
-            return null;
-        }
-
-        Spell.SpellData clonedData = spellData.Clone();
-        Spell spellInstance = (Spell)Activator.CreateInstance(spellType);
-        spellInstance.Init(clonedData);
-        return spellInstance;
+        return GetRandomSpellServer(owned);
     }
+#endif
 
+    // ==========================================================
+    // == UI / ICON ============================================
+    // ==========================================================
     /// <summary>
-    /// Retourne l'icône Sprite d'un spell à partir de son ID (spellName ou spellTypeID).
+    /// Returns a spell icon by name or type ID.
     /// </summary>
     public Sprite GetSpellIcon(string spellName)
     {
-        // 1. Essaye avec spellName
-        if (spellsDictionary.TryGetValue(spellName, out var dataByName))
-            return dataByName.UISprite;
+        // Try direct key lookup
+        if (spellsDictionary.TryGetValue(spellName, out var data))
+            return data.UISprite;
 
-        // 2. Si c'est un type ID, on cherche dans les valeurs
+        // Try by internal name
         foreach (var kvp in spellsDictionary)
         {
             if (kvp.Value.spellName == spellName)
                 return kvp.Value.UISprite;
         }
 
-        Debug.LogWarning($"[SpellsManager] Icône introuvable pour '{spellName}'");
+        Debug.LogWarning($"[SpellsManager] Icon not found for '{spellName}'");
         return null;
     }
 }
