@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 
-public static class EarlyServerBootstrap
+public static class EarlyServerBootStrap
 {
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()

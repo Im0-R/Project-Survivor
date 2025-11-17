@@ -126,7 +126,7 @@
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
-    <Compile Include="Assets\Scripts\Network\Server\EarlyServerBootStrap.cs" />
+    <Compile Include="Assets\BootStrap\EarlyServerBootStrap.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>
   <ItemGroup>

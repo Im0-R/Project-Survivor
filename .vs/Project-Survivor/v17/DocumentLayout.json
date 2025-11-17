@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\network\\server\\earlyserverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\earlyserverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\serveronly\\database\\databaseinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -55,19 +51,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "earlyServerBootStrap.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\earlyServerBootStrap.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\earlyServerBootStrap.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\earlyServerBootStrap.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\earlyServerBootStrap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T10:17:50.722Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "InstanceManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
@@ -75,11 +58,12 @@
               "RelativeToolTip": "Assets\\Scripts\\Manager\\InstanceManager.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAQwFMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T09:17:14.424Z"
+              "WhenOpened": "2025-11-17T09:17:14.424Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "FireballSpell.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
@@ -91,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "StatsDataSO.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
@@ -103,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "BuildScript.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
               "RelativeDocumentMoniker": "Assets\\Editor\\BuildScript.cs",
@@ -115,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "PortalInstances.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\PortalInstances.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\PortalInstances.cs",
@@ -135,12 +119,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Network\\ServerBootStrap.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAuwDAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T15:49:45.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T15:49:45.234Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "SavedData.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Mirage.Profiler\\Editor\\SavedData.cs",
               "RelativeDocumentMoniker": "Assets\\Mirage.Profiler\\Editor\\SavedData.cs",
@@ -152,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "ClientSideInstanceManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
@@ -164,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "DatabaseInitializer.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",

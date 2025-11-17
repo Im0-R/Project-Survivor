@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\network\\server\\earlyserverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\earlyserverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\serverbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -27,7 +31,7 @@
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\statsdataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\spells\\fireballspell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\spells\\fireballspell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\spells\\fireballspell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -46,11 +50,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "EarlyServerBootStrap.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\EarlyServerBootStrap.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\EarlyServerBootStrap.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\EarlyServerBootStrap.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\EarlyServerBootStrap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T10:17:50.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "InstanceManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
@@ -58,12 +75,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Manager\\InstanceManager.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAQwFMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T09:17:14.424Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T09:17:14.424Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "FireballSpell.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
@@ -71,12 +87,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Spells\\FireballSpell.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-14T15:54:43.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-14T15:54:43.243Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "StatsDataSO.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
@@ -84,12 +99,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-14T14:26:26.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-14T14:26:26.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "BuildScript.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
               "RelativeDocumentMoniker": "Assets\\Editor\\BuildScript.cs",
@@ -97,12 +111,11 @@
               "RelativeToolTip": "Assets\\Editor\\BuildScript.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAQwCQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:04:37.72Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T16:04:37.72Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PortalInstances.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\PortalInstances.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\PortalInstances.cs",
@@ -110,12 +123,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Network\\PortalInstances.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:02:09.307Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T16:02:09.307Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ServerBootStrap.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\ServerBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\ServerBootStrap.cs",
@@ -123,12 +135,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Network\\ServerBootStrap.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAuwDAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T15:49:45.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T15:49:45.234Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "SavedData.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Mirage.Profiler\\Editor\\SavedData.cs",
               "RelativeDocumentMoniker": "Assets\\Mirage.Profiler\\Editor\\SavedData.cs",
@@ -136,12 +147,11 @@
               "RelativeToolTip": "Assets\\Mirage.Profiler\\Editor\\SavedData.cs",
               "ViewState": "AgIAAD4AAAAAAAAAAAAwwFEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T15:45:56.49Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T15:45:56.49Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "ClientSideInstanceManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
@@ -153,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DatabaseInitializer.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
@@ -161,8 +171,7 @@
               "RelativeToolTip": "Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T15:38:11.881Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T15:38:11.881Z"
             }
           ]
         }
