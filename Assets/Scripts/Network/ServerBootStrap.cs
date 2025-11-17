@@ -1,20 +1,25 @@
 #if UNITY_SERVER
-using UnityEngine;
 using Mirror;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ServerBootstrap : MonoBehaviour
 {
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+
+        // Deactivate keyboard and mouse input on server to avoid automatic shutdown
+        InputSystem.DisableDevice(Keyboard.current);
+        InputSystem.DisableDevice(Mouse.current);
     }
 
     private IEnumerator Start()
     {
         Debug.Log("[ServerBootstrap] Booting dedicated server...");
 
-        yield return new WaitForSeconds(1f); // attendre un peu pour éviter race conditions
+        yield return new WaitForSeconds(1f);
 
         if (!NetworkServer.active)
         {
@@ -37,6 +42,7 @@ public class ServerBootstrap : MonoBehaviour
             Debug.Log("[ServerBootstrap] Server alive, " +
                       $"connections={NetworkServer.connections.Count}");
         }
+        
     }
 }
 #endif

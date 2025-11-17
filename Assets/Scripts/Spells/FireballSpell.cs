@@ -6,6 +6,7 @@ public class FireballSpell : Spell
     //viable Constructor for Activator
     public FireballSpell() { }
 
+
     public override void ExecuteServer(NetworkEntity owner)
     {
         Transform target = null;
