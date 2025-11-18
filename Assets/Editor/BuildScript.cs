@@ -23,7 +23,7 @@ public static class BuildScript
 
         // --- CONFIG ---
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneLinux64);
-        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server; // Important : build serveur
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
         EditorUserBuildSettings.development = false;
 
         // --- BUILD OPTIONS ---
@@ -32,7 +32,7 @@ public static class BuildScript
             scenes = scenes,
             locationPathName = fullPath,
             target = BuildTarget.StandaloneLinux64,
-            options = BuildOptions.CompressWithLz4 | BuildOptions.EnableHeadlessMode // Headless activé ici
+            options = BuildOptions.CompressWithLz4 | BuildOptions.EnableHeadlessMode
         };
 
         // --- BUILD ---
@@ -40,11 +40,11 @@ public static class BuildScript
 
         if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
-            UnityEngine.Debug.LogError($"❌ Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");
+            UnityEngine.Debug.LogError($"Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");
         }
         else
         {
-            UnityEngine.Debug.Log($"✅ Server build succeeded: {report.summary.outputPath}");
+            UnityEngine.Debug.Log($"Server build succeeded: {report.summary.outputPath}");
             BuildInfo.Version = "Build " + System.DateTime.Now.ToString("yyyyMMddHHmm");
 
             // --- make executable on Linux ---
@@ -63,11 +63,11 @@ public static class BuildScript
             process.StartInfo.RedirectStandardOutput = true;
             process.Start();
             process.WaitForExit();
-            UnityEngine.Debug.Log($"🟢 chmod +x applied to {path}");
+            UnityEngine.Debug.Log($"chmod +x applied to {path}");
         }
         catch
         {
-            UnityEngine.Debug.LogWarning($"⚠️ Could not set executable permissions for {path}");
+            UnityEngine.Debug.LogWarning($"Could not set executable permissions for {path}");
         }
     }
 }
