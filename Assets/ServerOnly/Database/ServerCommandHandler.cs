@@ -1,12 +1,9 @@
 ﻿#if UNITY_SERVER || UNITY_EDITOR
 using Mirror;
-using System;
 using UnityEngine;
 using static AuthMessages;
-
-// ======================
+ 
 // SERVER-SIDE AUTH HANDLER
-// ======================
 
 public class ServerCommandHandler : MonoBehaviour
 {
@@ -37,9 +34,7 @@ public class ServerCommandHandler : MonoBehaviour
         Debug.Log("[ServerCommandHandler] NetworkMessage handlers registered.");
     }
 
-    // ============================
     // REGISTER
-    // ============================
     private void OnRegisterMessageReceived(NetworkConnectionToClient conn, RegisterMessage msg)
     {
         Debug.Log($"[Server] Register request from {conn.connectionId}: {msg.username}");
@@ -65,9 +60,7 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
-    // ============================
     // LOGIN
-    // ============================
     private void OnLoginMessageReceived(NetworkConnectionToClient conn, LoginMessage msg)
     {
         Debug.Log($"[Server] Login request from {conn.connectionId}: {msg.username}");
@@ -106,9 +99,7 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
-    // ============================
-    // SEND RESPONSE
-    // ============================
+    //SEND RESPONSE
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
         conn.Send(new AuthResponseMessage

@@ -58,6 +58,7 @@ public static class DatabaseManager
         Debug.Log($"[DB] User '{username}' created.");
     }
 
+
     public static void DeleteUser(string username)
     {
         var user = db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
@@ -119,6 +120,24 @@ public static class DatabaseManager
             return System.BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
         }
     }
+    // Equipment Side
+
+    public static void SaveEquipment(int userId, PlayerEquipmentData equip)
+    {
+        var user = db.Table<UserAccount>().First(u => u.Id == userId);
+        user.EquipmentJson = JsonUtility.ToJson(equip);
+        db.Update(user);
+    }
+    public static PlayerEquipmentData LoadEquipment(int userId)
+    {
+        var user = db.Table<UserAccount>().First(u => u.Id == userId);
+
+        if (string.IsNullOrEmpty(user.EquipmentJson))
+            return new PlayerEquipmentData();
+
+        return JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
+    }
+
 }
 
 /// <summary>
@@ -134,9 +153,16 @@ public class UserAccount
 
     public string Password { get; set; }
 
-    // comme stats , items etc.
-    public string EquippedItem { get; set; } = "none";
+    //Player Progression
     public int Level { get; set; } = 1;
     public int Experience { get; set; } = 0;
+
+
+    //Equipment System
+    public string EquipmentJson { get; set; } = "{}";
+
+    //inventory System
+    public string InventoryJson { get; set; } = "[]";
 }
+
 #endif

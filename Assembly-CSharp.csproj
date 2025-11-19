@@ -63,14 +63,17 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipment.cs" />
     <Compile Include="Assets\Scripts\Manager\TimeManager.cs" />
     <Compile Include="Assets\Scripts\Network\AuthMessages.cs" />
+    <Compile Include="Assets\ServerOnly\Database\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashBehaviour.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\UI\RewardSpellsCanvas.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyAttackState.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipmentData.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsDataSO.cs" />
     <Compile Include="Assets\Scripts\Manager\InstanceManager.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
@@ -84,6 +87,7 @@
     <Compile Include="Assets\Scripts\Network\InterestManagement\ProximityInterestManagement.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\Server\ServerEquipmentHandler.cs" />
     <Compile Include="Assets\AuthentificatorLogin.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />
@@ -122,8 +126,10 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellSyncData.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\EquipItemRequest.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\ItemDataSO.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />

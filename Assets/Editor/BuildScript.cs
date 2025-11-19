@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using System.IO;
 using System.Linq;
+using UnityEditor.Build.Reporting;
 
 public static class BuildScript
 {
@@ -36,9 +37,9 @@ public static class BuildScript
         };
 
         // --- BUILD ---
-        var report = BuildPipeline.BuildPlayer(options);
+        BuildReport report = BuildPipeline.BuildPlayer(options);
 
-        if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+        if (report.summary.result != BuildResult.Succeeded)
         {
             UnityEngine.Debug.LogError($"Build failed: {report.summary.result} ({report.summary.totalErrors} errors)");
         }
