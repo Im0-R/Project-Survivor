@@ -5,7 +5,6 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] private GameObject generalCanvasParent;
-    [SerializeField] private GameObject loginCanvas;
     [SerializeField] private GameObject gameUICanvas;
     [SerializeField] private GameObject spellsRewardCanvas;
 
@@ -14,12 +13,6 @@ public class UIManager : MonoBehaviour
         // Ensure there is only one instance of UIManager
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-    }
-
-    void Start()
-    {
-        // Start with login UI visible
-        ShowLoginUI();
     }
 
     void Update()
@@ -31,21 +24,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowLoginUI()
-    {
-        loginCanvas.SetActive(true);
-        gameUICanvas.SetActive(false);
-    }
-
     public void ShowLoadingUI()
     {
-        loginCanvas.SetActive(false);
         gameUICanvas.SetActive(false);
     }
 
     public void ShowGameUI()
     {
-        loginCanvas.SetActive(false);
         gameUICanvas.SetActive(true);
     }
     public void ShowSpellsRewardUI()

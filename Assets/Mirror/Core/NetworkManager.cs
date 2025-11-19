@@ -401,7 +401,7 @@ namespace Mirror
             mode = NetworkManagerMode.ClientOnly;
 
             SetupClient();
-
+            Debug.Log($"NetworkManager StartClient address:{networkAddress}");
             // In case this is a headless client...
             ConfigureHeadlessFrameRate();
 

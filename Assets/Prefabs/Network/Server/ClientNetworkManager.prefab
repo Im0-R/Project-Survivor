@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2756691690596845048}
   - component: {fileID: 5073950128032601462}
   - component: {fileID: 4168362351876152525}
-  - component: {fileID: 8513871023313684282}
+  - component: {fileID: 5983104299075125726}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: ClientNetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/Server/Server_Main.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2756691690596845048}
-  networkAddress: 72.60.212.58
+  networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7e980538c9eef47ba02e5e0a23a7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DatabaseInitializer
---- !u!114 &8513871023313684282
+--- !u!114 &5983104299075125726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,6 +148,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2566785785800312774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ea6790a1c7a6c4db2f061a3bc16894, type: 3}
+  m_Script: {fileID: 11500000, guid: 297eaa5c867ef3447ba9b89853a76331, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ServerBootstrap
+  m_EditorClassIdentifier: Assembly-CSharp::InGameConsole

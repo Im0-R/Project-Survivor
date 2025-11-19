@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class PlayerEntity : NetworkEntity
 {
@@ -18,55 +19,45 @@ public class PlayerEntity : NetworkEntity
         GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier;
     }
 
+    // ======================
+    // SERVER
+    // ======================
     public override void OnStartServer()
     {
         base.OnStartServer();
         InitStatsFromSO();
-        OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
+
+        // OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
     }
 
+    // ======================
+    // CLIENT
+    // ======================
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
 
-        // 1) Set camera (only on the local client)
-        if (CameraFollow.Instance != null)
-            CameraFollow.Instance.SetTarget(transform);
-        else
-            Debug.LogWarning("[PlayerEntity] CameraFollow.Instance is null in OnStartLocalPlayer.");
+        Debug.Log("[Client] Local player spawned ? Loading PlayerUI scene...");
 
-        // 2) Try to link UI right away, or we wait a bit
-        if (PlayerUI.Instance != null)
-        {
-            PlayerUI.Instance.SetPlayer(this);
-            Debug.Log("[PlayerEntity] PlayerUI linked immediately.");
-        }
-        else
-        {
-            Debug.Log("[PlayerEntity] PlayerUI not ready yet, starting waiter coroutine.");
-            StartCoroutine(WaitForUIAndSet());
-        }
+        // 1) Charger PlayerUI (client-only)
+        SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive)
+            .completed += op => { StartCoroutine(LinkUIWhenReady()); };
     }
 
-    private IEnumerator WaitForUIAndSet()
+    private IEnumerator LinkUIWhenReady()
     {
-        float timeout = 5f;
-        float t = 0f;
+        // 2) Attendre CameraFollow et PlayerUI
+        yield return new WaitUntil(() => CameraFollow.Instance != null
+                                     && PlayerUI.Instance != null);
 
-        while (PlayerUI.Instance == null && t < timeout)
-        {
-            t += Time.deltaTime;
-            yield return null;
-        }
+        Debug.Log("[Client] PlayerUI & CameraFollow ready ? linking...");
 
-        if (PlayerUI.Instance != null)
-        {
-            PlayerUI.Instance.SetPlayer(this);
-            Debug.Log("[PlayerEntity] PlayerUI linked after wait.");
-        }
-        else
-        {
-            Debug.LogWarning("[PlayerEntity] PlayerUI still null after waiting. Vérifie que PlayerUI est présent dans la scène et que son Awake a été appelé.");
-        }
+        // 3) Set caméra
+        CameraFollow.Instance.SetTarget(transform);
+
+        // 4) Link PlayerUI
+        PlayerUI.Instance.SetPlayer(this);
+
+        Debug.Log("[Client] UI + Camera linked successfully.");
     }
 }

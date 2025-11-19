@@ -29,7 +29,8 @@ public class ClientAccountAPI : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[ClientAccountAPI] Sending RegisterMessage for {username}");
+        //Send register message to server
+        Debug.Log($"[ClientAccountAPI] Sending RegisterMessage for {username} with password {password}");
         NetworkClient.Send(new RegisterMessage { username = username, password = password });
     }
 
@@ -41,6 +42,7 @@ public class ClientAccountAPI : MonoBehaviour
             return;
         }
 
+        //Send login message to server
         Debug.Log($"[ClientAccountAPI] Sending LoginMessage for {username}");
         NetworkClient.Send(new LoginMessage { username = username, password = password });
     }
@@ -51,16 +53,16 @@ public class ClientAccountAPI : MonoBehaviour
 
     private void OnAuthResponse(AuthResponseMessage msg)
     {
-        Debug.Log($"[ClientAccountAPI] AuthResponse → success={msg.success}, message={msg.message}");
+        Debug.Log($"[ClientAccountAPI] AuthResponse  success={msg.success}, message={msg.message}");
 
         if (msg.success)
         {
             Debug.Log("[ClientAccountAPI] Login/Register successful — waiting for Mirror to load online scene...");
 
-            // Optionnel : forcer un retour visuel ou UI
 
-            // Mirror va charger automatiquement "Town" une fois AddPlayerForConnection() exécuté
-            // Si tu veux forcer manuellement la scène :
+            //Load town scene & unload menu scene
+
+            SceneLoader.UnloadMenuScene();
             SceneLoader.LoadTownScene();
         }
         else

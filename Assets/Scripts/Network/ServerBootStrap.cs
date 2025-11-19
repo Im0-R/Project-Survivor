@@ -1,4 +1,4 @@
-#if UNITY_SERVER
+ï»¿#if UNITY_SERVER || UNITY_EDITOR
 using Mirror;
 using System.Collections;
 using UnityEngine;
@@ -34,15 +34,14 @@ public class ServerBootstrap : MonoBehaviour
                 Debug.LogError("[ServerBootstrap] No NetworkManager found!");
             }
         }
-
-        // Boucle keep-alive pour empêcher la fermeture
+        //keep-alive loop for dedicated server
         while (true)
         {
             yield return new WaitForSeconds(10f);
             Debug.Log("[ServerBootstrap] Server alive, " +
                       $"connections={NetworkServer.connections.Count}");
         }
-        
+
     }
 }
 #endif
