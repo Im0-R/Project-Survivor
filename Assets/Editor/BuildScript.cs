@@ -22,6 +22,9 @@ public static class BuildScript
             .Select(s => s.path)
             .ToArray();
 
+        //Put the scene Server_Main first
+        scenes = scenes.OrderByDescending(s => s.Contains("Server_Main")).ToArray();
+
         // --- CONFIG ---
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneLinux64);
         EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
