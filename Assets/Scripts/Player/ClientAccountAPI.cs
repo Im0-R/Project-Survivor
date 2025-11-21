@@ -1,6 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
-using static AuthMessages;
+using AuthMessages;
 public class ClientAccountAPI : MonoBehaviour
 {
     public static ClientAccountAPI Instance { get; private set; }

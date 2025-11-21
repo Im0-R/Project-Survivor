@@ -1,7 +1,7 @@
 ﻿#if UNITY_SERVER || UNITY_EDITOR
 using Mirror;
 using UnityEngine;
-using static AuthMessages;
+using AuthMessages;
  
 // SERVER-SIDE AUTH HANDLER
 

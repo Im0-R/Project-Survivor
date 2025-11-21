@@ -1,7 +1,6 @@
 using Mirror;
-using UnityEngine;
 
-public class AuthMessages : MonoBehaviour
+namespace AuthMessages
 {
     public struct RegisterMessage : NetworkMessage
     {
