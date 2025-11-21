@@ -164,7 +164,9 @@
     <None Include="Assets\WizardPBR\SRP\HowToTestSRPs.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\Mirror\Readme.txt" />
+    <None Include="Assets\USS\BaseUSS.uss" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\UI Toolkit\DocumentUIPlayer.uxml" />
     <None Include="Assets\ScriptTemplates\57-Mirror__Network Transform-NewNetworkTransform.cs.txt" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -190,6 +192,7 @@
     <None Include="Assets\Packages\SQLitePCLRaw.bundle_green.2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Packages\sqlite-net-pcl.1.9.172\LICENSE.txt" />
+    <None Include="Assets\UI Toolkit\UIDocumentMenu.uxml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\Mirror\Hosting\Readme.txt" />
   </ItemGroup>

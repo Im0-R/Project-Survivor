@@ -29,7 +29,8 @@ namespace IO.Swagger.Model {
     public string Value { get; set; }
 
     /// <summary>
-    /// This will encrypt the value in our database, won't be readable by external source
+    /// This will encrypt the value in our 
+    /// , won't be readable by external source
     /// </summary>
     /// <value>This will encrypt the value in our database, won't be readable by external source</value>
     [DataMember(Name="is_secret", EmitDefaultValue=false)]

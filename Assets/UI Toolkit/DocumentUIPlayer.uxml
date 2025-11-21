@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/USS/BaseUSS.uss?fileID=7433441132597879392&amp;guid=f68a23cd43a619c4e836de7fedb01dc3&amp;type=3#BaseUSS" />
+    <ui:ProgressBar value="22" title="my-progress" />
+    <ui:Slider label="Slider" value="42" high-value="100" style="-unity-background-image-tint-color: rgb(255, 255, 255);" />
+</ui:UXML>

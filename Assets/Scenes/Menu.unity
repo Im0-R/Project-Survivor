@@ -581,6 +581,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5460735251137588943, guid: 70c02d56188f04247be0207ffcae1551, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7562391433697639238, guid: 70c02d56188f04247be0207ffcae1551, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7673663003418168052, guid: 70c02d56188f04247be0207ffcae1551, type: 3}
       propertyPath: m_Name
       value: CanvasMenuSwitcher

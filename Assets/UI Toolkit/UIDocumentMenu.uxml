@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; align-content: auto; align-self: auto; align-items: auto; flex-direction: row;">
+        <ui:GroupBox style="width: 33%; height: 101%; align-items: center; justify-content: flex-start; align-self: stretch; flex-direction: column;">
+            <ui:Button text="Button" style="width: 70%; height: 10%;" />
+            <ui:Button text="Button" style="width: 70%; height: 10%;" />
+        </ui:GroupBox>
+        <ui:GroupBox style="width: 33%; height: 101%; align-items: center; justify-content: flex-start; align-self: stretch; flex-direction: column;">
+            <ui:Button text="Button" style="width: 70%; height: 10%;" />
+            <ui:Button text="Button" style="width: 70%; height: 10%;" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>
