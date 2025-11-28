@@ -23,7 +23,7 @@ public class ServerBootstrap : MonoBehaviour
 
         if (!NetworkServer.active)
         {
-            var manager = FindObjectOfType<NetworkManager>();
+            NetworkManager manager = FindObjectOfType<NetworkManager>();
             if (manager != null)
             {
                 Debug.Log("[ServerBootstrap] Starting Mirror server...");
@@ -34,7 +34,7 @@ public class ServerBootstrap : MonoBehaviour
                 Debug.LogError("[ServerBootstrap] No NetworkManager found!");
             }
         }
-        //keep-alive loop for dedicated server
+
         while (true)
         {
             yield return new WaitForSeconds(10f);
