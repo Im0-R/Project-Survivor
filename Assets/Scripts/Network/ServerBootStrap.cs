@@ -28,6 +28,9 @@ public class ServerBootstrap : MonoBehaviour
             {
                 Debug.Log("[ServerBootstrap] Starting Mirror server...");
                 manager.StartServer();
+
+                        Debug.Log("[ServerBootstrap] Initializing DB right after StartServer()");
+                        DatabaseManager.Initialize();
             }
             else
             {
