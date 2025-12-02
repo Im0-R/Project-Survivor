@@ -20,9 +20,10 @@ public static class DatabaseManager
     public static void Initialize()
     {
 #if UNITY_SERVER
-        string dbPath = "/home/server/database.db";
+    Debug.Log("[DB] UNITY_SERVER = TRUE (server build detected)");
+    string dbPath = "/home/server/database.db";
 #else
-    string dbPath = Path.Combine(Application.persistentDataPath, "database_client.db");
+        string dbPath = Path.Combine(Application.persistentDataPath, "database_client.db");
 #endif
 
         db = new SQLiteConnection(dbPath);
