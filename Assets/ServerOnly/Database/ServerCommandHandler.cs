@@ -1,10 +1,8 @@
-﻿#if UNITY_SERVER || UNITY_EDITOR
+﻿#if UNITY_SERVER
 using Mirror;
 using UnityEngine;
 using AuthMessages;
  
-// SERVER-SIDE AUTH HANDLER
-
 public class ServerCommandHandler : MonoBehaviour
 {
     public static ServerCommandHandler Instance { get; private set; }
@@ -34,7 +32,6 @@ public class ServerCommandHandler : MonoBehaviour
         Debug.Log("[ServerCommandHandler] NetworkMessage handlers registered.");
     }
 
-    // REGISTER
     private void OnRegisterMessageReceived(NetworkConnectionToClient conn, RegisterMessage msg)
     {
         Debug.Log($"[Server] Register request from {conn.connectionId}: {msg.username}");
@@ -60,7 +57,6 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
-    // LOGIN
     private void OnLoginMessageReceived(NetworkConnectionToClient conn, LoginMessage msg)
     {
         Debug.Log($"[Server] Login request from {conn.connectionId}: {msg.username}");
@@ -76,14 +72,12 @@ public class ServerCommandHandler : MonoBehaviour
 
             conn.authenticationData = msg.username;
 
-            // Already has player
             if (conn.identity != null)
             {
                 SendAuthResponse(conn, true, "Already logged in.");
                 return;
             }
 
-            // Spawn the player
             GameObject prefab = NetworkManager.singleton.playerPrefab;
             GameObject instance = Instantiate(prefab);
 
@@ -99,7 +93,6 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
-    //SEND RESPONSE
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
         conn.Send(new AuthResponseMessage

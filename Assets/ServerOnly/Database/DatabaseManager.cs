@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine;
 using System.Security.Cryptography;
 using System.Text;
+using Mirror;
 
 /// <summary>
-/// DatabaseManager — server only.
 /// manages user accounts and data using SQLite.
 /// </summary>
 public static class DatabaseManager
@@ -19,16 +19,25 @@ public static class DatabaseManager
     // ==============================
     public static void Initialize()
     {
+        // Empêche les clients de lancer la DB
+        if (!Application.isBatchMode)  // client = FALSE, serveur headless = TRUE
+        {
+            Debug.Log("[DB] Skipped: Running as client, not server");
+            return;
+        }
+
+        Debug.Log("[DB] Running in batch mode = true → server detected");
+
 #if UNITY_SERVER
-    Debug.Log("[DB] UNITY_SERVER = TRUE (server build detected)");
-    string dbPath = "/home/server/database.db";
+        Debug.Log("[DB] UNITY_SERVER = TRUE (server build)");
+        string dbPath = "/home/server/database.db";
 #else
-        string dbPath = Path.Combine(Application.persistentDataPath, "database_client.db");
+    string dbPath = Path.Combine(Application.persistentDataPath, "database_server_debug.db");
+    Debug.Log("[DB] UNITY_SERVER = FALSE but batchMode = TRUE → test server");
 #endif
 
         db = new SQLiteConnection(dbPath);
         db.CreateTable<UserAccount>();
-
         Debug.Log($"[DB] Initialized at: {dbPath}");
     }
     // ==============================
