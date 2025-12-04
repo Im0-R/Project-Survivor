@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1285617818062106251}
-  - component: {fileID: 9125191490142077684}
   - component: {fileID: 2756691690596845048}
   - component: {fileID: 5073950128032601462}
   - component: {fileID: 1741678377378105969}
+  - component: {fileID: 5453244140456062514}
   m_Layer: 0
   m_Name: ServerNetworkManager
   m_TagString: Untagged
@@ -35,56 +35,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9125191490142077684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566785785800312774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Mirror::Mirror.NetworkManager
-  dontDestroyOnLoad: 1
-  runInBackground: 1
-  headlessStartMode: 0
-  editorAutoStart: 0
-  sendRate: 45
-  offlineScene: 
-  onlineScene: Assets/Scenes/Server/Server_Main.unity
-  offlineSceneLoadDelay: 0
-  transport: {fileID: 2756691690596845048}
-  networkAddress: localhost
-  maxConnections: 100
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
-  authenticator: {fileID: 0}
-  playerPrefab: {fileID: 7691504422253265128, guid: 60d727c3f1bcf9f42aa8d330510781e4, type: 3}
-  autoCreatePlayer: 0
-  playerSpawnMethod: 0
-  spawnPrefabs:
-  - {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
-  - {fileID: 497663693229510926, guid: dbd520ebf27f0374db5f6f7c8a3a8759, type: 3}
-  - {fileID: 1524442625486576030, guid: 556b42445743ec848b2f7703994182ac, type: 3}
-  - {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
-  - {fileID: 3180879256419302217, guid: 0df6a83bd8b671645a675100d6161a36, type: 3}
-  exceptionsDisconnect: 1
-  snapshotSettings:
-    bufferTimeMultiplier: 2
-    bufferLimit: 32
-    catchupNegativeThreshold: -1
-    catchupPositiveThreshold: 1
-    catchupSpeed: 0.019999999552965164
-    slowdownSpeed: 0.03999999910593033
-    driftEmaDuration: 1
-    dynamicAdjustment: 1
-    dynamicAdjustmentTolerance: 1
-    deliveryTimeEmaDuration: 2
-  evaluationMethod: 0
-  evaluationInterval: 3
-  timeInterpolationGui: 0
 --- !u!114 &2756691690596845048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +88,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ea6790a1c7a6c4db2f061a3bc16894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerBootstrap
+--- !u!114 &5453244140456062514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2566785785800312774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac820766fa26daa4b878a3b3ee105325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MyNetworkManager
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  headlessStartMode: 0
+  editorAutoStart: 0
+  sendRate: 60
+  offlineScene: Assets/Scenes/Server/Server_Main.unity
+  onlineScene: 
+  offlineSceneLoadDelay: 0
+  transport: {fileID: 0}
+  networkAddress: localhost
+  maxConnections: 100
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 7691504422253265128, guid: 60d727c3f1bcf9f42aa8d330510781e4, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  spawnPrefabs:
+  - {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
+  - {fileID: 497663693229510926, guid: dbd520ebf27f0374db5f6f7c8a3a8759, type: 3}
+  - {fileID: 1524442625486576030, guid: 556b42445743ec848b2f7703994182ac, type: 3}
+  - {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
+  - {fileID: 3180879256419302217, guid: 0df6a83bd8b671645a675100d6161a36, type: 3}
+  exceptionsDisconnect: 1
+  snapshotSettings:
+    bufferTimeMultiplier: 2
+    bufferLimit: 32
+    catchupNegativeThreshold: -1
+    catchupPositiveThreshold: 1
+    catchupSpeed: 0.019999999552965164
+    slowdownSpeed: 0.03999999910593033
+    driftEmaDuration: 1
+    dynamicAdjustment: 1
+    dynamicAdjustmentTolerance: 1
+    deliveryTimeEmaDuration: 2
+  evaluationMethod: 0
+  evaluationInterval: 3
+  timeInterpolationGui: 0

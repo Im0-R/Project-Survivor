@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
+    <Compile Include="Assets\Scripts\Network\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
