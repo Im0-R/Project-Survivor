@@ -1,4 +1,4 @@
-﻿#if UNITY_SERVER || UNITY_EDITOR
+﻿#if !UNITY_CLIENT || UNITY_EDITOR
 using SQLite;
 using System.IO;
 using System.Linq;
@@ -28,7 +28,7 @@ public static class DatabaseManager
 
         Debug.Log("[DB] Running in batch mode = true → server detected");
 
-#if UNITY_SERVER
+#if !UNITY_CLIENT
         Debug.Log("[DB] UNITY_SERVER = TRUE (server build)");
         string dbPath = "/home/server/database.db";
 #else

@@ -9,32 +9,33 @@ public static class BuildScript
     [MenuItem("Build/Server Build")]
     public static void BuildServer()
     {
-        AddDefine("UNITY_SERVER", NamedBuildTarget.Standalone);
+        // --- TARGET ---
+        NamedBuildTarget serverTarget = NamedBuildTarget.Server;
+
+        // --- ADD UNITY_SERVER DEFINE ---
+        AddDefine("UNITY_SERVER", serverTarget);
 
         string buildPath = "Builds/Server";
         string exeName = "ServerBuild.x86_64";
         string fullPath = Path.Combine(buildPath, exeName);
 
-        if (!Directory.Exists(buildPath))
-            Directory.CreateDirectory(buildPath);
+        Directory.CreateDirectory(buildPath);
 
+        // --- SCENES ---
         string[] scenes = EditorBuildSettings.scenes
             .Where(s => s.enabled)
             .Select(s => s.path)
+            .OrderByDescending(s => s.Contains("Server_Main"))
             .ToArray();
 
-        scenes = scenes.OrderByDescending(s => s.Contains("Server_Main")).ToArray();
-
-
-                /// CONFIG BUILD SETTINGS
-            EditorUserBuildSettings.SwitchActiveBuildTarget(
+        // --- CONFIGURE BUILD ---
+        EditorUserBuildSettings.SwitchActiveBuildTarget(
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64
         );
-        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
-        EditorUserBuildSettings.development = false;
 
-        /// CONFIG PLAYER SETTINGS  
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+
         BuildPlayerOptions options = new BuildPlayerOptions
         {
             scenes = scenes,
@@ -55,12 +56,12 @@ public static class BuildScript
         else
         {
             UnityEngine.Debug.Log($"Server build succeeded: {report.summary.outputPath}");
-            BuildInfo.Version = "Build " + System.DateTime.Now.ToString("yyyyMMddHHmm");
-
             TryMakeExecutable(fullPath);
         }
+
+        RemoveDefine("UNITY_SERVER", serverTarget);
     }
-    //             MAKE THE SERVER EXECUTABLE ON LINUX
+
     private static void TryMakeExecutable(string path)
     {
         try
@@ -72,30 +73,26 @@ public static class BuildScript
             process.StartInfo.RedirectStandardOutput = true;
             process.Start();
             process.WaitForExit();
-            UnityEngine.Debug.Log($"chmod +x applied to {path}");
         }
-        catch
-        {
-            UnityEngine.Debug.LogWarning($"Could not set executable permissions for {path}");
-        }
+        catch { }
     }
 
-
-                 // SET THE DEFINE NEEDED FOR SERVER BUILD
     private static void AddDefine(string define, NamedBuildTarget target)
     {
         string defines = PlayerSettings.GetScriptingDefineSymbols(target);
+        var list = defines.Split(';').Where(d => d.Length > 0).ToList();
 
-        var defineList = defines.Split(';')
-            .Where(d => !string.IsNullOrWhiteSpace(d))
-            .ToList();
-
-        if (!defineList.Contains(define))
+        if (!list.Contains(define))
         {
-            defineList.Add(define);
-            string newDefines = string.Join(";", defineList);
-            PlayerSettings.SetScriptingDefineSymbols(target, newDefines);
-            UnityEngine.Debug.Log($"[BuildScript] Added define '{define}' to {target}: {newDefines}");
+            list.Add(define);
+            PlayerSettings.SetScriptingDefineSymbols(target, string.Join(";", list));
         }
+    }
+
+    private static void RemoveDefine(string define, NamedBuildTarget target)
+    {
+        string defines = PlayerSettings.GetScriptingDefineSymbols(target);
+        var list = defines.Split(';').Where(d => d.Length > 0 && d != define).ToList();
+        PlayerSettings.SetScriptingDefineSymbols(target, string.Join(";", list));
     }
 }

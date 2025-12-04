@@ -56,7 +56,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/Server/Server_Main.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2756691690596845048}
-  networkAddress: 72.60.212.47
+  networkAddress: 72.60.212.58
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60

@@ -9,7 +9,19 @@ public class ServerBootstrap : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+#if UNITY_CLIENT
+        Debug.Log("UNITY_CLIENT = TRUE");
+#else
+        Debug.Log("UNITY_CLIENT = FALSE");
+#endif
 
+#if UNITY_SERVER
+    Debug.Log("UNITY_SERVER = TRUE");
+#endif
+
+#if ENABLE_HEADLESS_MODE
+    Debug.Log("HEADLESS MODE = TRUE");
+#endif
         // Deactivate keyboard and mouse input on server to avoid automatic shutdown
         InputSystem.DisableDevice(Keyboard.current);
         InputSystem.DisableDevice(Mouse.current);
@@ -29,8 +41,8 @@ public class ServerBootstrap : MonoBehaviour
                 Debug.Log("[ServerBootstrap] Starting Mirror server...");
                 manager.StartServer();
 
-                        Debug.Log("[ServerBootstrap] Initializing DB right after StartServer()");
-                        DatabaseManager.Initialize();
+                Debug.Log("[ServerBootstrap] Initializing DB right after StartServer()");
+                DatabaseManager.Initialize();
             }
             else
             {
