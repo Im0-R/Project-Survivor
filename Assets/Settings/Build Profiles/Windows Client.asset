@@ -20,7 +20,13 @@ MonoBehaviour:
     rid: 7900820184674861331
   m_OverrideGlobalSceneList: 0
   m_Scenes: []
-  m_ScriptingDefines: []
+  m_ScriptingDefines:
+  - MIRROR
+  - MIRROR_89_OR_NEWER
+  - MIRROR_90_OR_NEWER
+  - MIRROR_93_OR_NEWER
+  - MIRROR_96_OR_NEWER
+  - EDGEGAP_PLUGIN_SERVERS
   m_PlayerSettingsYaml:
     m_Settings: []
   references:
