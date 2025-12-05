@@ -28,6 +28,10 @@ public static class BuildScript
             .OrderByDescending(s => s.Contains("Server_Main"))
             .ToArray();
 
+        foreach (string scen in scenes)
+        {
+            UnityEngine.Debug.Log($"Including scene in build: {scen}");
+        }
         // --- CONFIGURE BUILD ---
         EditorUserBuildSettings.SwitchActiveBuildTarget(
             BuildTargetGroup.Standalone,
@@ -57,6 +61,10 @@ public static class BuildScript
         {
             UnityEngine.Debug.Log($"Server build succeeded: {report.summary.outputPath}");
             TryMakeExecutable(fullPath);
+            foreach (string scen in scenes)
+            {
+                UnityEngine.Debug.Log($"Including scene in build: {scen}");
+            }
         }
 
         RemoveDefine("UNITY_SERVER", serverTarget);
