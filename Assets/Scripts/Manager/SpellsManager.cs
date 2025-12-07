@@ -33,7 +33,7 @@ public class SpellsManager : MonoBehaviour
 #if !UNITY_CLIENT
         Debug.Log($"[SpellsManager] {spellsDictionary.Count} spells registered PROUT PROUT:");
         foreach (var key in spellsDictionary.Keys)
-            Debug.Log($"  - {key}");
+            Debug.Log($"  - {key} spell Added");
 #endif
     }
 
