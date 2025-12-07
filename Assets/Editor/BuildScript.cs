@@ -7,7 +7,7 @@ using UnityEngine;
 public static class BuildScript
 {
     [MenuItem("Build/Server Build (Profile)")]
-    public static void BuildServerProfile()
+    public static void BuildServer()
     {
         // --- Fetch internal BuildProfileStore ---
         Type storeType = Type.GetType("UnityEditor.Build.Profile.BuildProfileStore, UnityEditor");
