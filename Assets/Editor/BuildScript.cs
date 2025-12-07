@@ -1,106 +1,116 @@
-﻿using UnityEditor;
-using UnityEditor.Build;
-using System.IO;
-using System.Linq;
+﻿using System;
+using System.Reflection;
+using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 public static class BuildScript
 {
-    [MenuItem("Build/Server Build")]
-    public static void BuildServer()
+    [MenuItem("Build/Server Build (Profile)")]
+    public static void BuildServerProfile()
     {
-        // --- TARGET ---
-        NamedBuildTarget serverTarget = NamedBuildTarget.Server;
-
-        // --- ADD UNITY_SERVER DEFINE ---
-        AddDefine("UNITY_SERVER", serverTarget);
-
-        string buildPath = "Builds/Server";
-        string exeName = "ServerBuild.x86_64";
-        string fullPath = Path.Combine(buildPath, exeName);
-
-        Directory.CreateDirectory(buildPath);
-
-        // --- SCENES ---
-        string[] scenes = EditorBuildSettings.scenes
-            .Where(s => s.enabled)
-            .Select(s => s.path)
-            .OrderByDescending(s => s.Contains("Server_Main"))
-            .ToArray();
-
-        foreach (string scen in scenes)
+        // --- Fetch internal BuildProfileStore ---
+        Type storeType = Type.GetType("UnityEditor.Build.Profile.BuildProfileStore, UnityEditor");
+        if (storeType == null)
         {
-            UnityEngine.Debug.Log($"Including scene in build: {scen}");
+            UnityEngine.Debug.LogError("Could not load BuildProfileStore (internal Unity API missing).");
+            return;
         }
-        // --- CONFIGURE BUILD ---
-        EditorUserBuildSettings.SwitchActiveBuildTarget(
-            BuildTargetGroup.Standalone,
-            BuildTarget.StandaloneLinux64
-        );
 
-        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+        // --- Get Build Profile by name ---
+        MethodInfo getByName = storeType.GetMethod("GetProfileByName",
+            BindingFlags.Public | BindingFlags.Static);
 
-        BuildPlayerOptions options = new BuildPlayerOptions
+        if (getByName == null)
         {
-            scenes = scenes,
-            locationPathName = fullPath,
-            target = BuildTarget.StandaloneLinux64,
-            options = BuildOptions.CompressWithLz4
-        };
+            UnityEngine.Debug.LogError("Could not find 'GetProfileByName' method.");
+            return;
+        }
 
-        // --- BUILD ---
-        BuildReport report = BuildPipeline.BuildPlayer(options);
-
-        if (report.summary.result != BuildResult.Succeeded)
+        object profile = getByName.Invoke(null, new object[] { "Linux Server" });
+        if (profile == null)
         {
-            UnityEngine.Debug.LogError(
-                $"Build failed: {report.summary.result} ({report.summary.totalErrors} errors)"
-            );
+            UnityEngine.Debug.LogError("Build Profile 'Linux Server' not found.");
+            return;
+        }
+
+        Type profileType = profile.GetType();
+        UnityEngine.Debug.Log("Loaded Build Profile: Linux Server");
+
+        // --- Read scenes included in the Build Profile ---
+        var scenesProp = profileType.GetProperty("Scenes");
+        var scenesList = scenesProp?.GetValue(profile) as System.Collections.IEnumerable;
+
+        if (scenesList != null)
+        {
+            UnityEngine.Debug.Log("Scenes included in build:");
+
+            foreach (var scene in scenesList)
+            {
+                var sceneType = scene.GetType();
+                string path = sceneType.GetProperty("Path")?.GetValue(scene)?.ToString();
+                bool enabled = (bool)(sceneType.GetProperty("Enabled")?.GetValue(scene) ?? false);
+
+                UnityEngine.Debug.Log($"   - {path}   (enabled: {enabled})");
+            }
         }
         else
         {
-            UnityEngine.Debug.Log($"Server build succeeded: {report.summary.outputPath}");
-            TryMakeExecutable(fullPath);
-            foreach (string scen in scenes)
+            UnityEngine.Debug.LogWarning("Unable to list scenes (internal API might have changed).");
+        }
+
+        // --- Read and log scripting defines ---
+        var definesProp = profileType.GetProperty("ScriptingDefines");
+        string defines = definesProp?.GetValue(profile)?.ToString() ?? "";
+
+        UnityEngine.Debug.Log($"Scripting Defines: {defines}");
+
+        // --- Configure output path ---
+        string outputPath = "Builds/Server/ServerBuild.x86_64";
+        profileType.GetProperty("OutputPath")?.SetValue(profile, outputPath);
+
+        UnityEngine.Debug.Log($"Output Path set to: {outputPath}");
+
+        // --- Execute build ---
+        Type executorType = Type.GetType("UnityEditor.Build.Profile.BuildProfileExecutor, UnityEditor");
+        MethodInfo buildMethod = executorType?.GetMethod("Build",
+            BindingFlags.Public | BindingFlags.Static);
+
+        if (buildMethod == null)
+        {
+            UnityEngine.Debug.LogError("Could not find BuildProfileExecutor.Build method.");
+            return;
+        }
+
+        UnityEngine.Debug.Log("Starting server build using Build Profile...");
+
+        BuildReport report = (BuildReport)buildMethod.Invoke(null, new object[] { profile });
+
+        // --- Log result ---
+        UnityEngine.Debug.Log("────────── BUILD SUMMARY ──────────");
+
+        if (report.summary.result == BuildResult.Succeeded)
+        {
+            UnityEngine.Debug.Log("Server build succeeded!");
+            UnityEngine.Debug.Log($"Output: {report.summary.outputPath}");
+            UnityEngine.Debug.Log($"Duration: {report.summary.totalTime}");
+            UnityEngine.Debug.Log($"Size: {report.summary.totalSize} bytes");
+        }
+        else
+        {
+            UnityEngine.Debug.LogError($"BUILD FAILED: {report.summary.result}");
+            UnityEngine.Debug.LogError($"Errors: {report.summary.totalErrors}");
+
+            foreach (var step in report.steps)
             {
-                UnityEngine.Debug.Log($"Including scene in build: {scen}");
+                foreach (var msg in step.messages)
+                {
+                    if (msg.type == LogType.Error || msg.type == LogType.Exception)
+                        UnityEngine.Debug.LogError($"[Build Error] {msg.content}");
+                }
             }
         }
 
-        RemoveDefine("UNITY_SERVER", serverTarget);
-    }
-
-    private static void TryMakeExecutable(string path)
-    {
-        try
-        {
-            var process = new System.Diagnostics.Process();
-            process.StartInfo.FileName = "/bin/chmod";
-            process.StartInfo.Arguments = $"+x \"{path}\"";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            process.WaitForExit();
-        }
-        catch { }
-    }
-
-    private static void AddDefine(string define, NamedBuildTarget target)
-    {
-        string defines = PlayerSettings.GetScriptingDefineSymbols(target);
-        var list = defines.Split(';').Where(d => d.Length > 0).ToList();
-
-        if (!list.Contains(define))
-        {
-            list.Add(define);
-            PlayerSettings.SetScriptingDefineSymbols(target, string.Join(";", list));
-        }
-    }
-
-    private static void RemoveDefine(string define, NamedBuildTarget target)
-    {
-        string defines = PlayerSettings.GetScriptingDefineSymbols(target);
-        var list = defines.Split(';').Where(d => d.Length > 0 && d != define).ToList();
-        PlayerSettings.SetScriptingDefineSymbols(target, string.Join(";", list));
+        UnityEngine.Debug.Log("────────────────────────────────────");
     }
 }
