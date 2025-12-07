@@ -16,7 +16,7 @@ public class TestDebugLog : MonoBehaviour
         Debug.Log("[SERVER] Loaded Scene = " + SceneManager.GetActiveScene().name);
 
 #if !UNITY_CLIENT
-        Debug.Log("[SERVER] UNITY_CLIENT is NOT defined");
+        Debug.Log("[SERVER] UNITY_CLIENT is NOT defined ");
 #endif
 #if UNITY_SERVER
         Debug.Log("[SERVER] UNITY_SERVER is defined");
