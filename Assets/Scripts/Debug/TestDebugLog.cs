@@ -9,7 +9,7 @@ public class TestDebugLog : MonoBehaviour
             Debug.Log("[SERVER] Running headless server.");
 
         if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
-            Debug.Log("[SERVER] Null graphics device confirmed");
+            Debug.Log("[SERVER] Null graphics device confirmed" );
 
         Debug.Log("Build type: " + (Application.isEditor ? "Editor" : "Build"));
 
