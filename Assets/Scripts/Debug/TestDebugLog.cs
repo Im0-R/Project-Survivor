@@ -6,7 +6,7 @@ public class TestDebugLog : MonoBehaviour
     void Start()
     {
         if (Application.isBatchMode)
-            Debug.Log("[SERVER] Running headless server ");
+            Debug.Log("[SERVER] Running headless server.");
 
         if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
             Debug.Log("[SERVER] Null graphics device confirmed");
