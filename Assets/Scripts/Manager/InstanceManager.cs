@@ -31,7 +31,7 @@ public class InstanceManager : NetworkBehaviour
     public void CreateInstance(NetworkConnectionToClient conn)
     {
         // 🔥 Désactivé temporairement pour éviter le lancement d'instances secondaires
-        UnityEngine.Debug.LogWarning("[InstanceManager] CreateInstance is DISABLED for testing.");
+        UnityEngine.Debug.LogWarning("[InstanceManager] CreateInstance is DISABLED for testing.  ");
         return;
 
         // ↓↓↓ Le code original reste ici mais ne sera jamais exécuté ↓↓↓
