@@ -101,7 +101,7 @@ public class ServerCommandHandler : MonoBehaviour
             message = message
         });
 
-        Debug.Log($"[Server → Client] Auth response sent: {message}");
+        Debug.Log($"[Server → Client] Auth response sent  : {message}");
     }
 }
 #endif
