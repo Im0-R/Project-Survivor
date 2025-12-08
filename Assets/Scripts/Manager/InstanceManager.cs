@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ public class InstanceManager : NetworkBehaviour
     private readonly Dictionary<int, InstanceInfo> activeInstances = new();
     private int nextInstanceId = 1;
     public const string ipAddress = "72.60.212.58";
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -20,19 +21,26 @@ public class InstanceManager : NetworkBehaviour
         }
         Instance = this;
     }
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
     }
+
     [Server]
     public void CreateInstance(NetworkConnectionToClient conn)
     {
+        // 🔥 Désactivé temporairement pour éviter le lancement d'instances secondaires
+        UnityEngine.Debug.LogWarning("[InstanceManager] CreateInstance is DISABLED for testing.");
+        return;
+
+        // ↓↓↓ Le code original reste ici mais ne sera jamais exécuté ↓↓↓
+        /*
         int id = nextInstanceId++;
         int port = 7777 + id;
         string scene = "MapScene";
         int seed = Random.Range(0, 999999);
 
-        // Start the server process 
         string buildPath = "/home/server/ServerBuild.x86_64";
         if (!File.Exists(buildPath))
         {
@@ -58,16 +66,15 @@ public class InstanceManager : NetworkBehaviour
             seed = seed
         };
 
-        // Sending instance info to the client
         TargetSendInstanceInfo(conn, "127.0.0.1", port);
+        */
     }
 
     [TargetRpc]
     private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port)
     {
-        // Call the client-side instance manager to switch
         if (ClientSideInstanceManager.Instance != null)
-            ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port , ip);
+            ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port, ip);
         else
             UnityEngine.Debug.LogWarning("ClientSideInstanceManager instance not found!");
     }
