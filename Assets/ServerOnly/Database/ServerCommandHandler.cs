@@ -1,4 +1,4 @@
-﻿#if UNITY_SERVER
+﻿#if !UNITY_CLIENT
 using Mirror;
 using UnityEngine;
 using AuthMessages;
