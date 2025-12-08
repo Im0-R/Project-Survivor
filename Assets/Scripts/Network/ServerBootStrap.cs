@@ -13,7 +13,7 @@ public class ServerBootstrap : MonoBehaviour
 #if UNITY_CLIENT
     Debug.Log("UNITY_CLIENT = TRUE");
 #else
-        Debug.Log("UNITY_CLIENT = FALSE");
+        Debug.Log("UNITY_CLIENT = FALSE  ");
 #endif
 
 #if UNITY_SERVER
