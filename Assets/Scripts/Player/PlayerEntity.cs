@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -37,27 +37,37 @@ public class PlayerEntity : NetworkEntity
     {
         base.OnStartLocalPlayer();
 
-        Debug.Log("[Client] Local player spawned ? Loading PlayerUI scene...");
+        Debug.Log("[Client] Local player spawned → loading PlayerUI...");
 
-        // 1) Charger PlayerUI (client-only)
         SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive)
-            .completed += op => { StartCoroutine(LinkUIWhenReady()); };
+            .completed += _ => StartCoroutine(LinkUIWhenReady());
     }
+
 
     private IEnumerator LinkUIWhenReady()
     {
-        // 2) Attendre CameraFollow et PlayerUI
-        yield return new WaitUntil(() => CameraFollow.Instance != null
-                                     && PlayerUI.Instance != null);
+        yield return null;
 
-        Debug.Log("[Client] PlayerUI & CameraFollow ready ? linking...");
+        PlayerUI ui = null;
+        while (ui == null)
+        {
+            ui = PlayerUI.Instance;
+            yield return null;
+        }
 
-        // 3) Set cam�ra
-        CameraFollow.Instance.SetTarget(transform);
+        CameraFollow cam = null;
+        while (cam == null)
+        {
+            cam = CameraFollow.Instance;
+            yield return null;
+        }
 
-        // 4) Link PlayerUI
-        PlayerUI.Instance.SetPlayer(this);
+        Debug.Log("[Client] Linking UI + camera");
+
+        cam.SetTarget(transform);
+        ui.SetPlayer(this);
 
         Debug.Log("[Client] UI + Camera linked successfully.");
     }
+
 }

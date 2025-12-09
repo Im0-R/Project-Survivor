@@ -2,10 +2,14 @@
 using Mirror;
 using UnityEngine;
 using AuthMessages;
- 
+
 public class ServerCommandHandler : MonoBehaviour
 {
     public static ServerCommandHandler Instance { get; private set; }
+
+    // L’adresse IP de ton serveur HUB (ou localhost si même machine)
+    private const string HUB_IP = "72.60.212.58";
+    private const int HUB_PORT = 8000;     // PORT FIXE DE TON HUB INSTANCE
 
     private void Awake()
     {
@@ -20,7 +24,6 @@ public class ServerCommandHandler : MonoBehaviour
 
         DatabaseManager.Initialize();
         Debug.Log("[ServerCommandHandler] Initialized and DB ready.");
-
         RegisterNetworkHandlers();
     }
 
@@ -28,13 +31,16 @@ public class ServerCommandHandler : MonoBehaviour
     {
         NetworkServer.RegisterHandler<RegisterMessage>(OnRegisterMessageReceived);
         NetworkServer.RegisterHandler<LoginMessage>(OnLoginMessageReceived);
-
         Debug.Log("[ServerCommandHandler] NetworkMessage handlers registered.");
     }
 
+    // ==========================================================
+    // =============== REGISTER =================================
+    // ==========================================================
+
     private void OnRegisterMessageReceived(NetworkConnectionToClient conn, RegisterMessage msg)
     {
-        Debug.Log($"[Server] Register request from {conn.connectionId}: {msg.username}");
+        Debug.Log($"[Server] Register request: {msg.username}");
 
         try
         {
@@ -57,13 +63,18 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
+    // ==========================================================
+    // =============== LOGIN ====================================
+    // ==========================================================
+
     private void OnLoginMessageReceived(NetworkConnectionToClient conn, LoginMessage msg)
     {
-        Debug.Log($"[Server] Login request from {conn.connectionId}: {msg.username}");
+        Debug.Log($"[Server] Login request: {msg.username}");
 
         try
         {
             bool valid = DatabaseManager.ValidateUser(msg.username, msg.password);
+
             if (!valid)
             {
                 SendAuthResponse(conn, false, "Invalid username or password.");
@@ -72,19 +83,13 @@ public class ServerCommandHandler : MonoBehaviour
 
             conn.authenticationData = msg.username;
 
-            if (conn.identity != null)
-            {
-                SendAuthResponse(conn, true, "Already logged in.");
-                return;
-            }
+            Debug.Log($"[Server] Login OK for {msg.username}");
 
-            GameObject prefab = NetworkManager.singleton.playerPrefab;
-            GameObject instance = Instantiate(prefab);
-
-            NetworkServer.AddPlayerForConnection(conn, instance);
-
-            Debug.Log($"[Server] Spawned player for '{msg.username}'.");
+            // Étape 1 : répondre que l’authentification est OK
             SendAuthResponse(conn, true, "Login successful!");
+
+            // Étape 2 : envoyer une redirection vers le HUB
+            SendRedirect(conn);
         }
         catch (System.Exception ex)
         {
@@ -93,6 +98,25 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
+    // ==========================================================
+    // =============== REDIRECTION VERS HUB =====================
+    // ==========================================================
+
+    private void SendRedirect(NetworkConnectionToClient conn)
+    {
+        Debug.Log($"[Server] Redirecting player to HUB instance {HUB_IP}:{HUB_PORT}");
+
+        conn.Send(new RedirectMessage
+        {
+            ip = HUB_IP,
+            port = HUB_PORT
+        });
+
+        // IMPORTANT : NE PAS SPAWN DE PLAYER SUR LE MASTER !
+        // NE PAS appeler AddPlayerForConnection ici.
+    }
+
+    // ==========================================================
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
         conn.Send(new AuthResponseMessage
@@ -101,7 +125,7 @@ public class ServerCommandHandler : MonoBehaviour
             message = message
         });
 
-        Debug.Log($"[Server → Client] Auth response sent  : {message}");
+        Debug.Log($"[Server → Client] AuthResponse : {message}");
     }
 }
 #endif

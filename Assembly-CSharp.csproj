@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipment.cs" />
+    <Compile Include="Assets\Scripts\Network\Messages\RedirectMessage.cs" />
     <Compile Include="Assets\ServerOnly\Database\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashBehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\RewardSpellsCanvas.cs" />
@@ -96,11 +97,11 @@
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\Manager\TimeManager.cs" />
-    <Compile Include="Assets\Scripts\Network\AuthMessages.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyAttackState.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipmentData.cs" />
+    <Compile Include="Assets\Scripts\Network\Messages\AuthMessages.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsDataSO.cs" />
     <Compile Include="Assets\Scripts\Manager\InstanceManager.cs" />
     <Compile Include="Assets\Scripts\Misc\Entity.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientAccountAPI.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyRanged.cs" />
+    <Compile Include="Assets\Scripts\Network\Server\MasterNetworkManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasCreateAccount.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyIdleState.cs" />
     <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Assets\Scripts\Spells\SpellSyncData.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
+    <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />

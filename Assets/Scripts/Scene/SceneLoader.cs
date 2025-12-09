@@ -29,8 +29,6 @@ public static class SceneLoader
                 return;
             }
         }
-
-
     }
     public static void UnloadTownScene()
     {
