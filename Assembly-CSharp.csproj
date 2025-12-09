@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
+    <Compile Include="Assets\Scripts\KeepAlive.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\Spells\Projectile.cs" />
