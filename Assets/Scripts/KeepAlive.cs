@@ -1,4 +1,4 @@
-#if !UNITY_CLIENT
+#if UNITY_SERVER
 using UnityEngine;
 
 public class KeepAlive : MonoBehaviour
@@ -7,6 +7,7 @@ public class KeepAlive : MonoBehaviour
     {
         //Maintain the game object alive
         // This is useful for keeping the server running
+        Debug.Log("KeepAlive: Server is running...");
     }
 }
 #endif
