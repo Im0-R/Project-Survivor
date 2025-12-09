@@ -7,7 +7,6 @@ public class KeepAlive : MonoBehaviour
     {
         //Maintain the game object alive
         // This is useful for keeping the server running
-        Debug.Log("KeepAlive: Server is running...");
     }
 }
 #endif
