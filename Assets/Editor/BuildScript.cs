@@ -9,7 +9,7 @@ public static class BuildScript
     [MenuItem("Build/Server Build")]
     public static void BuildServer()
     {
-        // --- APPLY UNITY_SERVER DEFINE TO STANDALONE GROUP ---
+        // --- ADD UNITY_SERVER DEFINE ---
         AddDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
 
         string buildPath = "Builds/Server";
@@ -25,20 +25,31 @@ public static class BuildScript
             .OrderByDescending(s => s.Contains("Server_Main"))
             .ToArray();
 
-        // --- CONFIGURE BUILD TARGET ---
+        // --- SWITCH TO LINUX SERVER TARGET ---
         EditorUserBuildSettings.SwitchActiveBuildTarget(
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64
         );
 
-        // IMPORTANT : THIS ENABLES DEDICATED SERVER BUILD MODE
+        // VERY IMPORTANT : disable development build & profiling
+        EditorUserBuildSettings.development = false;
+        EditorUserBuildSettings.connectProfiler = false;
+        EditorUserBuildSettings.allowDebugging = false;
+
+        // Enable dedicated server subtarget
         EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
 
+        // --- BUILD OPTIONS ---
+        // ⚠️ NO DevelopmentBuild
+        // ⚠️ NO AllowDebugging
+        // ⚠️ NO ConnectProfiler (causait le shutdown)
         BuildPlayerOptions options = new BuildPlayerOptions
         {
             scenes = scenes,
             locationPathName = fullPath,
             target = BuildTarget.StandaloneLinux64,
+
+            // Headless build + compression (safe options)
             options = BuildOptions.EnableHeadlessMode | BuildOptions.CompressWithLz4
         };
 
@@ -55,7 +66,7 @@ public static class BuildScript
             MakeExecutable(fullPath);
         }
 
-        // REMOVE DEFINE ONLY AFTER BUILD
+        // REMOVE UNITY_SERVER DEFINE AFTER BUILD
         RemoveDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
     }
 
