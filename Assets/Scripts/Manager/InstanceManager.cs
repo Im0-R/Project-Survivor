@@ -30,12 +30,7 @@ public class InstanceManager : NetworkBehaviour
     [Server]
     public void CreateInstance(NetworkConnectionToClient conn)
     {
-        // 🔥 Désactivé temporairement pour éviter le lancement d'instances secondaires
-        UnityEngine.Debug.LogWarning("[InstanceManager] CreateInstance is DISABLED for testing.  ");
-        return;
 
-        // ↓↓↓ Le code original reste ici mais ne sera jamais exécuté ↓↓↓
-        /*
         int id = nextInstanceId++;
         int port = 7777 + id;
         string scene = "MapScene";
@@ -44,7 +39,7 @@ public class InstanceManager : NetworkBehaviour
         string buildPath = "/home/server/ServerBuild.x86_64";
         if (!File.Exists(buildPath))
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] Server build introuvable: {buildPath}");
+            UnityEngine.Debug.LogError($"[InstanceManager] missing server build: {buildPath}");
             return;
         }
 
@@ -67,16 +62,19 @@ public class InstanceManager : NetworkBehaviour
         };
 
         TargetSendInstanceInfo(conn, "127.0.0.1", port);
-        */
     }
 
     [TargetRpc]
     private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port)
     {
         if (ClientSideInstanceManager.Instance != null)
+        {
             ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port, ip);
+        }
         else
+        {
             UnityEngine.Debug.LogWarning("ClientSideInstanceManager instance not found!");
+        }
     }
 }
 

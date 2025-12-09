@@ -10,7 +10,7 @@ public class SpellsManager : MonoBehaviour
     public static SpellsManager Instance { get; private set; }
 
     [Header("Spells Database")]
-    [Tooltip("All available spells (used by both client and server)")]
+    [Tooltip("All available spells (used by both client and server )")]
     public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new();
 
     // ==========================================================
