@@ -136,15 +136,15 @@ public class NetworkEntity : NetworkBehaviour
     {
         if (!isServer) return;
 
-        var soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
-        var entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        FieldInfo[] soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        FieldInfo[] entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var soField in soFields)
         {
-            var entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
+            FieldInfo entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
             if (entityField == null) continue;
 
-            var soValue = soField.GetValue(statsDataSO);
+            object soValue = soField.GetValue(statsDataSO);
             if (entityField.IsPublic && !entityField.IsInitOnly)
                 entityField.SetValue(this, soValue);
         }
