@@ -3,12 +3,12 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using System.IO;
 using System.Linq;
-[System.Obsolete]
 
+[System.Obsolete]
 public static class BuildScript
 {
     // ============================================================
-    //  BUILD LES 2 SERVEURS
+    //  BUILD ALL SERVERS
     // ============================================================
     [MenuItem("Build/Build ALL Servers")]
     public static void BuildAll()
@@ -18,7 +18,7 @@ public static class BuildScript
     }
 
     // ============================================================
-    //  BUILD DU MASTER (1 SEULE SCÈNE)
+    //  BUILD MASTER SERVER (Server_Main only)
     // ============================================================
     [MenuItem("Build/Server Build MASTER")]
     public static void BuildMasterServer()
@@ -29,21 +29,20 @@ public static class BuildScript
 
         Directory.CreateDirectory(buildPath);
 
-        // SCÈNE UNIQUE DU MASTER
         string[] scenes = EditorBuildSettings.scenes
             .Where(s => s.path.EndsWith("Server_Main.unity"))
             .Select(s => s.path)
             .ToArray();
 
         if (scenes.Length == 0)
-            UnityEngine.Debug.LogError("❌ Aucune scène Server_Main.unity trouvée dans Build Settings!");
+            UnityEngine.Debug.LogError("❌ No Server_Main.unity found in Build Settings!");
 
         Build(fullPath, scenes);
         UnityEngine.Debug.Log("✅ MASTER build OK → " + fullPath);
     }
 
     // ============================================================
-    //  BUILD DE L'INSTANCE (Town + MapScene seulement)
+    //  BUILD INSTANCE SERVER (Town + MapScene)
     // ============================================================
     [MenuItem("Build/Server Build INSTANCE")]
     public static void BuildInstanceServer()
@@ -54,7 +53,6 @@ public static class BuildScript
 
         Directory.CreateDirectory(buildPath);
 
-        // SEULES SCÈNES PERMISES
         string[] scenes = EditorBuildSettings.scenes
             .Where(s =>
                 s.path.EndsWith("Town.unity") ||
@@ -64,19 +62,20 @@ public static class BuildScript
             .ToArray();
 
         if (scenes.Length == 0)
-            UnityEngine.Debug.LogError("❌ Aucune scène Town/MapScene trouvée dans Build Settings!");
+            UnityEngine.Debug.LogError("❌ No Town/MapScene found in Build Settings!");
 
         Build(fullPath, scenes);
         UnityEngine.Debug.Log("✅ INSTANCE build OK → " + fullPath);
     }
 
     // ============================================================
-    //  MÉTHODE COMMUNE DE BUILD
+    //  COMMON BUILD METHOD
     // ============================================================
     private static void Build(string fullPath, string[] scenes)
     {
         AddDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
 
+        // FORCE Linux Dedicated Server build target
         EditorUserBuildSettings.SwitchActiveBuildTarget(
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64
@@ -99,8 +98,36 @@ public static class BuildScript
 
         if (report.summary.result == BuildResult.Succeeded)
         {
-            UnityEngine.Debug.Log("Build succeeded: " + fullPath);
+            UnityEngine.Debug.Log("✔ Build succeeded: " + fullPath);
             MakeExecutable(fullPath);
+
+            // ========================================================
+            // FIX FOR MISPLACED UnityPlayer.so ON LINUX BUILDS
+            // ========================================================
+
+            string buildFolder = Path.GetDirectoryName(fullPath);
+            string dataFolder = fullPath + "_Data";
+            string pluginsPath = Path.Combine(dataFolder, "Plugins/x86_64");
+            string rootUnityPlayer = Path.Combine(buildFolder, "UnityPlayer.so");
+
+            if (File.Exists(rootUnityPlayer))
+            {
+                Directory.CreateDirectory(pluginsPath);
+                string targetUnityPlayer = Path.Combine(pluginsPath, "UnityPlayer.so");
+
+                // Remove previous version if exists
+                if (File.Exists(targetUnityPlayer))
+                    File.Delete(targetUnityPlayer);
+
+                File.Move(rootUnityPlayer, targetUnityPlayer);
+
+                UnityEngine.Debug.Log("✔ UnityPlayer.so correctly moved to: " + targetUnityPlayer);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("⚠ UnityPlayer.so not found at root. (Unity bug?)");
+            }
+
         }
         else
         {
@@ -111,7 +138,7 @@ public static class BuildScript
     }
 
     // ============================================================
-    // OUTILS
+    // DEFINES
     // ============================================================
     private static void AddDefine(string define, BuildTargetGroup target)
     {
@@ -137,8 +164,11 @@ public static class BuildScript
         PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", defs));
     }
 
+    // ============================================================
+    // MAKE EXECUTABLE
+    // ============================================================
     private static void MakeExecutable(string path)
     {
-        System.Diagnostics.Process.Start("/bin/chmod", $"+x \"" + path + "\"");
+        System.Diagnostics.Process.Start("/bin/chmod", $"+x \"{path}\"");
     }
 }
