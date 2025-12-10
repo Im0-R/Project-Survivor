@@ -29,6 +29,6 @@ public class FireballSpell : Spell
 
         //Network spawn
         NetworkServer.Spawn(obj);
-        Debug.Log($"{netOwner.entityName} cast FireballSpell");
+        Debug.Log($"{netOwner.entityName} cast FireballSpell ");
     }
 }
