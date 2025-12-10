@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1285617818062106251}
   - component: {fileID: 2756691690596845048}
   - component: {fileID: 5073950128032601462}
-  - component: {fileID: 1741678377378105969}
   - component: {fileID: -6901919766313049683}
   m_Layer: 0
   m_Name: InstanceNetworkManager
@@ -76,18 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5b42cbfc38b1c4d86fd25905b19e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Mirage.Profiler::Mirage.NetworkProfiler.NetworkProfilerRecorder
---- !u!114 &1741678377378105969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566785785800312774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ea6790a1c7a6c4db2f061a3bc16894, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ServerBootstrap
 --- !u!114 &-6901919766313049683
 MonoBehaviour:
   m_ObjectHideFlags: 0
