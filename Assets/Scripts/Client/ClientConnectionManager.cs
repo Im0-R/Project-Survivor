@@ -8,7 +8,7 @@ public class ClientConnectionManager : MonoBehaviour
         // Auto-start client connection on awake
         if (!NetworkClient.isConnected && !NetworkClient.active)
         {
-            Debug.Log("[ClientConnectionManager] Connecting to server...");
+            Debug.Log("[ClientConnectionManager] Connecting to server... ");
             NetworkManager.singleton.StartClient();
         }
     }
