@@ -6,91 +6,131 @@ using System.Linq;
 
 public static class BuildScript
 {
-    [MenuItem("Build/Server Build")]
-    public static void BuildServer()
+    // ============================================================
+    //  BUILD LES 2 SERVEURS
+    // ============================================================
+    [MenuItem("Build/Build ALL Servers")]
+    public static void BuildAll()
     {
-        // --- ADD UNITY_SERVER DEFINE ---
-        AddDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
+        BuildMasterServer();
+        BuildInstanceServer();
+    }
 
-        string buildPath = "Builds/Server";
-        string exeName = "ServerBuild.x86_64";
+    // ============================================================
+    //  BUILD DU MASTER (1 SEULE SCÈNE !)
+    // ============================================================
+    [MenuItem("Build/Server Build MASTER")]
+    public static void BuildMasterServer()
+    {
+        string buildPath = "Builds/Master";
+        string exeName = "MasterServer.x86_64";
         string fullPath = Path.Combine(buildPath, exeName);
 
         Directory.CreateDirectory(buildPath);
 
-        // --- SCENES ---
+        // SCÈNE UNIQUE POUR LE MASTER
         string[] scenes = EditorBuildSettings.scenes
-            .Where(s => s.enabled)
+            .Where(s => s.path.Contains("Server_Main"))
             .Select(s => s.path)
-            .OrderByDescending(s => s.Contains("Server_Main"))
             .ToArray();
 
-        // --- SWITCH TO LINUX SERVER TARGET ---
+        Build(fullPath, scenes);
+
+        UnityEngine.Debug.Log("✅ MASTER build OK → " + fullPath);
+    }
+
+    // ============================================================
+    //  BUILD DES INSTANCES / HUBS
+    // ============================================================
+    [MenuItem("Build/Server Build INSTANCE")]
+    public static void BuildInstanceServer()
+    {
+        string buildPath = "Builds/Instance";
+        string exeName = "InstanceServer.x86_64";
+        string fullPath = Path.Combine(buildPath, exeName);
+
+        Directory.CreateDirectory(buildPath);
+
+        // SEULES SCÈNES DES INSTANCES
+        string[] scenes = EditorBuildSettings.scenes
+            .Where(s => s.path.Contains("Town") || s.path.Contains("MapScene"))
+            .OrderByDescending(s => s.path.Contains("Town"))
+            .Select(s => s.path)
+            .ToArray();
+
+        Build(fullPath, scenes);
+
+        UnityEngine.Debug.Log("✅ INSTANCE build OK → " + fullPath);
+    }
+
+    // ============================================================
+    //  MÉTHODE COMMUNE
+    // ============================================================
+    private static void Build(string fullPath, string[] scenes)
+    {
+        AddDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
+
         EditorUserBuildSettings.SwitchActiveBuildTarget(
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64
         );
 
-        // VERY IMPORTANT : disable development build & profiling
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
         EditorUserBuildSettings.development = false;
         EditorUserBuildSettings.connectProfiler = false;
         EditorUserBuildSettings.allowDebugging = false;
 
-        // Enable dedicated server subtarget
-        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
-
-        // --- BUILD OPTIONS ---
-        // ⚠️ NO DevelopmentBuild
-        // ⚠️ NO AllowDebugging
-        // ⚠️ NO ConnectProfiler (causait le shutdown)
         BuildPlayerOptions options = new BuildPlayerOptions
         {
             scenes = scenes,
             locationPathName = fullPath,
             target = BuildTarget.StandaloneLinux64,
-
-            // Headless build + compression (safe options)
             options = BuildOptions.EnableHeadlessMode | BuildOptions.CompressWithLz4
         };
 
-        // --- BUILD ---
         BuildReport report = BuildPipeline.BuildPlayer(options);
 
-        if (report.summary.result != BuildResult.Succeeded)
+        if (report.summary.result == BuildResult.Succeeded)
         {
-            UnityEngine.Debug.LogError($"❌ Build failed: {report.summary.result}");
+            UnityEngine.Debug.Log("Build succeeded: " + fullPath);
+            MakeExecutable(fullPath);
         }
         else
         {
-            UnityEngine.Debug.Log($"✅ Server build succeeded: {report.summary.outputPath}");
-            MakeExecutable(fullPath);
+            UnityEngine.Debug.LogError("❌ Build FAILED: " + report.summary.result);
         }
 
-        // REMOVE UNITY_SERVER DEFINE AFTER BUILD
         RemoveDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
     }
 
+    // ============================================================
+    //  OUTILS
+    // ============================================================
     private static void AddDefine(string define, BuildTargetGroup target)
     {
-        string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-        var list = defines.Split(';').Where(d => d.Length > 0).ToList();
+        var defs = PlayerSettings.GetScriptingDefineSymbolsForGroup(target)
+            .Split(';')
+            .ToList();
 
-        if (!list.Contains(define))
+        if (!defs.Contains(define))
         {
-            list.Add(define);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", list));
+            defs.Add(define);
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", defs));
         }
     }
 
     private static void RemoveDefine(string define, BuildTargetGroup target)
     {
-        string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
-        var list = defines.Split(';').Where(d => d != define && d.Length > 0).ToList();
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", list));
+        var defs = PlayerSettings.GetScriptingDefineSymbolsForGroup(target)
+            .Split(';')
+            .Where(d => d != define)
+            .ToList();
+
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", defs));
     }
 
     private static void MakeExecutable(string path)
     {
-        System.Diagnostics.Process.Start("/bin/chmod", $"+x \"{path}\"");
+        System.Diagnostics.Process.Start("/bin/chmod", $"+x \"" + path + "\"");
     }
 }

@@ -13,6 +13,9 @@ public class InstanceManager : NetworkBehaviour
 
     public const string ipAddress = "72.60.212.58"; // IP PUBLIQUE DU SERVEUR
 
+    // Nouvel EXE utilisé par TOUTES les instances (Hub + Maps)
+    private const string INSTANCE_EXECUTABLE = "/home/server/instance/InstanceServer.x86_64";
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,7 +30,7 @@ public class InstanceManager : NetworkBehaviour
     [ServerCallback]
     private void Start()
     {
-        // Lancer l'instance du HUB au démarrage du Master
+        // Hub Town créé au lancement
         CreateInitialTownInstance();
     }
 
@@ -39,29 +42,30 @@ public class InstanceManager : NetworkBehaviour
     public void CreateInstance(NetworkConnectionToClient conn)
     {
         int id = nextInstanceId++;
-        int port = 7777 + id;
+        int port = 8000 + id; // éviter conflits
         string scene = "Town";
         int seed = Random.Range(0, 999999);
 
-        string buildPath = "/home/server/ServerBuild.x86_64";
-        if (!File.Exists(buildPath))
+        if (!File.Exists(INSTANCE_EXECUTABLE))
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] Missing server build: {buildPath}");
+            UnityEngine.Debug.LogError($"[InstanceManager] ❌ Missing instance server build: {INSTANCE_EXECUTABLE}");
             return;
         }
 
         Process.Start(new ProcessStartInfo
         {
-            FileName = buildPath,
+            FileName = INSTANCE_EXECUTABLE,
             Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
             UseShellExecute = false,
-            CreateNoWindow = true,
+            CreateNoWindow = true
         });
 
         activeInstances[id] = new InstanceInfo(id, port, scene, seed);
 
-        // envoyer les infos de connexion au client
+        // Envoyer les infos de connexion au client
         TargetSendInstanceInfo(conn, ipAddress, port);
+
+        UnityEngine.Debug.Log($"[InstanceManager] Dynamic instance #{id} launched on port {port}");
     }
 
     // ==========================================================
@@ -72,15 +76,19 @@ public class InstanceManager : NetworkBehaviour
     private void CreateInitialTownInstance()
     {
         int id = nextInstanceId++;
-        int port = 8000;
+        int port = 8000;        // Port fixe du HUB
         string scene = "Town";
         int seed = Random.Range(0, 999999);
 
-        string buildPath = "/home/server/ServerBuild.x86_64";
+        if (!File.Exists(INSTANCE_EXECUTABLE))
+        {
+            UnityEngine.Debug.LogError($"[InstanceManager] ❌ Missing instance server build: {INSTANCE_EXECUTABLE}");
+            return;
+        }
 
         Process.Start(new ProcessStartInfo
         {
-            FileName = buildPath,
+            FileName = INSTANCE_EXECUTABLE,
             Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
             UseShellExecute = false,
             CreateNoWindow = true
@@ -88,11 +96,11 @@ public class InstanceManager : NetworkBehaviour
 
         activeInstances[id] = new InstanceInfo(id, port, scene, seed);
 
-        UnityEngine.Debug.Log($"[Master] Town instance created on port {port}");
+        UnityEngine.Debug.Log($"[Master] HUB Town instance created on port {port}");
     }
 
     // ==========================================================
-    // =============== SEND REDIRECT INFO TO CLIENT ==============
+    // =============== CLIENT REDIRECT ===========================
     // ==========================================================
 
     [TargetRpc]
@@ -102,6 +110,9 @@ public class InstanceManager : NetworkBehaviour
     }
 
     // ==========================================================
+    // =============== INSTANCE INFO STRUCT ======================
+    // ==========================================================
+
     [System.Serializable]
     public class InstanceInfo
     {
