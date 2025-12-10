@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProximityInterestManagement : InterestManagement
 {
-    [Tooltip("Visibility Range (Meter).")]
+    [Tooltip("Visibility Range .")]
     public float visRange = 30f;
 
     [Tooltip("Global rebuild every X Seconds.")]
@@ -12,7 +12,7 @@ public class ProximityInterestManagement : InterestManagement
 
     double lastRebuildTime;
 
-    //Called when a client/newObserver spawns: must say if it sees 'identity'
+    //Called when a client/newObserver spawns:'
     public override bool OnCheckObserver(NetworkIdentity identity, NetworkConnectionToClient newObserver)
     {
         if (newObserver == null || newObserver.identity == null) return false;
@@ -34,7 +34,6 @@ public class ProximityInterestManagement : InterestManagement
             if (Vector3.Distance(conn.identity.transform.position, pos) <= visRange)
                 newObservers.Add(conn);
         }
-        // No return value: newObservers is modified directly
     }
 
     [ServerCallback]
