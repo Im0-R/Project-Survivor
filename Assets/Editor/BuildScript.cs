@@ -17,7 +17,7 @@ public static class BuildScript
     }
 
     // ============================================================
-    //  BUILD DU MASTER (1 SEULE SCÈNE !)
+    //  BUILD DU MASTER (1 SEULE SCÈNE)
     // ============================================================
     [MenuItem("Build/Server Build MASTER")]
     public static void BuildMasterServer()
@@ -28,19 +28,21 @@ public static class BuildScript
 
         Directory.CreateDirectory(buildPath);
 
-        // SCÈNE UNIQUE POUR LE MASTER
+        // SCÈNE UNIQUE DU MASTER
         string[] scenes = EditorBuildSettings.scenes
-            .Where(s => s.path.Contains("Server_Main"))
+            .Where(s => s.path.EndsWith("Server_Main.unity"))
             .Select(s => s.path)
             .ToArray();
 
-        Build(fullPath, scenes);
+        if (scenes.Length == 0)
+            UnityEngine.Debug.LogError("❌ Aucune scène Server_Main.unity trouvée dans Build Settings!");
 
+        Build(fullPath, scenes);
         UnityEngine.Debug.Log("✅ MASTER build OK → " + fullPath);
     }
 
     // ============================================================
-    //  BUILD DES INSTANCES / HUBS
+    //  BUILD DE L'INSTANCE (Town + MapScene seulement)
     // ============================================================
     [MenuItem("Build/Server Build INSTANCE")]
     public static void BuildInstanceServer()
@@ -51,20 +53,24 @@ public static class BuildScript
 
         Directory.CreateDirectory(buildPath);
 
-        // SEULES SCÈNES DES INSTANCES
+        // SEULES SCÈNES PERMISES
         string[] scenes = EditorBuildSettings.scenes
-            .Where(s => s.path.Contains("Town") || s.path.Contains("MapScene"))
-            .OrderByDescending(s => s.path.Contains("Town"))
+            .Where(s =>
+                s.path.EndsWith("Town.unity") ||
+                s.path.EndsWith("MapScene.unity"))
+            .OrderByDescending(s => s.path.EndsWith("Town.unity")) // Town FIRST
             .Select(s => s.path)
             .ToArray();
 
-        Build(fullPath, scenes);
+        if (scenes.Length == 0)
+            UnityEngine.Debug.LogError("❌ Aucune scène Town/MapScene trouvée dans Build Settings!");
 
+        Build(fullPath, scenes);
         UnityEngine.Debug.Log("✅ INSTANCE build OK → " + fullPath);
     }
 
     // ============================================================
-    //  MÉTHODE COMMUNE
+    //  MÉTHODE COMMUNE DE BUILD
     // ============================================================
     private static void Build(string fullPath, string[] scenes)
     {
@@ -104,12 +110,13 @@ public static class BuildScript
     }
 
     // ============================================================
-    //  OUTILS
+    // OUTILS
     // ============================================================
     private static void AddDefine(string define, BuildTargetGroup target)
     {
         var defs = PlayerSettings.GetScriptingDefineSymbolsForGroup(target)
             .Split(';')
+            .Where(d => d.Length > 0)
             .ToList();
 
         if (!defs.Contains(define))
@@ -123,7 +130,7 @@ public static class BuildScript
     {
         var defs = PlayerSettings.GetScriptingDefineSymbolsForGroup(target)
             .Split(';')
-            .Where(d => d != define)
+            .Where(d => d.Length > 0 && d != define)
             .ToList();
 
         PlayerSettings.SetScriptingDefineSymbolsForGroup(target, string.Join(";", defs));
