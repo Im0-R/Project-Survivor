@@ -108,7 +108,7 @@ public class ServerCommandHandler : MonoBehaviour
 
         if (!IsPortOpen(HUB_IP, HUB_PORT))
         {
-            Debug.LogError("[MASTER] ⚠ HUB INSTANCE IS DOWN — cannot redirect player.");
+            Debug.LogError("[MASTER] HUB INSTANCE IS DOWN — cannot redirect player.");
             SendAuthResponse(conn, false, "Hub instance unavailable. Try again later.");
             return;
         }
