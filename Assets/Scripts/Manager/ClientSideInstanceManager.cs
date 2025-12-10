@@ -2,7 +2,6 @@
 using Mirror;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ClientSideInstanceManager : MonoBehaviour
 {
@@ -10,58 +9,57 @@ public class ClientSideInstanceManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
-    }
-    private void Start()
-    {
         DontDestroyOnLoad(gameObject);
     }
+
     public void SwitchToInstance(ushort port, string ip = InstanceManager.ipAddress)
     {
         StartCoroutine(SwitchRoutine(port, ip));
     }
 
-    private IEnumerator SwitchRoutine(ushort port , string ip)
+    private IEnumerator SwitchRoutine(ushort port, string ip)
     {
-        Debug.Log("Preparing to switch instance...");
+        Debug.Log("[InstanceManager] Preparing to switch instance...");
 
-        // Deconnection if connected
-        if (NetworkClient.isConnected)
+        // -----------------------------
+        // 1) Disconnect cleanly
+        // -----------------------------
+        if (NetworkClient.isConnected || NetworkClient.isConnecting)
         {
             NetworkManager.singleton.StopClient();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
 
-        // Get KcpTransport
+        // -----------------------------
+        // 2) Configure KCP transport
+        // -----------------------------
         KcpTransport kcp = Transport.active as KcpTransport;
         if (kcp == null)
         {
-            Debug.LogError("KcpTransport not found or inactive!");
+            Debug.LogError("[InstanceManager] KcpTransport not found!");
             yield break;
         }
 
-        // Transport configuration
         kcp.Port = port;
         NetworkManager.singleton.networkAddress = ip;
 
-        Debug.Log($"Connecting to new instance at {ip}:{port}");
+        Debug.Log($"[InstanceManager] Transport configured → {ip}:{port}");
 
-        // Loading new scene
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MapScene");
-        while (!asyncLoad.isDone)
-            yield return null;
-
-        // Starting client
+        // -----------------------------
+        // 3) Start connection
+        // -----------------------------
+        Debug.Log("[InstanceManager] Connecting to instance...");
         NetworkManager.singleton.StartClient();
 
-        Debug.Log("Switched to new instance successfully!");
+        yield return null;
 
-
+        Debug.Log("[InstanceManager] Instance switch done! Waiting for scene sync...");
     }
 }

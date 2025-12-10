@@ -12,10 +12,12 @@ public class MasterNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         Debug.Log("[MASTER] Un client vient de se connecter.");
+    }
 
-        // IMPORTANT :
-        // On n’appelle PAS AddPlayerForConnection(conn)
-        // Le Master ne spawn PAS de joueurs.
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        Debug.Log("[MASTER] Un client s'est déconnecté.");
+        base.OnServerDisconnect(conn);
     }
 
     public override void OnClientConnect()
