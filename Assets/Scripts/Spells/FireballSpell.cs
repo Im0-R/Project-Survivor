@@ -11,19 +11,22 @@ public class FireballSpell : Spell
     {
         Transform target = null;
 
-        var netOwner = owner; // (PlayerEntity or EnemyEntity)
+        NetworkEntity netOwner = owner; // (PlayerEntity or EnemyEntity)
 
-        //Find the right target according to the side (Player or Enemy)
         if (netOwner is PlayerEntity)
+        {
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
+        }
         else if (netOwner is EnemyEntity)
+        {
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
+        }
 
         if (target == null) return;
 
         //Instantiate the projectile
-        var obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
-        var proj = obj.GetComponent<Projectile>();
+        GameObject obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
+        Projectile proj = obj.GetComponent<Projectile>();
 
         proj?.Initialize(netOwner, target, data.damage, data.speed, data.currentLevel);
 
