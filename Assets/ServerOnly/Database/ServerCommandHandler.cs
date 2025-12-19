@@ -121,12 +121,8 @@ public class ServerCommandHandler : MonoBehaviour
             ip = HUB_IP,
             port = HUB_PORT
         });
-
-        // 2) NE PAS SPAWN DE PLAYER ICI !!!
-        // Le Master ne possède aucun joueur.
-
+        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
         // 3) Déconnecter le client proprement côté Master
-        conn.Disconnect();
     }
 
     // =========================================================================
