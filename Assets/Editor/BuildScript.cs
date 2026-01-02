@@ -102,32 +102,19 @@ public static class BuildScript
             MakeExecutable(fullPath);
 
             // ========================================================
-            // FIX FOR MISPLACED UnityPlayer.so ON LINUX BUILDS
+            // UnityPlayer.so should stay next to the executable
             // ========================================================
-
             string buildFolder = Path.GetDirectoryName(fullPath);
-            string dataFolder = fullPath + "_Data";
-            string pluginsPath = Path.Combine(dataFolder, "Plugins/x86_64");
             string rootUnityPlayer = Path.Combine(buildFolder, "UnityPlayer.so");
 
-            if (File.Exists(rootUnityPlayer))
+            if (!File.Exists(rootUnityPlayer))
             {
-                Directory.CreateDirectory(pluginsPath);
-                string targetUnityPlayer = Path.Combine(pluginsPath, "UnityPlayer.so");
-
-                // Remove previous version if exists
-                if (File.Exists(targetUnityPlayer))
-                    File.Delete(targetUnityPlayer);
-
-                File.Move(rootUnityPlayer, targetUnityPlayer);
-
-                UnityEngine.Debug.Log("✔ UnityPlayer.so correctly moved to: " + targetUnityPlayer);
+                UnityEngine.Debug.LogWarning("⚠ UnityPlayer.so not found next to executable. Server may fail to start.");
             }
             else
             {
-                UnityEngine.Debug.LogWarning("⚠ UnityPlayer.so not found at root. (Unity bug?)");
+                UnityEngine.Debug.Log("✔ UnityPlayer.so present next to executable: " + rootUnityPlayer);
             }
-
         }
         else
         {
