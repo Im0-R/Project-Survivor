@@ -2,13 +2,13 @@
 using Mirror;
 using UnityEngine;
 using AuthMessages;
-using System.Net.Sockets;
+using System;
 
 public class ServerCommandHandler : MonoBehaviour
 {
     public static ServerCommandHandler Instance { get; private set; }
 
-    // Hub principal (ton instance Town)
+    // Hub principal (Town)
     private const string HUB_IP = "72.60.212.58";
     private const int HUB_PORT = 8000;
 
@@ -58,7 +58,7 @@ public class ServerCommandHandler : MonoBehaviour
 
             SendAuthResponse(conn, true, "Account created successfully.");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError($"[Register Error] {ex}");
             SendAuthResponse(conn, false, "Internal server error.");
@@ -89,9 +89,9 @@ public class ServerCommandHandler : MonoBehaviour
             SendAuthResponse(conn, true, "Login successful!");
 
             // Puis rediriger vers l’instance Hub
-            RedirectToHub(conn);
+            RedirectToHub(conn, msg.username);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError($"[Login Error] {ex}");
             SendAuthResponse(conn, false, "Internal server error.");
@@ -102,48 +102,30 @@ public class ServerCommandHandler : MonoBehaviour
     // ========================= REDIRECTION VERS HUB ===========================
     // =========================================================================
 
-    private void RedirectToHub(NetworkConnectionToClient conn)
+    private void RedirectToHub(NetworkConnectionToClient conn, string username)
     {
-        Debug.Log($"[MASTER] Preparing redirect to HUB {HUB_IP}:{HUB_PORT}...");
+        Debug.Log($"[MASTER] Sending redirect to HUB {HUB_IP}:{HUB_PORT}...");
 
-        if (!IsPortOpen(HUB_IP, HUB_PORT))
-        {
-            Debug.LogError("[MASTER] HUB INSTANCE IS DOWN — cannot redirect player.");
-            SendAuthResponse(conn, false, "Hub instance unavailable. Try again later.");
-            return;
-        }
+        // - idéalement: stocker dans DB/Redis/mémoire pour validation côté HUB
+        string sessionToken = Guid.NewGuid().ToString("N");
 
-        Debug.Log("[MASTER] HUB is alive → sending redirect instruction.");
+        // TODO (recommandé): SaveSessionToken(username, sessionToken, expirySeconds: 30);
 
-        // 1) Envoyer les infos de connexion au client
         conn.Send(new RedirectMessage
         {
             ip = HUB_IP,
-            port = HUB_PORT
+            port = HUB_PORT,
         });
-        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
-        // 3) Déconnecter le client proprement côté Master
+
+        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT} token={sessionToken}");
+
+        // Déconnecter le client du serveur master
+        conn.Disconnect();
     }
 
     // =========================================================================
     // ============================ UTILITY ====================================
     // =========================================================================
-
-    private bool IsPortOpen(string ip, int port)
-    {
-        try
-        {
-            using TcpClient client = new();
-            var result = client.BeginConnect(ip, port, null, null);
-            bool success = result.AsyncWaitHandle.WaitOne(150);
-
-            return success;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
