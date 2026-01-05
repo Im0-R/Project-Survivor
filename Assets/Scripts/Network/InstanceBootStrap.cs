@@ -3,14 +3,13 @@ using Mirror;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 using kcp2k;
 
-public class ServerBootstrap : MonoBehaviour
+public class InstanceBootStrap : MonoBehaviour
 {
-    // Arguments lus dans la ligne de commande
-    public static string SceneArg = "Server_Main";
-    public static int PortArg = 7777;
+    // Arguments reads from the command line
+    public static string SceneArg = "Town";
+    public static int PortArg = 8000;
     public static int SeedArg = 0;
 
     private void Awake()
@@ -26,19 +25,19 @@ public class ServerBootstrap : MonoBehaviour
 #if UNITY_SERVER
         Debug.Log("UNITY_SERVER = TRUE");
 
-        // désactivation clavier/souris en mode serveur
+        // Deactivate keyboard/mouse in server mode
         if (Keyboard.current != null)
             InputSystem.DisableDevice(Keyboard.current);
         if (Mouse.current != null)
             InputSystem.DisableDevice(Mouse.current);
 #endif
 
-        // Lire les arguments passés par l’instance
+        // Read the arguments passed by the instance
         ReadCommandLineArgs();
     }
 
     // ======================================================
-    // =========== PARSING DES ARGUMENTS SERVEUR ============
+    // =========== SERVER'S ARGUMENTS PASSING F ============
     // ======================================================
 
     private void ReadCommandLineArgs()
@@ -72,22 +71,22 @@ public class ServerBootstrap : MonoBehaviour
 
     private IEnumerator Start()
     {
-        Debug.Log("[ServerBootstrap] Booting dedicated server...");
+        Debug.Log("[InstanceBootStrap] Booting dedicated server...");
 
         // 1) Configure the port before starting the server
         KcpTransport kcp = FindObjectOfType<KcpTransport>();
         if (kcp != null)
         {
             kcp.Port = (ushort)PortArg;
-            Debug.Log($"[ServerBootstrap] KCP port set to {kcp.Port}");
+            Debug.Log($"[InstanceBootStrap] KCP port set to {kcp.Port}");
         }
         else
-            Debug.LogWarning("[ServerBootstrap] KcpTransport NOT found!");
+            Debug.LogWarning("[InstanceBootStrap] KcpTransport NOT found!");
 
         // 2) Load the asked scene
         if (SceneManager.GetActiveScene().name != SceneArg)
         {
-            Debug.Log($"[ServerBootstrap] Loading scene: {SceneArg}");
+            Debug.Log($"[InstanceBootStrap] Loading scene: {SceneArg}");
             var asyncLoad = SceneManager.LoadSceneAsync(SceneArg);
 
             while (!asyncLoad.isDone)
@@ -102,18 +101,18 @@ public class ServerBootstrap : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("[ServerBootstrap] NetworkManager found → Starting server...");
+        Debug.Log("[InstanceBootStrap] NetworkManager found → Starting instance...");
 
         // 4) Start the server
         manager.StartServer();
 
-        Debug.Log("[ServerBootstrap] DB init...");
+        Debug.Log("[InstanceBootStrap] DB init...");
         DatabaseManager.Initialize();
 
         // 5) Log to check if server is alive every 10 seconds
         while (true)
         {
-            Debug.Log($"[ServerBootstrap] Server alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
+            Debug.Log($"[InstanceBootStrap] Instance alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
             yield return new WaitForSeconds(10f);
         }
     }

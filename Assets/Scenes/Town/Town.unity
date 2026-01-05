@@ -413,26 +413,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1242747400}
-  - component: {fileID: 1242747399}
+  - component: {fileID: 1242747401}
   m_Layer: 0
-  m_Name: ServerBootStrap
+  m_Name: InstanceBootStrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1242747399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242747398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ea6790a1c7a6c4db2f061a3bc16894, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ServerBootstrap
 --- !u!4 &1242747400
 Transform:
   m_ObjectHideFlags: 0
@@ -448,6 +436,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1242747401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242747398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7edbf80f89422974b92fa67b4d27a568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstanceBootStrap
 --- !u!1001 &1783492358
 PrefabInstance:
   m_ObjectHideFlags: 0
