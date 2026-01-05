@@ -8,7 +8,6 @@ using kcp2k;
 
 public class InstanceBootStrap : MonoBehaviour
 {
-    // Arguments reads from the command line
     public static string SceneArg = "Town";
     public static int PortArg = 8000;
     public static int SeedArg = 0;
@@ -33,13 +32,8 @@ public class InstanceBootStrap : MonoBehaviour
             InputSystem.DisableDevice(Mouse.current);
 #endif
 
-        // Read the arguments passed by the instance
         ReadCommandLineArgs();
     }
-
-    // ======================================================
-    // =========== SERVER'S ARGUMENTS PASSING F ============
-    // ======================================================
 
     private void ReadCommandLineArgs()
     {
@@ -52,11 +46,9 @@ public class InstanceBootStrap : MonoBehaviour
                 case "-scene":
                     SceneArg = args[i + 1];
                     break;
-
                 case "-port":
                     int.TryParse(args[i + 1], out PortArg);
                     break;
-
                 case "-seed":
                     int.TryParse(args[i + 1], out SeedArg);
                     break;
@@ -66,25 +58,11 @@ public class InstanceBootStrap : MonoBehaviour
         Debug.Log($"[ARGS] scene={SceneArg} | port={PortArg} | seed={SeedArg}");
     }
 
-    // ======================================================
-    // ===================== START ==========================
-    // ======================================================
-
     private IEnumerator Start()
     {
         Debug.Log("[InstanceBootStrap] Booting dedicated server...");
 
-        // 1) Configure the port before starting the server
-        KcpTransport kcp = FindObjectOfType<KcpTransport>();
-        if (kcp != null)
-        {
-            kcp.Port = (ushort)PortArg;
-            Debug.Log($"[InstanceBootStrap] KCP port set to {kcp.Port}");
-        }
-        else
-            Debug.LogWarning("[InstanceBootStrap] KcpTransport NOT found!");
-
-        // 2) Load the asked scene
+        // 1) Load the asked scene FIRST (so we get the right NetworkManager + Transport)
         if (SceneManager.GetActiveScene().name != SceneArg)
         {
             Debug.Log($"[InstanceBootStrap] Loading scene: {SceneArg}");
@@ -94,12 +72,27 @@ public class InstanceBootStrap : MonoBehaviour
                 yield return null;
         }
 
-        // 3) Wait for NetworkManager
+        // 2) Wait for NetworkManager (the one in the target scene)
         NetworkManager manager = null;
         while (manager == null)
         {
             manager = FindObjectOfType<NetworkManager>();
             yield return null;
+        }
+
+        // 3) Configure port on the transport ACTUALLY used by NetworkManager
+        var kcp = manager.transport as KcpTransport;
+        Debug.Log($"[InstanceBootStrap] Active transport = {manager.transport?.GetType().Name}");
+
+        if (kcp != null)
+        {
+            Debug.Log($"[InstanceBootStrap] KCP port before = {kcp.Port}");
+            kcp.Port = (ushort)PortArg;
+            Debug.Log($"[InstanceBootStrap] KCP port after  = {kcp.Port}");
+        }
+        else
+        {
+            Debug.LogError("[InstanceBootStrap] NetworkManager transport is NOT KcpTransport!");
         }
 
         Debug.Log("[InstanceBootStrap] NetworkManager found → Starting instance...");
@@ -110,7 +103,6 @@ public class InstanceBootStrap : MonoBehaviour
         Debug.Log("[InstanceBootStrap] DB init...");
         DatabaseManager.Initialize();
 
-        // 5) Log to check if server is alive every 10 seconds
         while (true)
         {
             Debug.Log($"[InstanceBootStrap] Instance alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
