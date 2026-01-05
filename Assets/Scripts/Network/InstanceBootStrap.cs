@@ -3,6 +3,7 @@ using Mirror;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using kcp2k;
 
 public class InstanceBootStrap : MonoBehaviour
