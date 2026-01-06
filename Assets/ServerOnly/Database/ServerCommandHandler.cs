@@ -99,29 +99,31 @@ public class ServerCommandHandler : MonoBehaviour
     }
 
     // =========================================================================
-    // ========================= REDIRECTION VERS HUB ===========================
+    // ========================= HUB MANAGEMENT ===========================
     // =========================================================================
 
     private void RedirectToHub(NetworkConnectionToClient conn, string username)
     {
         Debug.Log($"[MASTER] Sending redirect to HUB {HUB_IP}:{HUB_PORT}...");
 
-        // - idéalement: stocker dans DB/Redis/mémoire pour validation côté HUB
-        string sessionToken = Guid.NewGuid().ToString("N");
-
-        // TODO (recommandé): SaveSessionToken(username, sessionToken, expirySeconds: 30);
-
         conn.Send(new RedirectMessage
         {
             ip = HUB_IP,
-            port = HUB_PORT,
+            port = HUB_PORT
         });
 
-        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT} token={sessionToken}");
+        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
 
-        // Déconnecter le client du serveur master
-        conn.Disconnect();
+        StartCoroutine(DisconnectAfterDelay(conn, 0.25f));
     }
+
+    private System.Collections.IEnumerator DisconnectAfterDelay(NetworkConnectionToClient conn, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (conn != null)
+            conn.Disconnect();
+    }
+
 
     // =========================================================================
     // ============================ UTILITY ====================================

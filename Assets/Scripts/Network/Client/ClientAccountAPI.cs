@@ -24,13 +24,6 @@ public class ClientAccountAPI : MonoBehaviour
         RegisterHandlersOnce();
     }
 
-    private void OnDestroy()
-    {
-        // Important: si jamais l'objet est détruit (ex: stop play), clean event
-        if (handlersRegistered)
-            NetworkClient.OnDisconnectedEvent -= OnClientDisconnected;
-    }
-
     private void RegisterHandlersOnce()
     {
         if (handlersRegistered) return;
@@ -39,7 +32,6 @@ public class ClientAccountAPI : MonoBehaviour
         NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse);
         NetworkClient.RegisterHandler<RedirectMessage>(OnRedirect);
 
-        NetworkClient.OnDisconnectedEvent += OnClientDisconnected;
     }
 
     // ==========================================================
@@ -85,36 +77,37 @@ public class ClientAccountAPI : MonoBehaviour
     }
 
     // ==========================================================
-    // =============== REDIRECTION VERS HUB =====================
+    // =============== HUB MANAGEMENT =====================
     // ==========================================================
 
     private void OnRedirect(RedirectMessage msg)
     {
-        Debug.Log($"[ClientAccountAPI] Redirect received → connecting to HUB {msg.ip}:{msg.port}");
+        Debug.Log($"[ClientAccountAPI] Redirect received → {msg.ip}:{msg.port}");
+        StartCoroutine(RedirectRoutine(msg.ip, (ushort)msg.port));
+    }
 
-        pendingRedirect = true;
-        pendingIp = msg.ip;
-        pendingPort = (ushort)msg.port;
+    private System.Collections.IEnumerator RedirectRoutine(string ip, ushort port)
+    {
+        var manager = NetworkManager.singleton;
+        var kcp = manager.GetComponent<KcpTransport>();
 
-        // Si encore connecté au master, on attend la vraie déconnexion
+        // stop master connection cleanly
         if (NetworkClient.isConnected)
         {
-            Debug.Log("[ClientAccountAPI] Disconnecting from master...");
-            NetworkClient.Disconnect();
-            return;
+            Debug.Log("[ClientAccountAPI] StopClient (master) ...");
+            manager.StopClient();
         }
 
-        // Si déjà déconnecté, on connect tout de suite
-        ConnectToHubNow();
+        // wait one frame so Mirror disposes transport properly
+        yield return null;
+
+        manager.networkAddress = ip;
+        kcp.Port = port;
+
+        Debug.Log($"[ClientAccountAPI] StartClient (hub) {ip}:{port}");
+        manager.StartClient();
     }
 
-    private void OnClientDisconnected()
-    {
-        if (!pendingRedirect) return;
-
-        Debug.Log("[ClientAccountAPI] Disconnected from master → applying redirect now...");
-        ConnectToHubNow();
-    }
 
     private void ConnectToHubNow()
     {
