@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemDataSO.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
+    <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\Manager\TimeManager.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />

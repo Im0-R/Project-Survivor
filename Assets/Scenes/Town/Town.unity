@@ -456,6 +456,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6901919766313049683, guid: f0a907b2c37eecf4da6be5e99ae41da5, type: 3}
+      propertyPath: onlineScene
+      value: Assets/Scenes/Town/Town.unity
+      objectReference: {fileID: 0}
     - target: {fileID: 1285617818062106251, guid: f0a907b2c37eecf4da6be5e99ae41da5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

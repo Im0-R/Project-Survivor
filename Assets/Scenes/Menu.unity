@@ -304,6 +304,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClientNetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8502326844852735143, guid: a6abcba3797a4914084941e3d71dcf22, type: 3}
+      propertyPath: onlineScene
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8502326844852735143, guid: a6abcba3797a4914084941e3d71dcf22, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/Menu.unity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
