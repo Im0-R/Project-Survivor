@@ -3,31 +3,42 @@ using UnityEngine;
 
 public class InstanceNetworkManager : NetworkManager
 {
-    public override void OnStartServer()
+    void Awake()
     {
-        base.OnStartServer();
-        Debug.Log("[HUB] Hub instance started and ready for players!");
+#if !UNITY_SERVER
+        //we deactivate the InstanceNetworkManager if not a server build
+        gameObject.SetActive(false);
+        return;
+#endif
     }
 
-    public override void OnClientConnect()
+    public override void OnStartServer()
     {
-        base.OnClientConnect();
-        Debug.Log("[HUB] Client connected to Hub instance!");
+        Debug.Log("[HUB] OnStartServer");
+        base.OnStartServer();
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        Debug.Log($"[HUB] OnServerConnect connId={conn.connectionId}");
+        base.OnServerConnect(conn);
+    }
+
+    public override void OnServerReady(NetworkConnectionToClient conn)
+    {
+        Debug.Log($"[HUB] OnServerReady connId={conn.connectionId}");
+        base.OnServerReady(conn);
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Debug.Log("[HUB] Spawning player in hub...");
-
-        // This automatically instantiates playerPrefab
+        Debug.Log($"[HUB] OnServerAddPlayer connId={conn.connectionId}");
         base.OnServerAddPlayer(conn);
-
-        Debug.Log("[HUB] Player spawned successfully.");
     }
 
-    public override void OnClientDisconnect()
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        base.OnClientDisconnect();
-        Debug.Log("[HUB] Disconnected from hub.");
+        Debug.Log($"[HUB] OnServerDisconnect connId={conn.connectionId}");
+        base.OnServerDisconnect(conn);
     }
 }

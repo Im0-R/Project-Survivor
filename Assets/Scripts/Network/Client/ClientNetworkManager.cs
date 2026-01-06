@@ -1,16 +1,34 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Mirror;
 
-public class ClientNetworkManager : MonoBehaviour
+public class ClientNetworkManager : NetworkManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void OnClientConnect()
     {
-        
+        Debug.Log("[CLIENT] OnClientConnect");
+        base.OnClientConnect();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnClientDisconnect()
     {
-        
+        Debug.Log("[CLIENT] OnClientDisconnect");
+        base.OnClientDisconnect();
+    }
+
+    public override void OnClientChangeScene(
+        string newSceneName,
+        SceneOperation sceneOperation,
+        bool customHandling
+    )
+    {
+        Debug.Log($"[CLIENT] OnClientChangeScene -> {newSceneName} | op={sceneOperation} | customHandling={customHandling}");
+        base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+    }
+
+    public override void OnClientSceneChanged()
+    {
+        Debug.Log($"[CLIENT] OnClientSceneChanged -> active scene = {SceneManager.GetActiveScene().name}");
+        base.OnClientSceneChanged();
     }
 }
