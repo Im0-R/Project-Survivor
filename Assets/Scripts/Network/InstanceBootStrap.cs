@@ -16,7 +16,7 @@ public class InstanceBootStrap : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-#if UNITY_CLIENT
+#if UNITY_CLIENT || UNITY_EDITOR
         Debug.Log("UNITY_CLIENT = TRUE");
 #else
         Debug.Log("UNITY_CLIENT = FALSE");

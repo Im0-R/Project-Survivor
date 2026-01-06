@@ -8,6 +8,7 @@ public class InstanceNetworkManager : NetworkManager
 #if !UNITY_SERVER
         //we deactivate the InstanceNetworkManager if not a server build
         gameObject.SetActive(false);
+        Debug.Log("[HUB] InstanceNetworkManager deactivated (not a server build)");
         return;
 #endif
     }
