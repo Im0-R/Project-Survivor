@@ -16,7 +16,16 @@ public class InstanceNetworkManager : NetworkManager
         Debug.Log($"[CLIENT] NetworkManagers found: {nms.Length}");
         foreach (var nm in nms)
             Debug.Log($"[CLIENT] NM: {nm.name}, active={nm.gameObject.activeInHierarchy}, scene={nm.gameObject.scene.name}");
+        if (NetworkManager.singleton != null && NetworkManager.singleton != this)
+        {
+            Debug.LogError("[NM] Duplicate NetworkManager detected, destroying this one in scene: "
+                + gameObject.scene.name);
+            Destroy(gameObject);
+            return;
+        }
 
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStartServer()
