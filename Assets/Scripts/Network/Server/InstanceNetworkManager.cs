@@ -3,29 +3,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class InstanceNetworkManager : NetworkManager
 {
-    void Awake()
+    public override void Awake()
     {
-#if !UNITY_SERVER
-        //we deactivate the InstanceNetworkManager if not a server build
-        gameObject.SetActive(false);
-        Debug.Log("[HUB] InstanceNetworkManager deactivated (not a server build)");
-        return;
+#if UNITY_CLIENT && !UNITY_SERVER || UNITY_EDITOR
+        // This NM is server-only. On clients we must DESTROY it (not disable),
+        // otherwise it can mess with singleton / scene messages.
+        Destroy(gameObject);
+    return;
 #endif
 
-        var nms = GameObject.FindObjectsOfType<NetworkManager>(true);
-        Debug.Log($"[CLIENT] NetworkManagers found: {nms.Length}");
-        foreach (var nm in nms)
-            Debug.Log($"[CLIENT] NM: {nm.name}, active={nm.gameObject.activeInHierarchy}, scene={nm.gameObject.scene.name}");
-        if (NetworkManager.singleton != null && NetworkManager.singleton != this)
-        {
-            Debug.LogError("[NM] Duplicate NetworkManager detected, destroying this one in scene: "
-                + gameObject.scene.name);
-            Destroy(gameObject);
-            return;
-        }
-
         base.Awake();
+
+        // Optional: keep it across scenes on server if you want
         DontDestroyOnLoad(gameObject);
+
+#if UNITY_SERVER
+    var nms = FindObjectsByType<NetworkManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+    Debug.Log($"[SERVER] NetworkManagers found: {nms.Length}");
+    foreach (var nm in nms)
+        Debug.Log($"[SERVER] NM: {nm.GetType().Name}, active={nm.gameObject.activeInHierarchy}, scene={nm.gameObject.scene.name}");
+#endif
     }
 
     public override void OnStartServer()
@@ -57,16 +54,6 @@ public class InstanceNetworkManager : NetworkManager
     {
         Debug.Log($"[HUB] OnServerDisconnect connId={conn.connectionId}");
         base.OnServerDisconnect(conn);
-    }
-    public override void OnClientConnect()
-    {
-        base.OnClientConnect();
-        Debug.Log("[CLIENT] Connected, sending Ready + AddPlayer");
-
-        NetworkClient.Ready();
-
-        if (NetworkClient.localPlayer == null)
-            NetworkClient.AddPlayer();
     }
 
 }

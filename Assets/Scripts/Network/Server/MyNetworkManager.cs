@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class MyNetworkManager : NetworkManager
 {
+    public override void Awake()
+    {
+        Debug.Log("[CLIENT] MyNetworkManager Awake scene=" + gameObject.scene.name);
+        base.Awake();
+    }
     public override void OnStartClient()
     {
         Debug.Log("[CLIENT] OnStartClient");
@@ -12,8 +17,8 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnClientConnect()
     {
-        Debug.Log("[CLIENT] OnClientConnect");
         base.OnClientConnect();
+        Debug.Log("[CLIENT] OnClientConnect activeScene=" + SceneManager.GetActiveScene().name);
     }
 
 
@@ -31,14 +36,20 @@ public class MyNetworkManager : NetworkManager
 
     public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
     {
-        Debug.Log($"[CLIENT] OnClientChangeScene -> {newSceneName} | op={sceneOperation} | customHandling={customHandling}");
+        Debug.Log($"[CLIENT] OnClientChangeScene -> {newSceneName} op={sceneOperation} customHandling={customHandling}");
         base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
     }
 
     public override void OnClientSceneChanged()
     {
-        Debug.Log($"[CLIENT] OnClientSceneChanged -> active scene = {SceneManager.GetActiveScene().name}");
         base.OnClientSceneChanged();
+        Debug.Log("[CLIENT] OnClientSceneChanged activeScene=" + SceneManager.GetActiveScene().name);
+
+        if (!NetworkClient.ready)
+            NetworkClient.Ready();
+
+        if (NetworkClient.localPlayer == null)
+            NetworkClient.AddPlayer();
     }
     public void JoinInstance()
     {
