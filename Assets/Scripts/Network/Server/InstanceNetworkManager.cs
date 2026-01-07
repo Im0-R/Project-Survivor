@@ -37,8 +37,6 @@ public class InstanceNetworkManager : NetworkManager
     {
         base.OnServerConnect(conn);
 
-        // Forcer le client à charger Town si il n'est pas déjà dessus.
-        // On attend un frame, ça évite les cas où le client n'est pas prêt à recevoir.
         StartCoroutine(SendClientToTown(conn));
     }
 
@@ -46,12 +44,12 @@ public class InstanceNetworkManager : NetworkManager
     {
         yield return null;
 
-        // Connexion encore valide ?
+        // Connexion not valid yet?
         if (conn == null || !conn.isAuthenticated && conn.connectionId == 0) { /* ignore */ }
 
-        // Forcer Mirror à envoyer le changement de scène
-        Debug.Log("[HUB] Forcing ServerChangeScene(Town) for new connection");
-        ServerChangeScene(hubSceneName);
+        //// Force scene change to Town
+        //Debug.Log("[HUB] Forcing ServerChangeScene(Town) for new connection");
+        //ServerChangeScene(hubSceneName);
     }
 
     public override void OnServerReady(NetworkConnectionToClient conn)

@@ -27,9 +27,6 @@ public class AuthenticatorLogin : NetworkAuthenticator
     }
 
     #endregion
-
-    // Exemple : stockage d’utilisateurs valides
-    // (tu remplaceras plus tard par une DB ou un fichier JSON)
     private Dictionary<string, string> validUsers = new Dictionary<string, string>()
     {
         { "Imogen", "1234" },
