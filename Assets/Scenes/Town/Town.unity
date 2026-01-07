@@ -461,6 +461,10 @@ PrefabInstance:
       value: Assets/Scenes/Town/Town.unity
       objectReference: {fileID: 0}
     - target: {fileID: -6901919766313049683, guid: f0a907b2c37eecf4da6be5e99ae41da5, type: 3}
+      propertyPath: hubSceneName
+      value: Assets/Scenes/Town/Town.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: -6901919766313049683, guid: f0a907b2c37eecf4da6be5e99ae41da5, type: 3}
       propertyPath: offlineScene
       value: 
       objectReference: {fileID: 0}

@@ -1,4 +1,4 @@
-﻿#if UNITY_SERVER || UNITY_EDITOR
+﻿#if UNITY_SERVER
 using Mirror;
 using System.Collections;
 using UnityEngine;
