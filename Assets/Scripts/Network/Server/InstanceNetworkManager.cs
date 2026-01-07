@@ -10,7 +10,7 @@ public class InstanceNetworkManager : NetworkManager
         // This NM is server-only. On clients we must DESTROY it (not disable),
         // otherwise it can mess with singleton / scene messages.
         Destroy(gameObject);
-    return;
+        return;
 #endif
 
         base.Awake();
@@ -32,13 +32,18 @@ public class InstanceNetworkManager : NetworkManager
         base.OnStartServer();
         Debug.Log("[HUB] Active scene on start: " + SceneManager.GetActiveScene().name);
     }
-
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
 
-        StartCoroutine(SendClientToTown(conn));
+        if (SceneManager.GetActiveScene().name != hubSceneName)
+        {
+            Debug.Log("[HUB] ServerChangeScene(Town) (first time only)");
+            ServerChangeScene(hubSceneName);
+        }
     }
+
+
 
     private System.Collections.IEnumerator SendClientToTown(NetworkConnectionToClient conn)
     {
@@ -47,9 +52,9 @@ public class InstanceNetworkManager : NetworkManager
         // Connexion not valid yet?
         if (conn == null || !conn.isAuthenticated && conn.connectionId == 0) { /* ignore */ }
 
-        //// Force scene change to Town
-        //Debug.Log("[HUB] Forcing ServerChangeScene(Town) for new connection");
-        //ServerChangeScene(hubSceneName);
+        // Force scene change to Town
+        Debug.Log("[HUB] Forcing ServerChangeScene(Town) for new connection");
+        ServerChangeScene(hubSceneName);
     }
 
     public override void OnServerReady(NetworkConnectionToClient conn)
