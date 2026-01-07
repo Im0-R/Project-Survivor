@@ -28,10 +28,22 @@ public class InstanceNetworkManager : NetworkManager
 
     public override void OnStartServer()
     {
-        Debug.Log("[HUB] OnStartServer");
         base.OnStartServer();
-        Debug.Log("[HUB] Active scene on start: " + SceneManager.GetActiveScene().name);
+        Debug.Log("[SERVER] OnStartServer active scene: " + SceneManager.GetActiveScene().name);
+        //look for Town scene and load it if not loaded
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == hubSceneName)
+            {
+                Debug.Log("[SERVER] Town scene already loaded");
+                return;
+            }
+        }
+        Debug.Log("[SERVER] Loading Town scene");
+        ServerChangeScene(hubSceneName);
     }
+
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
@@ -39,7 +51,7 @@ public class InstanceNetworkManager : NetworkManager
         if (SceneManager.GetActiveScene().name != hubSceneName)
         {
             Debug.Log("[HUB] ServerChangeScene(Town) (first time only)");
-            ServerChangeScene(hubSceneName);
+            //ServerChangeScene(hubSceneName);
         }
     }
 
