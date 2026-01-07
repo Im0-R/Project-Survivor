@@ -14,7 +14,14 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log("[CLIENT] OnClientConnect");
         base.OnClientConnect();
+
+        if (!NetworkClient.ready)
+            NetworkClient.Ready();
+
+        if (NetworkClient.localPlayer == null)
+            NetworkClient.AddPlayer();
     }
+
 
     public override void OnClientDisconnect()
     {

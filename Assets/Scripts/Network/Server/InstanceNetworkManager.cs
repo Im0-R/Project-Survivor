@@ -11,6 +11,12 @@ public class InstanceNetworkManager : NetworkManager
         Debug.Log("[HUB] InstanceNetworkManager deactivated (not a server build)");
         return;
 #endif
+
+        var nms = GameObject.FindObjectsOfType<NetworkManager>(true);
+        Debug.Log($"[CLIENT] NetworkManagers found: {nms.Length}");
+        foreach (var nm in nms)
+            Debug.Log($"[CLIENT] NM: {nm.name}, active={nm.gameObject.activeInHierarchy}, scene={nm.gameObject.scene.name}");
+
     }
 
     public override void OnStartServer()
@@ -42,4 +48,15 @@ public class InstanceNetworkManager : NetworkManager
         Debug.Log($"[HUB] OnServerDisconnect connId={conn.connectionId}");
         base.OnServerDisconnect(conn);
     }
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        Debug.Log("[CLIENT] Connected, sending Ready + AddPlayer");
+
+        NetworkClient.Ready();
+
+        if (NetworkClient.localPlayer == null)
+            NetworkClient.AddPlayer();
+    }
+
 }
