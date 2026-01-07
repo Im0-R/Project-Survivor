@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Spells\Slash\SlashBehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\RewardSpellsCanvas.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
+    <Compile Include="Assets\Scripts\UI\GameUILoader.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
     <Compile Include="Assets\Scripts\Stats\Stats.cs" />

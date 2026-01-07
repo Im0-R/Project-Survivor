@@ -34,6 +34,10 @@ public class MyNetworkManager : NetworkManager
 
         if (NetworkClient.localPlayer == null)
             NetworkClient.AddPlayer();
+        //Link the UI to the local player
+
+        Debug.Log("[CLIENT] Starting coroutine to ensure UI is loaded.");
+        GameUILoader.Instance.StartCoroutine(GameUILoader.Instance.EnsureUILoadedOnce());
     }
 
     public override void OnClientDisconnect()

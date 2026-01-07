@@ -2533,7 +2533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.5
   SO: {fileID: 11400000, guid: 7218e8b1566667649a33f474867513c2, type: 2}
   entityName: 
   level: 0
@@ -2586,7 +2586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkTransformReliable
   syncDirection: 1
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.5
   target: {fileID: 7547434756274485986}
   syncPosition: 1
   syncRotation: 1

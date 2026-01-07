@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
         // Ensure there is only one instance of UIManager
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        ShowGameUI();
     }
 
     void Update()
