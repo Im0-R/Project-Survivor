@@ -10,6 +10,7 @@ public class GameUILoader : MonoBehaviour
 
     private bool uiLoaded = false;
     private AsyncOperation loadingOp;
+    public string playerName = "Player";
 
     private void Awake()
     {

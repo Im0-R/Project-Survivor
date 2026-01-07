@@ -29,7 +29,7 @@ public class CanvasLogin : MonoBehaviour
     {
         string username = IF_username.text.Trim();
         string password = IF_password.text.Trim();
-
+        GameUILoader.Instance.playerName = username;
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
             Debug.LogWarning("[CanvasLogin] Username or password cannot be empty.");

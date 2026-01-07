@@ -13,6 +13,7 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log("[CLIENT] OnStartClient");
         base.OnStartClient();
+        
     }
 
     public override void OnClientConnect()
@@ -35,6 +36,7 @@ public class MyNetworkManager : NetworkManager
         if (NetworkClient.localPlayer == null)
             NetworkClient.AddPlayer();
         //Link the UI to the local player
+
 
         Debug.Log("[CLIENT] Starting coroutine to ensure UI is loaded.");
         GameUILoader.Instance.StartCoroutine(GameUILoader.Instance.EnsureUILoadedOnce());

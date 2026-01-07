@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-#region 🔧 Mirror custom writer/reader registration
+#region  Mirror custom writer/reader registration
 
 public static class MirrorWritersRegistration
 {

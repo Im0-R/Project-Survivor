@@ -65,6 +65,7 @@ public class PlayerEntity : NetworkEntity
         Debug.Log("[Client] Linking UI + camera");
 
         cam.SetTarget(transform);
+        entityName = GameUILoader.Instance.playerName;
         ui.SetPlayer(this);
 
         Debug.Log("[Client] UI + Camera linked successfully.");
