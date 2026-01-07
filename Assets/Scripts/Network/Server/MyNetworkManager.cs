@@ -18,9 +18,23 @@ public class MyNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        Debug.Log("[CLIENT] OnClientConnect activeScene=" + SceneManager.GetActiveScene().name);
-    }
+        Debug.Log($"[CLIENT] OnClientConnect activeScene={SceneManager.GetActiveScene().name}");
 
+        if (!ClientAccountAPI.ConnectingToHub)
+        {
+            Debug.Log("[CLIENT] Connected to MASTER, not spawning player.");
+            return;
+        }
+
+        Debug.Log("[CLIENT] Connected to HUB -> Ready + AddPlayer");
+        ClientAccountAPI.ConnectingToHub = false;
+
+        if (!NetworkClient.ready)
+            NetworkClient.Ready();
+
+        if (NetworkClient.localPlayer == null)
+            NetworkClient.AddPlayer();
+    }
 
     public override void OnClientDisconnect()
     {

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class InstanceNetworkManager : NetworkManager
 {
+    [Scene] public string hubSceneName = "Town";
     public override void Awake()
     {
 #if UNITY_CLIENT && !UNITY_SERVER || UNITY_EDITOR
@@ -34,8 +35,23 @@ public class InstanceNetworkManager : NetworkManager
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
-        Debug.Log($"[HUB] OnServerConnect connId={conn.connectionId}");
         base.OnServerConnect(conn);
+
+        // Forcer le client à charger Town si il n'est pas déjà dessus.
+        // On attend un frame, ça évite les cas où le client n'est pas prêt à recevoir.
+        StartCoroutine(SendClientToTown(conn));
+    }
+
+    private System.Collections.IEnumerator SendClientToTown(NetworkConnectionToClient conn)
+    {
+        yield return null;
+
+        // Connexion encore valide ?
+        if (conn == null || !conn.isAuthenticated && conn.connectionId == 0) { /* ignore */ }
+
+        // Forcer Mirror à envoyer le changement de scène
+        Debug.Log("[HUB] Forcing ServerChangeScene(Town) for new connection");
+        ServerChangeScene(hubSceneName);
     }
 
     public override void OnServerReady(NetworkConnectionToClient conn)

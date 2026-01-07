@@ -8,6 +8,7 @@ public class ClientAccountAPI : MonoBehaviour
     public static ClientAccountAPI Instance { get; private set; }
 
     private bool handlersRegistered = false;
+    public static bool ConnectingToHub;
 
     // Redirect pending data
     private bool pendingRedirect = false;
@@ -105,7 +106,12 @@ public class ClientAccountAPI : MonoBehaviour
         kcp.Port = port;
 
         Debug.Log($"[ClientAccountAPI] StartClient (hub) {ip}:{port}");
+        ClientAccountAPI.ConnectingToHub = true;
 
+        manager.networkAddress = ip;
+        kcp.Port = port;
+
+        manager.StartClient();
         manager.StartClient();
     }
 
