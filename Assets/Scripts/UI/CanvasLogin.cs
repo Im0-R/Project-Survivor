@@ -4,7 +4,7 @@ using TMPro;
 
 public class CanvasLogin : MonoBehaviour
 {
-    private NetworkManager manager;
+    private MyNetworkManager manager;
 
     [Header("UI Fields")]
     [SerializeField] TMP_InputField IF_username;
@@ -16,7 +16,7 @@ public class CanvasLogin : MonoBehaviour
 
     void Start()
     {
-        manager = FindAnyObjectByType<NetworkManager>();
+        manager = FindAnyObjectByType<MyNetworkManager>();
         if (manager == null)
             Debug.LogError("[CanvasLogin] No NetworkManager found in scene!");
     }
@@ -35,7 +35,6 @@ public class CanvasLogin : MonoBehaviour
             Debug.LogWarning("[CanvasLogin] Username or password cannot be empty.");
             return;
         }
-
         // already connected then just try login
         if (NetworkClient.isConnected)
         {

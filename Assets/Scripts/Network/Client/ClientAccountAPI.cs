@@ -105,6 +105,7 @@ public class ClientAccountAPI : MonoBehaviour
         kcp.Port = port;
 
         Debug.Log($"[ClientAccountAPI] StartClient (hub) {ip}:{port}");
+
         manager.StartClient();
     }
 

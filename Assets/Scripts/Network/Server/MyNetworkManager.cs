@@ -14,12 +14,6 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log("[CLIENT] OnClientConnect");
         base.OnClientConnect();
-
-        if (!NetworkClient.ready)
-            NetworkClient.Ready();
-
-        if (NetworkClient.localPlayer == null)
-            NetworkClient.AddPlayer();
     }
 
 
@@ -45,5 +39,21 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log($"[CLIENT] OnClientSceneChanged -> active scene = {SceneManager.GetActiveScene().name}");
         base.OnClientSceneChanged();
+    }
+    public void JoinInstance()
+    {
+        if (!NetworkClient.isConnected)
+        {
+            Debug.LogError("[CLIENT] Cannot join instance: not connected to server.");
+            return;
+        }
+
+        Debug.Log("[CLIENT] Joining instance: sending Ready + AddPlayer");
+
+        if (!NetworkClient.ready)
+            NetworkClient.Ready();
+
+        if (NetworkClient.localPlayer == null)
+            NetworkClient.AddPlayer();
     }
 }

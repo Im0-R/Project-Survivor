@@ -1,6 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class InstanceNetworkManager : NetworkManager
 {
     void Awake()
@@ -23,6 +23,7 @@ public class InstanceNetworkManager : NetworkManager
     {
         Debug.Log("[HUB] OnStartServer");
         base.OnStartServer();
+        Debug.Log("[HUB] Active scene on start: " + SceneManager.GetActiveScene().name);
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
