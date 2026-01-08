@@ -7,6 +7,8 @@ public class CameraFollow : MonoBehaviour
 {
     public static CameraFollow Instance { get; private set; }
 
+    public static Camera LocalCamera { get; private set; }
+
     [Tooltip("Offset relatif au joueur. Ex: (0, 15, -6) pour vue top/iso.")]
     public Vector3 offset = new Vector3(0f, 18f, -6f);
 
@@ -23,6 +25,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (Instance != null && Instance != this) Destroy(this.gameObject);
         else Instance = this;
+        LocalCamera = GetComponent<Camera>();
     }
 
     public void SetTarget(Transform t)

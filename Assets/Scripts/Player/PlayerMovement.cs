@@ -57,9 +57,10 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        // Get the mouse position in world space
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        var cam = GetCamera();
+        if (cam == null) return; // UI not loaded yet?
 
+        Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             // Check if the hit point is an interactable object
@@ -106,4 +107,16 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
+    private Camera GetCamera()
+    {
+        if (mainCamera != null) return mainCamera;
+
+        if (CameraFollow.LocalCamera != null)
+            mainCamera = CameraFollow.LocalCamera;
+        else
+            mainCamera = Camera.main;
+
+        return mainCamera;
+    }
+
 }
