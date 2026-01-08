@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,28 +9,61 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider xpBar;
 
-
-    public PlayerEntity playerEnt;
+    private PlayerEntity playerEnt;
 
     private void Awake()
     {
-        // Singleton for easy access
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        //no DontDestroyOnLoad(gameObject);
     }
-    public void SetPlayer(PlayerEntity p)
+
+    private void OnEnable()
     {
-        playerEnt = p;
+        // try to bind immediately
+        TryBindLocalPlayer();
     }
+
     private void Update()
     {
-        if (playerEnt == null) return;
-            UpdateUI();
+        //if not bound yet, try to bind
+        if (playerEnt == null)
+        {
+            TryBindLocalPlayer();
+            return;
+        }
+
+        UpdateUI();
+    }
+
+    private void TryBindLocalPlayer()
+    {
+        if (!NetworkClient.active) return;
+        if (NetworkClient.localPlayer == null) return;
+
+        var ent = NetworkClient.localPlayer.GetComponent<PlayerEntity>();
+        if (ent == null) return;
+
+        if (playerEnt == ent) return;
+
+        playerEnt = ent;
+        Debug.Log($"[PlayerUI] Bound to local player netId={NetworkClient.localPlayer.netId}");
+
+        //Bind camera to player
+        if (CameraFollow.Instance != null)
+            CameraFollow.Instance.SetTarget(ent.transform);
     }
 
     private void UpdateUI()
     {
-        healthBar.value = (playerEnt.currentHealth / playerEnt.maxHealth) * 100f;
-        xpBar.value = (playerEnt.experience / playerEnt.maxExperience) * 100f;
+        float maxHp = Mathf.Max(1f, playerEnt.maxHealth);
+        float maxXp = Mathf.Max(1f, playerEnt.maxExperience);
+
+        healthBar.value = (playerEnt.currentHealth / maxHp) * 100f;
+        xpBar.value = (playerEnt.experience / maxXp) * 100f;
     }
 }

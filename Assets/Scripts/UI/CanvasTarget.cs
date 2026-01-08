@@ -1,4 +1,4 @@
-using TMPro;
+        using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +10,7 @@ public class CanvasTarget : MonoBehaviour
     public void Update()
     {
         // Raycast from  the camera to the hovered NetworkEntity
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);    
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             NetworkEntity entHit = hitInfo.collider.GetComponentInParent<NetworkEntity>();

@@ -36,39 +36,35 @@ public class PlayerEntity : NetworkEntity
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-
-        Debug.Log("[Client] Local player spawned → loading PlayerUI...");
-
-        SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive)
-            .completed += _ => StartCoroutine(LinkUIWhenReady());
+        SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive);
     }
 
 
-    private IEnumerator LinkUIWhenReady()
-    {
-        yield return null;
+    //private IEnumerator LinkUIWhenReady()
+    //{
+    //    yield return null;
 
-        PlayerUI ui = null;
-        while (ui == null)
-        {
-            ui = PlayerUI.Instance;
-            yield return null;
-        }
+    //    PlayerUI ui = null;
+    //    while (ui == null)
+    //    {   
+    //        ui = PlayerUI.Instance;
+    //        yield return null;
+    //    }
 
-        CameraFollow cam = null;
-        while (cam == null)
-        {
-            cam = CameraFollow.Instance;
-            yield return null;
-        }
+    //    CameraFollow cam = null;
+    //    while (cam == null)
+    //    {
+    //        cam = CameraFollow.Instance;
+    //        yield return null;
+    //    }
 
-        Debug.Log("[Client] Linking UI + camera");
+    //    Debug.Log("[Client] Linking UI + camera");
 
-        cam.SetTarget(transform);
-        entityName = GameUILoader.Instance.playerName;
-        ui.SetPlayer(this);
+    //    cam.SetTarget(transform);
+    //    entityName = GameUILoader.Instance.playerName;
+    //    ui.SetPlayer(this);
 
-        Debug.Log("[Client] UI + Camera linked successfully.");
-    }
+    //    Debug.Log("[Client] UI + Camera linked successfully.");
+    //}
 
 }
