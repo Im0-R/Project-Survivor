@@ -35,14 +35,14 @@ public class InstanceManager : NetworkBehaviour
     }
 
     // ==========================================================
-    // =============== CREATION INSTANCE DYNAMIQUE ===============
+    // =============== CREATION DYNAMIC INSTANCES ===============
     // ==========================================================
 
     [Server]
     public void CreateInstance(NetworkConnectionToClient conn)
     {
         int id = nextInstanceId++;
-        int port = 8000 + id; // éviter conflits
+        int port = 8000 + id; // changing port to avoid conflicts
         string scene = "Town";
         int seed = Random.Range(0, 999999);
 

@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         Instantiate(spellsRewardCanvas, generalCanvasParent.transform);
         gameUICanvas.SetActive(false);
-        TimeManager.Instance.PauseGame();
+        ServerTimeManager.instance.CmdPauseGame();
     }
     public void HideSpellsRewardUI()
     {
@@ -49,6 +49,6 @@ public class UIManager : MonoBehaviour
             Destroy(rewardCanvas.gameObject);
         }
         gameUICanvas.SetActive(true);
-        TimeManager.Instance.ResumeGame();
+        ServerTimeManager.instance.CmdResumeGame();
     }
 }
