@@ -351,7 +351,7 @@ public class NetworkEntity : NetworkBehaviour
             activeSpells.Add(spell);
         }
 
-        Debug.Log($"[CLIENT] Rebuild spells OK, {activeSpells.Count} sorts pour {entityName}.");
+        //Debug.Log($"[CLIENT] Rebuild spells OK, {activeSpells.Count} sorts pour {entityName}.");
     }
 
     private void LocalAddSpell(SpellSyncData data)

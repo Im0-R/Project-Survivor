@@ -21,6 +21,8 @@ public class CameraFollow : MonoBehaviour
     [Tooltip("Le transform du joueur à suivre.")]
     public Transform target;
 
+    public bool HasTarget = false;
+
     void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this.gameObject);
@@ -31,11 +33,13 @@ public class CameraFollow : MonoBehaviour
     public void SetTarget(Transform t)
     {
         target = t;
+        HasTarget = true;
     }
 
     public void ClearTarget()
     {
         target = null;
+        HasTarget = false;
     }
 
     void LateUpdate()

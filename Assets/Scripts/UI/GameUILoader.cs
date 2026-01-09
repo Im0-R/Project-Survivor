@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,8 +39,7 @@ public class GameUILoader : MonoBehaviour
             uiLoaded = true;
             yield break;
         }
-
-        loadingOp = SceneManager.LoadSceneAsync(uiSceneName, LoadSceneMode.Additive);
+        //loadingOp = SceneManager.LoadSceneAsync(uiSceneName, LoadSceneMode.Additive);
         yield return loadingOp;
 
         uiLoaded = true;

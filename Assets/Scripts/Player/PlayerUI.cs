@@ -37,6 +37,10 @@ public class PlayerUI : MonoBehaviour
             return;
         }
 
+        if (playerEnt != null && !CameraFollow.Instance.HasTarget)
+        {
+            SetCameraTarget();
+        }
         UpdateUI();
     }
 
@@ -45,7 +49,7 @@ public class PlayerUI : MonoBehaviour
         if (!NetworkClient.active) return;
         if (NetworkClient.localPlayer == null) return;
 
-        var ent = NetworkClient.localPlayer.GetComponent<PlayerEntity>();
+        PlayerEntity ent = NetworkClient.localPlayer.GetComponent<PlayerEntity>();
         if (ent == null) return;
 
         if (playerEnt == ent) return;
@@ -53,9 +57,16 @@ public class PlayerUI : MonoBehaviour
         playerEnt = ent;
         Debug.Log($"[PlayerUI] Bound to local player netId={NetworkClient.localPlayer.netId}");
 
+    }
+    private void SetCameraTarget()
+    {
+
         //Bind camera to player
         if (CameraFollow.Instance != null)
-            CameraFollow.Instance.SetTarget(ent.transform);
+            CameraFollow.Instance.SetTarget(playerEnt.transform);
+        Debug.Log($"[PlayerUI] Targetted local player netId={NetworkClient.localPlayer.netId}");
+
+
     }
 
     private void UpdateUI()
