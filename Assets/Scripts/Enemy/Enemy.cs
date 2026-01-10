@@ -39,7 +39,6 @@ public class Enemy : EnemyEntity
 
         Debug.Log($"[Enemy] NavMeshAgent OK | isOnNavMesh={agent.isOnNavMesh}");
 
-        ChangeState(new EnemyIdleState());
         OnDeath += OnDeathEffects;
     }
 

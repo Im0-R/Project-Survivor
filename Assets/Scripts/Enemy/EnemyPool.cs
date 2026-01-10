@@ -1,7 +1,8 @@
 // EnemyPool.cs
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+using UnityEngine.AI;
 
 public class EnemyPool : NetworkBehaviour
 {
@@ -19,11 +20,10 @@ public class EnemyPool : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        // IMPORTANT: do NOT NetworkServer.Spawn here
         for (int i = 0; i < poolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab);
-            // enemyPrefab MUST already have a NetworkIdentity on the prefab
+
             enemy.SetActive(false);
             pool.Enqueue(enemy);
         }
@@ -40,26 +40,58 @@ public class EnemyPool : NetworkBehaviour
 
         GameObject enemy = pool.Dequeue();
 
-        // reset transform & enable
-        enemy.transform.SetPositionAndRotation(position, Quaternion.identity);
+        // Activate enemy before setting position
         enemy.SetActive(true);
 
+        //Snap to NavMesh nearest position
+        Vector3 finalPos = position;
+        if (NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            finalPos = hit.position;
+
+        //Warp the agent if possible
+        NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
+        if (agent != null && agent.enabled)
+        {
+            agent.Warp(finalPos);
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
+        else
+        {
+            enemy.transform.SetPositionAndRotation(finalPos, Quaternion.identity);
+        }
+
+        //Reset rotation
+        enemy.transform.rotation = Quaternion.identity;
+
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
-        // If not spawned yet (or previously UnSpawned), netId will be 0
-        if (ni.netId == 0)
+        if (ni != null && ni.netId == 0)
             NetworkServer.Spawn(enemy);
 
-        // reset gameplay state
+
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
             enemyScript.InitStatsFromSO();
-            enemyScript.ResetState();
+
+            // Start directly in Chase
+            enemyScript.ChangeState(new EnemyChaseState());
+
+            // Helpful debug
+            Debug.Log($"[EnemyPool] Spawned {enemy.name} at {finalPos} | " +
+                      $"scene={enemy.gameObject.scene.name} | " +
+                      $"agentOnNavMesh={(agent != null ? agent.isOnNavMesh.ToString() : "no-agent")}");
+
             EnemyManager.Instance?.RegisterEnemy(enemyScript);
+        }
+        else
+        {
+            Debug.LogWarning($"[EnemyPool] Spawned enemy has no Enemy script: {enemy.name}");
         }
 
         return enemy;
     }
+
 
     [Server]
     public void DespawnEnemy(GameObject enemy)
@@ -69,7 +101,8 @@ public class EnemyPool : NetworkBehaviour
             EnemyManager.Instance?.UnregisterEnemy(enemyScript);
 
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
-        // If currently spawned (netId != 0), unspawn so clients despawn it
+
+        // Only UnSpawn if it was spawned
         if (ni != null && ni.netId != 0)
             NetworkServer.UnSpawn(enemy);
 
