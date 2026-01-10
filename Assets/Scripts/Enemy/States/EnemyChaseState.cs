@@ -2,30 +2,45 @@ using UnityEngine;
 
 public class EnemyChaseState : IEnemyState
 {
-    public Transform target;
+    private Transform target;
+    private float repathTimer;
 
     public void Enter(Enemy enemy)
     {
         target = enemy.GetClosestPlayer();
-        //Get the skinned mesh renderer color to green in children to indicate chase state
+        repathTimer = 0f;
 
-        enemy.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = Color.green;
+        var smr = enemy.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (smr != null && smr.materials != null && smr.materials.Length > 0)
+            smr.materials[0].color = Color.green;
+
+        var agent = enemy.GetAgent();
+        if (agent != null)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
     }
 
     public void Update(Enemy enemy)
     {
-        
         if (target == null) target = enemy.GetClosestPlayer();
-
         if (target == null) return;
 
-        enemy.GetAgent().SetDestination(target.position);
+        var agent = enemy.GetAgent();
+        if (agent == null) return;
+
+        repathTimer -= Time.deltaTime;
+        if (repathTimer <= 0f)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+            repathTimer = 0.2f;
+        }
 
         float dist = Vector3.Distance(enemy.transform.position, target.position);
         if (dist < enemy.attackRange)
-        {
             enemy.ChangeState(new EnemyAttackState(target));
-        }
     }
 
     public void Exit(Enemy enemy) { }

@@ -1,5 +1,6 @@
-using UnityEngine;
 using Mirror;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawner : NetworkBehaviour
 {
@@ -31,8 +32,12 @@ public class EnemySpawner : NetworkBehaviour
 
         GameObject player = players[Random.Range(0, players.Length)];
         Vector2 circle = Random.insideUnitCircle * spawnRadius;
-        Vector3 pos = player.transform.position + new Vector3(circle.x, 0, circle.y);
 
-        EnemyPool.Instance.SpawnEnemy(pos); // this will Spawn() if needed
+        Vector3 rawPos = player.transform.position + new Vector3(circle.x, 0f, circle.y);
+
+        if (NavMesh.SamplePosition(rawPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            EnemyPool.Instance.SpawnEnemy(hit.position);
+        else
+            EnemyPool.Instance.SpawnEnemy(player.transform.position);
     }
 }
