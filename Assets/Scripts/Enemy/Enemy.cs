@@ -1,48 +1,99 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor;
 using Mirror;
 
 public class Enemy : EnemyEntity
 {
+    [Header("Combat")]
     [SerializeField] public float attackRange = 2f;
     [SerializeField] public float attackDamage = 10f;
+
     NavMeshAgent agent;
 
     public HitboxHitHumanoidMonster hitboxHit;
     public HumanoidAnimator humanoidAnimator;
-    IEnemyState currentState;
+    public IEnemyState currentState;
+
+    // ======================
+    // SERVER INIT
+    // ======================
     public override void OnStartServer()
     {
-        //Since the enemy is controlled by the server, we only run this code on the server
-        if (!isServer) return;
+        if (!isServer)
+        {
+            Debug.LogWarning($"[Enemy] ❌ OnStartServer called on CLIENT {name}");
+            return;
+        }
+
+        Debug.Log($"[Enemy] ✅ OnStartServer {name} | scene={gameObject.scene.name}");
 
         InitStatsFromSO();
+
         agent = GetComponent<NavMeshAgent>();
 
-        // Initialize State = Chase
-        ChangeState(new EnemyChaseState());
+        if (agent == null)
+        {
+            Debug.LogError($"[Enemy] ❌ NavMeshAgent MISSING on {name}");
+            return;
+        }
+
+        Debug.Log($"[Enemy] NavMeshAgent OK | isOnNavMesh={agent.isOnNavMesh}");
+
+        ChangeState(new EnemyIdleState());
         OnDeath += OnDeathEffects;
     }
+
+    // ======================
+    // AI TICK
+    // ======================
     public void Tick(float dt)
     {
         if (!isServer) return;
+
+        if (agent == null)
+        {
+            Debug.LogError($"[Enemy] ❌ Tick called but agent NULL on {name}");
+            return;
+        }
+
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogWarning($"[Enemy] ⚠️ {name} NOT on NavMesh | pos={transform.position}");
+            return;
+        }
+
+        Debug.Log($"[Enemy Tick] {name} | state={currentState?.GetType().Name}");
+
         currentState?.Update(this);
         agent.speed = movementSpeedMultiplier;
     }
 
+    // ======================
+    // STATE MACHINE
+    // ======================
     public void ChangeState(IEnemyState newState)
     {
+        Debug.Log($"[Enemy] 🔄 State change {name} : {currentState?.GetType().Name} → {newState.GetType().Name}");
+
         currentState?.Exit(this);
         currentState = newState;
         currentState?.Enter(this);
     }
 
+    // ======================
+    // NAV
+    // ======================
     public NavMeshAgent GetAgent() => agent;
 
+    // ======================
+    // PLAYER DETECTION
+    // ======================
     public Transform GetClosestPlayer()
     {
-        var players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        Debug.Log($"[Enemy] 🔍 {name} sees {players.Length} players");
+
         float closest = Mathf.Infinity;
         Transform best = null;
 
@@ -56,78 +107,115 @@ public class Enemy : EnemyEntity
             }
         }
 
+        if (best != null)
+            Debug.Log($"[Enemy] 🎯 Closest player = {best.name} dist={closest:F2}");
+
         return best;
     }
 
+    // ======================
+    // DAMAGE
+    // ======================
     [Command]
     public void CmdTakeDamage(int dmg)
     {
         if (!isServer) return;
 
+        Debug.Log($"[Enemy] 💥 {name} takes {dmg} dmg");
+
         currentHealth -= dmg;
         if (currentHealth <= 0)
         {
+            Debug.Log($"[Enemy] ☠️ {name} DEAD");
             ChangeState(new EnemyDeadState());
         }
     }
+
+    // ======================
+    // DEATH
+    // ======================
     public void OnDeathEffects()
     {
+        Debug.Log($"[Enemy] 🎁 OnDeathEffects {name}");
         GiveExpToPlayers();
     }
+
     public void GiveExpToPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log($"[Enemy] XP given to {players.Length} players");
+
         foreach (GameObject p in players)
         {
             PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
             if (playerEntity != null)
-            {
                 playerEntity.GainExperience(experienceGiven);
-            }
         }
     }
+
+    // ======================
+    // ATTACK
+    // ======================
     public void CanDealMeleeDamage()
     {
+        Debug.Log($"[Enemy] ⚔️ CanDealMeleeDamage {name}");
         hitboxHit.EnableHitbox();
     }
+
     public void Attack()
     {
+        Debug.Log($"[Enemy] ⚔️ Attack {name}");
         hitboxHit.EnableHitbox();
     }
+
     public void DisactiveAttack()
     {
-        //switch the enemy to Chase state after attacking
+        Debug.Log($"[Enemy] 🛑 End Attack {name}");
         hitboxHit.DisableHitbox();
         ChangeState(new EnemyChaseState());
     }
 
     public void StopMoving()
     {
+        Debug.Log($"[Enemy] 🛑 StopMoving {name}");
         agent.isStopped = true;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    // ======================
+    // COLLISION
+    // ======================
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Here you can call a method on the player to deal damage
-            PlayerEntity player = collision.gameObject.GetComponent<PlayerEntity>();
-            if (player != null)
-            {
-                Debug.Log("Player found, dealing damage.");
-            }
+            Debug.Log($"[Enemy] 💥 Collision with Player {collision.gameObject.name}");
         }
     }
+
+    // ======================
+    // CLEANUP
+    // ======================
     private void OnDisable()
     {
-        if (isServer) EnemyManager.Instance?.UnregisterEnemy(this);
+        if (isServer)
+            Debug.Log($"[Enemy] ❌ Disabled {name}");
+
+        if (isServer)
+            EnemyManager.Instance?.UnregisterEnemy(this);
     }
+
+    // ======================
+    // UTIL
+    // ======================
     public void ResetState()
     {
+        Debug.Log($"[Enemy] 🔄 ResetState {name}");
         ChangeState(new EnemyIdleState());
     }
+
     public void SleepState()
     {
+        Debug.Log($"[Enemy] 😴 SleepState {name}");
         ChangeState(new EnemySleepState());
     }
 }

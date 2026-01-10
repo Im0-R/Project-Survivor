@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyChaseState : IEnemyState
 {
-    Transform target;
+    public Transform target;
 
     public void Enter(Enemy enemy)
     {
