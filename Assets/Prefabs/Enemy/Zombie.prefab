@@ -399,7 +399,6 @@ GameObject:
   - component: {fileID: 3966264665843785687}
   - component: {fileID: 6373443025740128648}
   - component: {fileID: 8944850199700879988}
-  - component: {fileID: -7508718722912385178}
   - component: {fileID: -3437862459983905959}
   - component: {fileID: -7465196351752380378}
   m_Layer: 0
@@ -559,26 +558,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &-7508718722912385178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180879256419302217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8557eb515c0a6664290892ba18adc7c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SmoothNetworkTransform
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  sendInterval: 0.15
-  positionLerpSpeed: 10
-  rotationLerpSpeed: 10
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &-3437862459983905959
 MonoBehaviour:
   m_ObjectHideFlags: 0
