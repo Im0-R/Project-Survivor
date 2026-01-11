@@ -3,39 +3,25 @@ using UnityEngine;
 
 public class ServerTimeManager : NetworkEntity
 {
-
     public static ServerTimeManager instance;
-    private void Awake()
+
+    void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
-    // ======================
-    // COMMANDS (Client -> Server)
-    // ======================
-
-    [Command]
-    public void CmdPauseGame()
+    [Server]
+    public void PauseGame()
     {
         RpcSetTimeScale(0f);
     }
 
-    [Command]
-    public void CmdResumeGame()
+    [Server]
+    public void ResumeGame()
     {
         RpcSetTimeScale(1f);
     }
-
-    // ======================
-    // RPCs (Server -> Clients)
-    // ======================
 
     [ClientRpc]
     void RpcSetTimeScale(float scale)
