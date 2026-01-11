@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class ServerTimeManager : NetworkEntity
+public class ServerTimeManager : NetworkBehaviour
 {
     public static ServerTimeManager instance;
 
@@ -15,12 +15,14 @@ public class ServerTimeManager : NetworkEntity
     public void PauseGame()
     {
         RpcSetTimeScale(0f);
+        Debug.Log("Game Paused on Server and Clients");
     }
 
     [Server]
     public void ResumeGame()
     {
         RpcSetTimeScale(1f);
+        Debug.Log("Game Resumed on Server and Clients");
     }
 
     [ClientRpc]

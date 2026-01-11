@@ -61,8 +61,6 @@ public class Enemy : EnemyEntity
             return;
         }
 
-        Debug.Log($"[Enemy Tick] {name} | state={currentState?.GetType().Name}");
-
         currentState?.Update(this);
         agent.speed = movementSpeedMultiplier;
     }
