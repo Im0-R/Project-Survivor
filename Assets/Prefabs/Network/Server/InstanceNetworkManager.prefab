@@ -110,7 +110,9 @@ MonoBehaviour:
   - {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
   - {fileID: 497663693229510926, guid: dbd520ebf27f0374db5f6f7c8a3a8759, type: 3}
   - {fileID: 2407036657676136746, guid: 431a159e28701a24494571bfab474296, type: 3}
+  - {fileID: 6500254974079813675, guid: e787b7b2faa11f641bfd5d674d5f6727, type: 3}
   - {fileID: 1524442625486576030, guid: 556b42445743ec848b2f7703994182ac, type: 3}
+  - {fileID: 6847888669026745011, guid: bb0ee45d77c94ff42939522d7ebc29c4, type: 3}
   - {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
   - {fileID: 3180879256419302217, guid: 0df6a83bd8b671645a675100d6161a36, type: 3}
   exceptionsDisconnect: 1
@@ -141,3 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef664497fd2682446a2ddf81ff464da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerAutoStart
+  defaultScene: Town
