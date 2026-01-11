@@ -50,4 +50,14 @@ public class PlayerPauseController : NetworkBehaviour
         }
         ServerTimeManager.instance.ResumeGame();
     }
+    private void OnDisable()
+    {
+        Debug.LogWarning($"[PPC] OnDisable name={name} netId={netId} scene={gameObject.scene.name}\n{System.Environment.StackTrace}");
+    }
+
+    private void OnDestroy()
+    {
+        Debug.LogWarning($"[PPC] OnDestroy name={name} netId={netId} scene={gameObject.scene.name}\n{System.Environment.StackTrace}");
+    }
+
 }
