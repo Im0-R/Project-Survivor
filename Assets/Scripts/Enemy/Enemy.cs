@@ -21,7 +21,7 @@ public class Enemy : EnemyEntity
     {
         if (!isServer)
         {
-            Debug.LogWarning($"[Enemy] ❌ OnStartServer called on CLIENT {name}");
+            Debug.LogWarning($"[Enemy] ❌  OnStartServer called on CLIENT {name}");
             return;
         }
 
