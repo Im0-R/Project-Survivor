@@ -13,15 +13,18 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        if (ServerTimeManager.instance != null && ServerTimeManager.instance.isPaused)
+            return;
+
         float dt = Time.deltaTime;
+
         for (int i = 0; i < activeEnemies.Count; i++)
         {
-            if (activeEnemies[i].isActiveAndEnabled)
-            {
+            if (activeEnemies[i] != null && activeEnemies[i].isActiveAndEnabled)
                 activeEnemies[i].Tick(dt);
-            }
         }
     }
+
 
     public void RegisterEnemy(Enemy enemy)
     {

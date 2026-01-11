@@ -4,8 +4,9 @@ using UnityEngine;
 public class ServerTimeManager : NetworkBehaviour
 {
     public static ServerTimeManager instance;
+    public static event System.Action<bool> OnPauseChanged;
 
-    [SyncVar] private bool isPaused;
+    [SyncVar] public bool isPaused;
 
     public override void OnStartServer()
     {
@@ -22,6 +23,14 @@ public class ServerTimeManager : NetworkBehaviour
     {
         if (isPaused) return;
         isPaused = true;
+
+        // Freeze agents côté serveur
+        foreach (var agent in FindObjectsByType<UnityEngine.AI.NavMeshAgent>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
         RpcSetPaused(true);
         Debug.Log("[Server] PauseGame");
     }
@@ -31,6 +40,12 @@ public class ServerTimeManager : NetworkBehaviour
     {
         if (!isPaused) return;
         isPaused = false;
+
+        foreach (var agent in FindObjectsByType<UnityEngine.AI.NavMeshAgent>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            agent.isStopped = false;
+        }
+
         RpcSetPaused(false);
         Debug.Log("[Server] ResumeGame");
     }
@@ -39,7 +54,7 @@ public class ServerTimeManager : NetworkBehaviour
     private void RpcSetPaused(bool paused)
     {
         Time.timeScale = paused ? 0f : 1f;
-        Debug.Log($"[Client] Pause={paused} timeScale={Time.timeScale}");
+        OnPauseChanged?.Invoke(paused);
     }
 
     public override void OnStartClient()
