@@ -104,8 +104,6 @@ public class Enemy : EnemyEntity
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        Debug.Log($"[Enemy] 🔍 {name} sees {players.Length} players");
-
         float closest = Mathf.Infinity;
         Transform best = null;
 
@@ -119,8 +117,8 @@ public class Enemy : EnemyEntity
             }
         }
 
-        if (best != null)
-            Debug.Log($"[Enemy] 🎯 Closest player = {best.name} dist={closest:F2}");
+        //if (best != null)
+        //    Debug.Log($"[Enemy] 🎯 Closest player = {best.name} dist={closest:F2}");
 
         return best;
     }
