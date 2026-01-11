@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 public class InstanceNetworkManager : NetworkManager
 {
     [Scene] public string hubSceneName = "Town";
+    [Header("Managers")]
+    public GameObject serverTimeManagerPrefab;
+
+    private bool managersSpawned;
+
     public override void Awake()
     {
 #if UNITY_CLIENT && !UNITY_SERVER || UNITY_EDITOR
@@ -29,21 +34,49 @@ public class InstanceNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-        Debug.Log("[SERVER] OnStartServer active scene: " + SceneManager.GetActiveScene().name);
-        //look for Town scene and load it if not loaded
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name == hubSceneName)
-            {
-                Debug.Log("[SERVER] Town scene already loaded");
-                return;
-            }
-        }
-        Debug.Log("[SERVER] Loading Town scene");
-        ServerChangeScene(hubSceneName);
-    }
 
+        Debug.Log("[SERVER] OnStartServer active scene: " + SceneManager.GetActiveScene().name);
+
+        // Toujours spawn tes managers, une seule fois
+        SpawnServerManagersOnce();
+
+        // Si on n'est pas déjà dans Town, on change
+        if (SceneManager.GetActiveScene().name != hubSceneName)
+        {
+            Debug.Log("[SERVER] Loading Town scene");
+            ServerChangeScene(hubSceneName);
+        }
+        else
+        {
+            Debug.Log("[SERVER] Town scene already active");
+        }
+    }
+    private void SpawnServerManagersOnce()
+    {
+        if (managersSpawned) return;
+        managersSpawned = true;
+
+        if (serverTimeManagerPrefab == null)
+        {
+            Debug.LogError("[SERVER] serverTimeManagerPrefab is NULL (assign it in inspector)");
+            return;
+        }
+
+        // Si jamais il existe déjà (sécurité)
+        if (FindFirstObjectByType<ServerTimeManager>() != null)
+        {
+            Debug.LogWarning("[SERVER] ServerTimeManager already exists, skipping spawn");
+            return;
+        }
+
+        var stm = Instantiate(serverTimeManagerPrefab);
+        NetworkServer.Spawn(stm);
+
+        // Pour survivre aux changements de scène (Town etc.)
+        DontDestroyOnLoad(stm);
+
+        Debug.Log("[SERVER] Spawned ServerTimeManager");
+    }
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
