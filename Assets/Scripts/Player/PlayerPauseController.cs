@@ -34,9 +34,12 @@ public class PlayerPauseController : NetworkBehaviour
     {
         if (ServerTimeManager.instance == null)
         {
-            Debug.LogError("[Server] ServerTimeManager.instance is NULL");
-            return;
+            var found = FindFirstObjectByType<ServerTimeManager>();
+            Debug.LogWarning($"[Server] ServerTimeManager.instance NULL. FoundInScene={(found != null)}");
+            if (found != null) ServerTimeManager.instance = found;
+            else return;
         }
+
         ServerTimeManager.instance.PauseGame();
     }
 
@@ -45,9 +48,12 @@ public class PlayerPauseController : NetworkBehaviour
     {
         if (ServerTimeManager.instance == null)
         {
-            Debug.LogError("[Server] ServerTimeManager.instance is NULL");
-            return;
+            var found = FindFirstObjectByType<ServerTimeManager>();
+            Debug.LogWarning($"[Server] ServerTimeManager.instance NULL. FoundInScene={(found != null)}");
+            if (found != null) ServerTimeManager.instance = found;
+            else return;
         }
+
         ServerTimeManager.instance.ResumeGame();
     }
     private void OnDisable()

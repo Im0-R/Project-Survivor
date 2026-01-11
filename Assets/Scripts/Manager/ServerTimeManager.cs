@@ -11,8 +11,16 @@ public class ServerTimeManager : NetworkBehaviour
     public override void OnStartServer()
     {
         instance = this;
+        Debug.Log($"[ServerTimeManager] OnStartServer netId={netId} scene={gameObject.scene.name}");
     }
 
+    private void Awake()
+    {
+#if UNITY_SERVER
+    // utile si timing bizarre, mais reste server-only
+    if (instance == null) instance = this;
+#endif
+    }
     public override void OnStopServer()
     {
         if (instance == this) instance = null;
