@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 353
+  controlID: 7086
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 244
+  controlID: 6982
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -958,9 +958,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 0.004396677, y: 0.81141746, z: -0.025434583}
+    m_Target: {x: 2.671755, y: -1.6925596, z: -1.7371376}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0}
+    m_Value: {x: 2.671755, y: -1.6925596, z: -1.7371376}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1006,13 +1006,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.3725788, y: -0.06617971, z: 0.026645694, w: -0.9252597}
+    m_Target: {x: -0.41426644, y: 0.15359768, z: -0.0711559, w: -0.8942809}
     speed: 2
-    m_Value: {x: -0.30354428, y: 0.11622126, z: -0.03733731, w: -0.94497794}
+    m_Value: {x: -0.41426644, y: 0.15359768, z: -0.0711559, w: -0.89428097}
   m_Size:
-    m_Target: 1.9953439
+    m_Target: 8.10177
     speed: 2
-    m_Value: 10
+    m_Value: 8.10177
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1123,7 +1123,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 02d3ffff1ad3ffff62ddffffcce4ffff9ee6ffff08f9ffff
+      m_ExpandedIDs: e054fefff279feff8c82feffb82bffffbc2bffffd02bffffea3cffff0a5bffffd665ffff4885ffff4c85ffff6085ffffb697ffffc0b9ffffc4b9ffffb2c3ffffb6c3ffffcac3ffffaacbffffbadcffffd2dcffff1ae7ffff84eeffff56f0ffffacfaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1194,8 +1194,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Scripts/Manager
+    m_Folders: []
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1206,14 +1205,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\SVN\Eleves\lpvray\FromGithub\Project-Survivor
+  m_LastProjectPath: D:\Projects\PersonnalProjects\Hack'n Slash\Project-Survivor
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: 00000000e0020000ec0501000e11010010110100121101001411010016110100181101001a1101001c1101001e11010020110100221101002411010026110100281101002a1101002c1101002e11010030110100321101003411010036110100381101003a1101003c1101003e11010040110100421101004411010046110100481101004a1101004c1101004e11010050110100521101005411010056110100581101005a1101005c1101005e1101006011010062110100641101006611010068110100
+    m_ExpandedIDs: 00000000e0020000c8050100ea100100ec100100ee100100f0100100f2100100f4100100f6100100f8100100fa100100fc100100fe10010000110100021101000411010006110100081101000a1101000c1101000e11010010110100121101001411010016110100181101001a1101001c1101001e11010020110100221101002411010026110100281101002a1101002c1101002e11010030110100321101003411010036110100381101003a1101003c1101003e11010040110100421101004411010046110100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1239,10 +1238,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 388}
+    scrollPos: {x: 0, y: 515}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e0020000ec0501000e11010010110100121101001411010016110100181101001a1101001c1101001e11010020110100221101002411010026110100281101002a1101002c1101002e11010030110100321101003411010036110100381101003a1101003c1101003e11010040110100421101004411010046110100481101004a1101004c1101004e11010050110100521101005411010056110100581101005a1101005c1101005e1101006011010062110100641101006611010068110100
+    m_ExpandedIDs: 00000000e0020000c8050100ea100100ec100100ee100100f0100100f2100100f4100100f6100100f8100100fa100100fc100100fe10010000110100021101000411010006110100081101000a1101000c1101000e11010010110100121101001411010016110100181101001a1101001c1101001e11010020110100221101002411010026110100281101002a1101002c1101002e11010030110100321101003411010036110100381101003a1101003c1101003e11010040110100421101004411010046110100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1270,7 +1269,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0

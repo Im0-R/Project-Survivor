@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class ServerTimeManager : NetworkBehaviour
+public class ServerTimeManager : NetworkEntity
 {
 
     public static ServerTimeManager instance;
