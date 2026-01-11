@@ -13,7 +13,6 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log("[CLIENT] OnStartClient");
         base.OnStartClient();
-        
     }
 
     public override void OnClientConnect()
@@ -46,6 +45,11 @@ public class MyNetworkManager : NetworkManager
     {
         Debug.Log("[CLIENT] OnClientDisconnect");
         base.OnClientDisconnect();
+
+        if (ServerTimeManager.instance)
+        {
+            ServerTimeManager.instance.ResumeGame();
+        }
     }
 
     public override void OnClientError(TransportError error, string reason)

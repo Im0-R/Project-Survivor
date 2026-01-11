@@ -61,7 +61,7 @@ public class ServerTimeManager : NetworkBehaviour
     [ClientRpc]
     private void RpcSetPaused(bool paused)
     {
-        Time.timeScale = paused ? 0f : 1f;
+        //Time.timeScale = paused ? 0f : 1f;
         OnPauseChanged?.Invoke(paused);
     }
 
