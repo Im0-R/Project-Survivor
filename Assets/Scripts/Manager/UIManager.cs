@@ -39,10 +39,13 @@ public class UIManager : MonoBehaviour
     {
         if (FindFirstObjectByType<RewardSpellsCanvas>() != null) return;
 
+        Debug.Log("Showing Spells Reward UI");
+
         Instantiate(spellsRewardCanvas, generalCanvasParent.transform);
         gameUICanvas.SetActive(false);
 
         PlayerPauseController.Local?.RequestPause();
+        
     }
 
     public void HideSpellsRewardUI()
