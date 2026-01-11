@@ -1,38 +1,53 @@
 using Mirror;
-using System.Diagnostics;
+using UnityEngine;
 
 public class PlayerPauseController : NetworkBehaviour
 {
-    public static PlayerPauseController instance;
-    void Awake()
+    public static PlayerPauseController Local;
+
+    public override void OnStartLocalPlayer()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        Local = this;
     }
-    // Pause Request
+
+    public override void OnStopLocalPlayer()
+    {
+        if (Local == this) Local = null;
+    }
+
     public void RequestPause()
     {
         if (!isLocalPlayer) return;
         CmdRequestPause();
-        Debug.WriteLine("Pause requested from PlayerPauseController");
+        Debug.Log("[Client] Pause requested");
     }
 
-    [Command]
-    void CmdRequestPause()
-    {
-        ServerTimeManager.instance.PauseGame();
-    }
-    // Resume Request
     public void RequestResume()
     {
         if (!isLocalPlayer) return;
         CmdRequestResume();
-        Debug.WriteLine("Resume requested from PlayerPauseController");
+        Debug.Log("[Client] Resume requested");
     }
 
     [Command]
-    void CmdRequestResume()
+    private void CmdRequestPause()
     {
+        if (ServerTimeManager.instance == null)
+        {
+            Debug.LogError("[Server] ServerTimeManager.instance is NULL");
+            return;
+        }
+        ServerTimeManager.instance.PauseGame();
+    }
+
+    [Command]
+    private void CmdRequestResume()
+    {
+        if (ServerTimeManager.instance == null)
+        {
+            Debug.LogError("[Server] ServerTimeManager.instance is NULL");
+            return;
+        }
         ServerTimeManager.instance.ResumeGame();
     }
 }

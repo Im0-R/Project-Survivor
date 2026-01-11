@@ -5,29 +5,47 @@ public class ServerTimeManager : NetworkBehaviour
 {
     public static ServerTimeManager instance;
 
-    void Awake()
+    [SyncVar] private bool isPaused;
+
+    private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
+    // Appelé côté serveur
     [Server]
     public void PauseGame()
     {
-        RpcSetTimeScale(0f);
-        Debug.Log("Game Paused on Server and Clients");
+        if (isPaused) return;
+        isPaused = true;
+        RpcSetPaused(true);
+        Debug.Log("[Server] PauseGame");
     }
 
     [Server]
     public void ResumeGame()
     {
-        RpcSetTimeScale(1f);
-        Debug.Log("Game Resumed on Server and Clients");
+        if (!isPaused) return;
+        isPaused = false;
+        RpcSetPaused(false);
+        Debug.Log("[Server] ResumeGame");
     }
 
     [ClientRpc]
-    void RpcSetTimeScale(float scale)
+    private void RpcSetPaused(bool paused)
     {
-        Time.timeScale = scale;
+        // IMPORTANT : timeScale est par client
+        Time.timeScale = paused ? 0f : 1f;
+        Debug.Log($"[Client] Pause={paused} timeScale={Time.timeScale}");
     }
+
+    // Utile si un client rejoint pendant la pause (il recevra la SyncVar)
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+
+    public bool IsPaused => isPaused;
 }

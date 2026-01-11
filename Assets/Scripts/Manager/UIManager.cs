@@ -37,18 +37,21 @@ public class UIManager : MonoBehaviour
     }
     public void ShowSpellsRewardUI()
     {
+        if (FindFirstObjectByType<RewardSpellsCanvas>() != null) return;
+
         Instantiate(spellsRewardCanvas, generalCanvasParent.transform);
         gameUICanvas.SetActive(false);
-        PlayerPauseController.instance.RequestPause();
+
+        PlayerPauseController.Local?.RequestPause();
     }
+
     public void HideSpellsRewardUI()
     {
         var rewardCanvas = FindFirstObjectByType<RewardSpellsCanvas>();
-        if (rewardCanvas != null)
-        {
-            Destroy(rewardCanvas.gameObject);
-        }
+        if (rewardCanvas != null) Destroy(rewardCanvas.gameObject);
+
         gameUICanvas.SetActive(true);
-        PlayerPauseController.instance.RequestResume();
+
+        PlayerPauseController.Local?.RequestResume();
     }
 }
