@@ -228,4 +228,9 @@ public class Enemy : EnemyEntity
         Debug.Log($"[Enemy] 😴 SleepState {name}");
         ChangeState(new EnemySleepState());
     }
+    [ClientRpc]
+    public void RpcSetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 }

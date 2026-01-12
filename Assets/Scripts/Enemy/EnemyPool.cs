@@ -42,6 +42,14 @@ public class EnemyPool : NetworkBehaviour
         // Activate enemy before setting position
         enemy.SetActive(true);
 
+
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        if (enemyScript != null)
+        {
+            enemyScript.RpcSetActive(true);
+        }
+
+
         //Snap to NavMesh nearest position
         Vector3 finalPos = position;
         if (NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
@@ -67,8 +75,6 @@ public class EnemyPool : NetworkBehaviour
         if (ni != null && ni.netId == 0)
             NetworkServer.Spawn(enemy);
 
-
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
             enemyScript.InitStatsFromSO();
@@ -97,16 +103,14 @@ public class EnemyPool : NetworkBehaviour
     {
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
+        {
             EnemyManager.Instance?.UnregisterEnemy(enemyScript);
+            enemyScript.RpcSetActive(false);
+        }
 
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
-
-        // Only UnSpawn if it was spawned
         if (ni != null && ni.netId != 0)
-        {
             NetworkServer.UnSpawn(enemy);
-            Debug.Log($"[EnemyPool] UnSpawned {enemy.name}");
-        }
 
         enemy.SetActive(false);
         pool.Enqueue(enemy);
