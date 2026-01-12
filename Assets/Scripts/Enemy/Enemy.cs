@@ -38,6 +38,8 @@ public class Enemy : NetworkEntity
 
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
+        OnDeath += RequestDeathServer;
+        OnDeath += GiveExpToPlayers;
     }
     public override void OnStopServer()
     {
@@ -135,23 +137,6 @@ public class Enemy : NetworkEntity
     }
 
     // ======================
-    // DAMAGE
-    // ======================
-    public override void CmdApplyDamage(float amount)
-    {
-        if (!isServer) return;
-
-        Debug.Log($"[Enemy] 💥 {name} takes {amount} dmg");
-
-        currentHealth -= amount;
-        if (currentHealth <= 0)
-        {
-            Debug.Log($"[Enemy] ☠️ {name} DEAD");
-            ChangeState(new EnemyDeadState());
-        }
-    }
-
-    // ======================
     // DEATH
     // ======================
     public void OnDeathEffects()
@@ -232,7 +217,6 @@ public class Enemy : NetworkEntity
         Debug.Log($"[Enemy] 🔄 ResetState {name}");
         ChangeState(new EnemyIdleState());
     }
-
     public void SleepState()
     {
         Debug.Log($"[Enemy] 😴 SleepState {name}");
