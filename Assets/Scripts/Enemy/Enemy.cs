@@ -90,14 +90,14 @@ public class Enemy : EnemyEntity
         //Stack trace only when going to Idle
         if (to == nameof(EnemyIdleState))
         {
-            Debug.Log(
-                $"[Enemy] 🔄 State change {name} : {from} → {to}\n" +
-                $"[CALLER]\n{System.Environment.StackTrace}"
-            );
+            //Debug.Log(
+            //    $"[Enemy] 🔄 State change {name} : {from} → {to}\n" +
+            //    $"[CALLER]\n{System.Environment.StackTrace}"
+            //);
         }
         else
         {
-            Debug.Log($"[Enemy] 🔄 State change {name} : {from} → {to}");
+            //Debug.Log($"[Enemy] 🔄 State change {name} : {from} → {to}");
         }
 
         currentState?.Exit(this);
@@ -167,7 +167,7 @@ public class Enemy : EnemyEntity
     public void GiveExpToPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log($"[Enemy] XP given to {players.Length} players");
+        //Debug.Log($"[Enemy] XP given to {players.Length} players");
 
         foreach (GameObject p in players)
         {
@@ -182,26 +182,26 @@ public class Enemy : EnemyEntity
     // ======================
     public void CanDealMeleeDamage()
     {
-        Debug.Log($"[Enemy] ⚔️ CanDealMeleeDamage {name}");
+        //Debug.Log($"[Enemy] ⚔️ CanDealMeleeDamage {name}");
         hitboxHit.EnableHitbox();
     }
 
     public void Attack()
     {
-        Debug.Log($"[Enemy] ⚔️ Attack {name}");
+        //Debug.Log($"[Enemy] ⚔️ Attack {name}");
         hitboxHit.EnableHitbox();
     }
 
     public void DisactiveAttack()
     {
-        Debug.Log($"[Enemy] 🛑 End Attack {name}");
+        //Debug.Log($"[Enemy] 🛑 End Attack {name}");
         hitboxHit.DisableHitbox();
         ChangeState(new EnemyChaseState());
     }
 
     public void StopMoving()
     {
-        Debug.Log($"[Enemy] 🛑 StopMoving {name}");
+        //Debug.Log($"[Enemy] 🛑 StopMoving {name}");
         agent.isStopped = true;
     }
 
@@ -212,7 +212,7 @@ public class Enemy : EnemyEntity
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log($"[Enemy] 💥 Collision with Player {collision.gameObject.name}");
+            //Debug.Log($"[Enemy] 💥 Collision with Player {collision.gameObject.name}");
         }
     }
 

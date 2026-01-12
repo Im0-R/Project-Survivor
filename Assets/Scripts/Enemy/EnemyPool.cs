@@ -73,7 +73,11 @@ public class EnemyPool : NetworkBehaviour
 
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
         if (ni != null && ni.netId == 0)
+        {
             NetworkServer.Spawn(enemy);
+
+            enemyScript?.RpcSetActive(true);
+        }
 
         if (enemyScript != null)
         {
