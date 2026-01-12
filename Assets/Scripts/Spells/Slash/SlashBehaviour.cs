@@ -40,6 +40,19 @@ public class SlashBehaviour : NetworkBehaviour
         {
             Invoke(nameof(DespawnSelf), lifeTime);
         }
+
+        // Starting Left Side
+        Vector3 baseDir = -initialRight;
+
+        //Rotation around Y axis
+        Vector3 rotatedDir = Quaternion.AngleAxis(0, Vector3.up) * baseDir;
+
+        // offset based on radius
+        Vector3 offset = rotatedDir.normalized * radius;
+        transform.position = player.position + offset;
+
+
+        transform.rotation = Quaternion.LookRotation(rotatedDir);
     }
 
     void Update()
@@ -68,7 +81,7 @@ public class SlashBehaviour : NetworkBehaviour
         transform.rotation = Quaternion.LookRotation(rotatedDir);
 
         //Only enable trail once it starts moving
-        var trail = GetComponent<TrailRenderer>();
+        TrailRenderer trail = GetComponent<TrailRenderer>();
         if (trail != null && !trail.enabled)
         {
             trail.enabled = true;

@@ -136,4 +136,12 @@ public class CanvasLogin : MonoBehaviour
         pendingPassword = null;
         isConnecting = false;
     }
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
+    public void OnApplicationQuit()
+    {
+        CleanupCallbacks();
+    }
 }
