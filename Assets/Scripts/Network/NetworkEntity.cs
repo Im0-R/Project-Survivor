@@ -97,7 +97,11 @@ public class NetworkEntity : NetworkBehaviour
     {
         base.OnStartServer();
         InitStatsFromSO();
+
+
+        OnDeath -= Die;
         OnDeath += Die;
+        OnLevelUp -= LevelUp;
         OnLevelUp += LevelUp;
     }
 

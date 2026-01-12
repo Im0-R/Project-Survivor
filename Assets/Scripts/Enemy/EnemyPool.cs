@@ -38,24 +38,14 @@ public class EnemyPool : NetworkBehaviour
         }
 
         GameObject enemy = pool.Dequeue();
-
-        // Activate enemy before setting position
         enemy.SetActive(true);
 
-
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        if (enemyScript != null)
-        {
-            enemyScript.RpcSetActive(true);
-        }
-
-
-        //Snap to NavMesh nearest position
+        // Snap NavMesh
         Vector3 finalPos = position;
         if (NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
             finalPos = hit.position;
 
-        //Warp the agent if possible
+        // Warp / set transform
         NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
         if (agent != null && agent.enabled)
         {
@@ -67,37 +57,23 @@ public class EnemyPool : NetworkBehaviour
         {
             enemy.transform.SetPositionAndRotation(finalPos, Quaternion.identity);
         }
-
-        //Reset rotation
         enemy.transform.rotation = Quaternion.identity;
 
+        // Spawn réseau (si pas déjà spawn)
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
         if (ni != null && ni.netId == 0)
-        {
             NetworkServer.Spawn(enemy);
 
-            enemyScript?.RpcSetActive(true);
-        }
-
+        // Init serveur
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
             enemyScript.InitStatsFromSO();
-
-            // Start directly in Chase
             enemyScript.ChangeState(new EnemyChaseState());
-
-            // Helpful debug
-            Debug.Log($"[EnemyPool] Spawned {enemy.name} at {finalPos} | " +
-                      $"scene={enemy.gameObject.scene.name} | " +
-                      $"agentOnNavMesh={(agent != null ? agent.isOnNavMesh.ToString() : "no-agent")}");
-
             EnemyManager.Instance?.RegisterEnemy(enemyScript);
         }
-        else
-        {
-            Debug.LogWarning($"[EnemyPool] Spawned enemy has no Enemy script: {enemy.name}");
-        }
 
+        Debug.Log($"[EnemyPool] Spawned {enemy.name} at {finalPos} | scene={enemy.scene.name}");
         return enemy;
     }
 
@@ -109,7 +85,6 @@ public class EnemyPool : NetworkBehaviour
         if (enemyScript != null)
         {
             EnemyManager.Instance?.UnregisterEnemy(enemyScript);
-            enemyScript.RpcSetActive(false);
         }
 
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
