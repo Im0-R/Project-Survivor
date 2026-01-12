@@ -27,7 +27,7 @@ public class PlayerEntity : NetworkEntity
         base.OnStartServer();
         InitStatsFromSO();
 
-        // OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
+        OnLevelUp += UIManager.Instance.ShowSpellsRewardUI;
     }
 
     // ======================
