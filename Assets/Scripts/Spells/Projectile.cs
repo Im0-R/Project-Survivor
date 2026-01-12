@@ -68,6 +68,13 @@ public class Projectile : NetworkBehaviour
     [Server]
     public void DespawnSelf()
     {
-        EnemyPool.Instance?.DespawnEnemy(gameObject);
+        {
+            NetworkIdentity ni = GetComponent<NetworkIdentity>();
+
+            // Only UnSpawn if it was spawned
+            if (ni != null && ni.netId != 0)
+                NetworkServer.UnSpawn(gameObject);
+
+        }
     }
 }

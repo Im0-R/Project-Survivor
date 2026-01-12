@@ -1,4 +1,3 @@
-// EnemyPool.cs
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,7 +103,10 @@ public class EnemyPool : NetworkBehaviour
 
         // Only UnSpawn if it was spawned
         if (ni != null && ni.netId != 0)
+        {
             NetworkServer.UnSpawn(enemy);
+            Debug.Log($"[EnemyPool] UnSpawned {enemy.name}");
+        }
 
         enemy.SetActive(false);
         pool.Enqueue(enemy);
