@@ -38,6 +38,9 @@ public class Enemy : NetworkEntity
 
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
+
+
+        base.OnStartServer();
     }
     public override void OnStopServer()
     {
