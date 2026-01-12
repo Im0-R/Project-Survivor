@@ -174,7 +174,11 @@ public class NetworkEntity : NetworkBehaviour
         if (currentHealth <= 0)
             OnDeath?.Invoke();
     }
-
+    public void RequestDeathServer()
+    {
+        if (!isServer) return;
+        OnDeath?.Invoke();
+    }
     // ----------------------- Spells ----------------------- //
 
     [Command]

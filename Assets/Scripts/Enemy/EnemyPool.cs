@@ -110,7 +110,10 @@ public class EnemyPool : NetworkBehaviour
 
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
         if (ni != null && ni.netId != 0)
+        {
+            enemyScript?.RpcSetActive(false);
             NetworkServer.UnSpawn(enemy);
+        }
 
         enemy.SetActive(false);
         pool.Enqueue(enemy);

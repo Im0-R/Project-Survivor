@@ -38,8 +38,22 @@ public class Enemy : EnemyEntity
         }
 
         Debug.Log($"[Enemy] NavMeshAgent OK | isOnNavMesh={agent.isOnNavMesh}");
-
+        OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
+    }
+    public override void OnStopServer()
+    {
+        if (!isServer)
+        {
+            Debug.LogWarning($"[Enemy] ❌  OnStopServer called on CLIENT {name}");
+            return;
+        }
+
+        Debug.Log($"[Enemy] ✅ OnStopServer {name}");
+
+        OnDeath -= OnDeathEffects;
+
+        base.OnStopServer();
     }
 
     // ======================

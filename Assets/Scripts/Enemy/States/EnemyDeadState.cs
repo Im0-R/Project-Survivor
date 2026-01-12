@@ -5,9 +5,7 @@ public class EnemyDeadState : IEnemyState
 {
     public void Enter(Enemy enemy)
     {
-        //Disable from poolPool
-        if (!enemy.isServer) return;
-        EnemyPool.Instance?.DespawnEnemy(enemy.gameObject);
+        enemy.RequestDeathServer();
     }
 
     public void Update(Enemy enemy) { }
