@@ -105,7 +105,7 @@ public class SlashBehaviour : NetworkBehaviour
             if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
 
             // Appliquer les dégâts
-            otherNetEntity.CmdApplyDamage(damage);
+            otherNetEntity.ApplyDamageServer(damage);
         }
     }
 

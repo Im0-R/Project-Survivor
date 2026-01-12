@@ -38,8 +38,6 @@ public class Enemy : NetworkEntity
 
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
-        OnDeath += RequestDeathServer;
-        OnDeath += GiveExpToPlayers;
     }
     public override void OnStopServer()
     {
@@ -196,7 +194,11 @@ public class Enemy : NetworkEntity
             //Debug.Log($"[Enemy] 💥 Collision with Player {collision.gameObject.name}");
         }
     }
-
+    protected override void Die()
+    {
+        if (!isServer) return;
+        EnemyPool.Instance?.DespawnEnemy(gameObject);
+    }
     // ======================
     // CLEANUP
     // ======================

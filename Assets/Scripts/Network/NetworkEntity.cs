@@ -168,10 +168,11 @@ public class NetworkEntity : NetworkBehaviour
             Destroy(gameObject);
     }
 
-    public virtual void CmdApplyDamage(float amount)
+    [Server]
+    public void ApplyDamageServer(float amount)
     {
         currentHealth -= amount;
-        if (currentHealth <= 0)
+        if (currentHealth <= 0f)
             OnDeath?.Invoke();
     }
     public void RequestDeathServer()
