@@ -177,7 +177,6 @@ public class NetworkEntity : NetworkBehaviour
     public void RequestDeathServer()
     {
         if (!isServer) return;
-        OnDeath?.Invoke();
     }
     // ----------------------- Spells ----------------------- //
 
