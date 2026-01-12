@@ -168,7 +168,7 @@ public class NetworkEntity : NetworkBehaviour
             Destroy(gameObject);
     }
 
-    public void CmdApplyDamage(float amount)
+    public virtual void CmdApplyDamage(float amount)
     {
         currentHealth -= amount;
         if (currentHealth <= 0)

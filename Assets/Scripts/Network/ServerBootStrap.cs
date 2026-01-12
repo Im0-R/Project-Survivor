@@ -75,7 +75,7 @@ public class ServerBootstrap : MonoBehaviour
         Debug.Log("[ServerBootstrap] Booting dedicated server...");
 
         // 1) Configure the port before starting the server
-        KcpTransport kcp = FindObjectOfType<KcpTransport>();
+        KcpTransport kcp = Object.FindFirstObjectByType<KcpTransport>();
         if (kcp != null)
         {
             kcp.Port = (ushort)PortArg;
@@ -98,7 +98,7 @@ public class ServerBootstrap : MonoBehaviour
         NetworkManager manager = null;
         while (manager == null)
         {
-            manager = FindObjectOfType<NetworkManager>();
+            manager = Object.FindFirstObjectByType<NetworkManager>();
             yield return null;
         }
 

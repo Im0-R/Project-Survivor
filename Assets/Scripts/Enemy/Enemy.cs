@@ -2,7 +2,7 @@
 using UnityEngine.AI;
 using Mirror;
 
-public class Enemy : EnemyEntity
+public class Enemy : NetworkEntity
 {
     [Header("Combat")]
     [SerializeField] public float attackRange = 2f;
@@ -14,6 +14,8 @@ public class Enemy : EnemyEntity
     public HumanoidAnimator humanoidAnimator;
     public IEnemyState currentState;
 
+    public Transform firePoint;
+
     // ======================
     // SERVER INIT
     // ======================
@@ -21,11 +23,8 @@ public class Enemy : EnemyEntity
     {
         if (!isServer)
         {
-            Debug.LogWarning($"[Enemy] ❌  OnStartServer called on CLIENT {name}");
             return;
         }
-
-        Debug.Log($"[Enemy] ✅ OnStartServer {name} | scene={gameObject.scene.name}");
 
         InitStatsFromSO();
 
@@ -37,7 +36,6 @@ public class Enemy : EnemyEntity
             return;
         }
 
-        Debug.Log($"[Enemy] NavMeshAgent OK | isOnNavMesh={agent.isOnNavMesh}");
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
     }
@@ -49,7 +47,6 @@ public class Enemy : EnemyEntity
             return;
         }
 
-        Debug.Log($"[Enemy] ✅ OnStopServer {name}");
 
         OnDeath -= OnDeathEffects;
 
@@ -140,14 +137,13 @@ public class Enemy : EnemyEntity
     // ======================
     // DAMAGE
     // ======================
-    [Command]
-    public void CmdTakeDamage(int dmg)
+    public override void CmdApplyDamage(float amount)
     {
         if (!isServer) return;
 
-        Debug.Log($"[Enemy] 💥 {name} takes {dmg} dmg");
+        Debug.Log($"[Enemy] 💥 {name} takes {amount} dmg");
 
-        currentHealth -= dmg;
+        currentHealth -= amount;
         if (currentHealth <= 0)
         {
             Debug.Log($"[Enemy] ☠️ {name} DEAD");
