@@ -162,7 +162,7 @@ public class NetworkEntity : NetworkBehaviour
     {
         if (!isServer) return;
 
-        if (TryGetComponent<NetworkIdentity>(out var netIdentity))
+        if (TryGetComponent<NetworkIdentity>(out NetworkIdentity netIdentity))
             NetworkServer.Destroy(gameObject);
         else
             Destroy(gameObject);

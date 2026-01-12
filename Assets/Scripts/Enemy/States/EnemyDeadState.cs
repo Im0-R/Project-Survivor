@@ -1,10 +1,12 @@
+using Mirror;
 using UnityEngine;
 
 public class EnemyDeadState : IEnemyState
 {
     public void Enter(Enemy enemy)
     {
-        GameObject.Destroy(enemy.gameObject);
+        //Disable from poolPool
+        EnemyPool.Instance?.DespawnEnemy(enemy.gameObject);
     }
 
     public void Update(Enemy enemy) { }
