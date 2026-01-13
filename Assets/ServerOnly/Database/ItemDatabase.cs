@@ -1,79 +1,66 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public static class ItemDatabase
 {
-    private static Dictionary<int, ItemDataSO> itemsById;
-    private static Dictionary<string, ItemDataSO> itemsByName;
+    private static Dictionary<int, ItemBaseSO> itemsById;
+    private static Dictionary<string, ItemBaseSO> itemsByName;
     private static bool initialized = false;
 
-    // ============================================================
-    // INIT
-    // ============================================================
     public static void Initialize()
     {
         if (initialized) return;
 
-        itemsById = new Dictionary<int, ItemDataSO>();
-        itemsByName = new Dictionary<string, ItemDataSO>();
+        itemsById = new Dictionary<int, ItemBaseSO>();
+        itemsByName = new Dictionary<string, ItemBaseSO>();
 
-        // Charge tous les items dans Resources, peu importe le dossier
-        ItemDataSO[] allItems = Resources.LoadAll<ItemDataSO>("");
+        ItemBaseSO[] allItems = Resources.LoadAll<ItemBaseSO>("");
 
-        if (allItems.Length == 0)
+        if (allItems == null || allItems.Length == 0)
         {
-            Debug.LogError("[ItemDatabase] Aucun ItemDataSO trouvé ! " +
-                           "Place tes items dans un dossier Resources/");
+            Debug.LogError("[ItemDatabase] Aucun ItemBaseSO trouvÃ© ! Place-les dans Resources/.");
+            initialized = true;
+            return;
         }
 
         foreach (var item in allItems)
         {
-            // Vérifie doublon ID
-            if (itemsById.ContainsKey(item.itemId))
+            if (item == null) continue;
+
+            if (itemsById.ContainsKey(item.baseId))
             {
-                Debug.LogError($"[ItemDatabase] Duplicate ID {item.itemId} for item {item.name}");
+                Debug.LogError($"[ItemDatabase] Duplicate baseId {item.baseId} ({item.name})");
                 continue;
             }
 
-            itemsById[item.itemId] = item;
+            itemsById[item.baseId] = item;
 
-            // Vérifie doublon nom
-            if (!string.IsNullOrWhiteSpace(item.itemName))
-                itemsByName[item.itemName] = item;
+            if (!string.IsNullOrWhiteSpace(item.baseName))
+                itemsByName[item.baseName] = item;
         }
 
         initialized = true;
-        Debug.Log($"[ItemDatabase] Loaded {itemsById.Count} items.");
+        Debug.Log($"[ItemDatabase] Loaded {itemsById.Count} item bases.");
     }
 
-    // ============================================================
-    // GETTERS
-    // ============================================================
-    public static ItemDataSO GetItem(int id)
+    // ðŸ”¹ Base lookup
+    public static ItemBaseSO GetBase(int baseId)
     {
         if (!initialized) Initialize();
-
-        itemsById.TryGetValue(id, out ItemDataSO item);
-        if (item == null)
-            Debug.LogWarning($"[ItemDatabase] No item with ID {id}");
-
+        itemsById.TryGetValue(baseId, out var item);
         return item;
     }
 
-    public static ItemDataSO GetItem(string name)
+    public static ItemBaseSO GetBase(string baseName)
     {
         if (!initialized) Initialize();
-
-        itemsByName.TryGetValue(name, out ItemDataSO item);
-        if (item == null)
-            Debug.LogWarning($"[ItemDatabase] No item named '{name}'");
-
+        itemsByName.TryGetValue(baseName, out var item);
         return item;
     }
 
-    public static List<ItemDataSO> GetAllItems()
+    public static IReadOnlyCollection<ItemBaseSO> GetAllBases()
     {
         if (!initialized) Initialize();
-        return new List<ItemDataSO>(itemsById.Values);
+        return itemsById.Values;
     }
 }

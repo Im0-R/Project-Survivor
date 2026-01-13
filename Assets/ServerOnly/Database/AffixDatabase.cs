@@ -1,0 +1,70 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public static class AffixDatabase
+{
+    private static Dictionary<int, AffixSO> affixesById;
+    private static bool initialized = false;
+
+    // =========================
+    // INIT
+    // =========================
+    public static void Initialize()
+    {
+        if (initialized) return;
+
+        affixesById = new Dictionary<int, AffixSO>();
+
+        // Charge tous les AffixSO dans Resources/
+        AffixSO[] allAffixes = Resources.LoadAll<AffixSO>("");
+
+        if (allAffixes == null || allAffixes.Length == 0)
+        {
+            Debug.LogWarning("[AffixDatabase] Aucun AffixSO trouvé. Place-les dans Resources/.");
+            initialized = true;
+            return;
+        }
+
+        foreach (var affix in allAffixes)
+        {
+            if (affix == null) continue;
+
+            if (affixesById.ContainsKey(affix.affixId))
+            {
+                Debug.LogError($"[AffixDatabase] Duplicate affixId {affix.affixId} ({affix.name})");
+                continue;
+            }
+
+            affixesById[affix.affixId] = affix;
+        }
+
+        initialized = true;
+        Debug.Log($"[AffixDatabase] Loaded {affixesById.Count} affixes.");
+    }
+
+    // =========================
+    // GETTERS
+    // =========================
+    public static AffixSO Get(int affixId)
+    {
+        if (!initialized) Initialize();
+
+        affixesById.TryGetValue(affixId, out var affix);
+        if (affix == null)
+            Debug.LogWarning($"[AffixDatabase] Affix not found (id={affixId})");
+
+        return affix;
+    }
+
+    public static bool Exists(int affixId)
+    {
+        if (!initialized) Initialize();
+        return affixesById.ContainsKey(affixId);
+    }
+
+    public static IReadOnlyCollection<AffixSO> GetAll()
+    {
+        if (!initialized) Initialize();
+        return affixesById.Values;
+    }
+}

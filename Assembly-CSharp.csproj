@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPauseController.cs" />
     <Compile Include="Assets\Scripts\UI\GameUILoader.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\ItemInstanceSO.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
     <Compile Include="Assets\Scripts\Stats\Stats.cs" />
@@ -79,11 +80,11 @@
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
-    <Compile Include="Assets\Scripts\Equipment\Items\Server\ServerEquipmentHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+    <Compile Include="Assets\ServerOnly\Database\AffixDatabase.cs" />
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
@@ -96,10 +97,10 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\EquipItemRequest.cs" />
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
-    <Compile Include="Assets\Scripts\Equipment\Items\ItemDataSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
+    <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Assets\Scripts\Spells\SpellSyncData.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\AffixSO.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\ItemBaseSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
