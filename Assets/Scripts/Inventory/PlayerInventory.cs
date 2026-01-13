@@ -4,15 +4,15 @@ using System;
 
 public class PlayerInventory : NetworkBehaviour
 {
-    // Inventaire sync: on stocke des ItemInstance en JSON
-    // (facile à sauver en DB aussi)
+    // Sync inventory: we store ItemInstance as JSON
+    // (easy to save in DB)
     public class SyncListString : SyncList<string> { }
     public SyncListString ItemsJson = new SyncListString();
 
-    // Optionnel: limite d’inventaire
+    // Optional: inventory limit
     [SerializeField] private int maxSlots = 60;
 
-    // Callback local (UI) quand l’inventaire change
+    // Local callback (UI) when inventory changes
     public event Action OnInventoryChanged;
 
     public override void OnStartClient()
@@ -29,7 +29,7 @@ public class PlayerInventory : NetworkBehaviour
 
     private void OnItemsChanged(SyncList<string>.Operation op, int index, string oldItem, string newItem)
     {
-        // Ici tu peux rebuild ton UI
+        // rebuild UI
         OnInventoryChanged?.Invoke();
     }
 

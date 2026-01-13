@@ -18,7 +18,7 @@ public static class ItemDatabase
 
         if (allItems == null || allItems.Length == 0)
         {
-            Debug.LogError("[ItemDatabase] Aucun ItemBaseSO trouvé ! Place-les dans Resources/.");
+            Debug.LogError("[ItemDatabase] No ItemBaseSO found! Place them in Resources/.");
             initialized = true;
             return;
         }
@@ -43,7 +43,7 @@ public static class ItemDatabase
         Debug.Log($"[ItemDatabase] Loaded {itemsById.Count} item bases.");
     }
 
-    // 🔹 Base lookup
+    // Base lookup
     public static ItemBaseSO GetBase(int baseId)
     {
         if (!initialized) Initialize();

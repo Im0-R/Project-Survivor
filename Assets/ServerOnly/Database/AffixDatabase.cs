@@ -15,12 +15,12 @@ public static class AffixDatabase
 
         affixesById = new Dictionary<int, AffixSO>();
 
-        // Charge tous les AffixSO dans Resources/
+        //Load all AffixSO from Resources
         AffixSO[] allAffixes = Resources.LoadAll<AffixSO>("");
 
         if (allAffixes == null || allAffixes.Length == 0)
         {
-            Debug.LogWarning("[AffixDatabase] Aucun AffixSO trouvé. Place-les dans Resources/.");
+            Debug.LogWarning("[AffixDatabase] +No AffixSO found! Place them in Resources/.");
             initialized = true;
             return;
         }

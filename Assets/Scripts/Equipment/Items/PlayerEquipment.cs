@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
-    // On stocke l’index dans l’inventaire (PlayerInventory.ItemsJson)
+    //Storing the index in the inventory (PlayerInventory.ItemsJson)
     [SyncVar] public int weaponIndex = -1;
     [SyncVar] public int helmetIndex = -1;
     [SyncVar] public int chestIndex = -1;
     [SyncVar] public int bootsIndex = -1;
 
-    // Optionnel: stats finales sync pour UI (sinon tu peux les lire sur PlayerStats)
+    //Optional : synced final stats for UI (otherwise read them on PlayerStats)
     [SyncVar] public float TotalAttack;
     [SyncVar] public float TotalDefense;
     [SyncVar] public float TotalVitality;
@@ -27,7 +27,7 @@ public class PlayerEquipment : NetworkBehaviour
     // CLIENT -> SERVER
     // =========================
 
-    // Appelé par ton UI: "équipe l’item qui est à cet index dans l’inventaire"
+    //Called by UI (Equip Item from inventory)
     [Command]
     public void CmdEquipFromInventoryIndex(int inventoryIndex)
     {
@@ -86,7 +86,7 @@ public class PlayerEquipment : NetworkBehaviour
         TotalDefense = def;
         TotalVitality = vit;
 
-        // Update runtime stats (à adapter à ton PlayerStats)
+        // Update runtime stats
         //stats.SetDerived(atk, def, vit);
     }
 
