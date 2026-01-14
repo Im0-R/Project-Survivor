@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 79012d18cd49acb418115cb4b3b59922
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Inventory Framework (UI Toolkit)
+  packageVersion: 1.7
+  assetPath: Assets/GDS/Common/Materials (URP)/mat-orange-urp.mat
+  uploadId: 782641

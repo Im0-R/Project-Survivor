@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: eeacfe552fbafe24896a7f7d2cf5bcf4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Inventory Framework (UI Toolkit)
+  packageVersion: 1.7
+  assetPath: Assets/GDS/Common/Materials (URP)/mat-light-blue-urp.mat
+  uploadId: 782641

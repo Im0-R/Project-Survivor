@@ -15,18 +15,18 @@ public class MasterNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-        Debug.Log("[MASTER] Serveur principal démarré.");
+        Debug.Log("[MASTER] Master server started.");
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
-        Debug.Log("[MASTER] Un client vient de se connecter.");
+        Debug.Log("[MASTER] a client has connected.");
         base.OnServerConnect(conn);
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        Debug.Log("[MASTER] Un client s'est déconnecté.");
+        Debug.Log("[MASTER] a client has disconnected.");
         base.OnServerDisconnect(conn);
     }
 }

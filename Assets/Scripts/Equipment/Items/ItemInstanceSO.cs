@@ -8,7 +8,7 @@ public struct ItemAffix
 }
 
 [Serializable]
-public struct ItemInstance
+public class ItemInstance
 {
     public int instanceId;   //unique ID for this specific item instance
     public int baseId;       //ID referring to the base item type

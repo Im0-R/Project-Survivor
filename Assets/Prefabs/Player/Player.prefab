@@ -2398,6 +2398,7 @@ GameObject:
   - component: {fileID: 8770058019619995066}
   - component: {fileID: 7199719421533111231}
   - component: {fileID: 7138053649586077060}
+  - component: {fileID: 3733565315713639228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2656,6 +2657,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &3733565315713639228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c1ffaaf2cbdb24ba1d583517b41c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  maxSlots: 60
 --- !u!1 &8349008975104809151
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,9 +12,3 @@ public class AffixSO : ScriptableObject
     public int minValue = 1;
     public int maxValue = 5;
 }
-
-[CreateAssetMenu(menuName = "Game/Affix Pool")]
-public class AffixPoolSO : ScriptableObject
-{
-    public AffixSO[] affixes;
-}

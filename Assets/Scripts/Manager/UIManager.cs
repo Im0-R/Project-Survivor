@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject generalCanvasParent;
     [SerializeField] private GameObject gameUICanvas;
     [SerializeField] private GameObject spellsRewardCanvas;
+    [SerializeField] private GameObject inventoryCanvas;
 
     private void Awake()
     {
@@ -45,7 +46,7 @@ public class UIManager : MonoBehaviour
         gameUICanvas.SetActive(false);
 
         PlayerPauseController.Local?.RequestPause();
-        
+
     }
 
     public void HideSpellsRewardUI()
@@ -56,5 +57,22 @@ public class UIManager : MonoBehaviour
         gameUICanvas.SetActive(true);
 
         PlayerPauseController.Local?.RequestResume();
+    }
+
+
+
+    // Management for Inventory UI
+    public void ShowInventoryUI()
+    {
+        if (inventoryCanvas == null) return;
+
+        inventoryCanvas.SetActive(true);
+    }
+
+    public void HideInventoryUI()
+    {
+        if (inventoryCanvas == null) return;
+
+        inventoryCanvas.SetActive(false);
     }
 }
