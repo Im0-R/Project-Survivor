@@ -52,36 +52,6 @@ public static class MirrorWritersRegistration
 // ==============================  NetworkEntity  =========================== //
 // ========================================================================== //
 
-public class StatsTest
-{
-    [SyncVar] public string entityName;
-
-    // Leveling stats
-    [SyncVar] public int level;
-    [SyncVar] public float experience;
-    [SyncVar] public float maxExperience;
-    [SyncVar] public float expMultiPerLevel;
-
-    // Defensive stats
-    [SyncVar] public float maxHealth;
-    [SyncVar] public float maxMana;
-    [SyncVar] public float currentHealth;
-    [SyncVar] public float currentMana;
-    [SyncVar] public float healthRegen;
-    [SyncVar] public float manaRegen;
-
-    // Offensive stats
-    [SyncVar] public float movementSpeedMultiplier;
-    [SyncVar] public float cooldownReduction;
-    [SyncVar] public float criticalStrikeChance;
-    [SyncVar] public float criticalStrikeDamage;
-    [SyncVar] public float projectileSpeed;
-    [SyncVar] public float durationMultiplier;
-    [SyncVar] public float damageMultiplier;
-    [SyncVar] public float experienceGiven;
-}
-
-
 public class NetworkEntity : NetworkBehaviour
 {
     // ----------------------- Spells ----------------------- //
@@ -118,7 +88,7 @@ public class NetworkEntity : NetworkBehaviour
     [SyncVar] public float damageMultiplier;
     [SyncVar] public float experienceGiven;
 
-    [SyncVar] public StatsTest testStruct;
+    [SyncVar] public Stats testStruct;
 
     public event Action OnDeath;
     public event Action OnLevelUp;

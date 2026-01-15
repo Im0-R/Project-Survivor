@@ -4,16 +4,23 @@ using UnityEngine;
 /// <summary>
 /// Stats for entity (Player, Enemy, etc.)
 /// </summary
+/// 
+
+
 [System.Serializable]
 public class Stats : NetworkBehaviour
 {
+    [Header("Scriptable Object Reference")]
     [SerializeField] private StatsDataSO SO;
 
+    [Header("Leveling Stats")]
     // Leveling Stats
     [SyncVar] public int level = 1;
     [SyncVar] public float experience = 0;
     [SyncVar] public float maxExperience = 100;
     [SyncVar] public float expMultiPerLevel = 1.2f;
+
+    [Header("Defensive Stats")]
     // Defensive stats
     [SyncVar] public float maxHealth;
     [SyncVar] public float maxMana;
@@ -23,6 +30,7 @@ public class Stats : NetworkBehaviour
     [SyncVar] public float healthRegen = 0f;
     [SyncVar] public float manaRegen = 0f;
 
+    [Header("Offensive Stats")]
     //Offensive stats
     [SyncVar] public float movementSpeedMultiplier = 0f;
     [SyncVar] public float cooldownReduction = 1f;
