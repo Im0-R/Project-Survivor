@@ -62,33 +62,7 @@ public class NetworkEntity : NetworkBehaviour
 
     [SerializeField] private StatsDataSO SO;
 
-    [SyncVar] public string entityName;
-
-    // Leveling stats
-    [SyncVar] public int level;
-    [SyncVar] public float experience;
-    [SyncVar] public float maxExperience;
-    [SyncVar] public float expMultiPerLevel;
-
-    // Defensive stats
-    [SyncVar] public float maxHealth;
-    [SyncVar] public float maxMana;
-    [SyncVar] public float currentHealth;
-    [SyncVar] public float currentMana;
-    [SyncVar] public float healthRegen;
-    [SyncVar] public float manaRegen;
-
-    // Offensive stats
-    [SyncVar] public float movementSpeedMultiplier;
-    [SyncVar] public float cooldownReduction;
-    [SyncVar] public float criticalStrikeChance;
-    [SyncVar] public float criticalStrikeDamage;
-    [SyncVar] public float projectileSpeed;
-    [SyncVar] public float durationMultiplier;
-    [SyncVar] public float damageMultiplier;
-    [SyncVar] public float experienceGiven;
-
-    [SyncVar] public Stats testStruct;
+    public StatsComponent StatComp { get; private set; }
 
     public event Action OnDeath;
     public event Action OnLevelUp;
@@ -157,7 +131,7 @@ public class NetworkEntity : NetworkBehaviour
                 entityField.SetValue(this, soValue);
         }
 
-        entityName = statsDataSO.stringName;
+        StatComp.Name = statsDataSO.stringName;
     }
 
     public void InitStatsFromSO()
@@ -179,8 +153,8 @@ public class NetworkEntity : NetworkBehaviour
     [Server]
     public void ApplyDamageServer(float amount)
     {
-        currentHealth -= amount;
-        if (currentHealth <= 0f)
+        StatComp.stats[StatId.CurrentHealth] -= amount;
+        if (StatComp.stats[StatId.CurrentHealth] <= 0f)
             OnDeath?.Invoke();
     }
     public void RequestDeathServer()
@@ -248,7 +222,7 @@ public class NetworkEntity : NetworkBehaviour
         );
 
         syncedSpells.Add(syncData);
-        Debug.Log($"[SERVER] Spell ajouté: {newData.spellName} à {entityName}");
+        Debug.Log($"[SERVER] Spell ajouté: {newData.spellName} à {StatComp.Name}");
     }
 
     [Server]
@@ -301,7 +275,7 @@ public class NetworkEntity : NetworkBehaviour
             if (upgradeMethod != null)
             {
                 upgradeMethod.Invoke(spell, null);
-                Debug.Log($"[SERVER] {spellName} upgraded for {entityName}");
+                Debug.Log($"[SERVER] {spellName} upgraded for {StatComp.Name}");
             }
             else
             {
@@ -310,7 +284,7 @@ public class NetworkEntity : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning($"[SERVER] Spell {spellName} not found on {entityName}.");
+            Debug.LogWarning($"[SERVER] Spell {spellName} not found on {StatComp.Name}.");
         }
     }
 
@@ -393,7 +367,7 @@ public class NetworkEntity : NetworkBehaviour
         spell.Init(spellData);
 
         activeSpells.Add(spell);
-        Debug.Log($"[CLIENT] Spell '{spellData.spellName}' ajouté localement à {entityName}");
+        Debug.Log($"[CLIENT] Spell '{spellData.spellName}' ajouté localement à {StatComp.Name}");
     }
 
     private void LocalRemoveSpell(string spellName)
@@ -402,7 +376,7 @@ public class NetworkEntity : NetworkBehaviour
         if (spell != null)
         {
             activeSpells.Remove(spell);
-            Debug.Log($"[CLIENT] Spell '{spellName}' retiré localement de {entityName}");
+            Debug.Log($"[CLIENT] Spell '{spellName}' retiré localement de {StatComp.Name}");
         }
     }
 
@@ -414,8 +388,8 @@ public class NetworkEntity : NetworkBehaviour
     public void GainExperience(float amount)
     {
         if (!isServer) return;
-        experience += amount;
-        while (experience >= maxExperience)
+        StatComp.stats[StatId.Experience] += amount;
+        while (StatComp.stats[StatId.Experience] >= StatComp.stats[StatId.MaxExperience])
             OnLevelUp?.Invoke();
     }
 
@@ -423,15 +397,15 @@ public class NetworkEntity : NetworkBehaviour
     {
         if (!isServer) return;
 
-        Debug.Log($"{entityName} leveled up to level {level + 1}!");
-        experience -= maxExperience;
-        level++;
-        maxExperience *= expMultiPerLevel;
-        maxHealth *= 1.1f;
-        maxMana *= 1.1f;
-        currentMana = maxMana;
-        currentHealth += maxHealth / 10f;
+        Debug.Log($"{StatComp.Name} leveled up to level {StatComp.level + 1}!");
+        StatComp.stats[StatId.Experience] -= StatComp.stats[StatId.MaxExperience];
+        StatComp.level++;
+        StatComp.stats[StatId.Experience] *= StatComp.stats[StatId.ExpMultiPerLevel];
+        StatComp.stats[StatId.MaxHealth] *= 1.1f;
+        StatComp.stats[StatId.MaxMana] *= 1.1f;
+        StatComp.stats[StatId.CurrentMana] = StatComp.stats[StatId.MaxMana];
+        StatComp.stats[StatId.CurrentHealth] += StatComp.stats[StatId.MaxHealth] / 10f;
     }
 
-    public float GetHealthPourcentage() => (currentHealth / maxHealth) * 100f;
+    public float GetHealthPourcentage() => (StatComp.stats[StatId.CurrentHealth] / StatComp.stats[StatId.MaxHealth]) * 100f;
 }

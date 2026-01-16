@@ -19,7 +19,7 @@ public class HumanoidAnimator : MonoBehaviour
     {
         if (animator == null || enemy.GetAgent() == null) return;
             animator.SetFloat("Speed", enemy.GetAgent().velocity.magnitude);
-            animator.SetFloat("Health", enemy.currentHealth);
+            animator.SetFloat("Health", enemy.StatComp.stats[StatId.MaxHealth]);
     }
     public void EnableAttackHitbox()
     {

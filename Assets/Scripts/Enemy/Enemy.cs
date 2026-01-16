@@ -76,7 +76,7 @@ public class Enemy : NetworkEntity
         }
 
         currentState?.Update(this);
-        agent.speed = movementSpeedMultiplier;
+        agent.speed = StatComp.stats[StatId.MoveSpeedMult];
     }
 
     // ======================
@@ -155,7 +155,7 @@ public class Enemy : NetworkEntity
         {
             PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
             if (playerEntity != null)
-                playerEntity.GainExperience(experienceGiven);
+                playerEntity.GainExperience(StatComp.stats[StatId.ExperienceGiven]);
         }
     }
 

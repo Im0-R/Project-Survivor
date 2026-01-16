@@ -19,8 +19,8 @@ public class CanvasTarget : MonoBehaviour
                 if (!lifeBar.gameObject.activeSelf || !lifeBar.gameObject.activeSelf)
                 {
                     ShowUI();
-                    lifeBar.value = (entHit.currentHealth / entHit.maxHealth) * 100f;
-                    nameTMP.text = entHit.entityName.ToString();
+                    lifeBar.value = (entHit.StatComp.stats[StatId.CurrentHealth] / entHit.StatComp.stats[StatId.MaxHealth]) * 100f;
+                    nameTMP.text = entHit.StatComp.Name;
                 }
             }
             else

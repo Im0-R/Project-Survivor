@@ -1,6 +1,4 @@
 ﻿using Mirror;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatId : ushort
@@ -30,9 +28,12 @@ public class StatsComponent : NetworkBehaviour
     // Non-float / identité
     [SyncVar] public int level;
 
+    [SyncVar] public string Name;
+
     // Toutes les stats float scalables
     public readonly SyncDictionary<StatId, float> stats = new();
-    
+
+
     public override void OnStartServer()
     {
         base.OnStartServer();

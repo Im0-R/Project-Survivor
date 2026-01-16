@@ -16,7 +16,7 @@ public class PlayerEntity : NetworkEntity
     {
         if (!isServer) return;
         base.Update();
-        GetComponent<NavMeshAgent>().speed = movementSpeedMultiplier;
+        GetComponent<NavMeshAgent>().speed = StatComp.stats[StatId.MoveSpeedMult];
     }
 
     // ======================
