@@ -74,7 +74,6 @@
     <Compile Include="Assets\Scripts\Equipment\Items\ItemInstanceSO.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
-    <Compile Include="Assets\Scripts\Stats\Stats.cs" />
     <Compile Include="Assets\Scripts\Enemy\Zombie.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\Spells\Projectile.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsComponent.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticlesSpawner.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\EquipItemRequest.cs" />

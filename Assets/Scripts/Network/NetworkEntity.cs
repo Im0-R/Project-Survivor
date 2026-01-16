@@ -62,14 +62,14 @@ public class NetworkEntity : NetworkBehaviour
 
     [SerializeField] private StatsDataSO SO;
 
-    public StatsComponent StatComp { get; private set; }
+    public StatsComponent StatComp;
 
     public event Action OnDeath;
     public event Action OnLevelUp;
 
 
 
-    protected virtual void Awake() { }
+    protected virtual void Awake() {  }
 
     public override void OnStartServer()
     {
@@ -114,29 +114,9 @@ public class NetworkEntity : NetworkBehaviour
 
     // ----------------------- Stats ----------------------- //
 
-    public void ApplyStatsFromSO(StatsDataSO statsDataSO)
-    {
-        if (!isServer) return;
-
-        FieldInfo[] soFields = typeof(StatsDataSO).GetFields(BindingFlags.Public | BindingFlags.Instance);
-        FieldInfo[] entityFields = typeof(NetworkEntity).GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (var soField in soFields)
-        {
-            FieldInfo entityField = entityFields.FirstOrDefault(f => f.Name == soField.Name);
-            if (entityField == null) continue;
-
-            object soValue = soField.GetValue(statsDataSO);
-            if (entityField.IsPublic && !entityField.IsInitOnly)
-                entityField.SetValue(this, soValue);
-        }
-
-        StatComp.Name = statsDataSO.stringName;
-    }
-
     public void InitStatsFromSO()
     {
-        if (SO != null) ApplyStatsFromSO(SO);
+        if (SO != null) StatComp.InitFromSO_Server(SO);
         else Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
     }
 

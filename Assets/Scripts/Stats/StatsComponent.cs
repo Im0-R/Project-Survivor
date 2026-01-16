@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System;
 using UnityEngine;
 
 public enum StatId : ushort
@@ -21,9 +22,10 @@ public enum StatId : ushort
     ExpMultiPerLevel,
     ExperienceGiven
 }
+
+[Serializable]
 public class StatsComponent : NetworkBehaviour
 {
-    [SerializeField] private StatsDataSO SO;
 
     // Non-float / identité
     [SyncVar] public int level;
@@ -37,7 +39,6 @@ public class StatsComponent : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        InitFromSO_Server();
     }
 
     public override void OnStartClient()
@@ -53,38 +54,16 @@ public class StatsComponent : NetworkBehaviour
     }
 
     [Server]
-    void InitFromSO_Server()
+    public void InitFromSO_Server(StatsDataSO so)
     {
-        if (SO == null)
-        {
-            Debug.LogError($"[{name}] StatsDataSO manquant");
-            return;
-        }
+        stats.Clear();
 
-        level = SO.level;
+        level = so.level;
 
-        stats[StatId.MaxHealth] = SO.maxHealth;
-        stats[StatId.CurrentHealth] = SO.currentHealth;
-        stats[StatId.HealthRegen] = SO.healthRegen;
-
-        stats[StatId.MaxMana] = SO.maxMana;
-        stats[StatId.CurrentMana] = SO.currentMana;
-        stats[StatId.ManaRegen] = SO.manaRegen;
-
-        stats[StatId.MoveSpeedMult] = SO.movementSpeedMultiplier;
-        stats[StatId.CooldownReduction] = SO.cooldownReduction;
-        stats[StatId.CritChance] = SO.criticalStrikeChance;
-        stats[StatId.CritDamage] = SO.criticalStrikeDamage;
-        stats[StatId.ProjectileSpeed] = SO.projectileSpeed;
-        stats[StatId.DurationMult] = SO.durationMultiplier;
-        stats[StatId.DamageMult] = SO.damageMultiplier;
-
-        stats[StatId.Experience] = SO.experience;
-        stats[StatId.MaxExperience] = SO.maxExperience;
-        stats[StatId.ExpMultiPerLevel] = SO.expMultiPerLevel;
-
-        stats[StatId.ExperienceGiven] = SO.experienceGiven;
+        foreach (var entry in so.baseStats)
+            stats[entry.id] = entry.value;
     }
+
 
     // ====== API propre ======
     public float Get(StatId id) => stats.TryGetValue(id, out var v) ? v : 0f;

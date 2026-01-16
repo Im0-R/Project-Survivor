@@ -14,12 +14,12 @@ public class PlayerEquipment : NetworkBehaviour
     [SyncVar] public float TotalDefense;
     [SyncVar] public float TotalVitality;
 
-    private PlayerStats stats;
+    private StatsComponent stats;
     private PlayerInventory inv;
 
     private void Awake()
     {
-        stats = GetComponent<PlayerStats>();
+        stats = GetComponent<StatsComponent>();
         inv = GetComponent<PlayerInventory>();
     }
 
@@ -73,9 +73,9 @@ public class PlayerEquipment : NetworkBehaviour
     {
         if (stats == null || inv == null) return;
 
-        float atk = stats.stats.damageMultiplier;
-        float def = stats.stats.currentHealth;
-        float vit = stats.stats.maxHealth;
+        float atk = stats.stats[StatId.DamageMult];
+        float def = stats.stats[StatId.CurrentHealth];
+        float vit = stats.stats[StatId.MaxHealth];
 
         ApplyEquippedIndex(weaponIndex, ref atk, ref def, ref vit);
         ApplyEquippedIndex(helmetIndex, ref atk, ref def, ref vit);
