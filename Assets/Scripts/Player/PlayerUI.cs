@@ -77,10 +77,10 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        float maxHp = Mathf.Max(1f, playerEnt.StatComp.stats[StatId.MaxHealth]);
-        float maxXp = Mathf.Max(1f, playerEnt.StatComp.stats[StatId.MaxExperience]);
+        float maxHp = Mathf.Max(1f, playerEnt.StatComp.Get(StatId.MaxHealth));
+        float maxXp = Mathf.Max(1f, playerEnt.StatComp.Get(StatId.MaxExperience));
 
-        healthBar.value = (playerEnt.StatComp.stats[StatId.CurrentHealth] / maxHp) * 100f;
-        xpBar.value = (playerEnt.StatComp.stats[StatId.Experience] / maxXp) * 100f;
+        healthBar.value = (playerEnt.StatComp.Get(StatId.CurrentHealth) / maxHp) * 100f;
+        xpBar.value = (playerEnt.StatComp.Get(StatId.Experience) / maxXp) * 100f;
     }
 }

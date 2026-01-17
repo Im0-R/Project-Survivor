@@ -75,7 +75,6 @@ public class StatsComponent : NetworkBehaviour
     // ====== Events client (UI) ======
     void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
     {
-        stats[key] = value;
     }
 
     // ====== Server-side gameplay ======
