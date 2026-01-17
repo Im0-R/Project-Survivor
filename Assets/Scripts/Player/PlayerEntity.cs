@@ -37,6 +37,7 @@ public class PlayerEntity : NetworkEntity
     {
         base.OnStartLocalPlayer();
         SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive);
+        PlayerUI.Instance?.Bind(this);
     }
 
 

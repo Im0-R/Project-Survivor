@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\projects\\personnalprojects\\hack\u0027n slash\\project-survivor\\assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\projects\\personnalprojects\\hack\u0027n slash\\project-survivor\\assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\player\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\stats\\statsdataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -45,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\iteminstanceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -186,11 +190,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "StatsComponent.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAEwCkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T00:40:08.713Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "FireballSpell.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
@@ -202,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "PlayerInventory.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
@@ -214,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "PlayerUI.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerUI.cs",
@@ -226,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Enemy.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\Enemy.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Enemy.cs",
@@ -238,7 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "StatsDataSO.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
@@ -250,13 +267,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "NetworkEntity.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\NetworkEntity.cs",
               "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\NetworkEntity.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-14T08:44:58.973Z",
               "EditorCaption": ""
@@ -271,11 +288,12 @@
               "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-06T19:53:08.978Z"
+              "WhenOpened": "2026-01-06T19:53:08.978Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "PlayerAnimator.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerAnimator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerAnimator.cs",
@@ -287,19 +305,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 3,
               "Title": "PlayerEquipment.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-12T22:37:48.013Z"
+              "WhenOpened": "2026-01-12T22:37:48.013Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "BackGroundSlot.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
@@ -311,7 +330,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "PlayerStats.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerStats.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerStats.cs",
@@ -324,7 +343,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "HumanoidAnimator.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\HumanoidAnimator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HumanoidAnimator.cs",
@@ -336,7 +355,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ItemInstanceSO.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
@@ -348,7 +367,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "CanvasTarget.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasTarget.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasTarget.cs",
@@ -360,7 +379,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "AffixSO.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
@@ -372,7 +391,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "PlayerEquipmentData.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
@@ -384,7 +403,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "CanvasInventory.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
@@ -396,7 +415,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "ClientAccountAPI.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
@@ -408,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "MasterNetworkManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
@@ -420,7 +439,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "ItemDatabase.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ServerOnly\\Database\\ItemDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\ItemDatabase.cs",
@@ -432,7 +451,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "InstanceNetworkManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
@@ -444,7 +463,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "ItemSlot.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemSlot.cs",
@@ -456,7 +475,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "UIManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\UIManager.cs",
@@ -468,7 +487,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "EquipItemRequest.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
@@ -480,7 +499,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "SlashBehaviour.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
@@ -492,7 +511,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "EnemySpawner.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
@@ -504,7 +523,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "EnemyChaseState.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
@@ -516,7 +535,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Zombie.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\Zombie.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Zombie.cs",
@@ -528,7 +547,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "ItemBaseSO.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
@@ -540,7 +559,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "AffixDatabase.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ServerOnly\\Database\\AffixDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\AffixDatabase.cs",
@@ -552,7 +571,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "ServerTimeManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ServerTimeManager.cs",
@@ -564,7 +583,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "CameraFollow.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\CameraFollow.cs",
@@ -576,7 +595,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "EnemyPool.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyPool.cs",
@@ -588,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "50-Mirror__Network Manager-NewNetworkManager.cs.txt",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
               "RelativeDocumentMoniker": "Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
@@ -600,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
               "RelativeDocumentMoniker": "Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
@@ -612,7 +631,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "EnemyManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\EnemyManager.cs",
@@ -624,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "ServerAutoStart.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
@@ -636,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "InstanceManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
@@ -648,7 +667,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 42,
               "Title": "SpellsManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\SpellsManager.cs",
@@ -660,7 +679,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "MyNetworkManager.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
@@ -672,7 +691,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "GameUILoader.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\GameUILoader.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\GameUILoader.cs",
@@ -684,7 +703,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerMovement.cs",
@@ -696,7 +715,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "CanvasLogin.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasLogin.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasLogin.cs",
@@ -708,7 +727,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 43,
               "Title": "InstanceBootStrap.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",

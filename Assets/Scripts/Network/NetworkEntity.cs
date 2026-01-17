@@ -51,7 +51,7 @@ public static class MirrorWritersRegistration
 // ========================================================================== //
 // ==============================  NetworkEntity  =========================== //
 // ========================================================================== //
-
+[RequireComponent(typeof(StatsComponent))]
 public class NetworkEntity : NetworkBehaviour
 {
     // ----------------------- Spells ----------------------- //
@@ -60,6 +60,7 @@ public class NetworkEntity : NetworkBehaviour
     // Client list of spells for UI synchronization
     public readonly SyncList<SpellSyncData> syncedSpells = new SyncList<SpellSyncData>();
 
+    [Header("Config")]
     [SerializeField] private StatsDataSO SO;
 
     public StatsComponent StatComp;
@@ -69,7 +70,11 @@ public class NetworkEntity : NetworkBehaviour
 
 
 
-    protected virtual void Awake() {  }
+    protected virtual void Awake()
+    {
+        StatComp = GetComponent<StatsComponent>();
+
+    }
 
     public override void OnStartServer()
     {
@@ -87,10 +92,10 @@ public class NetworkEntity : NetworkBehaviour
     {
         base.OnStartClient();
 
-        // 1) écouter les changements
+        // Listen to changes in the syncedSpells list
         syncedSpells.Callback += OnSyncedSpellsChanged;
 
-        // 2) synchro initiale (si le client arrive après)
+        // 2) initial sync (if the client arrives late)
         RebuildLocalSpellsFromSynced();
     }
 
@@ -103,7 +108,6 @@ public class NetworkEntity : NetworkBehaviour
 
     protected virtual void Start()
     {
-        // Rien ici — toute la logique d'initialisation est côté serveur
     }
 
     protected virtual void Update()

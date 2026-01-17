@@ -58,6 +58,12 @@ public class PlayerUI : MonoBehaviour
         Debug.Log($"[PlayerUI] Bound to local player netId={NetworkClient.localPlayer.netId}");
 
     }
+    public void Bind(PlayerEntity ent)
+    {
+        playerEnt = ent;
+        Debug.Log($"[PlayerUI] Bound to local player netId={ent.netId}");
+        SetCameraTarget();
+    }
     private void SetCameraTarget()
     {
 
