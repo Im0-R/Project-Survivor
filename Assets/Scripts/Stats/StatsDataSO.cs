@@ -68,6 +68,8 @@ public class StatsDataSO : ScriptableObject
             StatId.CurrentMana => 50f,
             StatId.MoveSpeedMult => 3.5f,
             StatId.ExpMultiPerLevel => 1.5f,
+            StatId.CritChance => 5f,
+            StatId.MaxExperience => 100f,
             _ => 0f
         };
     }

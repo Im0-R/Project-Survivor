@@ -13,157 +13,39 @@ MonoBehaviour:
   m_Name: StatsZombie
   m_EditorClassIdentifier: 
   stringName: Zombie
-  stringByte:
-    utf8LengthInBytes: 0
-    bytes:
-      offset0000:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0016:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0032:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0048:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0064:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0080:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0096:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      byte0112: 0
-      byte0113: 0
-      byte0114: 0
-      byte0115: 0
-      byte0116: 0
-      byte0117: 0
-      byte0118: 0
-      byte0119: 0
-      byte0120: 0
-      byte0121: 0
-      byte0122: 0
-      byte0123: 0
-      byte0124: 0
-      byte0125: 0
+  baseStats:
+  - id: 0
+    value: 100
+  - id: 1
+    value: 80
+  - id: 2
+    value: 0
+  - id: 3
+    value: 50
+  - id: 4
+    value: 50
+  - id: 5
+    value: 0
+  - id: 6
+    value: 3.5
+  - id: 7
+    value: 0
+  - id: 8
+    value: 0
+  - id: 9
+    value: 0
+  - id: 10
+    value: 0
+  - id: 11
+    value: 0
+  - id: 12
+    value: 0
+  - id: 13
+    value: 0
+  - id: 14
+    value: 100
+  - id: 15
+    value: 1.5
+  - id: 16
+    value: 0
   level: 1
-  experience: 0
-  maxExperience: 100
-  expMultiPerLevel: 1.5
-  maxHealth: 20
-  maxMana: 100
-  currentHealth: 20
-  currentMana: 40
-  healthRegen: 2
-  manaRegen: 2
-  movementSpeedMultiplier: 1
-  cooldownReduction: 0
-  criticalStrikeChance: 3
-  criticalStrikeDamage: 150
-  projectileSpeed: 0
-  durationMultiplier: 1
-  damageMultiplier: 1
-  experienceGiven: 10
