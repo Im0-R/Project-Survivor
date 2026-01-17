@@ -13,21 +13,39 @@ MonoBehaviour:
   m_Name: StatsPlayer
   m_EditorClassIdentifier: 
   stringName: Leo
+  baseStats:
+  - id: 0
+    value: 100
+  - id: 1
+    value: 100
+  - id: 2
+    value: 4
+  - id: 3
+    value: 50
+  - id: 4
+    value: 50
+  - id: 5
+    value: 0
+  - id: 6
+    value: 3.5
+  - id: 7
+    value: 0
+  - id: 8
+    value: 0
+  - id: 9
+    value: 1
+  - id: 10
+    value: 1
+  - id: 11
+    value: 1
+  - id: 12
+    value: 1
+  - id: 13
+    value: 0
+  - id: 14
+    value: 0
+  - id: 15
+    value: 1.5
+  - id: 16
+    value: 0
   level: 1
-  experience: 0
-  maxExperience: 100
-  expMultiPerLevel: 1.2
-  maxHealth: 100
-  maxMana: 100
-  currentHealth: 100
-  currentMana: 100
-  healthRegen: 2
-  manaRegen: 2
-  movementSpeedMultiplier: 4
-  cooldownReduction: 0
-  criticalStrikeChance: 5
-  criticalStrikeDamage: 150
-  projectileSpeed: 0
-  durationMultiplier: 1
-  damageMultiplier: 1
-  experienceGiven: 10
