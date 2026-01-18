@@ -29,11 +29,11 @@ MonoBehaviour:
   - id: 6
     value: 3.5
   - id: 7
-    value: 0
+    value: 100
   - id: 8
-    value: 0
+    value: 1.2
   - id: 9
-    value: 0
+    value: 20
   - id: 10
     value: 0
   - id: 11
@@ -48,4 +48,16 @@ MonoBehaviour:
     value: 1.5
   - id: 16
     value: 0
+  - id: 17
+    value: 5
+  - id: 18
+    value: 1.5
+  - id: 19
+    value: 1
+  - id: 20
+    value: 1
+  - id: 21
+    value: 1
+  - id: 22
+    value: 3.5
   level: 1

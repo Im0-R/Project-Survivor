@@ -4,23 +4,57 @@ using UnityEngine;
 
 public enum StatId : ushort
 {
+    //------------------------Basic Stats-------------------------
+    //Health
     MaxHealth,
     CurrentHealth,
     HealthRegen,
+
+    //Mana
     MaxMana,
     CurrentMana,
     ManaRegen,
-    MoveSpeedMult,
-    CooldownReduction,
-    CritChance,
-    CritDamage,
-    ProjectileSpeed,
-    DurationMult,
-    DamageMult,
+
+    //------------------------Levelling Stats-------------------------
     Experience,
     MaxExperience,
     ExpMultiPerLevel,
-    ExperienceGiven
+    ExperienceGiven,
+
+    //------------------------Defensive Stats-------------------------
+
+
+
+    // Elemental Resistance 
+
+    FireResistance,
+    ColdResistance,
+    LightningResistance,
+    ChaosResistance,
+
+    Armor,
+    Evasion,
+
+    //------------------------Offensive Stats-------------------------
+
+    //Cooldowns
+    CooldownReduction,
+
+    //Critical
+    CritChance,
+    CritDamage,
+
+    //Projectile
+    ProjectileSpeed,
+
+    // Durations 
+    DurationMult,
+
+    //Damage
+    DamageMult,
+
+    //------------------------Movement Stats-------------------------
+    MoveSpeedMult,
 }
 
 [Serializable]

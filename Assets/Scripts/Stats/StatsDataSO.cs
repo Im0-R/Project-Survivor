@@ -64,12 +64,18 @@ public class StatsDataSO : ScriptableObject
         {
             StatId.MaxHealth => 100f,
             StatId.CurrentHealth => 100f,
+            StatId.HealthRegen => 1f,
             StatId.MaxMana => 50f,
             StatId.CurrentMana => 50f,
+            StatId.ManaRegen => 1f,
             StatId.MoveSpeedMult => 3.5f,
-            StatId.ExpMultiPerLevel => 1.5f,
             StatId.CritChance => 5f,
+            StatId.CritDamage => 150f,
+
             StatId.MaxExperience => 100f,
+            StatId.ExperienceGiven => 20f,
+            StatId.ExpMultiPerLevel => 1.5f,
+
             _ => 0f
         };
     }
