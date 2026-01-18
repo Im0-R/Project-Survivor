@@ -29,7 +29,7 @@ MonoBehaviour:
   - id: 6
     value: 3.5
   - id: 7
-    value: 0
+    value: 100
   - id: 8
     value: 1.2
   - id: 9
@@ -45,7 +45,7 @@ MonoBehaviour:
   - id: 14
     value: 100
   - id: 15
-    value: 1.5
+    value: 0
   - id: 16
     value: 0
   - id: 17
