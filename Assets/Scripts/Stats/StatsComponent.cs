@@ -37,6 +37,16 @@ public enum StatId : ushort
 
     //------------------------Offensive Stats-------------------------
 
+    //Damage
+
+    SpellDamage,
+
+    //Elemental Damage
+    FireDamage,
+    ColdDamage,
+    LightningDamage,
+    ChaosDamage,
+
     //Cooldowns
     CooldownReduction,
 

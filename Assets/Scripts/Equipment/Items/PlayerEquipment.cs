@@ -10,7 +10,7 @@ public class PlayerEquipment : NetworkBehaviour
     [SyncVar] public int bootsIndex = -1;
 
     //Optional : synced final stats for UI (otherwise read them on PlayerStats)
-    [SyncVar] public float TotalAttack;
+    [SyncVar] public float TotalDamage;
     [SyncVar] public float TotalDefense;
     [SyncVar] public float TotalVitality;
 
@@ -73,36 +73,36 @@ public class PlayerEquipment : NetworkBehaviour
     {
         if (stats == null || inv == null) return;
 
-        float atk = stats.stats[StatId.DamageMult];
+        float dam = stats.stats[StatId.DamageMult];
         float def = stats.stats[StatId.CurrentHealth];
         float vit = stats.stats[StatId.MaxHealth];
 
-        ApplyEquippedIndex(weaponIndex, ref atk, ref def, ref vit);
-        ApplyEquippedIndex(helmetIndex, ref atk, ref def, ref vit);
-        ApplyEquippedIndex(chestIndex, ref atk, ref def, ref vit);
-        ApplyEquippedIndex(bootsIndex, ref atk, ref def, ref vit);
+        ApplyEquippedIndex(weaponIndex, ref dam, ref def, ref vit);
+        ApplyEquippedIndex(helmetIndex, ref dam, ref def, ref vit);
+        ApplyEquippedIndex(chestIndex, ref dam, ref def, ref vit);
+        ApplyEquippedIndex(bootsIndex, ref dam, ref def, ref vit);
 
-        TotalAttack = atk;
+        TotalDamage = dam;
         TotalDefense = def;
         TotalVitality = vit;
 
         // Update runtime stats
-        //stats.SetDerived(atk, def, vit);
+        //stats.SetDerived(dam, def, vit);
     }
 
     [Server]
-    private void ApplyEquippedIndex(int index, ref float atk, ref float def, ref float vit)
+    private void ApplyEquippedIndex(int index, ref float dam, ref float def, ref float vit)
     {
         if (index < 0) return;
 
-        var inst = inv.GetItemByIndex(index);
+        ItemInstance inst = inv.GetItemByIndex(index);
         if (inst.instanceId == 0) return;
 
-        var baseSO = ItemDatabase.GetBase(inst.baseId);
+        ItemBaseSO baseSO = ItemDatabase.GetBase(inst.baseId);
         if (baseSO == null) return;
 
         // base stats
-        atk += baseSO.baseAttack;
+        dam += baseSO.baseAttack;
         def += baseSO.baseDefense;
         vit += baseSO.baseVitality;
 
@@ -111,14 +111,14 @@ public class PlayerEquipment : NetworkBehaviour
 
         foreach (var a in inst.affixes)
         {
-            var aff = AffixDatabase.Get(a.affixId);
+            AffixSO aff = AffixDatabase.Get(a.affixId);
             if (aff == null) continue;
 
             switch (aff.stat)
             {
-                case StatType.Attack: atk += a.value; break;
-                case StatType.Defense: def += a.value; break;
-                case StatType.Vitality: vit += a.value; break;
+                case StatId.SpellDamage: dam += a.value; break;
+                case StatId.Armor: def += a.value; break;
+                case StatId.MaxHealth: vit += a.value; break;
             }
         }
     }
