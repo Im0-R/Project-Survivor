@@ -205,7 +205,7 @@ public class Enemy : NetworkEntity
 
         int seed = (int)(Time.time * 1000f);
 
-        ItemInstance item = LootManager.Instance.GenerateDrop(level, seed);
+        ItemInstance item = LootManager.Instance.GenerateDrop(1, seed);
 #endif
     }
     // ======================
