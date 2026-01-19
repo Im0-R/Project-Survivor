@@ -29,13 +29,13 @@ public static class AffixDatabase
         {
             if (affix == null) continue;
 
-            if (affixesById.ContainsKey(affix.affixId))
+            if (affixesById.ContainsKey(affix.AffixId))
             {
-                Debug.LogError($"[AffixDatabase] Duplicate affixId {affix.affixId} ({affix.name})");
+                Debug.LogError($"[AffixDatabase] Duplicate affixId {affix.AffixId} ({affix.name})");
                 continue;
             }
 
-            affixesById[affix.affixId] = affix;
+            affixesById[affix.AffixId] = affix;
         }
 
         initialized = true;

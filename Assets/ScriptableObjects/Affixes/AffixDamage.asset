@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729688c99bd5efb418dfeee4f703bdeb, type: 3}
   m_Name: AffixDamage
   m_EditorClassIdentifier: Assembly-CSharp::AffixSO
-  affixId: 0
+  affixId: -1089915802
   affixName: 
   stat: 0
   minValue: 1

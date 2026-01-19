@@ -27,13 +27,13 @@ public static class ItemDatabase
         {
             if (item == null) continue;
 
-            if (itemsById.ContainsKey(item.baseId))
+            if (itemsById.ContainsKey(item.BaseId))
             {
-                Debug.LogError($"[ItemDatabase] Duplicate baseId {item.baseId} ({item.name})");
+                Debug.LogError($"[ItemDatabase] Duplicate baseId {item.BaseId} ({item.name})");
                 continue;
             }
 
-            itemsById[item.baseId] = item;
+            itemsById[item.BaseId] = item;
 
             if (!string.IsNullOrWhiteSpace(item.baseName))
                 itemsByName[item.baseName] = item;

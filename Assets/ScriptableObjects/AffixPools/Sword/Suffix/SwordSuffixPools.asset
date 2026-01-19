@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 729688c99bd5efb418dfeee4f703bdeb, type: 3}
-  m_Name: AffixCooldown
-  m_EditorClassIdentifier: Assembly-CSharp::AffixSO
-  affixId: 1209358656
-  affixName: 
-  stat: 0
-  minValue: 1
-  maxValue: 5
+  m_Script: {fileID: 11500000, guid: 0da6e8a2b01d1bc46950f609981035ca, type: 3}
+  m_Name: SwordSuffixPools
+  m_EditorClassIdentifier: Assembly-CSharp::AffixPoolSO
+  affixes:
+  - {fileID: 11400000, guid: 0a3a0b6f7ff57594984a5f6d2be9c3be, type: 2}

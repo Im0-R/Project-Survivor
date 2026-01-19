@@ -201,6 +201,12 @@ public class Enemy : NetworkEntity
     {
         if (!isServer) return;
         EnemyPool.Instance?.DespawnEnemy(gameObject);
+#if UNITY_SERVER
+
+        int seed = (int)(Time.time * 1000f);
+
+        ItemInstance item = LootManager.Instance.GenerateDrop(level, seed);
+#endif
     }
     // ======================
     // CLEANUP

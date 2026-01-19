@@ -20,7 +20,7 @@ public class CanvasInventory : MonoBehaviour
         }
         //Get all BackGroundSlot components in children and set id to their index in the array
 
-        foreach (var slot in GetComponentsInChildren<BackGroundSlot>())
+        foreach (BackGroundSlot slot in GetComponentsInChildren<BackGroundSlot>())
         {
             slot.SetId(slot.transform.GetSiblingIndex());
         }
@@ -38,14 +38,14 @@ public class CanvasInventory : MonoBehaviour
     public void SetTargetCard(ItemCard itemCard)
     {
         targetCard = itemCard;
-        foreach(var slot in targetCard.GetComponentsInChildren<Image>())
+        foreach (Image slot in targetCard.GetComponentsInChildren<Image>())
         {
             slot.raycastTarget = false;
         }
     }
     public void ResetTargetCard()
     {
-        foreach (var slot in targetCard.GetComponentsInChildren<Image>())
+        foreach (Image slot in targetCard.GetComponentsInChildren<Image>())
         {
             slot.raycastTarget = true;
         }
