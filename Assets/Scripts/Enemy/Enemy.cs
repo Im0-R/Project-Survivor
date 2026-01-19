@@ -204,7 +204,7 @@ public class Enemy : NetworkEntity
 #if UNITY_SERVER
 
         int seed = (int)(Time.time * 1000f);
-
+        Debug.Log($"[Enemy] GenerateDrop {name}");
         ItemInstance item = LootManager.Instance.GenerateDrop(1, seed);
 #endif
     }

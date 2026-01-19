@@ -7,7 +7,7 @@ using Mirror;
 public class LootManager : MonoBehaviour
 {
     public static LootManager Instance;
-
+        
     [SerializeField] private ItemBaseSO[] possibleDrops;
 
     private void Awake()

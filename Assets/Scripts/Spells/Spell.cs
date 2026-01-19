@@ -46,7 +46,6 @@ public abstract class Spell
     {
         if (this.data.autoCast && Time.time >= this.data.lastCastTime + this.data.cooldown)
         {
-            Debug.Log($"Auto TryCast called on server for {owner}");
             ExecuteServer(owner);
             this.data.lastCastTime = Time.time;
         }
