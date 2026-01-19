@@ -109,6 +109,13 @@ public class PlayerInventory : NetworkBehaviour
         return -1;
     }
 
+    [Server]
+    public void Server_AddItem(ItemInstance item)
+    {
+        AddItem(item);
+        Debug.Log($"[Inventory] {netId} picked item baseId={item.baseId} rarity={item.rarity}");
+        // TODO: save DB + sync UI
+    }
     // =========================
     // DEBUG / TEST
     // =========================

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public static class LootGenerator
 {
-    // Si tu veux un ID unique persistant, préfère un GUID ou un ID DB.
     private static long nextInstanceId = 1;
 
     public static ItemInstance Generate(ItemBaseSO itemBase, int itemLevel, int seed)
@@ -21,7 +20,7 @@ public static class LootGenerator
                 break;
 
             case ItemRarity.Magic:
-                // Simple: 1 ou 2 affixes
+
                 if (rng.NextDouble() < 0.5) prefixCount = 1;
                 else suffixCount = 1;
 
@@ -38,7 +37,8 @@ public static class LootGenerator
                 break;
 
             case ItemRarity.Unique:
-                // plus tard: template unique
+
+
                 break;
         }
 

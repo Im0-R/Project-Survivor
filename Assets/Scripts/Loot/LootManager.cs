@@ -1,33 +1,35 @@
-using UnityEngine;
-
 #if UNITY_SERVER
 using Mirror;
-#endif
+using UnityEngine;
+
+using Mirror;
 
 public class LootManager : MonoBehaviour
 {
     public static LootManager Instance;
-        
+
     [SerializeField] private ItemBaseSO[] possibleDrops;
+
+    [SerializeField] private GameObject itemObject;
 
     private void Awake()
     {
         Instance = this;
     }
 
-#if UNITY_SERVER
-    public ItemInstance GenerateDrop(int itemLevel, int seed)
+
+    public void GenerateDrop(int itemLevel, int seed)
     {
         if (!NetworkServer.active)
         {
             Debug.LogError("[LootManager] GenerateDrop called but server not active!");
-            return null;
+            return;
         }
 
         if (possibleDrops == null || possibleDrops.Length == 0)
         {
             Debug.LogError("[LootManager] possibleDrops empty!");
-            return null;
+            return;
         }
 
         System.Random rng = new System.Random(seed);
@@ -35,7 +37,16 @@ public class LootManager : MonoBehaviour
 
         Debug.Log($"[LootManager] Generating drop: BaseID={itemBase.BaseId}, ItemLevel={itemLevel}, Seed={seed}");
 
-        return LootGenerator.Generate(itemBase, itemLevel, seed);
+        ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, seed);
+
+        GameObject objectToSpawn = itemObject;
+
+        //Spawn the item in the world
+        LootPickup lootPickup = objectToSpawn.GetComponent<LootPickup>();
+        lootPickup.Init(itemInstance);
+
+        NetworkServer.Spawn(objectToSpawn);
+
     }
-#endif
 }
+#endif
