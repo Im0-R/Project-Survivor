@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fbbb9d270ea0143baad04054a62bf8, type: 3}
   m_Name: S_RustySword
   m_EditorClassIdentifier: Assembly-CSharp::ItemBaseSO
-  baseId: 0
+  baseId: 440202070
   baseName: 
   slot: 0
   baseAttack: 10

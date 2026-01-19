@@ -30,8 +30,10 @@ public class LootManager : MonoBehaviour
             return null;
         }
 
-        Random rng = new System.Random(seed);
+        System.Random rng = new System.Random(seed);
         ItemBaseSO itemBase = possibleDrops[rng.Next(0, possibleDrops.Length)];
+
+        Debug.Log($"[LootManager] Generating drop: BaseID={itemBase.BaseId}, ItemLevel={itemLevel}, Seed={seed}");
 
         return LootGenerator.Generate(itemBase, itemLevel, seed);
     }
