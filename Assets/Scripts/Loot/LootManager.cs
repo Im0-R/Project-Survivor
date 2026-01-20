@@ -1,9 +1,6 @@
-#if UNITY_SERVER
+#if !UNITY_SERVER
 using Mirror;
 using UnityEngine;
-
-using Mirror;
-
 public class LootManager : MonoBehaviour
 {
     public static LootManager Instance;
@@ -18,7 +15,7 @@ public class LootManager : MonoBehaviour
     }
 
 
-    public void GenerateDrop(int itemLevel, int seed)
+    public void GenerateDrop(int itemLevel, int seed , Vector3 position)
     {
         if (!NetworkServer.active)
         {
@@ -47,6 +44,7 @@ public class LootManager : MonoBehaviour
 
         NetworkServer.Spawn(objectToSpawn);
 
+        objectToSpawn.transform.position = position;
     }
 }
 #endif

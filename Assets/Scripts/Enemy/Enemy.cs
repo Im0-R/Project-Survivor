@@ -201,17 +201,12 @@ public class Enemy : NetworkEntity
     {
         if (!isServer) return;
         EnemyPool.Instance?.DespawnEnemy(gameObject);
-        ItemInstance item = null;
 #if UNITY_SERVER
 
         int seed = (int)(Time.time * 1000f);
         Debug.Log($"[Enemy] GenerateDrop {name}");
-        ItemInstance item = LootManager.Instance.GenerateDrop(1, seed);
+        LootManager.Instance.GenerateDrop(1, seed, transform.position);
 #endif
-        if (item != null)
-        {
-            Vector3 dropPosition = transform.position + new Vector3(0, 0.5f, 0);
-        }
 
     }
     // ======================
