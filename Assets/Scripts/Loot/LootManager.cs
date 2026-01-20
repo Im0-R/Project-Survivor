@@ -1,4 +1,4 @@
-#if !UNITY_SERVER
+#if UNITY_SERVER
 using Mirror;
 using UnityEngine;
 public class LootManager : MonoBehaviour
