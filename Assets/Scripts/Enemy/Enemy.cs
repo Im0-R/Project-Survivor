@@ -200,13 +200,13 @@ public class Enemy : NetworkEntity
     protected override void Die()
     {
         if (!isServer) return;
-        EnemyPool.Instance?.DespawnEnemy(gameObject);
 #if UNITY_SERVER
 
         int seed = (int)(Time.time * 1000f);
         Debug.Log($"[Enemy] GenerateDrop {name}");
         LootManager.Instance.GenerateDrop(1, seed, transform.position);
 #endif
+        EnemyPool.Instance?.DespawnEnemy(gameObject);
 
     }
     // ======================
@@ -217,8 +217,8 @@ public class Enemy : NetworkEntity
         if (isServer)
             //Debug.Log($"[Enemy] ❌ Disabled {name}");
 
-        if (isServer)
-            EnemyManager.Instance?.UnregisterEnemy(this);
+            if (isServer)
+                EnemyManager.Instance?.UnregisterEnemy(this);
     }
 
     // ======================

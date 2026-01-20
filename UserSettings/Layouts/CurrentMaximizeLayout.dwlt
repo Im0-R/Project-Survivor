@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 1490
+  controlID: 3432
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 1491
+  controlID: 3433
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -866,8 +866,8 @@ MonoBehaviour:
     y: 688
     width: 1047
     height: 245
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 51, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -976,7 +976,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c867ffffd678ffffba98ffff6ca1ffff46adffff52ecffff70faffff72faffff
+      m_ExpandedIDs: 6649ffff1652ffffc867ffffd678ffffba98ffff6ca1ffff46adffff52ecffff70faffff72faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1064,7 +1064,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: LootD
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1078,7 +1078,7 @@ MonoBehaviour:
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
-    m_OriginalText: LootD
+    m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 0
@@ -1092,7 +1092,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b0230000
     m_LastClickedID: 9136
-    m_ExpandedIDs: ffffffff00000000e0020000e802000080060100fe1e0100001f0100021f0100041f0100061f0100081f01000a1f01000c1f01000e1f0100101f0100121f0100141f0100161f0100181f01001a1f01001c1f01001e1f0100201f0100221f0100241f0100261f0100281f01002a1f01002c1f01002e1f0100301f0100321f0100341f0100361f0100381f01003a1f01003c1f01003e1f0100401f0100421f0100441f0100461f0100481f01004a1f01004c1f01004e1f0100501f0100521f0100541f0100561f0100581f01005a1f01005c1f01005e1f0100601f0100621f0100641f0100661f0100681f01006a1f01006c1f01006e1f0100701f0100721f0100741f0100761f0100781f01007a1f01007c1f01007e1f0100801f0100
+    m_ExpandedIDs: ffffffff00000000e0020000e802000080060100fe1e0100001f0100021f0100041f0100061f0100081f01000a1f01000c1f01000e1f0100101f0100121f0100141f0100161f0100181f01001a1f01001c1f01001e1f0100201f0100221f0100241f0100261f0100281f01002a1f01002c1f01002e1f0100301f0100321f0100341f0100361f0100381f01003a1f01003c1f01003e1f0100401f0100421f0100441f0100461f0100481f01004a1f01004c1f01004e1f0100501f0100521f0100541f0100561f0100581f01005a1f01005c1f01005e1f0100601f0100621f0100641f0100661f0100681f01006a1f01006c1f01006e1f0100701f0100721f0100741f0100761f0100781f01007a1f01007c1f01007e1f0100801f010044200100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
