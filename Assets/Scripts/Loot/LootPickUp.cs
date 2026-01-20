@@ -6,8 +6,14 @@ public class LootPickup : NetworkBehaviour
     [SyncVar] private string itemJson;
     [SyncVar] private uint ownerNetId;
 
-    [SerializeField] private float pickupRadius = 2f;
+    [SyncVar] public bool IsClaimed = false;
 
+    [SerializeField] private float pickupRadius = 2f;
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        LootUIManager.Instance.RegisterLoot(this);
+    }
     // Server only: init
     [Server]
     public void Init(ItemInstance item)

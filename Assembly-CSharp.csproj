@@ -82,6 +82,7 @@
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
+    <Compile Include="Assets\Scripts\Loot\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
     <Compile Include="Assets\ServerOnly\Database\AffixDatabase.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Scripts\Equipment\Items\AffixPoolSO.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
+    <Compile Include="Assets\Scripts\Loot\LootLabelUI.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerPickupController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
