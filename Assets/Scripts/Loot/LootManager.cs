@@ -1,4 +1,4 @@
-#if UNITY_SERVER
+#if !UNITY_SERVER
 using Mirror;
 using UnityEngine;
 public class LootManager : MonoBehaviour
@@ -36,7 +36,7 @@ public class LootManager : MonoBehaviour
 
         ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, seed);
 
-        GameObject objectToSpawn = itemObject;
+        GameObject objectToSpawn = Instantiate(itemObject, position, Quaternion.identity);
 
         //Spawn the item in the world
         LootPickup lootPickup = objectToSpawn.GetComponent<LootPickup>();
@@ -44,7 +44,6 @@ public class LootManager : MonoBehaviour
 
         NetworkServer.Spawn(objectToSpawn);
 
-        objectToSpawn.transform.position = position;
     }
 }
 #endif
