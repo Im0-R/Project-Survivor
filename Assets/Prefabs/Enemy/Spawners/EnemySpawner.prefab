@@ -50,7 +50,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   spawnRadius: 10
-  spawnRate: 0.5
+  spawnRate: 3
   swarmSize: 1
 --- !u!114 &1445615872955799156
 MonoBehaviour:
