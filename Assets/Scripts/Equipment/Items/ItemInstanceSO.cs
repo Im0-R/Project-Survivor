@@ -10,6 +10,7 @@ public struct ItemAffix
 [Serializable]
 public class ItemInstance
 {
+    public string itemName; //custom name (can be empty)
     public long instanceId;   //unique ID for this specific item instance
     public int baseId;       //ID referring to the base item type
     public ItemRarity rarity;

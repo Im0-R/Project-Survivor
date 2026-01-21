@@ -49,6 +49,9 @@ public static class LootGenerator
 
         return new ItemInstance
         {
+            //Generate random name with the affixes?
+
+            itemName = itemBase.baseName,
             instanceId = nextInstanceId++,
             baseId = itemBase.BaseId,
             rarity = rarity,

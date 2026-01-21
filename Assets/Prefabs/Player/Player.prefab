@@ -2399,6 +2399,8 @@ GameObject:
   - component: {fileID: 7199719421533111231}
   - component: {fileID: 7138053649586077060}
   - component: {fileID: 3733565315713639228}
+  - component: {fileID: 8996619305502583810}
+  - component: {fileID: 3701304664878415495}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2655,6 +2657,39 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   maxSlots: 60
+--- !u!114 &8996619305502583810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e2e729267341f84d896f891a91f1c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatsComponent
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  level: 0
+  Name: 
+--- !u!114 &3701304664878415495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0040a974ce9e64baa61e1f268b8122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPickupController
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  pickupRange: 2
 --- !u!1 &8349008975104809151
 GameObject:
   m_ObjectHideFlags: 0
