@@ -5,6 +5,8 @@ using UnityEngine;
 public class AffixSO : ScriptableObject
 {
     [SerializeField] private int affixId;
+
+
     public int AffixId => affixId;
 
     public string affixName;

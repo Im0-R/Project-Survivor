@@ -20,6 +20,7 @@ public class ItemBaseSO : ScriptableObject
 
     public string baseName;
     public EquipmentSlot slot;
+    public int itemLevelRequirement;
 
     [Header("Base stats")]
     public int baseAttack;
