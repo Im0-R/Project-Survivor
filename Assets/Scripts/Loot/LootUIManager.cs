@@ -10,16 +10,12 @@ public class LootUIManager : MonoBehaviour
 
     void Awake() => Instance = this;
 
-    void Update()                                      
-    {
-        bool show = Input.GetKey(KeyCode.LeftAlt);
-        canvas.enabled = show;
-    }
-
     public void RegisterLoot(LootPickup loot)
     {
         var label = Instantiate(labelPrefab, canvas.transform);
         label.Bind(loot);
+
+        Debug.Log($"[LootUIManager] Registered loot UI for {loot.GetItem().baseId}"); 
     }
 
     public void RequestPickup(LootPickup loot)
