@@ -31,6 +31,6 @@ public class LootLabelUI : MonoBehaviour
 
     string BuildLabel(LootPickup loot)
     {
-        return $"Item {loot.GetItem().baseId}";
+        return $"Item {loot.GetItem().itemName}";
     }
 }
