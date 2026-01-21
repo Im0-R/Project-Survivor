@@ -8,6 +8,9 @@ public class LootUIManager : MonoBehaviour
     [SerializeField] private LootLabelUI labelPrefab;
     [SerializeField] private Canvas canvas;
 
+    [SerializeField]
+    private
+
     void Awake() => Instance = this;
 
     public void RegisterLoot(LootPickup loot)
@@ -15,7 +18,7 @@ public class LootUIManager : MonoBehaviour
         var label = Instantiate(labelPrefab, canvas.transform);
         label.Bind(loot);
 
-        Debug.Log($"[LootUIManager] Registered loot UI for {loot.GetItem().itemName}"); 
+        Debug.Log($"[LootUIManager] Registered loot UI for {loot.GetItem().itemName}");
     }
 
     public void RequestPickup(LootPickup loot)
@@ -27,5 +30,12 @@ public class LootUIManager : MonoBehaviour
             return;
         }
         PlayerPickupController.Local.RequestPickup(loot);
+    }
+
+    // when hovering over loot, show item details (tooltip)
+
+    public void ShowItemDetails(ItemInstance item)
+    {
+
     }
 }

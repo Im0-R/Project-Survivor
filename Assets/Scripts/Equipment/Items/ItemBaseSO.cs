@@ -36,6 +36,17 @@ public class ItemBaseSO : ScriptableObject
         if (baseId == 0)
         {
             baseId = GenerateID();
+            //Cut the name with _ if any
+            string newName = name;
+            int underscoreIndex = name.IndexOf('_');
+            if (underscoreIndex > 0)
+            {
+                baseName = name.Substring(underscoreIndex + 1);
+            }
+            else
+            {
+                baseName = name;
+            }
             UnityEditor.EditorUtility.SetDirty(this);
         }
     }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29fbbb9d270ea0143baad04054a62bf8, type: 3}
-  m_Name: S_RustySword
+  m_Name: B_RustyBoots
   m_EditorClassIdentifier: Assembly-CSharp::ItemBaseSO
-  baseId: 440202070
-  baseName: 
+  baseId: 1119091248
+  baseName: RustyBoots
   slot: 0
-  baseAttack: 10
+  baseAttack: 0
   baseDefense: 0
   baseVitality: 0
-  prefixPool: {fileID: 11400000, guid: 4d9484fa52bef544f839d1b037afb9b8, type: 2}
-  suffixPool: {fileID: 11400000, guid: 672df2a1b1f719b4c90c8cf6a42b1b5b, type: 2}
+  prefixPool: {fileID: 0}
+  suffixPool: {fileID: 0}
