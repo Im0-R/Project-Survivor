@@ -16,7 +16,7 @@ public class LootLabelUI : MonoBehaviour
         button.onClick.AddListener(OnClick);
     }
 
-    void OnClick()
+    public void OnClick()
     {
         LootUIManager.Instance.RequestPickup(target);
     }
