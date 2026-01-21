@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 5565977548187517971}
   - component: {fileID: 5100745413432746208}
   - component: {fileID: 8816087145696376667}
+  - component: {fileID: 7767183134549142937}
   m_Layer: 0
   m_Name: ItemCard
   m_TagString: Untagged
@@ -135,11 +136,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemCard
   itemInstance:
+    itemName: 
     instanceId: 10
     baseId: 10
     rarity: 2
     itemLevel: 10
     affixes: []
+--- !u!225 &7767183134549142937
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3822715666718912106}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6200124073626411904
 GameObject:
   m_ObjectHideFlags: 0

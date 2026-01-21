@@ -22,35 +22,9 @@ public class CanvasInventory : MonoBehaviour
             slots[i].SetId(i);
     }
     [SerializeField]
-    private ItemCard targetCard;
-
-    [SerializeField]
     private GameObject itemCardPrefab;
 
     // Getters
-
-    public ItemCard GetTargetCard()
-    {
-        return targetCard;
-    }
-
-    public void SetTargetCard(ItemCard itemCard)
-    {
-        targetCard = itemCard;
-        foreach (Image slot in targetCard.GetComponentsInChildren<Image>())
-        {
-            slot.raycastTarget = false;
-        }
-    }
-    public void ResetTargetCard()
-    {
-        foreach (Image slot in targetCard.GetComponentsInChildren<Image>())
-        {
-            slot.raycastTarget = true;
-        }
-        if (targetCard != null)
-            targetCard = null;
-    }
 
     public void Update()
     {
@@ -59,11 +33,6 @@ public class CanvasInventory : MonoBehaviour
             UIManager.Instance.HideSpellsRewardUI();
         }
 
-
-
-        if (targetCard == null) return;
-
-        targetCard.transform.position = Input.mousePosition;
     }
 
 
