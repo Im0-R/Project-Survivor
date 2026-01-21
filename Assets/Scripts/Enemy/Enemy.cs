@@ -84,21 +84,6 @@ public class Enemy : NetworkEntity
     // ======================
     public void ChangeState(IEnemyState newState)
     {
-        //string from = currentState?.GetType().Name ?? "<null>";
-        //string to = newState?.GetType().Name ?? "<null>";
-
-        ////Stack trace only when going to Idle
-        //if (to == nameof(EnemyIdleState))
-        //{
-        //    //Debug.Log(
-        //    //    $"[Enemy] 🔄 State change {name} : {from} → {to}\n" +
-        //    //    $"[CALLER]\n{System.Environment.StackTrace}"
-        //    //);
-        //}
-        //else
-        //{
-        //    //Debug.Log($"[Enemy] 🔄 State change {name} : {from} → {to}");
-        //}
 
         currentState?.Exit(this);
         currentState = newState;
@@ -200,12 +185,12 @@ public class Enemy : NetworkEntity
     protected override void Die()
     {
         if (!isServer) return;
-#if UNITY_SERVER
+//#if UNITY_SERVER
 
-        int seed = (int)(Time.time * 1000f);
-        Debug.Log($"[Enemy] GenerateDrop {name}");
-        LootManager.Instance.GenerateDrop(1, seed, transform.position);
-#endif
+//        int seed = (int)(Time.time * 1000f);
+//        Debug.Log($"[Enemy] GenerateDrop {name}");
+//        LootManager.Instance.GenerateDrop(1, seed, transform.position);
+//#endif
         EnemyPool.Instance?.DespawnEnemy(gameObject);
 
     }
