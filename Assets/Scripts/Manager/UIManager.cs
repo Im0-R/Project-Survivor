@@ -25,6 +25,14 @@ public class UIManager : MonoBehaviour
             Debug.Log("R key pressed - Showing Spells Reward UI");
             ShowSpellsRewardUI();
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (inventoryCanvas.activeSelf)
+                HideInventoryUI();
+            else
+                ShowInventoryUI();
+        }
     }
 
     public void ShowLoadingUI()

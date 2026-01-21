@@ -1,7 +1,8 @@
-using UnityEngine;
 using Mirror;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class LootPickup : NetworkBehaviour
+public class LootPickup : NetworkBehaviour , IPointerEnterHandler , IPointerExitHandler
 {
     [SyncVar] private string itemJson;
     [SyncVar] private uint ownerNetId;
@@ -55,5 +56,16 @@ public class LootPickup : NetworkBehaviour
         inv.Server_AddItem(item);
 
         NetworkServer.Destroy(gameObject);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ItemPreviewManager.Instance.InitPreview(GetItem());
+
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ItemPreviewManager.Instance.ClosePreview();
     }
 }

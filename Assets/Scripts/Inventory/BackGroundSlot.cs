@@ -1,26 +1,18 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BackGroundSlot : MonoBehaviour, IPointerClickHandler
+public class BackGroundSlot : MonoBehaviour, IDropHandler
 {
-     [SerializeField] private int id = -1;
+    [SerializeField] private int id = -1;
+    public int Id => id;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        ItemCard targetCard = CanvasInventory.Instance.GetTargetCard();
-        if (targetCard != null)
-        {
-            CanvasInventory.Instance.ResetTargetCard();
-            targetCard.transform.position = transform.position;
-        }
-    }
+    public void SetId(int newId) => id = newId;
 
-    public void SetId(int newId)
+    public void OnDrop(PointerEventData eventData)
     {
-        id = newId;
-    }
-    public int GetId()
-    {
-        return id;
+        var card = eventData.pointerDrag?.GetComponent<ItemCard>();
+        if (card == null) return;
+
+        CanvasInventory.Instance.RequestMove(card, id);
     }
 }

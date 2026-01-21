@@ -2,23 +2,38 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemCard : MonoBehaviour, IPointerClickHandler
+public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private ItemInstance itemInstance;
 
-    public void SetItemInstance(ItemInstance item)
-    {
-        itemInstance = item;
-    }
+    public int SlotIndex { get; private set; }
+    private Transform originalParent;
+    public void SetSlotIndex(int idx) => SlotIndex = idx;
+    public void SetItemInstance(ItemInstance item) => itemInstance = item;
     public ItemInstance GetItemInstance()
     {
         return itemInstance;
     }
-    public void OnPointerClick(PointerEventData eventData)
+
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        if (CanvasInventory.Instance.GetTargetCard() == null)
+        originalParent = transform.parent;
+        transform.SetParent(CanvasInventory.Instance.DragRoot, true);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // Si drop a été accepté, le serveur va sync et on rebuild.
+        // Sinon on snap back visuellement:
+        if (transform.parent == CanvasInventory.Instance.DragRoot)
         {
-            CanvasInventory.Instance.SetTargetCard(this);
+            transform.SetParent(originalParent, true);
+            GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
     }
     public void DebugLogItemInstance()

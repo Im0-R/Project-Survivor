@@ -1,5 +1,5 @@
-using Mirror;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class LootUIManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class LootUIManager : MonoBehaviour
 
     public void RegisterLoot(LootPickup loot)
     {
-        var label = Instantiate(labelPrefab, canvas.transform);
+        LootLabelUI label = Instantiate(labelPrefab, canvas.transform);
         label.Bind(loot);
 
         Debug.Log($"[LootUIManager] Registered loot UI for {loot.GetItem().itemName}");
@@ -30,12 +30,5 @@ public class LootUIManager : MonoBehaviour
             return;
         }
         PlayerPickupController.Local.RequestPickup(loot);
-    }
-
-    // when hovering over loot, show item details (tooltip)
-
-    public void ShowItemDetails(ItemInstance item)
-    {
-
     }
 }

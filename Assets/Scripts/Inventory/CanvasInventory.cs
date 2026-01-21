@@ -8,25 +8,24 @@ public class CanvasInventory : MonoBehaviour
     //singleton pattern
     public static CanvasInventory Instance { get; private set; }
 
+    
+    
+    public Transform DragRoot;
+
+    private BackGroundSlot[] slots;
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-        //Get all BackGroundSlot components in children and set id to their index in the array
+        Instance = this;
 
-        foreach (BackGroundSlot slot in GetComponentsInChildren<BackGroundSlot>())
-        {
-            slot.SetId(slot.transform.GetSiblingIndex());
-        }
+        slots = GetComponentsInChildren<BackGroundSlot>(true);
+        for (int i = 0; i < slots.Length; i++)
+            slots[i].SetId(i);
     }
     [SerializeField]
     private ItemCard targetCard;
+
+    [SerializeField]
+    private GameObject itemCardPrefab;
 
     // Getters
 
@@ -65,5 +64,44 @@ public class CanvasInventory : MonoBehaviour
         if (targetCard == null) return;
 
         targetCard.transform.position = Input.mousePosition;
+    }
+
+
+    public void PopulateInventory()
+    {
+        ClearCards();
+
+        var inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();
+
+        for (int i = 0; i < 40; i++)
+        {
+            var json = inv.ItemsJson[i];
+            if (string.IsNullOrEmpty(json)) continue;
+
+            var item = JsonUtility.FromJson<ItemInstance>(json);
+
+            var cardObj = Instantiate(itemCardPrefab, slots[i].transform);
+            var card = cardObj.GetComponent<ItemCard>();
+            card.SetItemInstance(item);
+            card.SetSlotIndex(i);
+
+            // Optionnel: snap position
+            var rt = cardObj.GetComponent<RectTransform>();
+            rt.anchoredPosition = Vector2.zero;
+            rt.localScale = Vector3.one;
+        }
+    }
+
+    private void ClearCards()
+    {
+        foreach (var card in GetComponentsInChildren<ItemCard>())
+            Destroy(card.gameObject);
+    }
+
+    public void RequestMove(ItemCard card, int targetSlotId)
+    {
+        var inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();
+
+        inv.CmdMoveOrSwap(card.SlotIndex, targetSlotId);
     }
 }

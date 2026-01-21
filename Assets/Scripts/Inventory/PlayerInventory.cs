@@ -15,6 +15,20 @@ public class PlayerInventory : NetworkBehaviour
     // Local callback (UI) when inventory changes
     public event Action OnInventoryChanged;
 
+#if UNITY_SERVER || UNITY_EDITOR
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        // init fixed slots
+        if (ItemsJson.Count == 0)
+        {
+            for (int i = 0; i < maxSlots; i++)
+                ItemsJson.Add(""); // empty slot
+        }
+    }
+#endif
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -40,18 +54,36 @@ public class PlayerInventory : NetworkBehaviour
     [Server]
     public bool CanAddItem()
     {
-        return ItemsJson.Count < maxSlots;
+        for (int i = 0; i < maxSlots; i++)
+            if (string.IsNullOrEmpty(ItemsJson[i])) return true;
+        return false;
     }
+
 
     [Server]
     public bool AddItem(ItemInstance inst)
     {
-        if (!CanAddItem()) return false;
+        for (int i = 0; i < maxSlots; i++)
+        {
+            if (string.IsNullOrEmpty(ItemsJson[i]))
+            {
+                ItemsJson[i] = JsonUtility.ToJson(inst);
+                return true;
+            }
+        }
+        return false;
+    }
+    [Server]
+    public bool MoveOrSwap(int from, int to)
+    {
+        if (from < 0 || from >= maxSlots || to < 0 || to >= maxSlots) return false;
+        if (from == to) return true;
 
-        ItemsJson.Add(JsonUtility.ToJson(inst));
+        if (string.IsNullOrEmpty(ItemsJson[from])) return false;
+
+        (ItemsJson[from], ItemsJson[to]) = (ItemsJson[to], ItemsJson[from]);
         return true;
     }
-
     [Server]
     public bool RemoveAt(int index)
     {
@@ -72,7 +104,11 @@ public class PlayerInventory : NetworkBehaviour
     // =========================
     // CLIENT + SERVER HELPERS
     // =========================
-
+    [Command]
+    public void CmdMoveOrSwap(int from, int to)
+    {
+        MoveOrSwap(from, to);
+    }
     public int Count => ItemsJson.Count;
 
     public ItemInstance GetItemByIndex(int index)
@@ -98,7 +134,16 @@ public class PlayerInventory : NetworkBehaviour
         index = -1;
         return false;
     }
+    public ItemInstance[] GetInventory()
+    {
+        ItemInstance[] items = new ItemInstance[ItemsJson.Count];
 
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            items[i] = JsonUtility.FromJson<ItemInstance>(ItemsJson[i]);
+        }
+        return items;
+    }
     private int FindIndexByInstanceId(int instanceId)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
@@ -116,21 +161,4 @@ public class PlayerInventory : NetworkBehaviour
         Debug.Log($"[Inventory] {netId} picked item baseId={item.baseId} rarity={item.rarity}");
         // TODO: save DB + sync UI
     }
-    // =========================
-    // DEBUG / TEST
-    // =========================
-
-#if UNITY_SERVER || UNITY_EDITOR
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-
-        // Exemple: donner 2 items test au spawn serveur
-        // (à enlever quand t’es ok)
-        // var it1 = ItemGenerator.Create(baseId: 1, itemLevel: 1, rarity: ItemRarity.Magic);
-        // var it2 = ItemGenerator.Create(baseId: 2, itemLevel: 1, rarity: ItemRarity.Normal);
-        // AddItem(it1);
-        // AddItem(it2);
-    }
-#endif
 }

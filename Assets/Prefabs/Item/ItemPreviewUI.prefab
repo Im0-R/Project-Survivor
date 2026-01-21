@@ -911,6 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5338733847493643546}
+  - component: {fileID: 7185692898002597397}
   - component: {fileID: 7682545819389892890}
   - component: {fileID: 8826967438849977366}
   - component: {fileID: 5303568136499163774}
@@ -918,7 +919,7 @@ GameObject:
   - component: {fileID: 943989728260339063}
   - component: {fileID: 5709177086605709683}
   m_Layer: 5
-  m_Name: ItemTooltipUI
+  m_Name: ItemPreviewUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -947,6 +948,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7185692898002597397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467509451240338194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6668af01b24604f9ffd5f67963253b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPreviewManager
+  backGroundImage: {fileID: 5303568136499163774}
+  itemName: {fileID: 6058239973847181134}
+  baseType: {fileID: 744370489153281537}
+  itemLevelRequired: {fileID: 2832255127728129136}
+  modsContainer: {fileID: 985421799669769496}
+  modLineUI: {fileID: 3765309196004032482, guid: 1c576fb4237e7cf4ca9ca1df812c2dc6, type: 3}
+  normalColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
+  magicColor: {r: 0, g: 0.3210199, b: 1, a: 0}
+  rareColor: {r: 1, g: 0.7924761, b: 0.0047169924, a: 0}
+  uniqueColor: {r: 1, g: 0.40135294, b: 0, a: 0}
 --- !u!225 &7682545819389892890
 CanvasGroup:
   m_ObjectHideFlags: 0
