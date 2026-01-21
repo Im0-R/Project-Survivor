@@ -1,4 +1,4 @@
-#if UNITY_SERVER
+#if !UNITY_SERVER
 using Mirror;
 using UnityEngine;
 public class LootManager : MonoBehaviour
@@ -33,6 +33,8 @@ public class LootManager : MonoBehaviour
         ItemBaseSO itemBase = possibleDrops[rng.Next(0, possibleDrops.Length)];
 
         Debug.Log($"[LootManager] Generating drop: BaseID={itemBase.BaseId}, ItemLevel={itemLevel}, Seed={seed}");
+        Debug.Log($"[LootManager] itemBase null? {itemBase == null}");
+        Debug.Log($"[LootManager] possibleDrops null? {possibleDrops == null} len={(possibleDrops != null ? possibleDrops.Length : -1)}");
 
         ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, seed);
 

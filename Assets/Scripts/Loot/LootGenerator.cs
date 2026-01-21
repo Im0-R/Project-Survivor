@@ -7,6 +7,8 @@ public static class LootGenerator
 
     public static ItemInstance Generate(ItemBaseSO itemBase, int itemLevel, int seed)
     {
+
+
         Random rng = new Random(seed);
 
         ItemRarity rarity = RollRarity(rng);

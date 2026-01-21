@@ -664,6 +664,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LootManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6850178003462354698, guid: b25dab9d1637fa944bed23d04b2f7579, type: 3}
+      propertyPath: 'possibleDrops.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bcb3a28e00f3b4a4e934f5ca477c9f68, type: 2}
     - target: {fileID: 9089592161000809457, guid: b25dab9d1637fa944bed23d04b2f7579, type: 3}
       propertyPath: m_LocalPosition.x
       value: 874.3361
