@@ -26,15 +26,17 @@ public class ItemPreview : MonoBehaviour
         // Set color based on rarity
         Color color = GetWantedColor(item.rarity);
 
+        ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
+
         backGroundImage.color = color;
 
         itemName.text = item.itemName;
         itemName.color = color;
 
 
-        baseType.text = ItemDatabase.GetBase(item.baseId).baseName;
+        baseType.text = itemBase.baseName;
 
-        itemLevelRequired.text = $"Level {ItemDatabase.GetBase(item.baseId).itemLevelRequirement}";
+        itemLevelRequired.text = $"Level {itemBase.itemLevelRequirement}";
 
         for (int i = 0; i < item.affixes.Length; i++)
         {

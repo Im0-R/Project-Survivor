@@ -53,7 +53,7 @@ public static class LootGenerator
         {
             //Generate random name with the affixes?
 
-            itemName = ItemDatabase.GetBase(itemBase.BaseId).baseName,
+            itemName = itemBase.baseName,
             instanceId = nextInstanceId++,
             baseId = itemBase.BaseId,
             rarity = rarity,
