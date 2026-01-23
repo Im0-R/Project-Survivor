@@ -15,8 +15,9 @@ MonoBehaviour:
   baseId: 1119091248
   baseName: RustyBoots
   slot: 0
+  itemLevelRequirement: 0
   baseAttack: 0
   baseDefense: 0
   baseVitality: 0
-  prefixPool: {fileID: 0}
-  suffixPool: {fileID: 0}
+  prefixPool: {fileID: 11400000, guid: be1247a74d5aaa24683301d57a2467ae, type: 2}
+  suffixPool: {fileID: 11400000, guid: b7905ab3fb2a3854ea194f750ef40c0b, type: 2}

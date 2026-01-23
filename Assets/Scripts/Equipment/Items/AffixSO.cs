@@ -1,4 +1,3 @@
-using Mirror.BouncyCastle.Asn1.X509;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game/Affix")]

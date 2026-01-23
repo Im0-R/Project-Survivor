@@ -185,7 +185,7 @@ public class Enemy : NetworkEntity
     protected override void Die()
     {
         if (!isServer) return;
-#if !UNITY_SERVER
+#if UNITY_SERVER
 
         int seed = (int)(Time.time * 1000f);
         Debug.Log($"[Enemy] GenerateDrop {name}");

@@ -15,8 +15,9 @@ MonoBehaviour:
   baseId: 570076519
   baseName: RustyTorso
   slot: 2
+  itemLevelRequirement: 0
   baseAttack: 0
   baseDefense: 0
   baseVitality: 0
-  prefixPool: {fileID: 0}
-  suffixPool: {fileID: 0}
+  prefixPool: {fileID: 11400000, guid: 0f37a9d24aed24a4f95c803ce9e6add5, type: 2}
+  suffixPool: {fileID: 11400000, guid: e58ca1c2f0dd48c49a15bacb7e51786f, type: 2}
