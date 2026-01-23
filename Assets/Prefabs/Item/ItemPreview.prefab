@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 943989728260339063}
   - component: {fileID: 5709177086605709683}
   m_Layer: 5
-  m_Name: ItemPreviewUI
+  m_Name: ItemPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

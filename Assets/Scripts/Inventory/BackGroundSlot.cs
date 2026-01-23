@@ -10,6 +10,7 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (id < 0) return;
         var card = eventData.pointerDrag?.GetComponent<ItemCard>();
         if (card == null) return;
 

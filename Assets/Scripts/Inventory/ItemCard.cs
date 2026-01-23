@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,16 +7,22 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public int SlotIndex { get; private set; }
     private Transform originalParent;
+    private CanvasGroup cg;
+
     public void SetSlotIndex(int idx) => SlotIndex = idx;
     public void SetItemInstance(ItemInstance item) => itemInstance = item;
-    public ItemInstance GetItemInstance()
+    public ItemInstance GetItemInstance() => itemInstance;
+
+    private void Awake()
     {
-        return itemInstance;
+        cg = GetComponent<CanvasGroup>();
+        if (cg == null) cg = gameObject.AddComponent<CanvasGroup>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
+        cg.blocksRaycasts = false;
         transform.SetParent(CanvasInventory.Instance.DragRoot, true);
     }
 
@@ -28,24 +33,12 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Si drop a été accepté, le serveur va sync et on rebuild.
-        // Sinon on snap back visuellement:
+        cg.blocksRaycasts = true;
+
         if (transform.parent == CanvasInventory.Instance.DragRoot)
         {
             transform.SetParent(originalParent, true);
             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
     }
-    public void DebugLogItemInstance()
-    {
-        if (itemInstance != null)
-        {
-            Debug.Log($"ItemInstance ID: {itemInstance.baseId}, Name: {itemInstance.rarity}");
-        }
-        else
-        {
-            Debug.Log("ItemInstance is null.");
-        }
-    }
-
 }

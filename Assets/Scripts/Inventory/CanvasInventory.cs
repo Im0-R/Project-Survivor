@@ -8,8 +8,8 @@ public class CanvasInventory : MonoBehaviour
     //singleton pattern
     public static CanvasInventory Instance { get; private set; }
 
-    
-    
+    public PlayerInventory LocalInventory;
+
     public Transform DragRoot;
 
     private BackGroundSlot[] slots;
@@ -34,28 +34,41 @@ public class CanvasInventory : MonoBehaviour
         }
 
     }
+    public void Bind(PlayerInventory inv)
+    {
+        if (LocalInventory != null)
+            LocalInventory.OnInventoryChanged -= PopulateInventory;
 
+        LocalInventory = inv;
+
+        if (LocalInventory != null)
+            LocalInventory.OnInventoryChanged += PopulateInventory;
+
+        PopulateInventory();
+    }
 
     public void PopulateInventory()
     {
         ClearCards();
 
-        var inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();
+        if (LocalInventory == null) return;
 
-        for (int i = 0; i < 40; i++)
+        int count = Mathf.Min(LocalInventory.ItemsJson.Count, slots.Length);
+
+        for (int i = 0; i < count; i++)
         {
-            var json = inv.ItemsJson[i];
+             string json = LocalInventory.ItemsJson[i];
             if (string.IsNullOrEmpty(json)) continue;
 
-            var item = JsonUtility.FromJson<ItemInstance>(json);
+            ItemInstance item = JsonUtility.FromJson<ItemInstance>(json);
+            if (item == null) continue;
 
-            var cardObj = Instantiate(itemCardPrefab, slots[i].transform);
-            var card = cardObj.GetComponent<ItemCard>();
+            GameObject cardObj = Instantiate(itemCardPrefab, slots[i].transform);
+            ItemCard card = cardObj.GetComponent<ItemCard>();
             card.SetItemInstance(item);
             card.SetSlotIndex(i);
 
-            // Optionnel: snap position
-            var rt = cardObj.GetComponent<RectTransform>();
+            RectTransform rt = cardObj.GetComponent<RectTransform>();
             rt.anchoredPosition = Vector2.zero;
             rt.localScale = Vector3.one;
         }
@@ -67,10 +80,24 @@ public class CanvasInventory : MonoBehaviour
             Destroy(card.gameObject);
     }
 
-    public void RequestMove(ItemCard card, int targetSlotId)
+    public void RequestMove(ItemCard card, int toSlotId)
     {
-        var inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();
+        if (card == null) return;
+        if (PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>() == null) return;
 
-        inv.CmdMoveOrSwap(card.SlotIndex, targetSlotId);
+        int from = card.SlotIndex;
+        int to = toSlotId;
+
+        if (from < 0 || to < 0 || from == to) return;
+
+        PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>().CmdMoveOrSwap(from, to);
+
+        card.transform.SetParent(GetSlotTransform(to), false);
+        card.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
+    private Transform GetSlotTransform(int id)
+    {
+        return slots[id].transform;
+    }
+
 }

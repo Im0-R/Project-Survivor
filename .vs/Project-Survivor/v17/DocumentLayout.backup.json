@@ -1,105 +1,145 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\",
+  "WorkspaceRootPath": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\itempreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itempreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\loot\\lootpickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootpickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\server\\masternetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\player\\playerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\projects\\personnalprojects\\hack\u0027n slash\\project-survivor\\assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\projects\\personnalprojects\\hack\u0027n slash\\project-survivor\\assets\\scripts\\equipment\\items\\affixso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\affixso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\projects\\personnalprojects\\hack\u0027n slash\\project-survivor\\assets\\scripts\\equipment\\items\\affixpoolso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\affixpoolso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\itemslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\itemslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\inventory\\backgroundslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\backgroundslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\server\\masternetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\masternetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\enemy\\zombie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\zombie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\equipment\\items\\equipitemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\equipment\\items\\equipitemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\equipitemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\spells\\slash\\slashbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\spells\\slash\\slashbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\spells\\slash\\slashbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\servertimemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\manager\\servertimemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\servertimemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\enemy\\enemypool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\enemy\\enemypool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\enemypool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\manager\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripttemplates\\51-mirror__network manager with actions-newnetworkmanagerwithactions.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripttemplates\\51-mirror__network manager with actions-newnetworkmanagerwithactions.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripttemplates\\51-mirror__network manager with actions-newnetworkmanagerwithactions.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripttemplates\\50-mirror__network manager-newnetworkmanager.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripttemplates\\50-mirror__network manager-newnetworkmanager.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripttemplates\\50-mirror__network manager-newnetworkmanager.cs.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\enemy\\states\\enemychasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\enemy\\states\\enemychasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\states\\enemychasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\server\\serverautostart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\server\\serverautostart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\serverautostart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\server\\mynetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\server\\mynetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\server\\mynetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\ui\\gameuiloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\ui\\gameuiloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\gameuiloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\camera\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\camera\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camera\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\spellsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\manager\\spellsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\spellsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\ui\\canvaslogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\assets\\scripts\\ui\\canvaslogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\canvaslogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -110,66 +150,207 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ItemBaseSO.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAuwB4AAAAiAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "AffixSO.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T10:03:05.376Z",
+              "WhenOpened": "2026-01-23T09:15:40.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AffixPoolSO.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-23T09:15:32.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LootGenerator.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootGenerator.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Loot\\LootGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T16:01:44.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UIManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\UIManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Manager\\UIManager.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:18:51.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PlayerUI.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerUI.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:18:36.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LootPickUp.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPickUp.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootPickUp.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPickUp.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Loot\\LootPickUp.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAewD4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:14:32.718Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "ItemPreview.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwAQAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAYwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T13:49:08.535Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LootUIManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootUIManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootUIManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootUIManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Loot\\LootUIManager.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAQwCAAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "PlayerInventory.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAAwKQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T15:51:59.795Z",
+              "WhenOpened": "2026-01-21T14:21:24.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "LootManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAswBIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T10:12:50.471Z"
+              "WhenOpened": "2026-01-19T10:12:50.471Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "ItemPreviewManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:01:20.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ItemCard.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemCard.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\ItemCard.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAcwB8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:30:48.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ItemBaseSO.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwCEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-19T10:03:05.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CanvasInventory.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAIwEcAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:20:12.63Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ItemSlot.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemSlot.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemSlot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\ItemSlot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:35:44.706Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BackGroundSlot.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T14:36:55.531Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "MasterNetworkManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\MasterNetworkManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -177,11 +358,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 16,
               "Title": "InstanceNetworkManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -189,11 +370,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "EquipItemRequest.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\EquipItemRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -201,11 +382,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 18,
               "Title": "SlashBehaviour.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
               "RelativeToolTip": "Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAgwEoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -213,11 +394,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 25,
               "Title": "EnemySpawner.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -225,11 +406,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 24,
               "Title": "EnemyChaseState.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -237,23 +418,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Zombie.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Zombie.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Zombie.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Zombie.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Enemy\\Zombie.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-10T20:51:19.883Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 19,
               "Title": "ServerTimeManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ServerTimeManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Manager\\ServerTimeManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -261,11 +430,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 31,
               "Title": "CameraFollow.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\CameraFollow.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
               "RelativeToolTip": "Assets\\Scripts\\Camera\\CameraFollow.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -273,11 +442,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 20,
               "Title": "EnemyPool.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyPool.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "ViewState": "AgIAADYAAAAAAAAAAAAvwEcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -285,11 +454,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 23,
               "Title": "50-Mirror__Network Manager-NewNetworkManager.cs.txt",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
               "RelativeDocumentMoniker": "Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
               "RelativeToolTip": "Assets\\ScriptTemplates\\50-Mirror__Network Manager-NewNetworkManager.cs.txt",
               "ViewState": "AgIAAD8AAAAAAAAAAAAAAD8AAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
@@ -297,11 +466,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 22,
               "Title": "51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
               "RelativeDocumentMoniker": "Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
               "RelativeToolTip": "Assets\\ScriptTemplates\\51-Mirror__Network Manager With Actions-NewNetworkManagerWithActions.cs.txt",
               "ViewState": "AgIAAHAAAAAAAAAAAAAAAHAAAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
@@ -309,11 +478,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 21,
               "Title": "EnemyManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\EnemyManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Manager\\EnemyManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -321,11 +490,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 27,
               "Title": "ServerAutoStart.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\ServerAutoStart.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -333,11 +502,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 26,
               "Title": "InstanceManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Manager\\InstanceManager.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAwwCUAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -345,11 +514,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 32,
               "Title": "SpellsManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\SpellsManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Manager\\SpellsManager.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAApwIUAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -357,11 +526,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 28,
               "Title": "MyNetworkManager.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -369,11 +538,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 29,
               "Title": "GameUILoader.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\UI\\GameUILoader.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\GameUILoader.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\GameUILoader.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\UI\\GameUILoader.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\GameUILoader.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\GameUILoader.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAowCIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -381,11 +550,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 30,
               "Title": "PlayerMovement.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerMovement.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
               "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerMovement.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAAcwEIAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -393,11 +562,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 34,
               "Title": "CanvasLogin.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasLogin.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasLogin.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasLogin.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasLogin.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasLogin.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\CanvasLogin.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAmwCgAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -405,11 +574,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 33,
               "Title": "InstanceBootStrap.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
               "RelativeToolTip": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
               "ViewState": "AgIAAFkAAAAAAAAAAAAAAFsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

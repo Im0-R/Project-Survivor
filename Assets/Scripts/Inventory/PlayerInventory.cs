@@ -4,15 +4,11 @@ using System;
 
 public class PlayerInventory : NetworkBehaviour
 {
-    // Sync inventory: we store ItemInstance as JSON
-    // (easy to save in DB)
     public class SyncListString : SyncList<string> { }
     public SyncListString ItemsJson = new SyncListString();
 
-    // Optional: inventory limit
-    [SerializeField] private int maxSlots = 60;
+    [SerializeField] private int maxSlots = 40;
 
-    // Local callback (UI) when inventory changes
     public event Action OnInventoryChanged;
 
 #if UNITY_SERVER || UNITY_EDITOR
@@ -28,7 +24,12 @@ public class PlayerInventory : NetworkBehaviour
         }
     }
 #endif
-
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        PlayerInventory inv = GetComponent<PlayerInventory>();
+        CanvasInventory.Instance.Bind(inv);
+    }
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -87,17 +88,17 @@ public class PlayerInventory : NetworkBehaviour
     [Server]
     public bool RemoveAt(int index)
     {
-        if (index < 0 || index >= ItemsJson.Count) return false;
-        ItemsJson.RemoveAt(index);
+        if (index < 0 || index >= maxSlots) return false;
+        ItemsJson[index] = "";
         return true;
     }
 
     [Server]
-    public bool TryRemoveByInstanceId(int instanceId)
+    public bool TryRemoveByInstanceId(long instanceId)
     {
         int idx = FindIndexByInstanceId(instanceId);
         if (idx < 0) return false;
-        ItemsJson.RemoveAt(idx);
+        ItemsJson[idx] = "";
         return true;
     }
 
@@ -117,7 +118,7 @@ public class PlayerInventory : NetworkBehaviour
         return JsonUtility.FromJson<ItemInstance>(ItemsJson[index]);
     }
 
-    public bool TryGetByInstanceId(int instanceId, out ItemInstance inst, out int index)
+    public bool TryGetByInstanceId(long instanceId, out ItemInstance inst, out int index)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
@@ -144,7 +145,7 @@ public class PlayerInventory : NetworkBehaviour
         }
         return items;
     }
-    private int FindIndexByInstanceId(int instanceId)
+    private int FindIndexByInstanceId(long instanceId)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {

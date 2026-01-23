@@ -559,6 +559,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8263256028037235514, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263256028037235514, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
