@@ -82,10 +82,12 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnPointerEnter(PointerEventData eventData)
     {
         ItemPreviewManager.Instance.InitPreview(itemInstance);
+        Debug.Log("Pointer entered item card");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ItemPreviewManager.Instance.ClosePreview();
+        Debug.Log("Pointer exited item card");
     }
 }

@@ -44,6 +44,7 @@ public class ItemPreview : MonoBehaviour
             TextMeshProUGUI modText = modLine.GetComponent<TextMeshProUGUI>();
             AffixSO affix = AffixDatabase.Get(item.affixes[i].affixId);
 
+
             modText.text = $"Grant + {item.affixes[i].value} to {affix.stat.ToString()}";
         }
     }
