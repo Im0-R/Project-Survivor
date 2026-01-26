@@ -14,7 +14,12 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     [SerializeField] private Image baseImage;
 
     public void SetSlotIndex(int idx) => SlotIndex = idx;
-    public void SetItemInstance(ItemInstance item) => itemInstance = item;
+    public void SetItemInstance(ItemInstance item)
+    {
+
+        itemInstance = item;
+        ChangeVisual();
+    }
     public ItemInstance GetItemInstance() => itemInstance;
 
     private void Awake()
@@ -22,7 +27,6 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         cg = GetComponent<CanvasGroup>();
         if (cg == null) cg = gameObject.AddComponent<CanvasGroup>();
 
-        ChangeVisual();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -50,6 +54,7 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void ChangeVisual()
     {
+
         // Get icon from item instance's base
 
         baseImage.sprite = ItemDatabase.GetBase(itemInstance.baseId).icon;
