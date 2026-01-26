@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler , IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private ItemInstance itemInstance;
 
@@ -77,5 +77,15 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 rarityImage.color = Color.white;
                 break;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ItemPreviewManager.Instance.InitPreview(itemInstance);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ItemPreviewManager.Instance.ClosePreview();
     }
 }

@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 344216575}
+  - component: {fileID: 344216577}
   m_Layer: 0
   m_Name: DragRoot
   m_TagString: Untagged
@@ -233,6 +234,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &344216577
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344216574}
+  m_CullTransparentMesh: 1
 --- !u!1001 &857097504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -619,7 +628,7 @@ PrefabInstance:
     - {fileID: 8956348767118548786, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 889070061936790242, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 344216575}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
