@@ -23,7 +23,6 @@ public class LootUIManager : MonoBehaviour
 
     public void RequestPickup(LootPickup loot)
     {
-        // Appelé depuis UI
         if (PlayerPickupController.Local == null)
         {
             Debug.LogError("[LootUIManager] No local PlayerPickupController found!");

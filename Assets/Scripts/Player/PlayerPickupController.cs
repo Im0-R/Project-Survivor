@@ -58,13 +58,23 @@ public class PlayerPickupController : NetworkBehaviour
 
         loot.IsClaimed = true;
 
-        // ---- Ajouter à l'inventaire (à brancher chez toi) ----
-        // Exemple:
-        // var inv = GetComponent<PlayerInventory>();
-        // if (inv == null) return;
-        // inv.ServerAddItem(loot.baseId, loot.rarity, loot.seed, loot.itemLevel);
+        var inv = GetComponent<PlayerInventory>();
+        if (inv == null) return;
+        inv.Server_AddItem(loot.GetItem());
 
         // Pour l'instant, juste log
+
+        
+
+
+
+
+
+
+
+
+
+
         Debug.Log($"[Pickup] Player {netId} picked loot netId={loot.netId}");
 
         NetworkServer.Destroy(loot.gameObject);

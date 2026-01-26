@@ -69,6 +69,7 @@ public class PlayerInventory : NetworkBehaviour
             if (string.IsNullOrEmpty(ItemsJson[i]))
             {
                 ItemsJson[i] = JsonUtility.ToJson(inst);
+                OnInventoryChanged?.Invoke();
                 return true;
             }
         }
