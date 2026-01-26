@@ -21,6 +21,8 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         cg = GetComponent<CanvasGroup>();
         if (cg == null) cg = gameObject.AddComponent<CanvasGroup>();
+
+        ChangeVisual();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
