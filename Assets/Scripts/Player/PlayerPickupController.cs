@@ -62,19 +62,6 @@ public class PlayerPickupController : NetworkBehaviour
         if (inv == null) return;
         inv.Server_AddItem(loot.GetItem());
 
-        // Pour l'instant, juste log
-
-        
-
-
-
-
-
-
-
-
-
-
         Debug.Log($"[Pickup] Player {netId} picked loot netId={loot.netId}");
 
         NetworkServer.Destroy(loot.gameObject);

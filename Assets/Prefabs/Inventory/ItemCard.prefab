@@ -142,6 +142,8 @@ MonoBehaviour:
     rarity: 2
     itemLevel: 10
     affixes: []
+  rarityImage: {fileID: 6699641043813685196}
+  baseImage: {fileID: 1457365707422341899}
 --- !u!225 &7767183134549142937
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -219,7 +221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7df128936abc5a947ae465ec490d85de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3fcd38351bdbdb444ac36a408df2b60f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

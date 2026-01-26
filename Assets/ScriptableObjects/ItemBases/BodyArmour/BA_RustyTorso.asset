@@ -16,6 +16,7 @@ MonoBehaviour:
   baseName: RustyTorso
   slot: 2
   itemLevelRequirement: 0
+  icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
   baseAttack: 0
   baseDefense: 0
   baseVitality: 0

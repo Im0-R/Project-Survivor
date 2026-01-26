@@ -21,7 +21,7 @@ public class ItemBaseSO : ScriptableObject
     public string baseName;
     public EquipmentSlot slot;
     public int itemLevelRequirement;
-    Sprite icon;
+    public Sprite icon;
 
 
     [Header("Base stats")]
