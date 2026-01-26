@@ -27,9 +27,16 @@ public class PlayerInventory : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        PlayerInventory inv = GetComponent<PlayerInventory>();
-        CanvasInventory.Instance.Bind(inv);
+        StartCoroutine(BindWhenReady());
     }
+    private System.Collections.IEnumerator BindWhenReady()
+    {
+        while (CanvasInventory.Instance == null)
+            yield return null;
+
+        CanvasInventory.Instance.Bind(this);
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
