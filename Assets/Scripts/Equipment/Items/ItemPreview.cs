@@ -44,6 +44,16 @@ public class ItemPreview : MonoBehaviour
             TextMeshProUGUI modText = modLine.GetComponent<TextMeshProUGUI>();
             AffixSO affix = AffixDatabase.Get(item.affixes[i].affixId);
 
+            if (affix == null)
+            {
+                modText.text = "Unknown Mod";
+                continue;
+            }
+            if (item == null)
+            {
+                modText.text = "Invalid Item";
+                continue;
+            }
 
             modText.text = $"Grant + {item.affixes[i].value} to {affix.stat.ToString()}";
         }

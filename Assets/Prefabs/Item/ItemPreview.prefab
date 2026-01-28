@@ -966,10 +966,10 @@ MonoBehaviour:
   itemLevelRequired: {fileID: 2832255127728129136}
   modsContainer: {fileID: 985421799669769496}
   modLineUI: {fileID: 3765309196004032482, guid: 1c576fb4237e7cf4ca9ca1df812c2dc6, type: 3}
-  normalColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
-  magicColor: {r: 0, g: 0.3210199, b: 1, a: 0}
-  rareColor: {r: 1, g: 0.7924761, b: 0.0047169924, a: 0}
-  uniqueColor: {r: 1, g: 0.40135294, b: 0, a: 0}
+  normalColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+  magicColor: {r: 0, g: 0.3210199, b: 1, a: 1}
+  rareColor: {r: 1, g: 0.7924761, b: 0.0047169924, a: 1}
+  uniqueColor: {r: 1, g: 0.40135294, b: 0, a: 1}
 --- !u!225 &7682545819389892890
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1003,7 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.97404873, g: 1, b: 0, a: 0.9529412}
+  m_Color: {r: 0.97404873, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
