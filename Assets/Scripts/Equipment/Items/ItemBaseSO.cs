@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using Unity.Collections;
+using System.Linq;
 using UnityEngine;
 
 public enum ItemRarity { Normal, Magic, Rare, Unique }
@@ -8,7 +7,8 @@ public enum EquipmentSlot
     Weapon,
     Helmet,
     Chest,
-    Boots
+    Boots,
+    Any
 }
 
 
@@ -30,15 +30,27 @@ public class ItemBaseSO : ScriptableObject
     public int baseVitality;
 
     [Header("Affix pools")]
-    public AffixPoolSO prefixPool;
-    public AffixPoolSO suffixPool;
+    private AffixPoolSO prefixPool;
+    private AffixPoolSO suffixPool;
 
+    public AffixPoolSO[] additionalPrefixPools;
+    public AffixPoolSO[] additionalSuffixPools;
+
+    public AffixPoolSO GetPrefixes()
+    {
+        return prefixPool;
+    }
+    public AffixPoolSO GetSuffixes()
+    {
+        return suffixPool;
+    }
 #if UNITY_EDITOR
     private void OnValidate()
     {
         if (baseId == 0)
         {
             baseId = GenerateID();
+            MergePools();
             string newName = name;
             int underscoreIndex = name.IndexOf('_');
             if (underscoreIndex > 0)
@@ -67,6 +79,37 @@ public class ItemBaseSO : ScriptableObject
     {
         baseId = GenerateID();
         UnityEditor.EditorUtility.SetDirty(this);
+    }
+
+    private void MergePools()
+    {
+        if (additionalPrefixPools != null && additionalPrefixPools.Length > 0)
+        {
+            foreach (AffixPoolSO pool in additionalPrefixPools)
+            {
+                foreach (AffixSO affixes in pool.affixes)
+                {
+                   if (prefixPool != null && !prefixPool.affixes.Contains(affixes))
+                   {
+                       prefixPool.affixes.Append(affixes);
+                    }
+                }
+            }
+        }
+        if (additionalSuffixPools != null && additionalSuffixPools.Length > 0)
+        {
+            foreach (AffixPoolSO pool in additionalSuffixPools)
+            {
+                foreach (AffixSO affixes in pool.affixes)
+                {
+                   if (suffixPool != null && !suffixPool.affixes.Contains(affixes))
+                   {
+                       suffixPool.affixes.Append(affixes);
+                    }
+                }
+            }
+        }
+
     }
 #endif
 }

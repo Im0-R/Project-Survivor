@@ -81,6 +81,7 @@ public class UIManager : MonoBehaviour
     {
         if (inventoryCanvas == null) return;
 
+        ItemPreviewManager.Instance.ClosePreview();   
         inventoryCanvas.SetActive(false);
     }
 }

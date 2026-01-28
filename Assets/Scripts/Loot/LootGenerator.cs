@@ -46,8 +46,8 @@ public static class LootGenerator
 
         List<ItemAffix> affixes = new List<ItemAffix>(prefixCount + suffixCount);
 
-        RollFromPool(itemBase.prefixPool, prefixCount, rng, affixes);
-        RollFromPool(itemBase.suffixPool, suffixCount, rng, affixes);
+        RollFromPool(itemBase.GetPrefixes(), prefixCount, rng, affixes);
+        RollFromPool(itemBase.GetSuffixes(), suffixCount, rng, affixes);
 
         return new ItemInstance
         {
@@ -58,7 +58,8 @@ public static class LootGenerator
             baseId = itemBase.BaseId,
             rarity = rarity,
             itemLevel = itemLevel,
-            affixes = affixes.ToArray()
+            affixes = affixes.ToArray(),
+            equipSlot = itemBase.slot
         };
     }
 

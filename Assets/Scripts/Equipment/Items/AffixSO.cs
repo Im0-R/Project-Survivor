@@ -20,9 +20,10 @@ public class AffixSO : ScriptableObject
         if (affixId == 0)
         {
             affixId = GenerateID();
-            GenerateName();
             UnityEditor.EditorUtility.SetDirty(this);
         }
+        GenerateName();
+        UnityEditor.EditorUtility.SetDirty(this);
     }
 
     private int GenerateID()

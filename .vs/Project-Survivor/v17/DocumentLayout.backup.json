@@ -3,16 +3,56 @@
   "WorkspaceRootPath": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\inventory\\itemslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\itemslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\equipment\\items\\affixso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\affixso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\equipment\\items\\iteminstanceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\iteminstanceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\inventory\\backgroundslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\backgroundslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\equipment\\items\\itempreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itempreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itembaseso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\inventory\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\player\\playerpickupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerpickupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\player\\playerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,28 +63,8 @@
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootpickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\player\\playerpickupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerpickupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|d:\\svn\\eleves\\lpvray\\fromgithub\\project-survivor\\assets\\scripts\\loot\\lootuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\equipment\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\loot\\lootmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{265D3B64-B4EF-B699-5A05-AC699320506E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\InventorySlotDrop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -62,32 +82,96 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ItemSlot.cs",
-              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemSlot.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemSlot.cs",
-              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemSlot.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\ItemSlot.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
+              "Title": "AffixSO.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwAwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T11:08:26.667Z",
+              "WhenOpened": "2026-01-28T14:49:30.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ItemInstanceSO.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T14:33:30.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BackGroundSlot.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAcAAABuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T14:28:46.883Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "ItemPreviewManager.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwAIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T14:06:53.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CanvasInventory.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowBUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T11:39:47.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ItemBaseSO.cs",
+              "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-26T11:18:40.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "PlayerPickupController.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerPickupController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerPickupController.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerPickupController.cs",
               "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerPickupController.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAcwDwAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAAcwDwAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T09:04:58.55Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T09:04:58.55Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "LootUIManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootUIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootUIManager.cs",
@@ -95,12 +179,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootUIManager.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAowB4AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T09:03:19.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T09:03:19.152Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "InventorySlotDrop.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\InventorySlotDrop.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\InventorySlotDrop.cs",
@@ -112,13 +195,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "LootGenerator.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootGenerator.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootGenerator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAQwEsAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T16:01:44.033Z",
               "EditorCaption": ""
@@ -131,13 +214,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\UIManager.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Manager\\UIManager.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAFMAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T14:18:51.228Z"
+              "WhenOpened": "2026-01-21T14:18:51.228Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 13,
               "Title": "PlayerUI.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerUI.cs",
@@ -145,12 +229,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerUI.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAA8wEUAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T14:18:36.833Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T14:18:36.833Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "LootPickUp.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPickUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootPickUp.cs",
@@ -158,37 +241,37 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootPickUp.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAAADcAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T14:14:32.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T14:14:32.718Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "ItemPreview.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAQwCwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T13:49:08.535Z"
+              "WhenOpened": "2026-01-21T13:49:08.535Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "PlayerInventory.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAqwBcAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T14:21:24.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "LootManager.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootManager.cs",
@@ -196,17 +279,18 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootManager.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAswBIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T10:12:50.471Z"
+              "WhenOpened": "2026-01-19T10:12:50.471Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
               "Title": "ItemCard.cs",
               "DocumentMoniker": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemCard.cs",
               "ToolTip": "D:\\SVN\\Eleves\\lpvray\\FromGithub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\ItemCard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T14:30:48.898Z",
               "EditorCaption": ""

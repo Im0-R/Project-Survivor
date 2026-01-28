@@ -15,6 +15,7 @@ public class ItemInstance
     public int baseId;       //ID referring to the base item type
     public ItemRarity rarity;
     public int itemLevel;
+    public EquipmentSlot equipSlot;
 
     public ItemAffix[] affixes; // rolls (can be null)
 }

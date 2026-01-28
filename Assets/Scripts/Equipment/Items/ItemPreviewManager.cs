@@ -7,7 +7,7 @@ public class ItemPreviewManager : MonoBehaviour
 
     public GameObject itemPreviewPrefab;
 
-    public Canvas parentCanvas;
+    public GameObject parentCanvas;
     private void Awake()
     {
         if (Instance == null)
