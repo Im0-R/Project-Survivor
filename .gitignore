@@ -75,3 +75,37 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
+
+# Security and Sensitive Data
+# API Keys and credentials
+*.env
+*.key
+*_credentials.json
+*_secrets.json
+config/secrets.json
+.env.*
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Private notes and documentation
+NOTES_PRIVATE.md
+TODO_PRIVATE.md
+*_PRIVATE.*
+
+# Steam/Epic/Platform Integration
+steam_appid.txt
+/Assets/StreamingAssets/steam_appid.txt
+
+# IDE specific files that may contain sensitive paths
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
