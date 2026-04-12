@@ -4,31 +4,34 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [SerializeField] private GameObject generalCanvasParent;
+    [Header("Base UI")]
+    [SerializeField] private Transform generalCanvasParent;
     [SerializeField] private GameObject gameUICanvas;
-    [SerializeField] private GameObject spellsRewardCanvas;
     [SerializeField] private GameObject inventoryCanvas;
+
+    [Header("Spell Reward UI")]
+    [SerializeField] private GameObject spellsRewardCanvas;
+    [SerializeField] private GameObject spellChoicePrefab;
+
+    private RewardSpellsCanvas currentRewardCanvas;
 
     private void Awake()
     {
-        // Ensure there is only one instance of UIManager
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         ShowGameUI();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("R key pressed - Showing Spells Reward UI");
-            ShowSpellsRewardUI();
-        }
-
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (inventoryCanvas.activeSelf)
+            if (inventoryCanvas != null && inventoryCanvas.activeSelf)
                 HideInventoryUI();
             else
                 ShowInventoryUI();
@@ -37,43 +40,68 @@ public class UIManager : MonoBehaviour
 
     public void ShowLoadingUI()
     {
-        gameUICanvas.SetActive(false);
+        if (gameUICanvas != null)
+            gameUICanvas.SetActive(false);
     }
 
     public void ShowGameUI()
     {
-        gameUICanvas.SetActive(true);
+        if (gameUICanvas != null)
+            gameUICanvas.SetActive(true);
     }
-    public void ShowSpellsRewardUI()
+
+    public void ShowSpellsRewardUI(string[] spellNames, int level)
     {
-        if (FindFirstObjectByType<RewardSpellsCanvas>() != null) return;
+        if (currentRewardCanvas != null)
+            return;
 
-        Debug.Log("Showing Spells Reward UI");
+        if (spellsRewardCanvas == null)
+        {
+            Debug.LogError("[UIManager] spellsRewardCanvas is not assigned.");
+            return;
+        }
 
-        Instantiate(spellsRewardCanvas, generalCanvasParent.transform);
-        gameUICanvas.SetActive(false);
+        if (spellChoicePrefab == null)
+        {
+            Debug.LogError("[UIManager] spellChoicePrefab is not assigned.");
+            return;
+        }
+
+        GameObject ui = Instantiate(spellsRewardCanvas, generalCanvasParent);
+        currentRewardCanvas = ui.GetComponent<RewardSpellsCanvas>();
+
+        if (currentRewardCanvas == null)
+        {
+            Debug.LogError("[UIManager] RewardSpellsCanvas component missing on spellsRewardCanvas prefab.");
+            Destroy(ui);
+            return;
+        }
+
+        currentRewardCanvas.Init(spellNames, level, spellChoicePrefab);
+
+        if (gameUICanvas != null)
+            gameUICanvas.SetActive(false);
 
         PlayerPauseController.Local?.RequestPause();
-
     }
 
     public void HideSpellsRewardUI()
     {
-        var rewardCanvas = FindFirstObjectByType<RewardSpellsCanvas>();
-        if (rewardCanvas != null) Destroy(rewardCanvas.gameObject);
+        if (currentRewardCanvas != null)
+        {
+            Destroy(currentRewardCanvas.gameObject);
+            currentRewardCanvas = null;
+        }
 
-        gameUICanvas.SetActive(true);
+        if (gameUICanvas != null)
+            gameUICanvas.SetActive(true);
 
         PlayerPauseController.Local?.RequestResume();
     }
 
-
-
-    // Management for Inventory UI
     public void ShowInventoryUI()
     {
         if (inventoryCanvas == null) return;
-
         inventoryCanvas.SetActive(true);
     }
 
@@ -81,7 +109,9 @@ public class UIManager : MonoBehaviour
     {
         if (inventoryCanvas == null) return;
 
-        ItemPreviewManager.Instance.ClosePreview();   
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
+
         inventoryCanvas.SetActive(false);
     }
 }

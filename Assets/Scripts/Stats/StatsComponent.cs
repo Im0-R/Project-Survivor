@@ -98,7 +98,7 @@ public class StatsComponent : NetworkBehaviour
         stats[id] = Get(id) + delta;
     }
 
-    void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
+    private void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
     {
     }
 
@@ -152,7 +152,6 @@ public class StatsComponent : NetworkBehaviour
         );
 
         Debug.Log($"[StatsComponent] {name} leveled up to {level}");
-
         OnLevelUpServer?.Invoke(level);
     }
 }

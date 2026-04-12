@@ -254,7 +254,7 @@ public class NetworkEntity : NetworkBehaviour
         Spell spell = GetSpellByName(spellName);
         if (spell != null)
         {
-            var upgradeMethod = spell.GetType().GetMethod("Upgrade");
+            var upgradeMethod = spell.GetType().GetMethod("LevelUp");
             if (upgradeMethod != null)
             {
                 upgradeMethod.Invoke(spell, null);

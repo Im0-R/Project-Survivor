@@ -11,6 +11,8 @@ public class PlayerMovement : NetworkBehaviour
     private GameObject interactableTarget;
     private bool isHoldingClick = false;
 
+    public bool InputBlocked { get; set; }
+
     void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -54,6 +56,7 @@ public class PlayerMovement : NetworkBehaviour
     private void Update()
     {
         if (!isLocalPlayer) return;
+        if (InputBlocked) return;
         if (agent == null) return;
 
         InteractTarget();
@@ -62,6 +65,7 @@ public class PlayerMovement : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!isLocalPlayer) return;
+        if (InputBlocked) return;
         if (agent == null) return;
 
         if (isHoldingClick)
@@ -81,7 +85,7 @@ public class PlayerMovement : NetworkBehaviour
 
             agent.SetDestination(hit.point);
 
-            Vector3 direction = (hit.point - transform.position);
+            Vector3 direction = hit.point - transform.position;
             direction.y = 0f;
 
             if (direction.sqrMagnitude > 0.001f)

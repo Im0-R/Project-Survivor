@@ -79,11 +79,6 @@ public abstract class Spell
         }
     }
 
-    public void Upgrade()
-    {
-        data.currentLevel++;
-    }
-
     public bool IsMaxLevel()
     {
         return data.currentLevel >= data.maxLevel;
