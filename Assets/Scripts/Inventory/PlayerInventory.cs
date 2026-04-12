@@ -122,10 +122,14 @@ public class PlayerInventory : NetworkBehaviour
 
     public ItemInstance GetItemByIndex(int index)
     {
-        if (index < 0 || index >= ItemsJson.Count) return default;
+        if (index < 0 || index >= ItemsJson.Count)
+            return default;
+
+        if (string.IsNullOrEmpty(ItemsJson[index]))
+            return default;
+
         return JsonUtility.FromJson<ItemInstance>(ItemsJson[index]);
     }
-
     public bool TryGetByInstanceId(long instanceId, out ItemInstance inst, out int index)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
@@ -157,9 +161,14 @@ public class PlayerInventory : NetworkBehaviour
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
+            if (string.IsNullOrEmpty(ItemsJson[i]))
+                continue;
+
             var tmp = JsonUtility.FromJson<ItemInstance>(ItemsJson[i]);
-            if (tmp.instanceId == instanceId) return i;
+            if (tmp.instanceId == instanceId)
+                return i;
         }
+
         return -1;
     }
 

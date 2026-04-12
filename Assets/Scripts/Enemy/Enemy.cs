@@ -21,26 +21,18 @@ public class Enemy : NetworkEntity
     // ======================
     public override void OnStartServer()
     {
-        if (!isServer)
-        {
-            return;
-        }
-
-        InitStatsFromSO();
+        base.OnStartServer();
 
         agent = GetComponent<NavMeshAgent>();
 
         if (agent == null)
         {
-            Debug.LogError($"[Enemy] ❌ NavMeshAgent MISSING on {name}");
+            Debug.LogError($"[Enemy] NavMeshAgent missing on {name}");
             return;
         }
 
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
-
-
-        base.OnStartServer();
     }
     public override void OnStopServer()
     {
@@ -223,4 +215,38 @@ public class Enemy : NetworkEntity
     {
         gameObject.SetActive(active);
     }
+    [Server]
+public void ResetForSpawn()
+{
+    if (agent == null)
+        agent = GetComponent<NavMeshAgent>();
+
+    InitStatsFromSO();
+
+    if (hitboxHit != null)
+        hitboxHit.DisableHitbox();
+
+    if (agent != null)
+    {
+        agent.isStopped = false;
+        agent.ResetPath();
+    }
+
+    ResetState();
+}
+
+[Server]
+public void ResetForDespawn()
+{
+    if (hitboxHit != null)
+        hitboxHit.DisableHitbox();
+
+    if (agent != null)
+    {
+        agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    currentState = null;
+}
 }

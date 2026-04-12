@@ -19,15 +19,25 @@ public class PlayerMovement : NetworkBehaviour
     void OnEnable()
     {
         inputActions.Enable();
-        inputActions.Player.MoveClick.started += ctx => isHoldingClick = true;
-        inputActions.Player.MoveClick.canceled += ctx => isHoldingClick = false;
+        inputActions.Player.MoveClick.started += OnMoveClickStarted;
+        inputActions.Player.MoveClick.canceled += OnMoveClickCanceled;
     }
 
     void OnDisable()
     {
-        inputActions.Player.MoveClick.started -= ctx => isHoldingClick = true;
-        inputActions.Player.MoveClick.canceled -= ctx => isHoldingClick = false;
+        inputActions.Player.MoveClick.started -= OnMoveClickStarted;
+        inputActions.Player.MoveClick.canceled -= OnMoveClickCanceled;
         inputActions.Disable();
+    }
+
+    private void OnMoveClickStarted(InputAction.CallbackContext ctx)
+    {
+        isHoldingClick = true;
+    }
+
+    private void OnMoveClickCanceled(InputAction.CallbackContext ctx)
+    {
+        isHoldingClick = false;
     }
 
     void Start()
@@ -35,44 +45,47 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;  // disable automatic rotation
+        if (agent != null)
+            agent.updateRotation = false;
+
         mainCamera = Camera.main;
     }
+
     private void Update()
     {
         if (!isLocalPlayer) return;
-
+        if (agent == null) return;
 
         InteractTarget();
     }
+
     private void FixedUpdate()
     {
         if (!isLocalPlayer) return;
+        if (agent == null) return;
+
         if (isHoldingClick)
-        {
             MoveToCursor();
-        }
     }
+
     private void MoveToCursor()
     {
-        if (!isLocalPlayer) return;
-
         var cam = GetCamera();
-        if (cam == null) return; // UI not loaded yet?
+        if (cam == null) return;
 
         Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Check if the hit point is an interactable object
-            if (ClickInteractable(hit)) return;
+            if (ClickInteractable(hit))
+                return;
 
             agent.SetDestination(hit.point);
 
-            Vector3 direction = (hit.point - transform.position).normalized;
-            if (direction != Vector3.zero)
-            {
-                transform.rotation = Quaternion.LookRotation(direction);
-            }
+            Vector3 direction = (hit.point - transform.position);
+            direction.y = 0f;
+
+            if (direction.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(direction.normalized);
         }
     }
 
@@ -82,17 +95,13 @@ public class PlayerMovement : NetworkBehaviour
         {
             interactableTarget = hit.collider.gameObject;
             agent.SetDestination(interactableTarget.transform.position);
+            return true;
         }
+
+        interactableTarget = null;
         return false;
     }
-    private void OnDrawGizmos()
-    {
-        if (agent != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(agent.destination, 0.2f);
-        }
-    }
+
     private void InteractTarget()
     {
         if (!interactableTarget) return;
@@ -107,6 +116,7 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
+
     private Camera GetCamera()
     {
         if (mainCamera != null) return mainCamera;
@@ -119,4 +129,12 @@ public class PlayerMovement : NetworkBehaviour
         return mainCamera;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (agent != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(agent.destination, 0.2f);
+        }
+    }
 }

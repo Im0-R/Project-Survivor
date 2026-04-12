@@ -69,14 +69,13 @@ public abstract class Spell
     public virtual void ExecuteClient(NetworkEntity owner)
     {
     }
-
     public void LevelUp()
     {
         if (data.currentLevel < data.maxLevel)
         {
             data.currentLevel++;
             data.damage *= 1.2f;
-            data.cooldown = Mathf.Max(0.5f, data.cooldown / -0.8f);
+            data.cooldown = Mathf.Max(0.5f, data.cooldown * 0.8f);
         }
     }
 

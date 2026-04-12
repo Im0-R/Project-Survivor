@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
+// TODO:
+// - extraire la gestion des sorts dans un composant dédié EntitySpellbook
+// - garder NetworkEntity comme base légère commune
 #region  Mirror custom writer/reader registration
 
 public static class MirrorWritersRegistration
@@ -66,9 +69,6 @@ public class NetworkEntity : NetworkBehaviour
     public StatsComponent StatComp;
 
     public event Action OnDeath;
-    public event Action OnLevelUp;
-
-
 
     protected virtual void Awake()
     {
@@ -84,8 +84,6 @@ public class NetworkEntity : NetworkBehaviour
 
         OnDeath -= Die;
         OnDeath += Die;
-        OnLevelUp -= LevelUp;
-        OnLevelUp += LevelUp;
     }
 
     public override void OnStartClient()
@@ -143,6 +141,7 @@ public class NetworkEntity : NetworkBehaviour
     }
     public void RequestDeathServer()
     {
+        //need work
         if (!isServer) return;
     }
     // ----------------------- Spells ----------------------- //
@@ -364,32 +363,12 @@ public class NetworkEntity : NetworkBehaviour
         }
     }
 
-
-    public List<Spell> GetAllActiveSpells() => activeSpells;
-
-    // ----------------------- XP & Level ----------------------- //
-
+    [Server]
     public void GainExperience(float amount)
     {
-        if (!isServer) return;
-        StatComp.stats[StatId.Experience] += amount;
-        while (StatComp.stats[StatId.Experience] >= StatComp.stats[StatId.MaxExperience])
-            OnLevelUp?.Invoke();
+        StatComp.GainExperience(amount);
     }
 
-    public void LevelUp()
-    {
-        if (!isServer) return;
-
-        Debug.Log($"{StatComp.Name} leveled up to level {StatComp.level + 1}!");
-        StatComp.stats[StatId.Experience] -= StatComp.stats[StatId.MaxExperience];
-        StatComp.level++;
-        StatComp.stats[StatId.Experience] *= StatComp.stats[StatId.ExpMultiPerLevel];
-        StatComp.stats[StatId.MaxHealth] *= 1.1f;
-        StatComp.stats[StatId.MaxMana] *= 1.1f;
-        StatComp.stats[StatId.CurrentMana] = StatComp.stats[StatId.MaxMana];
-        StatComp.stats[StatId.CurrentHealth] += StatComp.stats[StatId.MaxHealth] / 10f;
-    }
-
+    public List<Spell> GetAllActiveSpells() => activeSpells;
     public float GetHealthPourcentage() => (StatComp.stats[StatId.CurrentHealth] / StatComp.stats[StatId.MaxHealth]) * 100f;
 }

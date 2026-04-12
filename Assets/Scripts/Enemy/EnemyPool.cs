@@ -68,8 +68,7 @@ public class EnemyPool : NetworkBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            enemyScript.InitStatsFromSO();
-            enemyScript.ChangeState(new EnemyChaseState());
+            enemyScript.ResetForSpawn();
             EnemyManager.Instance?.RegisterEnemy(enemyScript);
         }
 
@@ -84,6 +83,7 @@ public class EnemyPool : NetworkBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
+            enemyScript.ResetForDespawn();
             EnemyManager.Instance?.UnregisterEnemy(enemyScript);
         }
 
