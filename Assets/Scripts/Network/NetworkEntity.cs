@@ -174,7 +174,6 @@ public class NetworkEntity : NetworkBehaviour
 
         AddSpell(spellName);
     }
-
     [Server]
     public void AddSpell(string spellName)
     {

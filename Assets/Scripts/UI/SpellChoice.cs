@@ -1,5 +1,4 @@
-﻿#if !UNITY_SERVER
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,4 +74,3 @@ public class SpellChoice : MonoBehaviour
         playerEnt.CmdChooseSpellReward(spellName);
     }
 }
-#endif
