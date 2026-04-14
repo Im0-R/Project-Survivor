@@ -19,15 +19,15 @@ public class EnemyPool : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        base.OnStartServer();
+
         for (int i = 0; i < poolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab);
-
             enemy.SetActive(false);
             pool.Enqueue(enemy);
         }
     }
-
     [Server]
     public GameObject SpawnEnemy(Vector3 position)
     {
@@ -90,7 +90,6 @@ public class EnemyPool : NetworkBehaviour
         NetworkIdentity ni = enemy.GetComponent<NetworkIdentity>();
         if (ni != null && ni.netId != 0)
         {
-            enemyScript?.RpcSetActive(false);
             NetworkServer.UnSpawn(enemy);
         }
 

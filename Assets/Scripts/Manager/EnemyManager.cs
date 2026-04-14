@@ -25,7 +25,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
     public void RegisterEnemy(Enemy enemy)
     {
         if (!activeEnemies.Contains(enemy))

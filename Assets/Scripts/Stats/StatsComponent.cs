@@ -49,38 +49,35 @@ public enum StatId : ushort
 [Serializable]
 public class StatsComponent : NetworkBehaviour
 {
+    [Header("Base Data")]
+    [SerializeField] private StatsDataSO statsData;
+
     [SyncVar] public int level;
     [SyncVar] public string Name;
 
     public readonly SyncDictionary<StatId, float> stats = new();
 
     public event Action<int> OnLevelUpServer;
-
-    public override void OnStartClient()
+    public override void OnStartServer()
     {
-        base.OnStartClient();
-        stats.OnChange += OnStatChanged;
-    }
-
-    public override void OnStopClient()
-    {
-        stats.OnChange -= OnStatChanged;
-        base.OnStopClient();
+        base.OnStartServer();
+        InitFromSO_Server();
     }
 
     [Server]
-    public void InitFromSO_Server(StatsDataSO so)
+    public void InitFromSO_Server()
     {
-        if (so == null)
+        if (statsData == null)
         {
-            Debug.LogError($"[StatsComponent] StatsDataSO is null on {name}");
+            Debug.LogError($"[StatsComponent] StatsDataSO missing on {name}");
             return;
         }
 
         stats.Clear();
-        level = so.level;
+        level = statsData.level;
+        Name = statsData.stringName;
 
-        foreach (var entry in so.baseStats)
+        foreach (var entry in statsData.baseStats)
             stats[entry.id] = entry.value;
     }
 
@@ -97,9 +94,21 @@ public class StatsComponent : NetworkBehaviour
     {
         stats[id] = Get(id) + delta;
     }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        stats.OnChange += OnStatChanged;
+    }
+
+    public override void OnStopClient()
+    {
+        stats.OnChange -= OnStatChanged;
+        base.OnStopClient();
+    }
 
     private void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
     {
+        // UI, VFX, debug, etc.
     }
 
     [Server]

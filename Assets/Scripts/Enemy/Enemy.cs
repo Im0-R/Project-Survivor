@@ -5,16 +5,18 @@ using Mirror;
 public class Enemy : NetworkEntity
 {
     [Header("Combat")]
-    [SerializeField] public float attackRange = 2f;
-    [SerializeField] public float attackDamage = 10f;
+    [SerializeField] private float attackRange = 2f;
+    [SerializeField] private float attackDamage = 10f;
 
-    NavMeshAgent agent;
+    private NavMeshAgent agent;
 
     public HitboxHitHumanoidMonster hitboxHit;
     public HumanoidAnimator humanoidAnimator;
     public IEnemyState currentState;
-
     public Transform firePoint;
+
+    public float AttackRange => attackRange;
+    public float AttackDamage => attackDamage;
 
     // ======================
     // SERVER INIT
@@ -24,7 +26,6 @@ public class Enemy : NetworkEntity
         base.OnStartServer();
 
         agent = GetComponent<NavMeshAgent>();
-
         if (agent == null)
         {
             Debug.LogError($"[Enemy] NavMeshAgent missing on {name}");
@@ -34,17 +35,10 @@ public class Enemy : NetworkEntity
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
     }
+
     public override void OnStopServer()
     {
-        if (!isServer)
-        {
-            Debug.LogWarning($"[Enemy] ❌  OnStopServer called on CLIENT {name}");
-            return;
-        }
-
-
         OnDeath -= OnDeathEffects;
-
         base.OnStopServer();
     }
 
@@ -57,18 +51,18 @@ public class Enemy : NetworkEntity
 
         if (agent == null)
         {
-            Debug.LogError($"[Enemy] ❌ Tick called but agent NULL on {name}");
+            Debug.LogError($"[Enemy] Tick called but NavMeshAgent is null on {name}");
             return;
         }
 
         if (!agent.isOnNavMesh)
         {
-            Debug.LogWarning($"[Enemy] ⚠️ {name} NOT on NavMesh | pos={transform.position}");
+            Debug.LogWarning($"[Enemy] {name} is not on NavMesh | pos={transform.position}");
             return;
         }
 
         currentState?.Update(this);
-        agent.speed = StatComp.stats[StatId.MoveSpeedMult];
+        agent.speed = StatComp.Get(StatId.MoveSpeedMult);
     }
 
     // ======================
@@ -76,17 +70,31 @@ public class Enemy : NetworkEntity
     // ======================
     public void ChangeState(IEnemyState newState)
     {
-
         currentState?.Exit(this);
         currentState = newState;
         currentState?.Enter(this);
     }
 
+    public void ResetState()
+    {
+        ChangeState(new EnemyIdleState());
+    }
+
+    public void SleepState()
+    {
+        ChangeState(new EnemySleepState());
+    }
 
     // ======================
     // NAV
     // ======================
     public NavMeshAgent GetAgent() => agent;
+
+    public void StopMoving()
+    {
+        if (agent != null)
+            agent.isStopped = true;
+    }
 
     // ======================
     // PLAYER DETECTION
@@ -108,9 +116,6 @@ public class Enemy : NetworkEntity
             }
         }
 
-        //if (best != null)
-        //    Debug.Log($"[Enemy] 🎯 Closest player = {best.name} dist={closest:F2}");
-
         return best;
     }
 
@@ -126,14 +131,26 @@ public class Enemy : NetworkEntity
     public void GiveExpToPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        //Debug.Log($"[Enemy] XP given to {players.Length} players");
 
         foreach (GameObject p in players)
         {
             PlayerEntity playerEntity = p.GetComponent<PlayerEntity>();
             if (playerEntity != null)
-                playerEntity.GainExperience(StatComp.stats[StatId.ExperienceGiven]);
+                playerEntity.GainExperience(StatComp.Get(StatId.ExperienceGiven));
         }
+    }
+
+    protected override void Die()
+    {
+        if (!isServer) return;
+
+#if UNITY_SERVER
+        int seed = (int)(Time.time * 1000f);
+        Debug.Log($"[Enemy] GenerateDrop {name}");
+        LootManager.Instance.GenerateDrop(1, seed, transform.position);
+#endif
+
+        EnemyPool.Instance?.DespawnEnemy(gameObject);
     }
 
     // ======================
@@ -141,27 +158,18 @@ public class Enemy : NetworkEntity
     // ======================
     public void CanDealMeleeDamage()
     {
-        //Debug.Log($"[Enemy] ⚔️ CanDealMeleeDamage {name}");
-        hitboxHit.EnableHitbox();
+        hitboxHit?.EnableHitbox();
     }
 
     public void Attack()
     {
-        //Debug.Log($"[Enemy] ⚔️ Attack {name}");
-        hitboxHit.EnableHitbox();
+        hitboxHit?.EnableHitbox();
     }
 
     public void DisactiveAttack()
     {
-        //Debug.Log($"[Enemy] 🛑 End Attack {name}");
-        hitboxHit.DisableHitbox();
+        hitboxHit?.DisableHitbox();
         ChangeState(new EnemyChaseState());
-    }
-
-    public void StopMoving()
-    {
-        //Debug.Log($"[Enemy] 🛑 StopMoving {name}");
-        agent.isStopped = true;
     }
 
     // ======================
@@ -171,82 +179,61 @@ public class Enemy : NetworkEntity
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //Debug.Log($"[Enemy] 💥 Collision with Player {collision.gameObject.name}");
+            // Debug.Log($"[Enemy] Collision with Player {collision.gameObject.name}");
         }
     }
-    protected override void Die()
-    {
-        if (!isServer) return;
-#if UNITY_SERVER
-
-        int seed = (int)(Time.time * 1000f);
-        Debug.Log($"[Enemy] GenerateDrop {name}");
-
-        LootManager.Instance.GenerateDrop(1, seed, transform.position);
-#endif
-        EnemyPool.Instance?.DespawnEnemy(gameObject);
-
-    }
-    // ======================
-    // CLEANUP
-    // ======================
-    private void OnDisable()
-    {
-        if (isServer)
-            //Debug.Log($"[Enemy] ❌ Disabled {name}");
-
-            if (isServer)
-                EnemyManager.Instance?.UnregisterEnemy(this);
-    }
 
     // ======================
-    // UTIL
+    // CLIENT VISUAL STATE
     // ======================
-    public void ResetState()
-    {
-        ChangeState(new EnemyIdleState());
-    }
-    public void SleepState()
-    {
-        ChangeState(new EnemySleepState());
-    }
     [ClientRpc]
     public void RpcSetActive(bool active)
     {
         gameObject.SetActive(active);
     }
+
+    // ======================
+    // POOL RESET
+    // ======================
     [Server]
-public void ResetForSpawn()
-{
-    if (agent == null)
-        agent = GetComponent<NavMeshAgent>();
-
-    InitStatsFromSO();
-
-    if (hitboxHit != null)
-        hitboxHit.DisableHitbox();
-
-    if (agent != null)
+    public virtual void ResetForSpawn()
     {
-        agent.isStopped = false;
-        agent.ResetPath();
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+
+        StatComp.InitFromSO_Server();
+
+        hitboxHit?.DisableHitbox();
+
+        if (agent != null)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
+
+        ResetState();
     }
 
-    ResetState();
-}
-
-[Server]
-public void ResetForDespawn()
-{
-    if (hitboxHit != null)
-        hitboxHit.DisableHitbox();
-
-    if (agent != null)
+    [Server]
+    public virtual void ResetForDespawn()
     {
-        agent.isStopped = true;
-        agent.ResetPath();
+        hitboxHit?.DisableHitbox();
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+
+        currentState = null;
     }
 
-    currentState = null;
-}
+    // ======================
+    // CLEANUP
+    // ======================
+    private void OnDisable()
+    {
+        if (!isServer) return;
+        EnemyManager.Instance?.UnregisterEnemy(this);
+    }
 }

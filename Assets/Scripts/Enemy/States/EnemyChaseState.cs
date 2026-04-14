@@ -39,7 +39,7 @@ public class EnemyChaseState : IEnemyState
         }
 
         float dist = Vector3.Distance(enemy.transform.position, target.position);
-        if (dist < enemy.attackRange)
+        if (dist < enemy.AttackRange)
             enemy.ChangeState(new EnemyAttackState(target));
     }
 

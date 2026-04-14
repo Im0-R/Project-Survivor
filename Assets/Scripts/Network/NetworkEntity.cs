@@ -64,7 +64,6 @@ public class NetworkEntity : NetworkBehaviour
     public readonly SyncList<SpellSyncData> syncedSpells = new SyncList<SpellSyncData>();
 
     [Header("Config")]
-    [SerializeField] private StatsDataSO SO;
 
     public StatsComponent StatComp;
 
@@ -79,8 +78,6 @@ public class NetworkEntity : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        InitStatsFromSO();
-
 
         OnDeath -= Die;
         OnDeath += Die;
@@ -112,14 +109,6 @@ public class NetworkEntity : NetworkBehaviour
     {
         if (!isServer) return;
         UpdateSpells();
-    }
-
-    // ----------------------- Stats ----------------------- //
-
-    public void InitStatsFromSO()
-    {
-        if (SO != null) StatComp.InitFromSO_Server(SO);
-        else Debug.LogError("StatsDataSO not assigned in Stats component on " + name);
     }
 
     protected virtual void Die()

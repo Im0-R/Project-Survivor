@@ -4,6 +4,6 @@ public class Zombie : EnemyMelee
     {
         if (!isServer) return;
         base.OnStartServer();
-        AddSpell("Fireball");
+        //AddSpell("Fireball");
     }
 }
