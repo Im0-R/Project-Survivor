@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 8944850199700879988}
   - component: {fileID: -3437862459983905959}
   - component: {fileID: -7465196351752380378}
+  - component: {fileID: 5641178401999730782}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -460,31 +461,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  SO: {fileID: 11400000, guid: b87507f304c4a8549b9148c9e5ade104, type: 2}
-  entityName: Zombie
-  level: 0
-  experience: 0
-  maxExperience: 0
-  expMultiPerLevel: 0
-  maxHealth: 0
-  maxMana: 0
-  currentHealth: 0
-  currentMana: 0
-  healthRegen: 0
-  manaRegen: 0
-  movementSpeedMultiplier: 0
-  cooldownReduction: 0
-  criticalStrikeChance: 0
-  criticalStrikeDamage: 0
-  projectileSpeed: 0
-  durationMultiplier: 0
-  damageMultiplier: 0
-  experienceGiven: 0
-  firePoint: {fileID: 8913022215254427481}
+  StatComp: {fileID: 0}
   attackRange: 2
   attackDamage: 10
   hitboxHit: {fileID: 8228046526072054306}
   humanoidAnimator: {fileID: 6373443025740128648}
+  firePoint: {fileID: 8913022215254427481}
 --- !u!195 &7237563171414369568
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -609,6 +591,24 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &5641178401999730782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180879256419302217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e2e729267341f84d896f891a91f1c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatsComponent
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  statsData: {fileID: 11400000, guid: b87507f304c4a8549b9148c9e5ade104, type: 2}
+  level: 0
+  Name: 
 --- !u!1 &3434415214065281038
 GameObject:
   m_ObjectHideFlags: 0

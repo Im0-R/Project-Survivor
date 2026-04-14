@@ -2538,7 +2538,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.5
-  SO: {fileID: 11400000, guid: 7218e8b1566667649a33f474867513c2, type: 2}
   StatComp: {fileID: 0}
   firePoint: {fileID: 0}
 --- !u!114 &4034543700344072838
@@ -2672,6 +2671,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  statsData: {fileID: 11400000, guid: 7218e8b1566667649a33f474867513c2, type: 2}
   level: 0
   Name: 
 --- !u!114 &3701304664878415495
