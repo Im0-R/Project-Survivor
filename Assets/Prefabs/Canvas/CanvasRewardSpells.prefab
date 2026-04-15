@@ -392,5 +392,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c921c1a2b5304844968a6d8d8f9a48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellChoicePrefab: {fileID: 2556145404931912596, guid: 1eb4fabb436a16e4a98e59028beeb907, type: 3}
-  LayoutGroup: {fileID: 319629007127523489}
+  choicesContainer: {fileID: 5775044129004707707}
+  titleText: {fileID: 5741269119649483041}
