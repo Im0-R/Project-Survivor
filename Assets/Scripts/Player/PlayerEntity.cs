@@ -24,6 +24,13 @@ public class PlayerEntity : NetworkEntity
 
     protected override void Update()
     {
+        if (isLocalPlayer)
+        {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        HandleDebugInput();
+#endif
+        }
+
         if (!isServer) return;
 
         base.Update();
@@ -88,7 +95,33 @@ public class PlayerEntity : NetworkEntity
         if (movement != null)
             movement.InputBlocked = true;
     }
+    private void HandleDebugInput()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            CmdTriggerDebugSpellReward();
+        }
+    }
+    [Server]
+    private void TriggerSpellRewardSelection(int displayLevel = -1)
+    {
+        if (pendingSpellReward)
+            return;
 
+        List<string> rewardSpells = BuildRewardSpellChoices();
+
+        if (rewardSpells == null || rewardSpells.Count == 0)
+        {
+            Debug.LogWarning($"[PlayerEntity] No reward spells available for {name}");
+            return;
+        }
+
+        currentRewardChoices = rewardSpells.ToArray();
+        pendingSpellReward = true;
+
+        int shownLevel = displayLevel >= 0 ? displayLevel : StatComp.level;
+        TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, shownLevel);
+    }
     [Server]
     private List<string> BuildRewardSpellChoices()
     {
@@ -189,7 +222,34 @@ public class PlayerEntity : NetworkEntity
 
         TargetHideSpellRewardUI(connectionToClient);
     }
+    [Command]
+    private void CmdTriggerDebugSpellReward()
+    {
+        TriggerSpellRewardSelection();
+    }
+    [Command]
+    private void CmdGiveDebugSpell(string spellName)
+    {
+        Spell spell = SpellsManager.Instance.GetSpell(spellName);
+        if (spell == null)
+        {
+            Debug.LogWarning($"[SERVER] Debug spell not found: {spellName}");
+            return;
+        }
 
+        Spell ownedSpell = GetSpellByName(spellName);
+        if (ownedSpell != null)
+        {
+            if (!ownedSpell.IsMaxLevel())
+                UpgradeSpell(spellName);
+            else
+                Debug.Log($"[SERVER] {spellName} already max level on {name}");
+        }
+        else
+        {
+            AddSpell(spellName);
+        }
+    }
     [TargetRpc]
     private void TargetHideSpellRewardUI(NetworkConnection target)
     {
