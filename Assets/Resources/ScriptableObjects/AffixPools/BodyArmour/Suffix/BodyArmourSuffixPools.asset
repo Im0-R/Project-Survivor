@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BodyArmourSuffixPools
   m_EditorClassIdentifier: Assembly-CSharp::AffixPoolSO
   affixes:
-  - {fileID: 11400000, guid: 0a3a0b6f7ff57594984a5f6d2be9c3be, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: bc1b35a09a065b24094d8775ccd9edb4, type: 2}
+  - {fileID: 11400000, guid: 1a61236b67ecf1c4caa7f5e7255fce16, type: 2}

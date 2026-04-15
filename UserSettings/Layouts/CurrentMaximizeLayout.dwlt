@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 6857
+  controlID: 7512
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 6858
+  controlID: 7513
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -175,8 +175,8 @@ MonoBehaviour:
     y: 0
     width: 770.4
     height: 340
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 226}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 5}
   m_Panes:
   - {fileID: 5}
@@ -783,7 +783,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.0048096483, y: 0.0035973578, z: -0.000017210907, w: -0.99998224}
     speed: 2
-    m_Value: {x: -0.0048096473, y: 0.0035973568, z: -0.000017210903, w: -0.999982}
+    m_Value: {x: -0.0048096487, y: 0.003597358, z: -0.000017210907, w: -0.99998224}
   m_Size:
     m_Target: 529.60645
     speed: 2
@@ -1074,7 +1074,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/ScriptableObjects/StatsDatas/Player
+    - Assets/Resources/ScriptableObjects/ItemBases/BodyArmour
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1118,7 +1118,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 3227.2}
+    scrollPos: {x: 0, y: 3160}
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: ffffffff000000008c1201008e12010090120100921201009412010096120100981201009a1201009c1201009e120100a0120100a2120100a4120100a6120100a8120100aa120100ac120100ae120100b0120100b2120100b4120100b6120100b8120100ba120100bc120100be120100c0120100c2120100c41201008813010096130100981301009c130100ac3c0100ae3c0100d43c0100dc3c0100e23c01000c3d0100303d0100aa3e0100b83e0100ba3e0100c83e0100463f01004c3f01002446010026460100204f0100667e0100
@@ -1175,7 +1175,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 7000.2}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 115
@@ -1198,8 +1198,8 @@ MonoBehaviour:
     y: 0
     width: 286.40002
     height: 812.8
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
