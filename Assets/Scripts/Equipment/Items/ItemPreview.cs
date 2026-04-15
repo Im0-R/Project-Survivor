@@ -57,6 +57,7 @@ public class ItemPreview : MonoBehaviour
 
             modText.text = $"Grant + {item.affixes[i].value} to {affix.stat.ToString()}";
         }
+        Debug.Log($"[ItemPreview] itemName={item.itemName}, rarity={item.rarity}, affixesCount={(item.affixes != null ? item.affixes.Length : -1)}");
     }
     public Color GetWantedColor(ItemRarity itemRarity)
     {

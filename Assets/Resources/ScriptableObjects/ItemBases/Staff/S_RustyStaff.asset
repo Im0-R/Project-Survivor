@@ -20,5 +20,7 @@ MonoBehaviour:
   baseAttack: 10
   baseDefense: 0
   baseVitality: 0
-  prefixPool: {fileID: 11400000, guid: 34975541503e66745bdc2d44b0fa32a4, type: 2}
-  suffixPool: {fileID: 11400000, guid: 2ea7f78af3afdc34e9eb226175c2fb69, type: 2}
+  additionalPrefixPools:
+  - {fileID: 11400000, guid: 4d9484fa52bef544f839d1b037afb9b8, type: 2}
+  additionalSuffixPools:
+  - {fileID: 11400000, guid: 672df2a1b1f719b4c90c8cf6a42b1b5b, type: 2}
