@@ -18,7 +18,7 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
 
         if (slotType != EquipmentSlot.Any)
         {
-            EquipmentSlot itemSlot = ItemDatabase.GetBase(card.GetItemInstance().baseId).slot;
+            EquipmentSlot itemSlot = ItemDatabase.GetBase(card.GetItemInstance().baseId).SlotType;
             if (itemSlot != slotType)
             {
                 Debug.LogWarning("Item cannot be equipped in this slot.");

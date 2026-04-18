@@ -57,7 +57,7 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         // Get icon from item instance's base
 
-        baseImage.sprite = ItemDatabase.GetBase(itemInstance.baseId).icon;
+        baseImage.sprite = ItemDatabase.GetBase(itemInstance.baseId).Icon;
         // Change rarity color
         switch (itemInstance.rarity)
         {

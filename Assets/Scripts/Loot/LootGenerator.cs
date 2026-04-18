@@ -53,13 +53,13 @@ public static class LootGenerator
         {
             //Generate random name with the affixes?
 
-            itemName = itemBase.baseName,
+            itemName = itemBase.BaseName,
             instanceId = nextInstanceId++,
             baseId = itemBase.BaseId,
             rarity = rarity,
             itemLevel = itemLevel,
             affixes = affixes.ToArray(),
-            equipSlot = itemBase.slot
+            equipSlot = itemBase.SlotType
         };
     }
 

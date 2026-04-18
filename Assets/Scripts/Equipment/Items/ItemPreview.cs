@@ -11,54 +11,71 @@ public class ItemPreview : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemLevelRequired;
 
     [SerializeField] private GameObject modsContainer;
-
     [SerializeField] private GameObject modLineUI;
-
-
-    //Color for each rarity?
 
     [SerializeField] private Color normalColor;
     [SerializeField] private Color magicColor;
     [SerializeField] private Color rareColor;
     [SerializeField] private Color uniqueColor;
+
     public void Init(ItemInstance item)
     {
-        // Set color based on rarity
-        Color color = GetWantedColor(item.rarity);
+        if (item == null)
+        {
+            Debug.LogError("[ItemPreview] Init called with null item.");
+            return;
+        }
 
         ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
+        if (itemBase == null)
+        {
+            Debug.LogError($"[ItemPreview] No ItemBase found for baseId={item.baseId}");
+            return;
+        }
+
+        Color color = GetWantedColor(item.rarity);
 
         backGroundImage.color = color;
 
         itemName.text = item.itemName;
         itemName.color = color;
 
+        baseType.text = itemBase.BaseName;
+        itemLevelRequired.text = $"Level {itemBase.ItemLevelRequirement}";
 
-        baseType.text = itemBase.baseName;
-
-        itemLevelRequired.text = $"Level {itemBase.itemLevelRequirement}";
-
-        for (int i = 0; i < item.affixes.Length; i++)
+        foreach (Transform child in modsContainer.transform)
         {
-            GameObject modLine = Instantiate(modLineUI, modsContainer.transform);
-            TextMeshProUGUI modText = modLine.GetComponent<TextMeshProUGUI>();
-            AffixSO affix = AffixDatabase.Get(item.affixes[i].affixId);
-
-            if (affix == null)
-            {
-                modText.text = "Unknown Mod";
-                continue;
-            }
-            if (item == null)
-            {
-                modText.text = "Invalid Item";
-                continue;
-            }
-
-            modText.text = $"Grant + {item.affixes[i].value} to {affix.stat.ToString()}";
+            Destroy(child.gameObject);
         }
+
+        if (item.affixes != null)
+        {
+            for (int i = 0; i < item.affixes.Length; i++)
+            {
+                GameObject modLine = Instantiate(modLineUI, modsContainer.transform);
+                TextMeshProUGUI modText = modLine.GetComponentInChildren<TextMeshProUGUI>();
+
+                if (modText == null)
+                {
+                    Debug.LogError("[ItemPreview] modLineUI prefab has no TextMeshProUGUI.");
+                    continue;
+                }
+
+                AffixSO affix = AffixDatabase.Get(item.affixes[i].affixId);
+
+                if (affix == null)
+                {
+                    modText.text = "Unknown Mod";
+                    continue;
+                }
+
+                modText.text = $"Grant +{item.affixes[i].value} to {affix.stat}";
+            }
+        }
+
         Debug.Log($"[ItemPreview] itemName={item.itemName}, rarity={item.rarity}, affixesCount={(item.affixes != null ? item.affixes.Length : -1)}");
     }
+
     public Color GetWantedColor(ItemRarity itemRarity)
     {
         switch (itemRarity)

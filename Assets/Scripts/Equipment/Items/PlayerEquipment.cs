@@ -39,7 +39,7 @@ public class PlayerEquipment : NetworkBehaviour
         var baseSO = ItemDatabase.GetBase(inst.baseId);
         if (baseSO == null) return;
 
-        switch (baseSO.slot)
+        switch (baseSO.SlotType)
         {
             case EquipmentSlot.Weapon: weaponIndex = inventoryIndex; break;
             case EquipmentSlot.Helmet: helmetIndex = inventoryIndex; break;
@@ -102,9 +102,9 @@ public class PlayerEquipment : NetworkBehaviour
         if (baseSO == null) return;
 
         // base stats
-        dam += baseSO.baseAttack;
-        def += baseSO.baseDefense;
-        vit += baseSO.baseVitality;
+        dam += baseSO.BaseAttack;
+        def += baseSO.BaseDefense;
+        vit += baseSO.BaseVitality;
 
         // affixes
         if (inst.affixes == null) return;

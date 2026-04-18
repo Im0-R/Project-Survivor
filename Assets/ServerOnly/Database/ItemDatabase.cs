@@ -35,15 +35,14 @@ public static class ItemDatabase
 
             itemsById[item.BaseId] = item;
 
-            if (!string.IsNullOrWhiteSpace(item.baseName))
-                itemsByName[item.baseName] = item;
+            if (!string.IsNullOrWhiteSpace(item.BaseName))
+                itemsByName[item.BaseName] = item;
         }
 
         initialized = true;
         Debug.Log($"[ItemDatabase] Loaded {itemsById.Count} item bases.");
     }
 
-    // Base lookup
     public static ItemBaseSO GetBase(int baseId)
     {
         if (!initialized) Initialize();
