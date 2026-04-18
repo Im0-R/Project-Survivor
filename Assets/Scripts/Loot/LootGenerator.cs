@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class LootGenerator
 {
@@ -7,9 +7,13 @@ public static class LootGenerator
 
     public static ItemInstance Generate(ItemBaseSO itemBase, int itemLevel, int seed)
     {
+        if (itemBase == null)
+        {
+            Debug.LogError("[LootGenerator] Generate called with null itemBase.");
+            return default;
+        }
 
-
-        Random rng = new Random(seed);
+        System.Random rng = new System.Random(seed);
 
         ItemRarity rarity = RollRarity(rng);
 
@@ -22,48 +26,55 @@ public static class LootGenerator
                 break;
 
             case ItemRarity.Magic:
-
-                if (rng.NextDouble() < 0.5) prefixCount = 1;
-                else suffixCount = 1;
+                if (rng.NextDouble() < 0.5)
+                    prefixCount = 1;
+                else
+                    suffixCount = 1;
 
                 if (rng.NextDouble() < 0.5)
                 {
-                    if (prefixCount == 0) prefixCount = 1;
-                    else suffixCount = 1;
+                    if (prefixCount == 0)
+                        prefixCount = 1;
+                    else
+                        suffixCount = 1;
                 }
                 break;
 
             case ItemRarity.Rare:
-                prefixCount = rng.Next(1, 4); // 1-3
-                suffixCount = rng.Next(1, 4); // 1-3
+                prefixCount = rng.Next(1, 4); // 1 à 3
+                suffixCount = rng.Next(1, 4); // 1 à 3
                 break;
 
             case ItemRarity.Unique:
-
-
                 break;
         }
 
-        List<ItemAffix> affixes = new List<ItemAffix>(prefixCount + suffixCount);
+        List<ItemAffix> rolledAffixes = new List<ItemAffix>(prefixCount + suffixCount);
 
-        RollFromPool(itemBase.GetPrefixes(), prefixCount, rng, affixes);
-        RollFromPool(itemBase.GetSuffixes(), suffixCount, rng, affixes);
+        AffixSO[] mergedPrefixes = itemBase.GetMergedPrefixes();
+        AffixSO[] mergedSuffixes = itemBase.GetMergedSuffixes();
+
+        Debug.Log($"[LootGenerator] item={itemBase.BaseName}, rarity={rarity}, requestedPrefixes={prefixCount}, requestedSuffixes={suffixCount}");
+        Debug.Log($"[LootGenerator] mergedPrefixes={(mergedPrefixes != null ? mergedPrefixes.Length : 0)}, mergedSuffixes={(mergedSuffixes != null ? mergedSuffixes.Length : 0)}");
+
+        RollFromArray(mergedPrefixes, prefixCount, rng, rolledAffixes);
+        RollFromArray(mergedSuffixes, suffixCount, rng, rolledAffixes);
+
+        Debug.Log($"[LootGenerator] finalAffixCount={rolledAffixes.Count}");
 
         return new ItemInstance
         {
-            //Generate random name with the affixes?
-
             itemName = itemBase.BaseName,
             instanceId = nextInstanceId++,
             baseId = itemBase.BaseId,
             rarity = rarity,
             itemLevel = itemLevel,
-            affixes = affixes.ToArray(),
+            affixes = rolledAffixes.ToArray(),
             equipSlot = itemBase.SlotType
         };
     }
 
-    private static ItemRarity RollRarity(Random rng)
+    private static ItemRarity RollRarity(System.Random rng)
     {
         int roll = rng.Next(0, 1000);
 
@@ -73,12 +84,20 @@ public static class LootGenerator
         return ItemRarity.Unique;
     }
 
-    private static void RollFromPool(AffixPoolSO pool, int count, Random rng, List<ItemAffix> outAffixes)
+    private static void RollFromArray(AffixSO[] pool, int count, System.Random rng, List<ItemAffix> outAffixes)
     {
-        if (count <= 0) return;
-        if (pool == null || pool.affixes == null || pool.affixes.Length == 0) return;
+        if (count <= 0)
+            return;
 
-        HashSet<int> used = new HashSet<int>();
+        if (pool == null || pool.Length == 0)
+            return;
+
+        HashSet<int> usedAffixIds = new HashSet<int>();
+
+        foreach (ItemAffix existing in outAffixes)
+        {
+            usedAffixIds.Add(existing.affixId);
+        }
 
         for (int i = 0; i < count; i++)
         {
@@ -86,17 +105,19 @@ public static class LootGenerator
 
             for (int tries = 0; tries < 30; tries++)
             {
-                AffixSO candidate = pool.affixes[rng.Next(0, pool.affixes.Length)];
-                if (candidate == null) continue;
+                AffixSO candidate = pool[rng.Next(0, pool.Length)];
+                if (candidate == null)
+                    continue;
 
-                if (used.Add(candidate.AffixId))
+                if (usedAffixIds.Add(candidate.AffixId))
                 {
                     picked = candidate;
                     break;
                 }
             }
 
-            if (picked == null) continue;
+            if (picked == null)
+                continue;
 
             int value = rng.Next(picked.minValue, picked.maxValue + 1);
 
