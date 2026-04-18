@@ -2,7 +2,6 @@
 using kcp2k;
 using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ClientSideInstanceManager : MonoBehaviour
 {
@@ -37,20 +36,20 @@ public class ClientSideInstanceManager : MonoBehaviour
     {
         isSwitching = true;
 
-        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}, scene={sceneName}");
+        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}, requestedScene={sceneName}");
 
-        if (NetworkManager.singleton == null)
+        NetworkManager manager = NetworkManager.singleton;
+        if (manager == null)
         {
             Debug.LogError("[ClientSideInstanceManager] NetworkManager.singleton is null");
             isSwitching = false;
             yield break;
         }
 
-        // 1) Stop client proprement
         if (NetworkClient.isConnected || NetworkClient.isConnecting)
         {
             Debug.Log("[ClientSideInstanceManager] Stop current client");
-            NetworkManager.singleton.StopClient();
+            manager.StopClient();
 
             while (NetworkClient.isConnected || NetworkClient.isConnecting)
                 yield return null;
@@ -58,21 +57,10 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         yield return null;
 
-        // 2) Charger la bonne scène localement AVANT de se reconnecter
-        if (!string.IsNullOrWhiteSpace(sceneName) &&
-            SceneManager.GetActiveScene().name != sceneName)
-        {
-            Debug.Log($"[ClientSideInstanceManager] Loading local scene: {sceneName}");
+        KcpTransport kcp = manager.transport as KcpTransport;
+        if (kcp == null)
+            kcp = manager.GetComponent<KcpTransport>();
 
-            AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
-            while (!load.isDone)
-                yield return null;
-
-            yield return null;
-        }
-
-        // 3) Config transport
-        KcpTransport kcp = NetworkManager.singleton.transport as KcpTransport;
         if (kcp == null)
         {
             Debug.LogError("[ClientSideInstanceManager] KcpTransport not found");
@@ -80,11 +68,11 @@ public class ClientSideInstanceManager : MonoBehaviour
             yield break;
         }
 
+        manager.networkAddress = ip;
         kcp.Port = port;
-        NetworkManager.singleton.networkAddress = ip;
 
-        Debug.Log($"[ClientSideInstanceManager] Connecting to {ip}:{port}");
-        NetworkManager.singleton.StartClient();
+        Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
+        manager.StartClient();
 
         isSwitching = false;
     }

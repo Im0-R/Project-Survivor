@@ -54,6 +54,7 @@ public class InstanceNetworkManager : NetworkManager
     {
         base.OnServerSceneChanged(sceneName);
         Debug.Log($"[InstanceNetworkManager] OnServerSceneChanged -> {sceneName}");
+        Debug.Log($"[InstanceNetworkManager] Active scene after change = {SceneManager.GetActiveScene().name}");
     }
 
     private void SpawnServerManagersOnce()

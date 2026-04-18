@@ -85,7 +85,7 @@ public class InstanceManager : NetworkBehaviour
             return;
         }
 
-        var info = new InstanceInfo(instanceId, port, scene, seed, process.Id);
+        InstanceInfo info = new InstanceInfo(instanceId, port, scene, seed, process.Id);
         activeInstances[instanceId] = info;
 
         UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}");
