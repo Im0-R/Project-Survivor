@@ -23,12 +23,7 @@ public class ClientSideInstanceManager : MonoBehaviour
 
     public void SwitchToInstance(ushort port, string ip = InstanceManager.ipAddress)
     {
-        if (isSwitching)
-        {
-            Debug.LogWarning("[ClientSideInstanceManager] Already switching");
-            return;
-        }
-
+        if (isSwitching) return;
         StartCoroutine(SwitchRoutine(port, ip));
     }
 
@@ -47,7 +42,6 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         if (NetworkClient.isConnected || NetworkClient.isConnecting)
         {
-            Debug.Log("[ClientSideInstanceManager] Stopping current client...");
             NetworkManager.singleton.StopClient();
 
             while (NetworkClient.isConnected || NetworkClient.isConnecting)
@@ -59,7 +53,7 @@ public class ClientSideInstanceManager : MonoBehaviour
         KcpTransport kcp = NetworkManager.singleton.transport as KcpTransport;
         if (kcp == null)
         {
-            Debug.LogError("[ClientSideInstanceManager] NetworkManager transport is not KcpTransport");
+            Debug.LogError("[ClientSideInstanceManager] KcpTransport not found");
             isSwitching = false;
             yield break;
         }

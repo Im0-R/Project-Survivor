@@ -8,26 +8,17 @@ public class InstanceNetworkManager : NetworkManager
     [SerializeField] private GameObject serverTimeManagerPrefab;
 
     private bool managersSpawned;
+    private bool gameplaySceneLoadingStarted;
 
     public override void Awake()
     {
-#if UNITY_CLIENT && !UNITY_SERVER || UNITY_EDITOR
+#if !UNITY_SERVER
         Destroy(gameObject);
         return;
 #endif
 
         base.Awake();
         DontDestroyOnLoad(gameObject);
-
-#if UNITY_SERVER
-        var nms = FindObjectsByType<NetworkManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        Debug.Log($"[InstanceNetworkManager] NetworkManagers found: {nms.Length}");
-
-        foreach (var nm in nms)
-        {
-            Debug.Log($"[InstanceNetworkManager] NM={nm.GetType().Name} | active={nm.gameObject.activeInHierarchy} | scene={nm.gameObject.scene.name}");
-        }
-#endif
     }
 
     public override void OnStartServer()
@@ -36,6 +27,33 @@ public class InstanceNetworkManager : NetworkManager
 
         Debug.Log($"[InstanceNetworkManager] OnStartServer | active scene={SceneManager.GetActiveScene().name}");
         SpawnServerManagersOnce();
+    }
+
+    [Server]
+    public void LoadGameplayScene(string sceneName)
+    {
+        if (gameplaySceneLoadingStarted)
+        {
+            Debug.LogWarning("[InstanceNetworkManager] Gameplay scene load already started");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(sceneName))
+        {
+            Debug.LogError("[InstanceNetworkManager] LoadGameplayScene received null/empty scene");
+            return;
+        }
+
+        gameplaySceneLoadingStarted = true;
+
+        Debug.Log($"[InstanceNetworkManager] ServerChangeScene -> {sceneName}");
+        ServerChangeScene(sceneName);
+    }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        base.OnServerSceneChanged(sceneName);
+        Debug.Log($"[InstanceNetworkManager] OnServerSceneChanged -> {sceneName}");
     }
 
     private void SpawnServerManagersOnce()
@@ -56,8 +74,8 @@ public class InstanceNetworkManager : NetworkManager
         }
 
         GameObject stm = Instantiate(serverTimeManagerPrefab);
-        NetworkServer.Spawn(stm);
         DontDestroyOnLoad(stm);
+        NetworkServer.Spawn(stm);
 
         Debug.Log("[InstanceNetworkManager] Spawned ServerTimeManager");
     }

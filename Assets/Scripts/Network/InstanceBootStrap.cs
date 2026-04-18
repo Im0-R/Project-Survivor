@@ -4,7 +4,6 @@ using kcp2k;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class InstanceBootStrap : MonoBehaviour
 {
@@ -15,8 +14,6 @@ public class InstanceBootStrap : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-
-        Debug.Log("[InstanceBootStrap] Awake");
 
         if (Keyboard.current != null)
             InputSystem.DisableDevice(Keyboard.current);
@@ -59,15 +56,6 @@ public class InstanceBootStrap : MonoBehaviour
     {
         Debug.Log("[InstanceBootStrap] Booting dedicated instance...");
 
-        if (SceneManager.GetActiveScene().name != SceneArg)
-        {
-            Debug.Log($"[InstanceBootStrap] Loading scene: {SceneArg}");
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneArg);
-
-            while (!asyncLoad.isDone)
-                yield return null;
-        }
-
         NetworkManager manager = null;
         while (manager == null)
         {
@@ -75,7 +63,7 @@ public class InstanceBootStrap : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log($"[InstanceBootStrap] Found NM: {manager.GetType().Name}");
+        Debug.Log($"[InstanceBootStrap] Found NetworkManager: {manager.GetType().Name}");
 
         KcpTransport kcp = manager.transport as KcpTransport;
         if (kcp == null)
@@ -87,15 +75,25 @@ public class InstanceBootStrap : MonoBehaviour
         kcp.Port = (ushort)PortArg;
         Debug.Log($"[InstanceBootStrap] KCP configured on port {kcp.Port}");
 
-        manager.StartServer();
-        Debug.Log("[InstanceBootStrap] Server started");
-
         DatabaseManager.Initialize();
         Debug.Log("[InstanceBootStrap] Database initialized");
 
+        manager.StartServer();
+        Debug.Log("[InstanceBootStrap] Server started");
+
+        // Laisse Mirror faire la synchro de scène correctement
+        if (manager is InstanceNetworkManager instanceManager)
+        {
+            instanceManager.LoadGameplayScene(SceneArg);
+        }
+        else
+        {
+            Debug.LogError("[InstanceBootStrap] NetworkManager is not InstanceNetworkManager");
+        }
+
         while (true)
         {
-            Debug.Log($"[InstanceBootStrap] Alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
+            Debug.Log($"[InstanceBootStrap] Alive | targetScene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
             yield return new WaitForSeconds(10f);
         }
     }
