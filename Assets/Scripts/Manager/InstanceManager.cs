@@ -1,20 +1,26 @@
-﻿using System.Diagnostics;
-using UnityEngine;
-using Mirror;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using Mirror;
+using UnityEngine;
 
 public class InstanceManager : NetworkBehaviour
 {
     public static InstanceManager Instance { get; private set; }
 
-    private readonly Dictionary<int, InstanceInfo> activeInstances = new();
-    private int nextInstanceId = 1;
-
-    public const string ipAddress = "72.60.212.58"; // IP PUBLIQUE DU SERVEUR
-
-    // Nouvel EXE utilisé par TOUTES les instances (Hub + Maps)
+    public const string ipAddress = "72.60.212.58";
     private const string INSTANCE_EXECUTABLE = "/home/server/instance/InstanceServer.x86_64";
+
+    private readonly Dictionary<int, InstanceInfo> activeInstances = new();
+
+    private int nextInstanceId = 1;
+    private int nextDynamicPort = 8001;
+
+    [Header("Boot Settings")]
+    [SerializeField] private float instanceBootDelay = 2.0f;
+    [SerializeField] private string hubSceneName = "Town";
+    [SerializeField] private int hubPort = 8000;
 
     private void Awake()
     {
@@ -23,6 +29,7 @@ public class InstanceManager : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -30,88 +37,153 @@ public class InstanceManager : NetworkBehaviour
     [ServerCallback]
     private void Start()
     {
-        // Hub Town créé au lancement
-        CreateInitialTownInstance();
+        CreateInitialHubInstance();
     }
 
-    // ==========================================================
-    // =============== CREATION DYNAMIC INSTANCES ===============
-    // ==========================================================
-
     [Server]
-    public void CreateInstance(NetworkConnectionToClient conn)
+    public void CreateInstance(NetworkConnectionToClient conn, string scene)
     {
-        int id = nextInstanceId++;
-        int port = 8000 + id; // changing port to avoid conflicts
-        string scene = "Town";
-        int seed = Random.Range(0, 999999);
-
-        if (!File.Exists(INSTANCE_EXECUTABLE))
+        if (conn == null)
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] ❌ Missing instance server build: {INSTANCE_EXECUTABLE}");
+            UnityEngine.Debug.LogError("[InstanceManager] CreateInstance called with null conn");
             return;
         }
 
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = INSTANCE_EXECUTABLE,
-            Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
-            UseShellExecute = false,
-            CreateNoWindow = true
-        });
-
-        activeInstances[id] = new InstanceInfo(id, port, scene, seed);
-
-        // Envoyer les infos de connexion au client
-        TargetSendInstanceInfo(conn, ipAddress, port);
-
-        UnityEngine.Debug.Log($"[InstanceManager] Dynamic instance #{id} launched on port {port}");
-    }
-
-    // ==========================================================
-    // =============== CREATION INSTANCE HUB =====================
-    // ==========================================================
-
-    [Server]
-    private void CreateInitialTownInstance()
-    {
-        int id = nextInstanceId++;
-        int port = 8000;        // Port fixe du HUB
-        string scene = "Town";
-        int seed = Random.Range(0, 999999);
+        if (string.IsNullOrWhiteSpace(scene))
+            scene = hubSceneName;
 
         if (!File.Exists(INSTANCE_EXECUTABLE))
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] ❌ Missing instance server build: {INSTANCE_EXECUTABLE}");
+            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {INSTANCE_EXECUTABLE}");
             return;
         }
 
-        Process.Start(new ProcessStartInfo
+        int instanceId = nextInstanceId++;
+        int port = GetNextFreeDynamicPort();
+        int seed = Random.Range(0, 999999);
+
+        Process process;
+        try
         {
-            FileName = INSTANCE_EXECUTABLE,
-            Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
-            UseShellExecute = false,
-            CreateNoWindow = true
-        });
+            process = Process.Start(new ProcessStartInfo
+            {
+                FileName = INSTANCE_EXECUTABLE,
+                Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+        }
+        catch (System.Exception ex)
+        {
+            UnityEngine.Debug.LogError($"[InstanceManager] Failed to start instance process: {ex}");
+            return;
+        }
 
-        activeInstances[id] = new InstanceInfo(id, port, scene, seed);
+        if (process == null)
+        {
+            UnityEngine.Debug.LogError("[InstanceManager] Process.Start returned null");
+            return;
+        }
 
-        UnityEngine.Debug.Log($"[Master] HUB Town instance created on port {port}");
+        var info = new InstanceInfo(instanceId, port, scene, seed, process.Id);
+        activeInstances[instanceId] = info;
+
+        UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}");
+
+        StartCoroutine(DelayedRedirectToInstance(conn, info));
     }
 
-    // ==========================================================
-    // =============== CLIENT REDIRECT ===========================
-    // ==========================================================
+    [Server]
+    private void CreateInitialHubInstance()
+    {
+        if (!File.Exists(INSTANCE_EXECUTABLE))
+        {
+            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {INSTANCE_EXECUTABLE}");
+            return;
+        }
+
+        int instanceId = nextInstanceId++;
+        int seed = Random.Range(0, 999999);
+
+        try
+        {
+            Process process = Process.Start(new ProcessStartInfo
+            {
+                FileName = INSTANCE_EXECUTABLE,
+                Arguments = $"-batchmode -nographics -scene {hubSceneName} -port {hubPort} -seed {seed}",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+
+            if (process == null)
+            {
+                UnityEngine.Debug.LogError("[InstanceManager] Hub process returned null");
+                return;
+            }
+
+            activeInstances[instanceId] = new InstanceInfo(instanceId, hubPort, hubSceneName, seed, process.Id)
+            {
+                isReady = true
+            };
+
+            UnityEngine.Debug.Log($"[InstanceManager] HUB launched on {ipAddress}:{hubPort}, pid={process.Id}");
+        }
+        catch (System.Exception ex)
+        {
+            UnityEngine.Debug.LogError($"[InstanceManager] Failed to launch HUB: {ex}");
+        }
+    }
+
+    [Server]
+    private IEnumerator DelayedRedirectToInstance(NetworkConnectionToClient conn, InstanceInfo info)
+    {
+        float timer = 0f;
+
+        while (timer < instanceBootDelay)
+        {
+            if (conn == null || !conn.isReady)
+            {
+                UnityEngine.Debug.LogWarning("[InstanceManager] Connection lost before redirect");
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        info.isReady = true;
+
+        if (conn != null)
+        {
+            UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port}");
+            TargetSendInstanceInfo(conn, ipAddress, info.port);
+        }
+    }
+
+    private int GetNextFreeDynamicPort()
+    {
+        while (IsPortAlreadyTracked(nextDynamicPort))
+            nextDynamicPort++;
+
+        return nextDynamicPort++;
+    }
+
+    private bool IsPortAlreadyTracked(int port)
+    {
+        foreach (var kvp in activeInstances)
+        {
+            if (kvp.Value.port == port)
+                return true;
+        }
+
+        return false;
+    }
 
     [TargetRpc]
     private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port)
     {
         ClientSideInstanceManager.Instance?.SwitchToInstance((ushort)port, ip);
     }
-
-    // ==========================================================
-    // =============== INSTANCE INFO STRUCT ======================
-    // ==========================================================
 
     [System.Serializable]
     public class InstanceInfo
@@ -120,13 +192,17 @@ public class InstanceManager : NetworkBehaviour
         public int port;
         public string scene;
         public int seed;
+        public int processId;
+        public bool isReady;
 
-        public InstanceInfo(int id, int port, string scene, int seed)
+        public InstanceInfo(int id, int port, string scene, int seed, int processId)
         {
             this.id = id;
             this.port = port;
             this.scene = scene;
             this.seed = seed;
+            this.processId = processId;
+            this.isReady = false;
         }
     }
 }

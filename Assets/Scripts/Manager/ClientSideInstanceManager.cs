@@ -1,15 +1,17 @@
-﻿using kcp2k;
+﻿using System.Collections;
+using kcp2k;
 using Mirror;
-using System.Collections;
 using UnityEngine;
 
 public class ClientSideInstanceManager : MonoBehaviour
 {
     public static ClientSideInstanceManager Instance { get; private set; }
 
+    private bool isSwitching;
+
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -21,45 +23,53 @@ public class ClientSideInstanceManager : MonoBehaviour
 
     public void SwitchToInstance(ushort port, string ip = InstanceManager.ipAddress)
     {
+        if (isSwitching)
+        {
+            Debug.LogWarning("[ClientSideInstanceManager] Already switching");
+            return;
+        }
+
         StartCoroutine(SwitchRoutine(port, ip));
     }
 
     private IEnumerator SwitchRoutine(ushort port, string ip)
     {
-        Debug.Log("[InstanceManager] Preparing to switch instance...");
+        isSwitching = true;
 
-        // -----------------------------
-        // 1) Disconnect cleanly
-        // -----------------------------
-        if (NetworkClient.isConnected || NetworkClient.isConnecting)
+        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}");
+
+        if (NetworkManager.singleton == null)
         {
-            NetworkManager.singleton.StopClient();
-            yield return new WaitForSeconds(0.3f);
+            Debug.LogError("[ClientSideInstanceManager] NetworkManager.singleton is null");
+            isSwitching = false;
+            yield break;
         }
 
-        // -----------------------------
-        // 2) Configure KCP transport
-        // -----------------------------
-        KcpTransport kcp = Transport.active as KcpTransport;
+        if (NetworkClient.isConnected || NetworkClient.isConnecting)
+        {
+            Debug.Log("[ClientSideInstanceManager] Stopping current client...");
+            NetworkManager.singleton.StopClient();
+
+            while (NetworkClient.isConnected || NetworkClient.isConnecting)
+                yield return null;
+        }
+
+        yield return null;
+
+        KcpTransport kcp = NetworkManager.singleton.transport as KcpTransport;
         if (kcp == null)
         {
-            Debug.LogError("[InstanceManager] KcpTransport not found!");
+            Debug.LogError("[ClientSideInstanceManager] NetworkManager transport is not KcpTransport");
+            isSwitching = false;
             yield break;
         }
 
         kcp.Port = port;
         NetworkManager.singleton.networkAddress = ip;
 
-        Debug.Log($"[InstanceManager] Transport configured → {ip}:{port}");
-
-        // -----------------------------
-        // 3) Start connection
-        // -----------------------------
-        Debug.Log("[InstanceManager] Connecting to instance...");
+        Debug.Log($"[ClientSideInstanceManager] Connecting to {ip}:{port}");
         NetworkManager.singleton.StartClient();
 
-        yield return null;
-
-        Debug.Log("[InstanceManager] Instance switch done! Waiting for scene sync...");
+        isSwitching = false;
     }
 }

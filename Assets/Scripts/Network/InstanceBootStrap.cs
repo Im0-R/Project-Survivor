@@ -1,10 +1,10 @@
 ﻿#if UNITY_SERVER
-using Mirror;
 using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 using kcp2k;
+using Mirror;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InstanceBootStrap : MonoBehaviour
 {
@@ -16,21 +16,13 @@ public class InstanceBootStrap : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-#if UNITY_CLIENT || UNITY_EDITOR
-        Debug.Log("UNITY_CLIENT = TRUE");
-#else
-        Debug.Log("UNITY_CLIENT = FALSE");
-#endif
+        Debug.Log("[InstanceBootStrap] Awake");
 
-#if UNITY_SERVER
-        Debug.Log("UNITY_SERVER = TRUE");
-
-        // Deactivate keyboard/mouse in server mode
         if (Keyboard.current != null)
             InputSystem.DisableDevice(Keyboard.current);
+
         if (Mouse.current != null)
             InputSystem.DisableDevice(Mouse.current);
-#endif
 
         ReadCommandLineArgs();
     }
@@ -44,68 +36,66 @@ public class InstanceBootStrap : MonoBehaviour
             switch (args[i])
             {
                 case "-scene":
-                    SceneArg = args[i + 1];
+                    if (i + 1 < args.Length)
+                        SceneArg = args[i + 1];
                     break;
+
                 case "-port":
-                    int.TryParse(args[i + 1], out PortArg);
+                    if (i + 1 < args.Length)
+                        int.TryParse(args[i + 1], out PortArg);
                     break;
+
                 case "-seed":
-                    int.TryParse(args[i + 1], out SeedArg);
+                    if (i + 1 < args.Length)
+                        int.TryParse(args[i + 1], out SeedArg);
                     break;
             }
         }
 
-        Debug.Log($"[ARGS] scene={SceneArg} | port={PortArg} | seed={SeedArg}");
+        Debug.Log($"[InstanceBootStrap] ARGS scene={SceneArg} | port={PortArg} | seed={SeedArg}");
     }
 
     private IEnumerator Start()
     {
-        Debug.Log("[InstanceBootStrap] Booting dedicated server...");
+        Debug.Log("[InstanceBootStrap] Booting dedicated instance...");
 
-        // 1) Load the asked scene FIRST (so we get the right NetworkManager + Transport)
         if (SceneManager.GetActiveScene().name != SceneArg)
         {
             Debug.Log($"[InstanceBootStrap] Loading scene: {SceneArg}");
-            var asyncLoad = SceneManager.LoadSceneAsync(SceneArg);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneArg);
 
             while (!asyncLoad.isDone)
                 yield return null;
         }
 
-        // 2) Wait for NetworkManager (the one in the target scene)
         NetworkManager manager = null;
         while (manager == null)
         {
-            manager = FindObjectOfType<NetworkManager>();
+            manager = FindFirstObjectByType<NetworkManager>();
             yield return null;
         }
 
-        // 3) Configure port on the transport ACTUALLY used by NetworkManager
-        var kcp = manager.transport as KcpTransport;
-        Debug.Log($"[InstanceBootStrap] Active transport = {manager.transport?.GetType().Name}");
+        Debug.Log($"[InstanceBootStrap] Found NM: {manager.GetType().Name}");
 
-        if (kcp != null)
+        KcpTransport kcp = manager.transport as KcpTransport;
+        if (kcp == null)
         {
-            Debug.Log($"[InstanceBootStrap] KCP port before = {kcp.Port}");
-            kcp.Port = (ushort)PortArg;
-            Debug.Log($"[InstanceBootStrap] KCP port after  = {kcp.Port}");
-        }
-        else
-        {
-            Debug.LogError("[InstanceBootStrap] NetworkManager transport is NOT KcpTransport!");
+            Debug.LogError("[InstanceBootStrap] Transport is not KcpTransport");
+            yield break;
         }
 
-        Debug.Log("[InstanceBootStrap] NetworkManager found → Starting instance...");
+        kcp.Port = (ushort)PortArg;
+        Debug.Log($"[InstanceBootStrap] KCP configured on port {kcp.Port}");
 
-        // 4) Start the server
         manager.StartServer();
+        Debug.Log("[InstanceBootStrap] Server started");
 
-        Debug.Log("[InstanceBootStrap] DB init...");
         DatabaseManager.Initialize();
+        Debug.Log("[InstanceBootStrap] Database initialized");
 
         while (true)
         {
-            Debug.Log($"[InstanceBootStrap] Instance alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
+            Debug.Log($"[InstanceBootStrap] Alive | scene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
             yield return new WaitForSeconds(10f);
         }
     }

@@ -16,7 +16,7 @@ public static class AffixDatabase
         affixesById = new Dictionary<int, AffixSO>();
 
         //Load all AffixSO from Resources
-        AffixSO[] allAffixes = Resources.LoadAll<AffixSO>("");
+        AffixSO[] allAffixes = Resources.LoadAll<AffixSO>("ScriptableObjects/Affixes");
 
         if (allAffixes == null || allAffixes.Length == 0)
         {

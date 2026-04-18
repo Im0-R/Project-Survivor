@@ -69,18 +69,21 @@ public class PlayerInventory : NetworkBehaviour
 
 
     [Server]
-    public bool AddItem(ItemInstance inst)
+    public bool AddItem(ItemInstance item)
     {
-        for (int i = 0; i < maxSlots; i++)
+        if (item.instanceId == 0) return false;
+
+        for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrEmpty(ItemsJson[i]))
+            ItemInstance current = DeserializeItem(ItemsJson[i]);
+            if (current.instanceId == 0)
             {
-                ItemsJson[i] = JsonUtility.ToJson(inst);
-                OnInventoryChanged?.Invoke();
+                ItemsJson[i] = JsonUtility.ToJson(item);
                 return true;
             }
         }
-        return false;
+
+        return false; // inventaire plein
     }
     [Server]
     public bool MoveOrSwap(int from, int to)
@@ -94,13 +97,11 @@ public class PlayerInventory : NetworkBehaviour
         return true;
     }
     [Server]
-    public bool RemoveAt(int index)
+    public void RemoveAt(int index)
     {
-        if (index < 0 || index >= maxSlots) return false;
+        if (index < 0 || index >= ItemsJson.Count) return;
         ItemsJson[index] = "";
-        return true;
     }
-
     [Server]
     public bool TryRemoveByInstanceId(long instanceId)
     {
@@ -171,7 +172,18 @@ public class PlayerInventory : NetworkBehaviour
 
         return -1;
     }
+    private ItemInstance DeserializeItem(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return default;
 
+        return JsonUtility.FromJson<ItemInstance>(json);
+    }
+
+    private string SerializeItem(ItemInstance item)
+    {
+        return JsonUtility.ToJson(item);
+    }
     [Server]
     public void Server_AddItem(ItemInstance item)
     {
