@@ -9,22 +9,17 @@ public class PortalInstances : NetworkBehaviour, IInteractable
     {
         if (!NetworkClient.active) return;
 
-        Debug.Log("[PortalInstances] Interacted with portal");
+        Debug.Log("[PortalInstances] Interacted");
         CmdRequestInstance(targetScene);
     }
 
     [Command(requiresAuthority = false)]
     private void CmdRequestInstance(string sceneName, NetworkConnectionToClient sender = null)
     {
-        if (!isServer) return;
         if (sender == null) return;
-        if (InstanceManager.Instance == null)
-        {
-            Debug.LogError("[PortalInstances] InstanceManager.Instance is null");
-            return;
-        }
+        if (InstanceManager.Instance == null) return;
 
-        Debug.Log($"[PortalInstances] Request from conn={sender.connectionId}, scene={sceneName}");
+        Debug.Log($"[PortalInstances] Creating instance for conn={sender.connectionId}, scene={sceneName}");
         InstanceManager.Instance.CreateInstance(sender, sceneName);
     }
 }

@@ -137,26 +137,14 @@ public class InstanceManager : NetworkBehaviour
     [Server]
     private IEnumerator DelayedRedirectToInstance(NetworkConnectionToClient conn, InstanceInfo info)
     {
-        float timer = 0f;
-
-        while (timer < instanceBootDelay)
-        {
-            if (conn == null || !conn.isReady)
-            {
-                UnityEngine.Debug.LogWarning("[InstanceManager] Connection lost before redirect");
-                yield break;
-            }
-
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(instanceBootDelay);
 
         info.isReady = true;
 
         if (conn != null)
         {
-            UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port}");
-            TargetSendInstanceInfo(conn, ipAddress, info.port);
+            UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port} scene={info.scene}");
+            TargetSendInstanceInfo(conn, ipAddress, info.port, info.scene);
         }
     }
 
@@ -180,9 +168,9 @@ public class InstanceManager : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port)
+    private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port, string sceneName)
     {
-        ClientSideInstanceManager.Instance?.SwitchToInstance((ushort)port, ip);
+        ClientSideInstanceManager.Instance?.SwitchToInstance((ushort)port, ip, sceneName);
     }
 
     [System.Serializable]
@@ -202,7 +190,7 @@ public class InstanceManager : NetworkBehaviour
             this.scene = scene;
             this.seed = seed;
             this.processId = processId;
-            this.isReady = false;
+            isReady = false;
         }
     }
 }

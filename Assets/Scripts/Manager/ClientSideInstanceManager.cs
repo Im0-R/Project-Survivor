@@ -2,6 +2,7 @@
 using kcp2k;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ClientSideInstanceManager : MonoBehaviour
 {
@@ -21,17 +22,22 @@ public class ClientSideInstanceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SwitchToInstance(ushort port, string ip = InstanceManager.ipAddress)
+    public void SwitchToInstance(ushort port, string ip, string sceneName)
     {
-        if (isSwitching) return;
-        StartCoroutine(SwitchRoutine(port, ip));
+        if (isSwitching)
+        {
+            Debug.LogWarning("[ClientSideInstanceManager] Already switching");
+            return;
+        }
+
+        StartCoroutine(SwitchRoutine(port, ip, sceneName));
     }
 
-    private IEnumerator SwitchRoutine(ushort port, string ip)
+    private IEnumerator SwitchRoutine(ushort port, string ip, string sceneName)
     {
         isSwitching = true;
 
-        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}");
+        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}, scene={sceneName}");
 
         if (NetworkManager.singleton == null)
         {
@@ -40,8 +46,10 @@ public class ClientSideInstanceManager : MonoBehaviour
             yield break;
         }
 
+        // 1) Stop client proprement
         if (NetworkClient.isConnected || NetworkClient.isConnecting)
         {
+            Debug.Log("[ClientSideInstanceManager] Stop current client");
             NetworkManager.singleton.StopClient();
 
             while (NetworkClient.isConnected || NetworkClient.isConnecting)
@@ -50,6 +58,20 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         yield return null;
 
+        // 2) Charger la bonne scène localement AVANT de se reconnecter
+        if (!string.IsNullOrWhiteSpace(sceneName) &&
+            SceneManager.GetActiveScene().name != sceneName)
+        {
+            Debug.Log($"[ClientSideInstanceManager] Loading local scene: {sceneName}");
+
+            AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
+            while (!load.isDone)
+                yield return null;
+
+            yield return null;
+        }
+
+        // 3) Config transport
         KcpTransport kcp = NetworkManager.singleton.transport as KcpTransport;
         if (kcp == null)
         {
