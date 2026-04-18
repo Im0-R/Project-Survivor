@@ -94,7 +94,7 @@ MonoBehaviour:
   editorAutoStart: 0
   sendRate: 60
   offlineScene: Assets/Scenes/Town/Town.unity
-  onlineScene: 
+  onlineScene: Assets/Scenes/Town/Town.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2756691690596845048}
   networkAddress: localhost
@@ -131,7 +131,6 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  hubSceneName: Town
   serverTimeManagerPrefab: {fileID: 0}
 --- !u!114 &6329816325727970690
 MonoBehaviour:
