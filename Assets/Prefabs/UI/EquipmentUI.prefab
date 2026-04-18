@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackGroundSlot
   id: -1
-  slotType: 2
+  slotType: 3
 --- !u!1 &3127624355539057211
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackGroundSlot
   id: -1
-  slotType: 3
+  slotType: 4
 --- !u!1 &5114819550390015374
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackGroundSlot
   id: -1
-  slotType: 1
+  slotType: 2
 --- !u!1 &7252819694526145371
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,4 +434,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackGroundSlot
   id: -1
-  slotType: 0
+  slotType: 1
