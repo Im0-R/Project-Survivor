@@ -55,14 +55,28 @@ public static class BuildScript
 
         string[] scenes = EditorBuildSettings.scenes
             .Where(s =>
+                s.path.EndsWith("Server_Main.unity") ||
                 s.path.EndsWith("Town.unity") ||
                 s.path.EndsWith("MapScene.unity"))
-            .OrderByDescending(s => s.path.EndsWith("Town.unity")) // Town FIRST
+            .OrderBy(s =>
+            {
+                if (s.path.EndsWith("Server_Main.unity")) return 0;
+                if (s.path.EndsWith("Town.unity")) return 1;
+                if (s.path.EndsWith("MapScene.unity")) return 2;
+                return 99;
+            })
             .Select(s => s.path)
             .ToArray();
 
         if (scenes.Length == 0)
-            UnityEngine.Debug.LogError("❌ No Town/MapScene found in Build Settings!");
+        {
+            UnityEngine.Debug.LogError("❌ No Server_Main/Town/MapScene found in Build Settings!");
+            return;
+        }
+
+        UnityEngine.Debug.Log("=== INSTANCE BUILD SCENES ===");
+        foreach (var scene in scenes)
+            UnityEngine.Debug.Log(scene);
 
         Build(fullPath, scenes);
         UnityEngine.Debug.Log("✅ INSTANCE build OK → " + fullPath);
