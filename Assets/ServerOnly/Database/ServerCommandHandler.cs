@@ -8,7 +8,6 @@ public class ServerCommandHandler : MonoBehaviour
 {
     public static ServerCommandHandler Instance { get; private set; }
 
-    // Hub principal (Town)
     private const string HUB_IP = "72.60.212.58";
     private const int HUB_PORT = 8000;
 
@@ -37,10 +36,6 @@ public class ServerCommandHandler : MonoBehaviour
         Debug.Log("[ServerCommandHandler] NetworkMessage handlers registered.");
     }
 
-    // =========================================================================
-    // ============================ REGISTER ===================================
-    // =========================================================================
-
     private void OnRegisterMessageReceived(NetworkConnectionToClient conn, RegisterMessage msg)
     {
         Debug.Log($"[MASTER] Register request: {msg.username}");
@@ -65,10 +60,6 @@ public class ServerCommandHandler : MonoBehaviour
         }
     }
 
-    // =========================================================================
-    // ============================== LOGIN ====================================
-    // =========================================================================
-
     private void OnLoginMessageReceived(NetworkConnectionToClient conn, LoginMessage msg)
     {
         Debug.Log($"[MASTER] Login request: {msg.username}");
@@ -85,10 +76,7 @@ public class ServerCommandHandler : MonoBehaviour
 
             conn.authenticationData = msg.username;
 
-            // Répondre SUCCESS
             SendAuthResponse(conn, true, "Login successful!");
-
-            // Puis rediriger vers l’instance Hub
             RedirectToHub(conn, msg.username);
         }
         catch (Exception ex)
@@ -97,10 +85,6 @@ public class ServerCommandHandler : MonoBehaviour
             SendAuthResponse(conn, false, "Internal server error.");
         }
     }
-
-    // =========================================================================
-    // ========================= HUB MANAGEMENT ===========================
-    // =========================================================================
 
     private void RedirectToHub(NetworkConnectionToClient conn, string username)
     {
@@ -112,22 +96,12 @@ public class ServerCommandHandler : MonoBehaviour
             port = HUB_PORT
         });
 
-        Debug.Log($"[MASTER → CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
+        Debug.Log($"[MASTER -> CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
 
-        StartCoroutine(DisconnectAfterDelay(conn, 0.25f));
+        // IMPORTANT:
+        // On ne force plus conn.Disconnect() ici.
+        // Le client se déconnecte lui-même quand il traite le redirect.
     }
-
-    private System.Collections.IEnumerator DisconnectAfterDelay(NetworkConnectionToClient conn, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (conn != null)
-            conn.Disconnect();
-    }
-
-
-    // =========================================================================
-    // ============================ UTILITY ====================================
-    // =========================================================================
 
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)
     {
@@ -137,7 +111,7 @@ public class ServerCommandHandler : MonoBehaviour
             message = message
         });
 
-        Debug.Log($"[MASTER → CLIENT] AuthResponse: {message}");
+        Debug.Log($"[MASTER -> CLIENT] AuthResponse: {message}");
     }
 }
 #endif

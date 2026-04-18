@@ -1,4 +1,5 @@
-﻿using AuthMessages;
+﻿using System.Collections;
+using AuthMessages;
 using Mirror;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ public class ClientAccountAPI : MonoBehaviour
 
     private bool handlersRegistered = false;
     public static bool ConnectingToHub;
+
+    private bool redirectPending;
+    private string pendingIp;
+    private int pendingPort;
 
     private void Awake()
     {
@@ -78,15 +83,29 @@ public class ClientAccountAPI : MonoBehaviour
     {
         Debug.Log($"[ClientAccountAPI] Redirect received -> {msg.ip}:{msg.port}");
 
+        pendingIp = msg.ip;
+        pendingPort = msg.port;
+        redirectPending = true;
+
+        StartCoroutine(HandleRedirectNextFrame());
+    }
+
+    private IEnumerator HandleRedirectNextFrame()
+    {
+        yield return null;
+
+        if (!redirectPending)
+            yield break;
+
+        redirectPending = false;
+        ConnectingToHub = true;
+
         if (ClientSideInstanceManager.Instance == null)
         {
             Debug.LogError("[ClientAccountAPI] ClientSideInstanceManager.Instance is null");
-            return;
+            yield break;
         }
 
-        ConnectingToHub = true;
-
-        // Pour l’instant on force Town comme scène de hub
-        ClientSideInstanceManager.Instance.SwitchToInstance((ushort)msg.port, msg.ip, "Town");
+        ClientSideInstanceManager.Instance.SwitchToInstance((ushort)pendingPort, pendingIp, "Town");
     }
 }
