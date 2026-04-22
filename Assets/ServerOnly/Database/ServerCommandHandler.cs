@@ -13,6 +13,12 @@ public class ServerCommandHandler : MonoBehaviour
 
     private void Awake()
     {
+        if (!NetworkServer.active && !Application.isBatchMode)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

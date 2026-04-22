@@ -2,6 +2,7 @@
 using kcp2k;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ClientSideInstanceManager : MonoBehaviour
 {
@@ -56,6 +57,19 @@ public class ClientSideInstanceManager : MonoBehaviour
         }
 
         yield return null;
+
+        if (!string.IsNullOrWhiteSpace(sceneName) &&
+            SceneManager.GetActiveScene().name != sceneName)
+        {
+            Debug.Log($"[ClientSideInstanceManager] Loading local scene -> {sceneName}");
+
+            AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName);
+            while (!loadOp.isDone)
+                yield return null;
+
+            Debug.Log($"[ClientSideInstanceManager] Local scene loaded -> {SceneManager.GetActiveScene().name}");
+            yield return null;
+        }
 
         KcpTransport kcp = manager.transport as KcpTransport;
         if (kcp == null)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        if (!NetworkServer.active) return;
+
         if (ServerTimeManager.instance != null && ServerTimeManager.instance.isPaused)
             return;
 
