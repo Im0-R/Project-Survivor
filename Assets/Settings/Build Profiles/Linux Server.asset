@@ -24,6 +24,10 @@ MonoBehaviour:
     m_path: Assets/Scenes/Server/Server_Main.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Town/Town.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/BootStrapInstance.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Menu.unity
   m_ScriptingDefines:
   - EDGEGAP_PLUGIN_SERVERS
   - MIRROR_RPC_USHORT
@@ -996,6 +1000,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7900820184674861332
       type: {class: LinuxPlatformSettings, ns: UnityEditor.LinuxStandalone, asm: UnityEditor.LinuxStandalone.Extensions}
       data:
