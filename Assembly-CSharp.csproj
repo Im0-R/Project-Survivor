@@ -139,6 +139,7 @@
     <Compile Include="Assets\Scripts\Network\ServerBootStrap.cs" />
     <Compile Include="Assets\Scripts\Inventory\BackGroundSlot.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
+    <Compile Include="Assets\Scripts\Debug\DebugSceneIds.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientAccountAPI.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyRanged.cs" />
     <Compile Include="Assets\Scripts\Network\Server\MasterNetworkManager.cs" />
