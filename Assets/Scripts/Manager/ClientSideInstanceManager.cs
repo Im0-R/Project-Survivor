@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AuthMessages;
 using kcp2k;
 using Mirror;
 using UnityEngine;
@@ -88,6 +89,26 @@ public class ClientSideInstanceManager : MonoBehaviour
         Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
         manager.StartClient();
 
+        StartCoroutine(SendHubAuthWhenConnected());
+
         isSwitching = false;
+    }
+    private IEnumerator SendHubAuthWhenConnected()
+    {
+        while (!NetworkClient.isConnected)
+            yield return null;
+
+        if (string.IsNullOrEmpty(ClientAccountAPI.CurrentUsername))
+        {
+            Debug.LogWarning("[ClientSideInstanceManager] Cannot send HubAuthMessage, CurrentUsername is empty");
+            yield break;
+        }
+
+        NetworkClient.Send(new HubAuthMessage
+        {
+            username = ClientAccountAPI.CurrentUsername
+        });
+
+        Debug.Log($"[ClientSideInstanceManager] Sent HubAuthMessage as {ClientAccountAPI.CurrentUsername}");
     }
 }

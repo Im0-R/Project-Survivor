@@ -237,7 +237,44 @@ public class PlayerEquipment : NetworkBehaviour
 
         return stats.stats[statId];
     }
+    // =========================
+    // SAVE / LOAD
+    // =========================
 
+    [Server]
+    public PlayerEquipmentData GetSaveData()
+    {
+        return new PlayerEquipmentData
+        {
+            weaponJson = weaponJson,
+            helmetJson = helmetJson,
+            chestJson = chestJson,
+            bootsJson = bootsJson
+        };
+    }
+
+    [Server]
+    public void LoadSaveData(PlayerEquipmentData data)
+    {
+        if (data == null)
+        {
+            weaponJson = "";
+            helmetJson = "";
+            chestJson = "";
+            bootsJson = "";
+            RecalculateStatsServer();
+            return;
+        }
+
+        weaponJson = data.weaponJson ?? "";
+        helmetJson = data.helmetJson ?? "";
+        chestJson = data.chestJson ?? "";
+        bootsJson = data.bootsJson ?? "";
+
+        RecalculateStatsServer();
+
+        Debug.Log("[PlayerEquipment] Equipment loaded from save.");
+    }
     // =========================
     // UTILS FOR UI
     // =========================

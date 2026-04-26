@@ -105,6 +105,53 @@ public static class DatabaseManager
         return db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
     }
     // ==============================
+    // SAVE & LOAD
+    // ==============================
+
+    public static void SavePlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
+    {
+        var user = GetUser(username);
+
+        if (user == null)
+        {
+            Debug.LogError($"[DB] Cannot save player state, user not found: {username}");
+            return;
+        }
+
+        user.InventoryJson = JsonUtility.ToJson(inv.GetSaveData());
+        user.EquipmentJson = JsonUtility.ToJson(equip.GetSaveData());
+
+        db.Update(user);
+
+        Debug.Log($"[DB] Saved player state for {username}");
+    }
+
+    public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
+    {
+        var user = GetUser(username);
+
+        if (user == null)
+        {
+            Debug.LogError($"[DB] Cannot load player state, user not found: {username}");
+            return;
+        }
+
+        PlayerInventoryData inventoryData = string.IsNullOrEmpty(user.InventoryJson)
+            ? new PlayerInventoryData()
+            : JsonUtility.FromJson<PlayerInventoryData>(user.InventoryJson);
+
+        PlayerEquipmentData equipmentData = string.IsNullOrEmpty(user.EquipmentJson)
+            ? new PlayerEquipmentData()
+            : JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
+
+        inv.LoadSaveData(inventoryData);
+        equip.LoadSaveData(equipmentData);
+
+        Debug.Log($"[DB] Loaded player state for {username}");
+    }
+
+
+    // ==============================
     // GENERALS METHODS
     // ==============================
     public static void Close()
@@ -149,6 +196,7 @@ public static class DatabaseManager
     }
 
 }
+
 
 /// <summary>
 /// User-Data connected to the database.

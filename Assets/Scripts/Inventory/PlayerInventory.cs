@@ -1,7 +1,12 @@
 using Mirror;
 using UnityEngine;
 using System;
-
+using System.Collections.Generic;
+[Serializable]
+public class PlayerInventoryData
+{
+    public List<string> itemsJson = new();
+}
 public class PlayerInventory : NetworkBehaviour
 {
     public class SyncListString : SyncList<string> { }
@@ -190,5 +195,34 @@ public class PlayerInventory : NetworkBehaviour
         AddItem(item);
         Debug.Log($"[Inventory] {netId} picked item baseId={item.baseId} rarity={item.rarity}");
         // TODO: save DB + sync UI
+    }
+
+    // =========================
+    // SAVE / LOAD
+    // =========================
+
+    [Server]
+    public PlayerInventoryData GetSaveData()
+    {
+        return new PlayerInventoryData
+        {
+            itemsJson = new List<string>(ItemsJson)
+        };
+    }
+
+    [Server]
+    public void LoadSaveData(PlayerInventoryData data)
+    {
+        ItemsJson.Clear();
+
+        for (int i = 0; i < maxSlots; i++)
+        {
+            if (data != null && data.itemsJson != null && i < data.itemsJson.Count)
+                ItemsJson.Add(data.itemsJson[i]);
+            else
+                ItemsJson.Add("");
+        }
+
+        Debug.Log($"[PlayerInventory] Inventory loaded with {ItemsJson.Count} slots.");
     }
 }

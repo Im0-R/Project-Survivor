@@ -19,4 +19,8 @@ namespace AuthMessages
         public bool success;
         public string message;
     }
+    public struct HubAuthMessage : NetworkMessage
+    {
+        public string username;
+    }
 }

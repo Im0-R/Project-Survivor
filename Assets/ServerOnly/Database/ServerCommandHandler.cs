@@ -94,19 +94,16 @@ public class ServerCommandHandler : MonoBehaviour
 
     private void RedirectToHub(NetworkConnectionToClient conn, string username)
     {
-        Debug.Log($"[MASTER] Sending redirect to HUB {HUB_IP}:{HUB_PORT}...");
+        Debug.Log($"[MASTER] Sending redirect to HUB {HUB_IP}:{HUB_PORT} for {username}...");
 
         conn.Send(new RedirectMessage
         {
             ip = HUB_IP,
-            port = HUB_PORT
+            port = HUB_PORT,
+            username = username
         });
 
-        Debug.Log($"[MASTER -> CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT}");
-
-        // IMPORTANT:
-        // On ne force plus conn.Disconnect() ici.
-        // Le client se déconnecte lui-même quand il traite le redirect.
+        Debug.Log($"[MASTER -> CLIENT] RedirectMessage: {HUB_IP}:{HUB_PORT} username={username}");
     }
 
     private void SendAuthResponse(NetworkConnectionToClient conn, bool success, string message)

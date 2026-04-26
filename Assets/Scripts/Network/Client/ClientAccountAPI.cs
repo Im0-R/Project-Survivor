@@ -7,6 +7,7 @@ public class ClientAccountAPI : MonoBehaviour
 {
     public static ClientAccountAPI Instance { get; private set; }
 
+
     private bool handlersRegistered = false;
     public static bool ConnectingToHub;
 
@@ -14,6 +15,7 @@ public class ClientAccountAPI : MonoBehaviour
     private string pendingIp;
     private int pendingPort;
 
+    public static string CurrentUsername;
     private void Awake()
     {
         if (Instance != null)
@@ -81,7 +83,9 @@ public class ClientAccountAPI : MonoBehaviour
 
     private void OnRedirect(RedirectMessage msg)
     {
-        Debug.Log($"[ClientAccountAPI] Redirect received -> {msg.ip}:{msg.port}");
+        Debug.Log($"[ClientAccountAPI] Redirect received -> {msg.ip}:{msg.port} username={msg.username}");
+
+        CurrentUsername = msg.username;
 
         pendingIp = msg.ip;
         pendingPort = msg.port;
