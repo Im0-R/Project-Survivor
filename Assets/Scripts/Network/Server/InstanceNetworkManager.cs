@@ -1,4 +1,5 @@
-﻿using AuthMessages;
+﻿using System.Collections;
+using AuthMessages;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,12 +22,13 @@ public class InstanceNetworkManager : NetworkManager
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }
+
     private void OnHubAuthMessage(NetworkConnectionToClient conn, HubAuthMessage msg)
     {
         conn.authenticationData = msg.username;
-
         Debug.Log($"[InstanceNetworkManager] Conn {conn.connectionId} authenticated as {msg.username}");
     }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -109,18 +111,51 @@ public class InstanceNetworkManager : NetworkManager
         base.OnServerAddPlayer(conn);
 
         GameObject player = conn.identity != null ? conn.identity.gameObject : null;
+
         if (player == null)
         {
             Debug.LogError("[InstanceNetworkManager] Player identity is null after AddPlayer");
             return;
         }
 
-        string username = conn.authenticationData as string;
+        StartCoroutine(LoadPlayerWhenAuthReady(conn, player));
+    }
 
-        if (string.IsNullOrEmpty(username))
+    private IEnumerator LoadPlayerWhenAuthReady(NetworkConnectionToClient conn, GameObject player)
+    {
+        string username = null;
+
+        float timeout = 5f;
+        float timer = 0f;
+
+        while (timer < timeout)
         {
-            Debug.LogWarning("[InstanceNetworkManager] Cannot load save, username is missing in authenticationData");
-            return;
+            if (conn == null)
+            {
+                Debug.LogWarning("[InstanceNetworkManager] Conn became null before auth was ready");
+                yield break;
+            }
+
+            if (player == null)
+            {
+                Debug.LogWarning("[InstanceNetworkManager] Player destroyed before auth was ready");
+                yield break;
+            }
+
+            if (conn.authenticationData is string user && !string.IsNullOrWhiteSpace(user))
+            {
+                username = user;
+                break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Debug.LogError($"[InstanceNetworkManager] Cannot load save, username still missing after timeout connId={conn.connectionId}");
+            yield break;
         }
 
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
@@ -129,7 +164,7 @@ public class InstanceNetworkManager : NetworkManager
         if (inv == null || equip == null)
         {
             Debug.LogError("[InstanceNetworkManager] PlayerInventory or PlayerEquipment missing on player prefab");
-            return;
+            yield break;
         }
 
         DatabaseManager.LoadPlayerState(username, inv, equip);
@@ -144,10 +179,10 @@ public class InstanceNetworkManager : NetworkManager
         if (conn.identity != null)
         {
             GameObject player = conn.identity.gameObject;
-            
+
             string username = conn.authenticationData as string;
 
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrWhiteSpace(username))
             {
                 PlayerInventory inv = player.GetComponent<PlayerInventory>();
                 PlayerEquipment equip = player.GetComponent<PlayerEquipment>();
@@ -156,6 +191,10 @@ public class InstanceNetworkManager : NetworkManager
                 {
                     DatabaseManager.SavePlayerState(username, inv, equip);
                     Debug.Log($"[InstanceNetworkManager] Saved player state for {username}");
+                }
+                else
+                {
+                    Debug.LogWarning("[InstanceNetworkManager] Cannot save, PlayerInventory or PlayerEquipment missing");
                 }
             }
             else

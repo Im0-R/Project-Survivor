@@ -19,10 +19,6 @@ public class PlayerInventory : NetworkBehaviour
 
     public event Action OnInventoryChanged;
 
-    // =========================
-    // MIRROR LIFECYCLE
-    // =========================
-
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -61,10 +57,6 @@ public class PlayerInventory : NetworkBehaviour
         OnInventoryChanged?.Invoke();
     }
 
-    // =========================
-    // SERVER API
-    // =========================
-
     [Server]
     private void EnsureSlots()
     {
@@ -76,43 +68,17 @@ public class PlayerInventory : NetworkBehaviour
     }
 
     [Server]
-    public bool CanAddItem()
-    {
-        EnsureSlots();
-
-        for (int i = 0; i < ItemsJson.Count; i++)
-        {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
-                return true;
-        }
-
-        return false;
-    }
-
-    [Server]
     public bool AddItem(ItemInstance item)
     {
         EnsureSlots();
 
-        if (item == null)
+        if (item == null || item.instanceId == 0)
         {
-            Debug.LogError("[Inventory] AddItem failed: item is null");
-            return false;
-        }
-
-        if (item.instanceId == 0)
-        {
-            Debug.LogError($"[Inventory] AddItem failed: invalid instanceId for item={item.itemName}");
+            Debug.LogError("[Inventory] AddItem failed: invalid item");
             return false;
         }
 
         string json = SerializeItem(item);
-
-        if (string.IsNullOrWhiteSpace(json))
-        {
-            Debug.LogError($"[Inventory] AddItem failed: serialized json is empty for item={item.itemName}");
-            return false;
-        }
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
@@ -135,6 +101,34 @@ public class PlayerInventory : NetworkBehaviour
     }
 
     [Server]
+    public void SetSlot(int index, ItemInstance item)
+    {
+        EnsureSlots();
+
+        if (index < 0 || index >= ItemsJson.Count)
+            return;
+
+        if (item == null || item.instanceId == 0)
+        {
+            ItemsJson[index] = "";
+            return;
+        }
+
+        ItemsJson[index] = SerializeItem(item);
+    }
+
+    [Server]
+    public void RemoveAt(int index)
+    {
+        EnsureSlots();
+
+        if (index < 0 || index >= ItemsJson.Count)
+            return;
+
+        ItemsJson[index] = "";
+    }
+
+    [Server]
     public bool MoveOrSwap(int from, int to)
     {
         EnsureSlots();
@@ -151,17 +145,6 @@ public class PlayerInventory : NetworkBehaviour
         ItemsJson[to] = temp;
 
         return true;
-    }
-
-    [Server]
-    public void RemoveAt(int index)
-    {
-        EnsureSlots();
-
-        if (index < 0 || index >= ItemsJson.Count)
-            return;
-
-        ItemsJson[index] = "";
     }
 
     [Server]
@@ -183,10 +166,6 @@ public class PlayerInventory : NetworkBehaviour
     {
         MoveOrSwap(from, to);
     }
-
-    // =========================
-    // CLIENT + SERVER HELPERS
-    // =========================
 
     public int Count => ItemsJson.Count;
 
@@ -229,10 +208,9 @@ public class PlayerInventory : NetworkBehaviour
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
-                items[i] = default;
-            else
-                items[i] = DeserializeItem(ItemsJson[i]);
+            items[i] = string.IsNullOrWhiteSpace(ItemsJson[i])
+                ? default
+                : DeserializeItem(ItemsJson[i]);
         }
 
         return items;
@@ -285,10 +263,6 @@ public class PlayerInventory : NetworkBehaviour
             return "";
         }
     }
-
-    // =========================
-    // SAVE / LOAD
-    // =========================
 
     [Server]
     public PlayerInventoryData GetSaveData()

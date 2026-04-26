@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
-    // On stocke le vrai contenu de l'item équipé, pas un index d'inventaire.
     [SyncVar] private string weaponJson = "";
     [SyncVar] private string helmetJson = "";
     [SyncVar] private string chestJson = "";
     [SyncVar] private string bootsJson = "";
 
-    // Optionnel pour l'UI
     [SyncVar] public float TotalDamage;
     [SyncVar] public float TotalDefense;
     [SyncVar] public float TotalVitality;
@@ -23,54 +21,31 @@ public class PlayerEquipment : NetworkBehaviour
         inv = GetComponent<PlayerInventory>();
     }
 
-    // =========================
-    // CLIENT -> SERVER
-    // =========================
-
     [Command]
     public void CmdEquipFromInventoryIndex(int inventoryIndex)
     {
         if (inv == null) return;
 
         ItemInstance newItem = inv.GetItemByIndex(inventoryIndex);
-        if (newItem.instanceId == 0) return;
+        if (newItem == null || newItem.instanceId == 0) return;
 
         ItemBaseSO baseSO = ItemDatabase.GetBase(newItem.baseId);
         if (baseSO == null) return;
 
-        // Sauvegarde l'ancien item équipé dans ce slot
-        ItemInstance oldEquipped = GetEquippedItem(baseSO.SlotType);
+        EquipmentSlot slot = baseSO.SlotType;
 
-        // 1. On enlève le nouvel item de l'inventaire
-        inv.RemoveAt(inventoryIndex);
+        ItemInstance oldEquipped = GetEquippedItem(slot);
 
-        // 2. On équipe le nouvel item
-        SetEquippedItem(baseSO.SlotType, newItem);
+        SetEquippedItem(slot, newItem);
 
-        // 3. S'il y avait déjà un item équipé, on le remet dans l'inventaire
-        if (oldEquipped.instanceId != 0)
-        {
-            bool addedBack = inv.AddItem(oldEquipped);
-
-            // Sécurité : si l'inventaire est plein, on annule l'équipement
-            if (!addedBack)
-            {
-                // On enlève le nouvel item du slot d'équipement
-                ClearEquippedItem(baseSO.SlotType);
-
-                // On tente de remettre le nouvel item dans l'inventaire
-                bool restoredNewItem = inv.AddItem(newItem);
-
-                if (!restoredNewItem)
-                {
-                    Debug.LogError("[PlayerEquipment] Impossible de restaurer l'item après échec d'équipement, inventaire plein.");
-                }
-
-                return;
-            }
-        }
+        if (oldEquipped != null && oldEquipped.instanceId != 0)
+            inv.SetSlot(inventoryIndex, oldEquipped);
+        else
+            inv.SetSlot(inventoryIndex, null);
 
         RecalculateStatsServer();
+
+        Debug.Log($"[PlayerEquipment] Equipped {newItem.itemName} in {slot} from inventory slot {inventoryIndex}");
     }
 
     [Command]
@@ -79,7 +54,7 @@ public class PlayerEquipment : NetworkBehaviour
         if (inv == null) return;
 
         ItemInstance equipped = GetEquippedItem(slot);
-        if (equipped.instanceId == 0) return;
+        if (equipped == null || equipped.instanceId == 0) return;
 
         bool added = inv.AddItem(equipped);
         if (!added)
@@ -90,18 +65,15 @@ public class PlayerEquipment : NetworkBehaviour
 
         ClearEquippedItem(slot);
         RecalculateStatsServer();
-    }
 
-    // =========================
-    // SERVER
-    // =========================
+        Debug.Log($"[PlayerEquipment] Unequipped {equipped.itemName} from {slot}");
+    }
 
     [Server]
     private void RecalculateStatsServer()
     {
         if (stats == null) return;
 
-        // Mets ici les bonnes stats de base de ton perso
         float dam = GetStatSafe(StatId.DamageMult);
         float def = GetStatSafe(StatId.Armor);
         float vit = GetStatSafe(StatId.MaxHealth);
@@ -114,15 +86,12 @@ public class PlayerEquipment : NetworkBehaviour
         TotalDamage = dam;
         TotalDefense = def;
         TotalVitality = vit;
-
-        // Si tu as une vraie méthode pour appliquer les stats runtime, décommente/adapte ici
-        // stats.SetDerived(dam, def, vit);
     }
 
     [Server]
     private void ApplyEquippedItem(ItemInstance inst, ref float dam, ref float def, ref float vit)
     {
-        if (inst.instanceId == 0) return;
+        if (inst == null || inst.instanceId == 0) return;
 
         ItemBaseSO baseSO = ItemDatabase.GetBase(inst.baseId);
         if (baseSO == null) return;
@@ -156,10 +125,6 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    // =========================
-    // HELPERS
-    // =========================
-
     public ItemInstance GetEquippedItem(EquipmentSlot slot)
     {
         return slot switch
@@ -182,12 +147,15 @@ public class PlayerEquipment : NetworkBehaviour
             case EquipmentSlot.Weapon:
                 weaponJson = json;
                 break;
+
             case EquipmentSlot.Helmet:
                 helmetJson = json;
                 break;
+
             case EquipmentSlot.Chest:
                 chestJson = json;
                 break;
+
             case EquipmentSlot.Boots:
                 bootsJson = json;
                 break;
@@ -202,12 +170,15 @@ public class PlayerEquipment : NetworkBehaviour
             case EquipmentSlot.Weapon:
                 weaponJson = "";
                 break;
+
             case EquipmentSlot.Helmet:
                 helmetJson = "";
                 break;
+
             case EquipmentSlot.Chest:
                 chestJson = "";
                 break;
+
             case EquipmentSlot.Boots:
                 bootsJson = "";
                 break;
@@ -216,6 +187,9 @@ public class PlayerEquipment : NetworkBehaviour
 
     private string SerializeItem(ItemInstance item)
     {
+        if (item == null || item.instanceId == 0)
+            return "";
+
         return JsonUtility.ToJson(item);
     }
 
@@ -237,9 +211,6 @@ public class PlayerEquipment : NetworkBehaviour
 
         return stats.stats[statId];
     }
-    // =========================
-    // SAVE / LOAD
-    // =========================
 
     [Server]
     public PlayerEquipmentData GetSaveData()
@@ -275,9 +246,6 @@ public class PlayerEquipment : NetworkBehaviour
 
         Debug.Log("[PlayerEquipment] Equipment loaded from save.");
     }
-    // =========================
-    // UTILS FOR UI
-    // =========================
 
     public bool HasEquipped(EquipmentSlot slot)
     {
