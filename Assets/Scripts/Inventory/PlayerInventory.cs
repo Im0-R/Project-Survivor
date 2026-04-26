@@ -2,38 +2,39 @@ using Mirror;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+
 [Serializable]
 public class PlayerInventoryData
 {
     public List<string> itemsJson = new();
 }
+
 public class PlayerInventory : NetworkBehaviour
 {
     public class SyncListString : SyncList<string> { }
+
     public SyncListString ItemsJson = new SyncListString();
 
     [SerializeField] private int maxSlots = 40;
 
     public event Action OnInventoryChanged;
 
-#if UNITY_SERVER || UNITY_EDITOR
+    // =========================
+    // MIRROR LIFECYCLE
+    // =========================
+
     public override void OnStartServer()
     {
         base.OnStartServer();
-
-        // init fixed slots
-        if (ItemsJson.Count == 0)
-        {
-            for (int i = 0; i < maxSlots; i++)
-                ItemsJson.Add(""); // empty slot
-        }
+        EnsureSlots();
     }
-#endif
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
         StartCoroutine(BindWhenReady());
     }
+
     private System.Collections.IEnumerator BindWhenReady()
     {
         while (CanvasInventory.Instance == null)
@@ -46,6 +47,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         base.OnStartClient();
         ItemsJson.Callback += OnItemsChanged;
+        OnInventoryChanged?.Invoke();
     }
 
     public override void OnStopClient()
@@ -56,7 +58,6 @@ public class PlayerInventory : NetworkBehaviour
 
     private void OnItemsChanged(SyncList<string>.Operation op, int index, string oldItem, string newItem)
     {
-        // rebuild UI
         OnInventoryChanged?.Invoke();
     }
 
@@ -65,65 +66,128 @@ public class PlayerInventory : NetworkBehaviour
     // =========================
 
     [Server]
-    public bool CanAddItem()
+    private void EnsureSlots()
     {
-        for (int i = 0; i < maxSlots; i++)
-            if (string.IsNullOrEmpty(ItemsJson[i])) return true;
-        return false;
+        while (ItemsJson.Count < maxSlots)
+            ItemsJson.Add("");
+
+        while (ItemsJson.Count > maxSlots)
+            ItemsJson.RemoveAt(ItemsJson.Count - 1);
     }
 
+    [Server]
+    public bool CanAddItem()
+    {
+        EnsureSlots();
+
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+                return true;
+        }
+
+        return false;
+    }
 
     [Server]
     public bool AddItem(ItemInstance item)
     {
-        if (item.instanceId == 0) return false;
+        EnsureSlots();
+
+        if (item == null)
+        {
+            Debug.LogError("[Inventory] AddItem failed: item is null");
+            return false;
+        }
+
+        if (item.instanceId == 0)
+        {
+            Debug.LogError($"[Inventory] AddItem failed: invalid instanceId for item={item.itemName}");
+            return false;
+        }
+
+        string json = SerializeItem(item);
+
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            Debug.LogError($"[Inventory] AddItem failed: serialized json is empty for item={item.itemName}");
+            return false;
+        }
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            ItemInstance current = DeserializeItem(ItemsJson[i]);
-            if (current.instanceId == 0)
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
             {
-                ItemsJson[i] = JsonUtility.ToJson(item);
+                ItemsJson[i] = json;
+                Debug.Log($"[Inventory] {netId} picked item={item.itemName} baseId={item.baseId} rarity={item.rarity} slot={i}");
                 return true;
             }
         }
 
-        return false; // inventaire plein
+        Debug.LogWarning("[Inventory] AddItem failed: inventory full");
+        return false;
     }
+
+    [Server]
+    public bool Server_AddItem(ItemInstance item)
+    {
+        return AddItem(item);
+    }
+
     [Server]
     public bool MoveOrSwap(int from, int to)
     {
-        if (from < 0 || from >= maxSlots || to < 0 || to >= maxSlots) return false;
+        EnsureSlots();
+
+        if (from < 0 || from >= ItemsJson.Count) return false;
+        if (to < 0 || to >= ItemsJson.Count) return false;
         if (from == to) return true;
 
-        if (string.IsNullOrEmpty(ItemsJson[from])) return false;
+        if (string.IsNullOrWhiteSpace(ItemsJson[from]))
+            return false;
 
-        (ItemsJson[from], ItemsJson[to]) = (ItemsJson[to], ItemsJson[from]);
+        string temp = ItemsJson[from];
+        ItemsJson[from] = ItemsJson[to];
+        ItemsJson[to] = temp;
+
         return true;
     }
+
     [Server]
     public void RemoveAt(int index)
     {
-        if (index < 0 || index >= ItemsJson.Count) return;
+        EnsureSlots();
+
+        if (index < 0 || index >= ItemsJson.Count)
+            return;
+
         ItemsJson[index] = "";
     }
+
     [Server]
     public bool TryRemoveByInstanceId(long instanceId)
     {
+        EnsureSlots();
+
         int idx = FindIndexByInstanceId(instanceId);
-        if (idx < 0) return false;
+
+        if (idx < 0)
+            return false;
+
         ItemsJson[idx] = "";
         return true;
     }
 
-    // =========================
-    // CLIENT + SERVER HELPERS
-    // =========================
     [Command]
     public void CmdMoveOrSwap(int from, int to)
     {
         MoveOrSwap(from, to);
     }
+
+    // =========================
+    // CLIENT + SERVER HELPERS
+    // =========================
+
     public int Count => ItemsJson.Count;
 
     public ItemInstance GetItemByIndex(int index)
@@ -131,17 +195,22 @@ public class PlayerInventory : NetworkBehaviour
         if (index < 0 || index >= ItemsJson.Count)
             return default;
 
-        if (string.IsNullOrEmpty(ItemsJson[index]))
+        if (string.IsNullOrWhiteSpace(ItemsJson[index]))
             return default;
 
-        return JsonUtility.FromJson<ItemInstance>(ItemsJson[index]);
+        return DeserializeItem(ItemsJson[index]);
     }
+
     public bool TryGetByInstanceId(long instanceId, out ItemInstance inst, out int index)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            var tmp = JsonUtility.FromJson<ItemInstance>(ItemsJson[i]);
-            if (tmp.instanceId == instanceId)
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+                continue;
+
+            ItemInstance tmp = DeserializeItem(ItemsJson[i]);
+
+            if (tmp != null && tmp.instanceId == instanceId)
             {
                 inst = tmp;
                 index = i;
@@ -153,48 +222,68 @@ public class PlayerInventory : NetworkBehaviour
         index = -1;
         return false;
     }
+
     public ItemInstance[] GetInventory()
     {
         ItemInstance[] items = new ItemInstance[ItemsJson.Count];
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            items[i] = JsonUtility.FromJson<ItemInstance>(ItemsJson[i]);
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+                items[i] = default;
+            else
+                items[i] = DeserializeItem(ItemsJson[i]);
         }
+
         return items;
     }
+
     private int FindIndexByInstanceId(long instanceId)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrEmpty(ItemsJson[i]))
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
                 continue;
 
-            var tmp = JsonUtility.FromJson<ItemInstance>(ItemsJson[i]);
-            if (tmp.instanceId == instanceId)
+            ItemInstance tmp = DeserializeItem(ItemsJson[i]);
+
+            if (tmp != null && tmp.instanceId == instanceId)
                 return i;
         }
 
         return -1;
     }
+
     private ItemInstance DeserializeItem(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
             return default;
 
-        return JsonUtility.FromJson<ItemInstance>(json);
+        try
+        {
+            return JsonUtility.FromJson<ItemInstance>(json);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Inventory] Deserialize failed. json={json} error={e}");
+            return default;
+        }
     }
 
     private string SerializeItem(ItemInstance item)
     {
-        return JsonUtility.ToJson(item);
-    }
-    [Server]
-    public void Server_AddItem(ItemInstance item)
-    {
-        AddItem(item);
-        Debug.Log($"[Inventory] {netId} picked item baseId={item.baseId} rarity={item.rarity}");
-        // TODO: save DB + sync UI
+        if (item == null)
+            return "";
+
+        try
+        {
+            return JsonUtility.ToJson(item);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Inventory] Serialize failed. item={item.itemName} error={e}");
+            return "";
+        }
     }
 
     // =========================
@@ -204,6 +293,8 @@ public class PlayerInventory : NetworkBehaviour
     [Server]
     public PlayerInventoryData GetSaveData()
     {
+        EnsureSlots();
+
         return new PlayerInventoryData
         {
             itemsJson = new List<string>(ItemsJson)
