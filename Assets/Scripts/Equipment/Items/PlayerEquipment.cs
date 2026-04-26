@@ -51,6 +51,8 @@ public class PlayerEquipment : NetworkBehaviour
     [Command]
     public void CmdUnequip(EquipmentSlot slot)
     {
+        Debug.LogWarning($"[PlayerEquipment] CmdUnequip CALLED slot={slot} by connection={connectionToClient?.connectionId}");
+
         if (inv == null) return;
 
         ItemInstance equipped = GetEquippedItem(slot);
@@ -165,6 +167,8 @@ public class PlayerEquipment : NetworkBehaviour
     [Server]
     private void ClearEquippedItem(EquipmentSlot slot)
     {
+        Debug.LogWarning($"[PlayerEquipment] ClearEquippedItem CALLED slot={slot}\n{System.Environment.StackTrace}");
+
         switch (slot)
         {
             case EquipmentSlot.Weapon:
@@ -184,7 +188,6 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
     }
-
     private string SerializeItem(ItemInstance item)
     {
         if (item == null || item.instanceId == 0)
@@ -227,6 +230,8 @@ public class PlayerEquipment : NetworkBehaviour
     [Server]
     public void LoadSaveData(PlayerEquipmentData data)
     {
+        Debug.LogWarning($"[PlayerEquipment] LoadSaveData CALLED dataNull={data == null}\n{System.Environment.StackTrace}");
+
         if (data == null)
         {
             weaponJson = "";
@@ -246,7 +251,6 @@ public class PlayerEquipment : NetworkBehaviour
 
         Debug.Log("[PlayerEquipment] Equipment loaded from save.");
     }
-
     public bool HasEquipped(EquipmentSlot slot)
     {
         return GetEquippedItem(slot).instanceId != 0;
