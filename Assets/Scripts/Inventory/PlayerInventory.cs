@@ -71,7 +71,15 @@ public class PlayerInventory : NetworkBehaviour
     public bool AddItem(ItemInstance item)
     {
         EnsureSlots();
+        int emptyCount = 0;
 
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+                emptyCount++;
+        }
+
+        Debug.Log($"[InventoryDebug] Count={ItemsJson.Count} Empty={emptyCount} Full={ItemsJson.Count - emptyCount}");
         if (item == null || item.instanceId == 0)
         {
             Debug.LogError("[Inventory] AddItem failed: invalid item");

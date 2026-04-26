@@ -60,10 +60,22 @@ public class CanvasInventory : MonoBehaviour
             if (string.IsNullOrEmpty(json)) continue;
 
             ItemInstance item = JsonUtility.FromJson<ItemInstance>(json);
-            if (item == null) continue;
+
+            if (item == null || item.instanceId == 0)
+            {
+                Debug.LogWarning($"[CanvasInventory] Invalid item at slot {i}, json={json}");
+                continue;
+            }
+
+            ItemBaseSO baseSO = ItemDatabase.GetBase(item.baseId);
+
+            if (baseSO == null)
+            {
+                Debug.LogWarning($"[CanvasInventory] Missing ItemBaseSO for slot {i}, baseId={item.baseId}, item={item.itemName}");
+                continue;
+            }
 
             GameObject cardObj = Instantiate(itemCardPrefab, inventorySlots[i].transform);
-
             ItemCard card = cardObj.GetComponent<ItemCard>();
             card.SetItemInstance(item);
             card.SetSlotIndex(i);

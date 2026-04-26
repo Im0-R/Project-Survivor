@@ -136,13 +136,14 @@ public static class DatabaseManager
             return;
         }
 
-        PlayerInventoryData inventoryData = string.IsNullOrEmpty(user.InventoryJson)
-            ? new PlayerInventoryData()
-            : JsonUtility.FromJson<PlayerInventoryData>(user.InventoryJson);
+        PlayerInventoryData inventoryData = new PlayerInventoryData();
+        PlayerEquipmentData equipmentData = new PlayerEquipmentData();
 
-        PlayerEquipmentData equipmentData = string.IsNullOrEmpty(user.EquipmentJson)
-            ? new PlayerEquipmentData()
-            : JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
+        if (!string.IsNullOrWhiteSpace(user.InventoryJson) && user.InventoryJson.StartsWith("{"))
+            inventoryData = JsonUtility.FromJson<PlayerInventoryData>(user.InventoryJson);
+
+        if (!string.IsNullOrWhiteSpace(user.EquipmentJson) && user.EquipmentJson.StartsWith("{"))
+            equipmentData = JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
 
         inv.LoadSaveData(inventoryData);
         equip.LoadSaveData(equipmentData);
@@ -217,10 +218,8 @@ public class UserAccount
 
 
     //Equipment System
-    public string EquipmentJson { get; set; } = "{}";
-
-    //inventory System
-    public string InventoryJson { get; set; } = "[]";
+    public string EquipmentJson { get; set; } = "";
+    public string InventoryJson { get; set; } = "";
 }
 
 #endif

@@ -52,15 +52,28 @@ public class PlayerPickupController : NetworkBehaviour
         float dist = Vector3.Distance(transform.position, loot.transform.position);
 
         if (loot.IsClaimed || dist > pickupRange)
+            return;
+
+        PlayerInventory inv = GetComponentInChildren<PlayerInventory>(true);
+
+        if (inv == null)
         {
+            Debug.LogError($"[Pickup] PlayerInventory missing on {name}");
+            return;
+        }
+
+        ItemInstance item = loot.GetItem();
+
+        bool added = inv.Server_AddItem(item);
+
+        if (!added)
+        {
+            Debug.LogWarning($"[Pickup] Pickup cancelled, inventory full item={item?.itemName}");
+            TargetPickupFeedback(connectionToClient, false);
             return;
         }
 
         loot.IsClaimed = true;
-
-        var inv = GetComponent<PlayerInventory>();
-        if (inv == null) return;
-        inv.Server_AddItem(loot.GetItem());
 
         Debug.Log($"[Pickup] Player {netId} picked loot netId={loot.netId}");
 
