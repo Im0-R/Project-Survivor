@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class CanvasInventory : MonoBehaviour
@@ -5,6 +6,7 @@ public class CanvasInventory : MonoBehaviour
     public static CanvasInventory Instance { get; private set; }
 
     public PlayerInventory LocalInventory;
+    public PlayerEquipment LocalEquipment;
 
     public Transform DragRoot;
 
@@ -20,11 +22,27 @@ public class CanvasInventory : MonoBehaviour
     {
         Instance = this;
 
+        if (inventorySlots == null || inventorySlots.Length == 0)
+        {
+            inventorySlots = GetComponentsInChildren<BackGroundSlot>(true)
+                .Where(s => s.SlotType == EquipmentSlot.Any)
+                .ToArray();
+        }
+
+        if (equipmentSlots == null || equipmentSlots.Length == 0)
+        {
+            equipmentSlots = GetComponentsInChildren<BackGroundSlot>(true)
+                .Where(s => s.SlotType != EquipmentSlot.Any)
+                .ToArray();
+        }
+
         for (int i = 0; i < inventorySlots.Length; i++)
             inventorySlots[i].SetId(i);
 
         foreach (var equipSlot in equipmentSlots)
             equipSlot.SetId(-1);
+
+        Debug.Log($"[CanvasInventory] InventorySlots={inventorySlots.Length} EquipmentSlots={equipmentSlots.Length}");
     }
 
     private void Update()
@@ -36,16 +54,85 @@ public class CanvasInventory : MonoBehaviour
     public void Bind(PlayerInventory inv)
     {
         if (LocalInventory != null)
-            LocalInventory.OnInventoryChanged -= PopulateInventory;
+            LocalInventory.OnInventoryChanged -= RefreshAll;
+
+        if (LocalEquipment != null)
+            LocalEquipment.OnEquipmentChangedEvent -= RefreshAll;
 
         LocalInventory = inv;
+        LocalEquipment = inv != null ? inv.GetComponent<PlayerEquipment>() : null;
 
         if (LocalInventory != null)
-            LocalInventory.OnInventoryChanged += PopulateInventory;
+            LocalInventory.OnInventoryChanged += RefreshAll;
 
+        if (LocalEquipment != null)
+            LocalEquipment.OnEquipmentChangedEvent += RefreshAll;
+
+        RefreshAll();
+    }
+    private void RefreshAll()
+    {
         PopulateInventory();
+        PopulateEquipment();
     }
 
+    private void PopulateEquipment()
+    {
+        ClearEquipmentCards();
+
+        if (LocalEquipment == null) return;
+
+        CreateEquipmentCard(EquipmentSlot.Weapon);
+        CreateEquipmentCard(EquipmentSlot.Helmet);
+        CreateEquipmentCard(EquipmentSlot.Chest);
+        CreateEquipmentCard(EquipmentSlot.Boots);
+    }
+
+    private void CreateEquipmentCard(EquipmentSlot slot)
+    {
+        BackGroundSlot uiSlot = GetEquipmentUiSlot(slot);
+        if (uiSlot == null) return;
+
+        ItemInstance item = LocalEquipment.GetEquippedItem(slot);
+        if (item == null || item.instanceId == 0) return;
+
+        CreateCard(item, uiSlot.transform, -1);
+    }
+
+    private BackGroundSlot GetEquipmentUiSlot(EquipmentSlot slot)
+    {
+        foreach (var s in equipmentSlots)
+        {
+            if (s != null && s.SlotType == slot)
+                return s;
+        }
+
+        return null;
+    }
+    private void CreateCard(ItemInstance item, Transform parent, int slotIndex)
+    {
+        GameObject cardObj = Instantiate(itemCardPrefab, parent);
+
+        ItemCard card = cardObj.GetComponent<ItemCard>();
+        card.SetItemInstance(item);
+        card.SetSlotIndex(slotIndex);
+
+        RectTransform rt = cardObj.GetComponent<RectTransform>();
+        rt.anchoredPosition = Vector2.zero;
+        rt.localScale = Vector3.one;
+    }
+    private void ClearEquipmentCards()
+    {
+        foreach (var slot in equipmentSlots)
+        {
+            if (slot == null) continue;
+
+            ItemCard[] cards = slot.GetComponentsInChildren<ItemCard>(true);
+
+            foreach (var card in cards)
+                Destroy(card.gameObject);
+        }
+    }
     public void PopulateInventory()
     {
         ClearInventoryCards();
