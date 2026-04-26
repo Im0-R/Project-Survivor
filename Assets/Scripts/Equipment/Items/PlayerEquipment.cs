@@ -3,10 +3,24 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
-    [SyncVar] private string weaponJson = "";
-    [SyncVar] private string helmetJson = "";
-    [SyncVar] private string chestJson = "";
-    [SyncVar] private string bootsJson = "";
+    [SyncVar(hook = nameof(OnEquipmentChanged))]
+    private string weaponJson = "";
+
+    [SyncVar(hook = nameof(OnEquipmentChanged))]
+    private string helmetJson = "";
+
+    [SyncVar(hook = nameof(OnEquipmentChanged))]
+    private string chestJson = "";
+
+    [SyncVar(hook = nameof(OnEquipmentChanged))]
+    private string bootsJson = "";
+
+    public event System.Action OnEquipmentChangedEvent;
+
+    private void OnEquipmentChanged(string oldValue, string newValue)
+    {
+        OnEquipmentChangedEvent?.Invoke();
+    }
 
     [SyncVar] public float TotalDamage;
     [SyncVar] public float TotalDefense;
