@@ -75,7 +75,7 @@ public class PlayerInventory : NetworkBehaviour
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+            if (IsEmptySlot(ItemsJson[i]))
                 emptyCount++;
         }
 
@@ -90,7 +90,7 @@ public class PlayerInventory : NetworkBehaviour
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+            if (IsEmptySlot(ItemsJson[i]))
             {
                 ItemsJson[i] = json;
                 Debug.Log($"[Inventory] {netId} picked item={item.itemName} baseId={item.baseId} rarity={item.rarity} slot={i}");
@@ -209,7 +209,20 @@ public class PlayerInventory : NetworkBehaviour
         index = -1;
         return false;
     }
+    private bool IsEmptySlot(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return true;
 
+        json = json.Trim();
+
+        if (json == "{}" || json == "[]" || json == "null")
+            return true;
+
+        ItemInstance item = DeserializeItem(json);
+
+        return item == null || item.instanceId == 0;
+    }
     public ItemInstance[] GetInventory()
     {
         ItemInstance[] items = new ItemInstance[ItemsJson.Count];
@@ -291,9 +304,18 @@ public class PlayerInventory : NetworkBehaviour
         for (int i = 0; i < maxSlots; i++)
         {
             if (data != null && data.itemsJson != null && i < data.itemsJson.Count)
-                ItemsJson.Add(data.itemsJson[i]);
+            {
+                string slotJson = data.itemsJson[i];
+
+                if (IsEmptySlot(slotJson))
+                    ItemsJson.Add("");
+                else
+                    ItemsJson.Add(slotJson);
+            }
             else
+            {
                 ItemsJson.Add("");
+            }
         }
 
         Debug.Log($"[PlayerInventory] Inventory loaded with {ItemsJson.Count} slots.");

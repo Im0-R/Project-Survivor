@@ -125,7 +125,6 @@ public static class DatabaseManager
 
         Debug.Log($"[DB] Saved player state for {username}");
     }
-
     public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
     {
         var user = GetUser(username);
@@ -135,7 +134,6 @@ public static class DatabaseManager
             Debug.LogError($"[DB] Cannot load player state, user not found: {username}");
             return;
         }
-
         PlayerInventoryData inventoryData = new PlayerInventoryData();
         PlayerEquipmentData equipmentData = new PlayerEquipmentData();
 
@@ -150,8 +148,6 @@ public static class DatabaseManager
 
         Debug.Log($"[DB] Loaded player state for {username}");
     }
-
-
     // ==============================
     // GENERALS METHODS
     // ==============================
