@@ -107,6 +107,64 @@ public static class DatabaseManager
     // ==============================
     // SAVE & LOAD
     // ==============================
+    public static void ClearInventory(string username)
+    {
+        if (db == null)
+        {
+            Debug.LogError("[DB] ClearInventory failed: database not initialized.");
+            return;
+        }
+
+        var user = GetUser(username);
+
+        if (user == null)
+        {
+            Debug.LogError($"[DB] Cannot clear inventory, user not found: {username}");
+            return;
+        }
+
+        PlayerInventoryData emptyInventory = new PlayerInventoryData();
+
+        for (int i = 0; i < 40; i++)
+            emptyInventory.itemsJson.Add("");
+
+        user.InventoryJson = JsonUtility.ToJson(emptyInventory);
+
+        db.Update(user);
+
+        Debug.Log($"[DB] Inventory cleared for {username}");
+    }
+    public static void ClearEquipment(string username)
+    {
+        if (db == null)
+        {
+            Debug.LogError("[DB] ClearEquipment failed: database not initialized.");
+            return;
+        }
+
+        var user = GetUser(username);
+
+        if (user == null)
+        {
+            Debug.LogError($"[DB] Cannot clear equipment, user not found: {username}");
+            return;
+        }
+
+        PlayerEquipmentData emptyEquipment = new PlayerEquipmentData();
+
+        user.EquipmentJson = JsonUtility.ToJson(emptyEquipment);
+
+        db.Update(user);
+
+        Debug.Log($"[DB] Equipment cleared for {username}");
+    }
+    public static void ClearPlayerState(string username)
+    {
+        ClearInventory(username);
+        ClearEquipment(username);
+
+        Debug.Log($"[DB] Full player state cleared for {username}");
+    }
 
     public static void SavePlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
     {

@@ -26,6 +26,11 @@ public class PlayerInventory : NetworkBehaviour
         {
             CmdClearInventory();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            CmdClearPlayerState();
+        }
     }
     public override void OnStartServer()
     {
@@ -332,6 +337,26 @@ public class PlayerInventory : NetworkBehaviour
     public void CmdClearInventory()
     {
         ClearInventoryServer();
+
+#if !UNITY_CLIENT || UNITY_EDITOR
+        string username = connectionToClient.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Debug.LogError("[Inventory] Cannot clear database: username missing from authenticationData");
+            return;
+        }
+
+        if (!DatabaseManager.IsInitialized())
+        {
+            Debug.LogError("[Inventory] Cannot clear database: DatabaseManager is not initialized");
+            return;
+        }
+
+        DatabaseManager.ClearInventory(username);
+
+        Debug.Log($"[Inventory] Inventory cleared in RAM + database for {username}");
+#endif
     }
 
     [Server]
@@ -343,5 +368,35 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         OnInventoryChanged?.Invoke();
+    }
+    [Command]
+    public void CmdClearPlayerState()
+    {
+        ClearInventoryServer();
+
+        PlayerEquipment equipment = GetComponent<PlayerEquipment>();
+
+        if (equipment != null)
+            equipment.ClearEquipmentServer();
+
+#if !UNITY_CLIENT || UNITY_EDITOR
+        string username = connectionToClient.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Debug.LogError("[PlayerState] Cannot clear database: username missing from authenticationData");
+            return;
+        }
+
+        if (!DatabaseManager.IsInitialized())
+        {
+            Debug.LogError("[PlayerState] Cannot clear database: DatabaseManager is not initialized");
+            return;
+        }
+
+        DatabaseManager.ClearPlayerState(username);
+
+        Debug.Log($"[PlayerState] Inventory + equipment cleared in RAM + database for {username}");
+#endif
     }
 }

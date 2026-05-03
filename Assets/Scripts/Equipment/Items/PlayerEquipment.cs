@@ -177,7 +177,22 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
     }
+    [Server]
+    public void ClearEquipmentServer()
+    {
+        weaponJson = "";
+        helmetJson = "";
+        chestJson = "";
+        bootsJson = "";
 
+        TotalDamage = GetStatSafe(StatId.DamageMult);
+        TotalDefense = GetStatSafe(StatId.Armor);
+        TotalVitality = GetStatSafe(StatId.MaxHealth);
+
+        OnEquipmentChangedEvent?.Invoke();
+
+        Debug.Log("[PlayerEquipment] Equipment cleared.");
+    }
     [Server]
     private void ClearEquippedItem(EquipmentSlot slot)
     {
