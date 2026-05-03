@@ -18,7 +18,15 @@ public class PlayerInventory : NetworkBehaviour
     [SerializeField] private int maxSlots = 40;
 
     public event Action OnInventoryChanged;
+    void Update()
+    {
+        if (!isLocalPlayer) return;
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            CmdClearInventory();
+        }
+    }
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -319,5 +327,21 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         Debug.Log($"[PlayerInventory] Inventory loaded with {ItemsJson.Count} slots.");
+    }
+    [Command]
+    public void CmdClearInventory()
+    {
+        ClearInventoryServer();
+    }
+
+    [Server]
+    public void ClearInventoryServer()
+    {
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            ItemsJson[i] = ""; // slot vide
+        }
+
+        OnInventoryChanged?.Invoke();
     }
 }
