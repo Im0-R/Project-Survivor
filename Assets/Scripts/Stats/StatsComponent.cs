@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatId : ushort
@@ -57,11 +58,35 @@ public class StatsComponent : NetworkBehaviour
 
     public readonly SyncDictionary<StatId, float> stats = new();
 
+    private readonly Dictionary<StatId, float> baseStatsServer = new();
+
+    public event Action OnStatsChanged;
     public event Action<int> OnLevelUpServer;
+
     public override void OnStartServer()
     {
         base.OnStartServer();
         InitFromSO_Server();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        stats.OnChange += OnStatChanged;
+
+        OnStatsChanged?.Invoke();
+    }
+
+    public override void OnStopClient()
+    {
+        stats.OnChange -= OnStatChanged;
+        base.OnStopClient();
+    }
+
+    private void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
+    {
+        OnStatsChanged?.Invoke();
     }
 
     [Server]
@@ -73,72 +98,116 @@ public class StatsComponent : NetworkBehaviour
             return;
         }
 
+        baseStatsServer.Clear();
         stats.Clear();
+
         level = statsData.level;
         Name = statsData.stringName;
 
         foreach (var entry in statsData.baseStats)
+        {
+            baseStatsServer[entry.id] = entry.value;
             stats[entry.id] = entry.value;
+        }
     }
 
-    public float Get(StatId id) => stats.TryGetValue(id, out var v) ? v : 0f;
+    public float Get(StatId id)
+    {
+        return stats.TryGetValue(id, out float value) ? value : 0f;
+    }
 
     [Server]
-    public void Set(StatId id, float value)
+    public void SetBaseStatServer(StatId id, float value)
+    {
+        baseStatsServer[id] = value;
+        stats[id] = value;
+    }
+
+    [Server]
+    public void AddBaseStatServer(StatId id, float delta)
+    {
+        SetBaseStatServer(id, GetBaseStatServer(id) + delta);
+    }
+
+    [Server]
+    public float GetBaseStatServer(StatId id)
+    {
+        return baseStatsServer.TryGetValue(id, out float value) ? value : 0f;
+    }
+
+    [Server]
+    public void SetFinalStatServer(StatId id, float value)
     {
         stats[id] = value;
     }
 
     [Server]
-    public void Add(StatId id, float delta)
+    public void AddFinalStatServer(StatId id, float delta)
     {
         stats[id] = Get(id) + delta;
     }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        stats.OnChange += OnStatChanged;
-    }
 
-    public override void OnStopClient()
+    [Server]
+    public void RecalculateFinalStatsServer(PlayerEquipment equipment)
     {
-        stats.OnChange -= OnStatChanged;
-        base.OnStopClient();
-    }
+        float oldHealth = Get(StatId.CurrentHealth);
+        float oldMana = Get(StatId.CurrentMana);
 
-    private void OnStatChanged(SyncDictionary<StatId, float>.Operation op, StatId key, float value)
-    {
-        // UI, VFX, debug, etc.
+        stats.Clear();
+
+        foreach (var kvp in baseStatsServer)
+            stats[kvp.Key] = kvp.Value;
+
+        if (equipment != null)
+            equipment.ApplyEquipmentStatsToServer(this);
+
+        float maxHealth = Get(StatId.MaxHealth);
+        float maxMana = Get(StatId.MaxMana);
+
+        stats[StatId.CurrentHealth] = Mathf.Clamp(oldHealth, 0f, maxHealth);
+        stats[StatId.CurrentMana] = Mathf.Clamp(oldMana, 0f, maxMana);
     }
 
     [Server]
     public void TakeDamage(float amount)
     {
-        Set(StatId.CurrentHealth, Mathf.Max(0f, Get(StatId.CurrentHealth) - amount));
+        SetFinalStatServer(
+            StatId.CurrentHealth,
+            Mathf.Max(0f, Get(StatId.CurrentHealth) - amount)
+        );
     }
 
     [Server]
     public void Heal(float amount)
     {
-        Set(StatId.CurrentHealth, Mathf.Min(Get(StatId.MaxHealth), Get(StatId.CurrentHealth) + amount));
+        SetFinalStatServer(
+            StatId.CurrentHealth,
+            Mathf.Min(Get(StatId.MaxHealth), Get(StatId.CurrentHealth) + amount)
+        );
     }
 
     [Server]
     public void UseMana(float amount)
     {
-        Set(StatId.CurrentMana, Mathf.Max(0f, Get(StatId.CurrentMana) - amount));
+        SetFinalStatServer(
+            StatId.CurrentMana,
+            Mathf.Max(0f, Get(StatId.CurrentMana) - amount)
+        );
     }
 
     [Server]
     public void RestoreMana(float amount)
     {
-        Set(StatId.CurrentMana, Mathf.Min(Get(StatId.MaxMana), Get(StatId.CurrentMana) + amount));
+        SetFinalStatServer(
+            StatId.CurrentMana,
+            Mathf.Min(Get(StatId.MaxMana), Get(StatId.CurrentMana) + amount)
+        );
     }
 
     [Server]
     public void GainExperience(float amount)
     {
-        Add(StatId.Experience, amount);
+        AddFinalStatServer(StatId.Experience, amount);
 
         while (Get(StatId.Experience) >= Get(StatId.MaxExperience))
             LevelUp_Server();
@@ -147,15 +216,19 @@ public class StatsComponent : NetworkBehaviour
     [Server]
     private void LevelUp_Server()
     {
-        Add(StatId.Experience, -Get(StatId.MaxExperience));
+        AddFinalStatServer(StatId.Experience, -Get(StatId.MaxExperience));
+
         level++;
 
-        Set(StatId.MaxExperience, Get(StatId.MaxExperience) * Get(StatId.ExpMultiPerLevel));
-        Set(StatId.MaxHealth, Get(StatId.MaxHealth) * 1.1f);
-        Set(StatId.MaxMana, Get(StatId.MaxMana) * 1.1f);
+        SetBaseStatServer(StatId.MaxExperience, GetBaseStatServer(StatId.MaxExperience) * GetBaseStatServer(StatId.ExpMultiPerLevel));
+        SetBaseStatServer(StatId.MaxHealth, GetBaseStatServer(StatId.MaxHealth) * 1.1f);
+        SetBaseStatServer(StatId.MaxMana, GetBaseStatServer(StatId.MaxMana) * 1.1f);
 
-        Set(StatId.CurrentMana, Get(StatId.MaxMana));
-        Set(
+        PlayerEquipment equipment = GetComponent<PlayerEquipment>();
+        RecalculateFinalStatsServer(equipment);
+
+        SetFinalStatServer(StatId.CurrentMana, Get(StatId.MaxMana));
+        SetFinalStatServer(
             StatId.CurrentHealth,
             Mathf.Min(Get(StatId.MaxHealth), Get(StatId.CurrentHealth) + Get(StatId.MaxHealth) / 10f)
         );

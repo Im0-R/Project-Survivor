@@ -109,7 +109,7 @@ public static class LootGenerator
                 if (candidate == null)
                     continue;
 
-                if (usedAffixIds.Add(candidate.AffixId))
+                if (usedAffixIds.Add(candidate.affixId))
                 {
                     picked = candidate;
                     break;
@@ -123,7 +123,7 @@ public static class LootGenerator
 
             outAffixes.Add(new ItemAffix
             {
-                affixId = picked.AffixId,
+                affixId = picked.affixId,
                 value = value
             });
         }

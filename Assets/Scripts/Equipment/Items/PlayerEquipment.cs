@@ -17,11 +17,6 @@ public class PlayerEquipment : NetworkBehaviour
 
     public event System.Action OnEquipmentChangedEvent;
 
-    private void OnEquipmentChanged(string oldValue, string newValue)
-    {
-        OnEquipmentChangedEvent?.Invoke();
-    }
-
     [SyncVar] public float TotalDamage;
     [SyncVar] public float TotalDefense;
     [SyncVar] public float TotalVitality;
@@ -33,6 +28,11 @@ public class PlayerEquipment : NetworkBehaviour
     {
         stats = GetComponent<StatsComponent>();
         inv = GetComponent<PlayerInventory>();
+    }
+
+    private void OnEquipmentChanged(string oldValue, string newValue)
+    {
+        OnEquipmentChangedEvent?.Invoke();
     }
 
     [Command]
@@ -88,56 +88,49 @@ public class PlayerEquipment : NetworkBehaviour
     [Server]
     private void RecalculateStatsServer()
     {
+        if (stats == null)
+            stats = GetComponent<StatsComponent>();
+
         if (stats == null) return;
 
-        float dam = GetStatSafe(StatId.DamageMult);
-        float def = GetStatSafe(StatId.Armor);
-        float vit = GetStatSafe(StatId.MaxHealth);
+        stats.RecalculateFinalStatsServer(this);
 
-        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Weapon), ref dam, ref def, ref vit);
-        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Helmet), ref dam, ref def, ref vit);
-        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Chest), ref dam, ref def, ref vit);
-        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Boots), ref dam, ref def, ref vit);
-
-        TotalDamage = dam;
-        TotalDefense = def;
-        TotalVitality = vit;
+        TotalDamage = stats.Get(StatId.DamageMult);
+        TotalDefense = stats.Get(StatId.Armor);
+        TotalVitality = stats.Get(StatId.MaxHealth);
     }
 
     [Server]
-    private void ApplyEquippedItem(ItemInstance inst, ref float dam, ref float def, ref float vit)
+    public void ApplyEquipmentStatsToServer(StatsComponent targetStats)
+    {
+        if (targetStats == null) return;
+
+        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Weapon), targetStats);
+        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Helmet), targetStats);
+        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Chest), targetStats);
+        ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Boots), targetStats);
+    }
+
+    [Server]
+    private void ApplyEquippedItem(ItemInstance inst, StatsComponent targetStats)
     {
         if (inst == null || inst.instanceId == 0) return;
 
         ItemBaseSO baseSO = ItemDatabase.GetBase(inst.baseId);
         if (baseSO == null) return;
 
-        dam += baseSO.BaseAttack;
-        def += baseSO.BaseDefense;
-        vit += baseSO.BaseVitality;
+        targetStats.AddFinalStatServer(StatId.DamageMult, baseSO.BaseAttack);
+        targetStats.AddFinalStatServer(StatId.Armor, baseSO.BaseDefense);
+        targetStats.AddFinalStatServer(StatId.MaxHealth, baseSO.BaseVitality);
 
         if (inst.affixes == null) return;
 
-        foreach (var a in inst.affixes)
+        foreach (var affixInstance in inst.affixes)
         {
-            AffixSO aff = AffixDatabase.Get(a.affixId);
-            if (aff == null) continue;
+            AffixSO affixSO = AffixDatabase.Get(affixInstance.affixId);
+            if (affixSO == null) continue;
 
-            switch (aff.stat)
-            {
-                case StatId.SpellDamage:
-                case StatId.DamageMult:
-                    dam += a.value;
-                    break;
-
-                case StatId.Armor:
-                    def += a.value;
-                    break;
-
-                case StatId.MaxHealth:
-                    vit += a.value;
-                    break;
-            }
+            targetStats.AddFinalStatServer(affixSO.stat, affixInstance.value);
         }
     }
 
@@ -177,6 +170,7 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
     }
+
     [Server]
     public void ClearEquipmentServer()
     {
@@ -185,14 +179,13 @@ public class PlayerEquipment : NetworkBehaviour
         chestJson = "";
         bootsJson = "";
 
-        TotalDamage = GetStatSafe(StatId.DamageMult);
-        TotalDefense = GetStatSafe(StatId.Armor);
-        TotalVitality = GetStatSafe(StatId.MaxHealth);
+        RecalculateStatsServer();
 
         OnEquipmentChangedEvent?.Invoke();
 
         Debug.Log("[PlayerEquipment] Equipment cleared.");
     }
+
     [Server]
     private void ClearEquippedItem(EquipmentSlot slot)
     {
@@ -217,6 +210,7 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
     }
+
     private string SerializeItem(ItemInstance item)
     {
         if (item == null || item.instanceId == 0)
@@ -231,17 +225,6 @@ public class PlayerEquipment : NetworkBehaviour
             return default;
 
         return JsonUtility.FromJson<ItemInstance>(json);
-    }
-
-    private float GetStatSafe(StatId statId)
-    {
-        if (stats == null || stats.stats == null)
-            return 0f;
-
-        if (!stats.stats.ContainsKey(statId))
-            return 0f;
-
-        return stats.stats[statId];
     }
 
     [Server]
@@ -267,6 +250,7 @@ public class PlayerEquipment : NetworkBehaviour
             helmetJson = "";
             chestJson = "";
             bootsJson = "";
+
             RecalculateStatsServer();
             return;
         }
@@ -280,8 +264,10 @@ public class PlayerEquipment : NetworkBehaviour
 
         Debug.Log("[PlayerEquipment] Equipment loaded from save.");
     }
+
     public bool HasEquipped(EquipmentSlot slot)
     {
-        return GetEquippedItem(slot).instanceId != 0;
+        ItemInstance item = GetEquippedItem(slot);
+        return item != null && item.instanceId != 0;
     }
 }

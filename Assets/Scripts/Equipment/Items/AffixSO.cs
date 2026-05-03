@@ -3,12 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Affix")]
 public class AffixSO : ScriptableObject
 {
-    [SerializeField] private int affixId;
-    public int AffixId => affixId;
+    [Header("Auto")]
+    public int affixId;
+    public string affixName;
 
-    [SerializeField] private string affixName;
-    public string AffixName => affixName;
-
+    [Header("Stats")]
     public StatId stat;
     public int minValue = 1;
     public int maxValue = 5;
@@ -16,30 +15,15 @@ public class AffixSO : ScriptableObject
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        bool changed = false;
-
         if (affixId == 0)
-        {
             affixId = GenerateID();
-            changed = true;
-        }
 
-        if (affixName != name)
-        {
-            affixName = name;
-            changed = true;
-        }
+        affixName = name;
 
         if (minValue > maxValue)
-        {
             maxValue = minValue;
-            changed = true;
-        }
 
-        if (changed)
-        {
-            UnityEditor.EditorUtility.SetDirty(this);
-        }
+        UnityEditor.EditorUtility.SetDirty(this);
     }
 
     private int GenerateID()
