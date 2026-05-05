@@ -1,12 +1,12 @@
 #if UNITY_SERVER
 using Mirror;
 using UnityEngine;
+
 public class LootManager : MonoBehaviour
 {
     public static LootManager Instance;
 
     [SerializeField] private ItemBaseSO[] possibleDrops;
-
     [SerializeField] private GameObject itemObject;
 
     private void Awake()
@@ -14,8 +14,7 @@ public class LootManager : MonoBehaviour
         Instance = this;
     }
 
-
-    public void GenerateDrop(int itemLevel, int seed , Vector3 position)
+    public void GenerateDrop(int itemLevel, int seed, Vector3 position)
     {
         if (!NetworkServer.active)
         {
@@ -30,22 +29,33 @@ public class LootManager : MonoBehaviour
         }
 
         System.Random rng = new System.Random(seed);
+
         ItemBaseSO itemBase = possibleDrops[rng.Next(0, possibleDrops.Length)];
 
-        Debug.Log($"[LootManager] Generating drop: BaseID={itemBase.BaseId}, ItemLevel={itemLevel}, Seed={seed}");
-        Debug.Log($"[LootManager] itemBase null? {itemBase == null}");
-        Debug.Log($"[LootManager] possibleDrops null? {possibleDrops == null} len={(possibleDrops != null ? possibleDrops.Length : -1)}");
+        if (itemBase == null)
+        {
+            Debug.LogError("[LootManager] Selected itemBase is null!");
+            return;
+        }
 
-        ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, seed);
+        Debug.Log($"[LootManager] Generating drop: Item={itemBase.BaseName}, BaseID={itemBase.BaseId}, ItemLevel={itemLevel}, Seed={seed}");
+
+        ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, rng);
 
         GameObject objectToSpawn = Instantiate(itemObject, position, Quaternion.identity);
 
-        //Spawn the item in the world
         LootPickup lootPickup = objectToSpawn.GetComponent<LootPickup>();
+
+        if (lootPickup == null)
+        {
+            Debug.LogError("[LootManager] Spawned itemObject has no LootPickup component!");
+            Destroy(objectToSpawn);
+            return;
+        }
+
         lootPickup.Init(itemInstance);
 
         NetworkServer.Spawn(objectToSpawn);
-
     }
 }
 #endif
