@@ -6,10 +6,16 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI Instance;
 
+    [Header("Bars")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider xpBar;
 
+    [Header("Stats Panel")]
+    [SerializeField] private PlayerStatsPanelUI statsPanelUI;
+
     public PlayerEntity playerEnt;
+
+    private StatsComponent boundStats;
 
     private void Awake()
     {
@@ -18,29 +24,32 @@ public class PlayerUI : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
-        //no DontDestroyOnLoad(gameObject);
     }
 
     private void OnEnable()
     {
-        // try to bind immediately
         TryBindLocalPlayer();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     private void Update()
     {
-        //if not bound yet, try to bind
         if (playerEnt == null)
         {
             TryBindLocalPlayer();
             return;
         }
 
-        if (playerEnt != null && !CameraFollow.Instance.HasTarget)
-        {
+        if (CameraFollow.Instance != null && !CameraFollow.Instance.HasTarget)
             SetCameraTarget();
-        }
+
         UpdateUI();
     }
 
@@ -54,33 +63,65 @@ public class PlayerUI : MonoBehaviour
 
         if (playerEnt == ent) return;
 
-        playerEnt = ent;
-        Debug.Log($"[PlayerUI] Bound to local player netId={NetworkClient.localPlayer.netId}");
-
+        Bind(ent);
     }
+
     public void Bind(PlayerEntity ent)
     {
+        if (ent == null) return;
+
         playerEnt = ent;
+
         Debug.Log($"[PlayerUI] Bound to local player netId={ent.netId}");
+
+        BindStatsPanel();
         SetCameraTarget();
+        UpdateUI();
     }
+
+    private void BindStatsPanel()
+    {
+        if (playerEnt == null) return;
+
+        StatsComponent stats = playerEnt.StatComp;
+
+        if (stats == null)
+        {
+            Debug.LogError("[PlayerUI] PlayerEntity.StatComp is null.");
+            return;
+        }
+
+        if (boundStats == stats) return;
+
+        boundStats = stats;
+
+        if (statsPanelUI != null)
+            statsPanelUI.Bind(stats);
+        else
+            Debug.LogWarning("[PlayerUI] statsPanelUI is not assigned in inspector.");
+    }
+
     private void SetCameraTarget()
     {
+        if (playerEnt == null) return;
 
-        //Bind camera to player
         if (CameraFollow.Instance != null)
             CameraFollow.Instance.SetTarget(playerEnt.transform);
-        Debug.Log($"[PlayerUI] Targetted local player netId={NetworkClient.localPlayer.netId}");
 
-
+        Debug.Log($"[PlayerUI] Targeted local player netId={playerEnt.netId}");
     }
 
     private void UpdateUI()
     {
+        if (playerEnt == null || playerEnt.StatComp == null) return;
+
         float maxHp = Mathf.Max(1f, playerEnt.StatComp.Get(StatId.MaxHealth));
         float maxXp = Mathf.Max(1f, playerEnt.StatComp.Get(StatId.MaxExperience));
 
-        healthBar.value = (playerEnt.StatComp.Get(StatId.CurrentHealth) / maxHp) * 100f;
-        xpBar.value = (playerEnt.StatComp.Get(StatId.Experience) / maxXp) * 100f;
+        if (healthBar != null)
+            healthBar.value = (playerEnt.StatComp.Get(StatId.CurrentHealth) / maxHp) * 100f;
+
+        if (xpBar != null)
+            xpBar.value = (playerEnt.StatComp.Get(StatId.Experience) / maxXp) * 100f;
     }
 }

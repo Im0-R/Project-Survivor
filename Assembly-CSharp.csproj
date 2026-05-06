@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Stats\StatsComponent.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticlesSpawner.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerStatsPanelUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\EquipItemRequest.cs" />
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixSO.cs" />
+    <Compile Include="Assets\Scripts\Stats\StatsRowUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemBaseSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />

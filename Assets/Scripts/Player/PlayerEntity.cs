@@ -125,37 +125,68 @@ public class PlayerEntity : NetworkEntity
     [Server]
     private List<string> BuildRewardSpellChoices()
     {
-        var owned = new HashSet<string>();
+        List<string> possibleChoices = new List<string>();
 
-        foreach (var spell in GetAllActiveSpells())
+        // 1. Ajouter les sorts déjà possédés mais pas max level
+        foreach (Spell ownedSpell in GetAllActiveSpells())
         {
-            if (spell != null && spell.GetData() != null)
-                owned.Add(spell.GetData().spellName);
+            if (ownedSpell == null || ownedSpell.GetData() == null)
+                continue;
+
+            if (!ownedSpell.IsMaxLevel())
+            {
+                string spellName = ownedSpell.GetData().spellName;
+
+                if (!possibleChoices.Contains(spellName))
+                    possibleChoices.Add(spellName);
+            }
         }
 
-        var results = new List<string>();
+        // 2. Ajouter des nouveaux sorts
+        List<string> alreadyOwnedNames = new List<string>();
+
+        foreach (Spell ownedSpell in GetAllActiveSpells())
+        {
+            if (ownedSpell != null && ownedSpell.GetData() != null)
+                alreadyOwnedNames.Add(ownedSpell.GetData().spellName);
+        }
+
         int safety = 0;
 
-        while (results.Count < 3 && safety < 20)
+        while (possibleChoices.Count < 10 && safety < 50)
         {
             safety++;
 
-            Spell randomSpell = SpellsManager.Instance.GetRandomSpellServer(owned);
+            Spell randomSpell = SpellsManager.Instance.GetRandomSpellServer(
+                new HashSet<string>(alreadyOwnedNames)
+            );
+
             if (randomSpell == null)
                 break;
 
             string spellName = randomSpell.GetData().spellName;
+
             if (string.IsNullOrWhiteSpace(spellName))
                 continue;
 
-            if (results.Contains(spellName))
+            if (possibleChoices.Contains(spellName))
                 continue;
 
-            results.Add(spellName);
-            owned.Add(spellName);
+            possibleChoices.Add(spellName);
         }
 
-        return results;
+        // 3. Mélanger et prendre 3 choix
+        for (int i = 0; i < possibleChoices.Count; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(i, possibleChoices.Count);
+            (possibleChoices[i], possibleChoices[randomIndex]) =
+                (possibleChoices[randomIndex], possibleChoices[i]);
+        }
+
+        if (possibleChoices.Count > 3)
+            possibleChoices = possibleChoices.GetRange(0, 3);
+
+        return possibleChoices;
     }
 
     public override void OnStartLocalPlayer()
