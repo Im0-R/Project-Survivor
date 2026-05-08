@@ -10,7 +10,11 @@ public class InstanceManager : NetworkBehaviour
     public static InstanceManager Instance { get; private set; }
 
     public const string ipAddress = "72.60.212.58";
-    private const string INSTANCE_EXECUTABLE = "/home/server/instance/InstanceServer.x86_64";
+
+    [Header("Executable")]
+    [SerializeField]
+    private string instanceExecutable =
+        "/home/server/instance/current/InstanceServer.x86_64";
 
     private readonly Dictionary<int, InstanceInfo> activeInstances = new();
 
@@ -41,11 +45,8 @@ public class InstanceManager : NetworkBehaviour
     [ServerCallback]
     private void Start()
     {
-        // On garde la fonction, mais on ne lance pas automatiquement le hub.
-        // Ton hub est normalement déjà lancé par ton serveur / Jenkins / systemd.
-        // CreateInitialHubInstance();
-
         UnityEngine.Debug.Log("[InstanceManager] Ready");
+        UnityEngine.Debug.Log($"[InstanceManager] Executable = {instanceExecutable}");
     }
 
     [Server]
@@ -60,9 +61,9 @@ public class InstanceManager : NetworkBehaviour
         if (string.IsNullOrWhiteSpace(scene))
             scene = hubSceneName;
 
-        if (!File.Exists(INSTANCE_EXECUTABLE))
+        if (!File.Exists(instanceExecutable))
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {INSTANCE_EXECUTABLE}");
+            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {instanceExecutable}");
             return null;
         }
 
@@ -72,15 +73,17 @@ public class InstanceManager : NetworkBehaviour
         int port = GetNextFreeDynamicPort();
         int seed = Random.Range(0, 999999);
 
+        string logFile = $"/home/server/instance/logs/instance_{port}.log";
+        string workingDirectory = Path.GetDirectoryName(instanceExecutable);
+
         Process process;
 
         try
         {
-            string logFile = $"/home/server/instance/logs/instance_{port}.log";
-
             process = Process.Start(new ProcessStartInfo
             {
-                FileName = INSTANCE_EXECUTABLE,
+                FileName = instanceExecutable,
+                WorkingDirectory = workingDirectory,
                 Arguments = $"-scene {scene} -port {port} -seed {seed} -logFile {logFile}",
                 UseShellExecute = false,
                 CreateNoWindow = true
@@ -102,27 +105,34 @@ public class InstanceManager : NetworkBehaviour
         activeInstances[instanceId] = info;
 
         UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}");
+        UnityEngine.Debug.Log($"[InstanceManager] Log file: {logFile}");
+        UnityEngine.Debug.Log($"[InstanceManager] WorkingDirectory: {workingDirectory}");
 
         return info;
     }
+
     [Server]
     private void CreateInitialHubInstance()
     {
-        if (!File.Exists(INSTANCE_EXECUTABLE))
+        if (!File.Exists(instanceExecutable))
         {
-            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {INSTANCE_EXECUTABLE}");
+            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {instanceExecutable}");
             return;
         }
 
         int instanceId = nextInstanceId++;
         int seed = Random.Range(0, 999999);
 
+        string logFile = $"/home/server/instance/logs/hub_{hubPort}.log";
+        string workingDirectory = Path.GetDirectoryName(instanceExecutable);
+
         try
         {
             Process process = Process.Start(new ProcessStartInfo
             {
-                FileName = INSTANCE_EXECUTABLE,
-                Arguments = $"-batchmode -nographics -scene {hubSceneName} -port {hubPort} -seed {seed}",
+                FileName = instanceExecutable,
+                WorkingDirectory = workingDirectory,
+                Arguments = $"-scene {hubSceneName} -port {hubPort} -seed {seed} -logFile {logFile}",
                 UseShellExecute = false,
                 CreateNoWindow = true
             });
