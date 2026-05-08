@@ -22,6 +22,10 @@ public class InstanceManager : NetworkBehaviour
     [SerializeField] private string hubSceneName = "Town";
     [SerializeField] private int hubPort = 8000;
 
+    public string HubSceneName => hubSceneName;
+    public int HubPort => hubPort;
+    public string HubIp => ipAddress;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,7 +41,11 @@ public class InstanceManager : NetworkBehaviour
     [ServerCallback]
     private void Start()
     {
-        CreateInitialHubInstance();
+        // On garde la fonction, mais on ne lance pas automatiquement le hub.
+        // Ton hub est normalement déjà lancé par ton serveur / Jenkins / systemd.
+        // CreateInitialHubInstance();
+
+        UnityEngine.Debug.Log("[InstanceManager] Ready");
     }
 
     [Server]
@@ -58,11 +66,14 @@ public class InstanceManager : NetworkBehaviour
             return;
         }
 
+        DatabaseManager.SavePlayerStateFromConnection(conn);
+
         int instanceId = nextInstanceId++;
         int port = GetNextFreeDynamicPort();
         int seed = Random.Range(0, 999999);
 
         Process process;
+
         try
         {
             process = Process.Start(new ProcessStartInfo
@@ -141,11 +152,20 @@ public class InstanceManager : NetworkBehaviour
 
         info.isReady = true;
 
-        if (conn != null)
+        if (conn == null)
         {
-            UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port} scene={info.scene}");
-            TargetSendInstanceInfo(conn, ipAddress, info.port, info.scene);
+            UnityEngine.Debug.LogWarning("[InstanceManager] Conn became null before redirect");
+            yield break;
         }
+
+        UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port} scene={info.scene}");
+        TargetSendInstanceInfo(conn, ipAddress, info.port, info.scene);
+    }
+
+    [Server]
+    private void SavePlayerBeforeRedirect(NetworkConnectionToClient conn)
+    {
+        DatabaseManager.SavePlayerStateFromConnection(conn);
     }
 
     private int GetNextFreeDynamicPort()
@@ -170,7 +190,13 @@ public class InstanceManager : NetworkBehaviour
     [TargetRpc]
     private void TargetSendInstanceInfo(NetworkConnectionToClient conn, string ip, int port, string sceneName)
     {
-        ClientSideInstanceManager.Instance?.SwitchToInstance((ushort)port, ip, sceneName);
+        if (ClientSideInstanceManager.Instance == null)
+        {
+            UnityEngine.Debug.LogError("[InstanceManager] ClientSideInstanceManager.Instance is null");
+            return;
+        }
+
+        ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port, ip, sceneName);
     }
 
     [System.Serializable]

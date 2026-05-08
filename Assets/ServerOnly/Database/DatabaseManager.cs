@@ -183,6 +183,52 @@ public static class DatabaseManager
 
         Debug.Log($"[DB] Saved player state for {username}");
     }
+    [Server]
+public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
+{
+    if (db == null)
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: database not initialized.");
+        return;
+    }
+
+    if (conn == null)
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: conn is null.");
+        return;
+    }
+
+    if (conn.identity == null)
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: conn.identity is null.");
+        return;
+    }
+
+    string username = conn.authenticationData as string;
+
+    if (string.IsNullOrWhiteSpace(username))
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: username missing in authenticationData.");
+        return;
+    }
+
+    PlayerInventory inv = conn.identity.GetComponent<PlayerInventory>();
+    PlayerEquipment equip = conn.identity.GetComponent<PlayerEquipment>();
+
+    if (inv == null)
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: PlayerInventory missing.");
+        return;
+    }
+
+    if (equip == null)
+    {
+        Debug.LogError("[DB] SavePlayerStateFromConnection failed: PlayerEquipment missing.");
+        return;
+    }
+
+    SavePlayerState(username, inv, equip);
+}
     public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
     {
         var user = GetUser(username);
