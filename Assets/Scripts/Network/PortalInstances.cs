@@ -16,6 +16,8 @@ public class PortalInstances : NetworkBehaviour, IInteractable
     [Command(requiresAuthority = false)]
     private void CmdRequestInstance(string sceneName, NetworkConnectionToClient sender = null)
     {
+        Debug.Log($"[PortalInstances] Cmd received | sender={(sender == null ? "NULL" : sender.connectionId.ToString())}");
+
         if (sender == null) return;
         if (InstanceManager.Instance == null) return;
 
