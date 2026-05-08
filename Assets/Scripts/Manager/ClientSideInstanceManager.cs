@@ -9,6 +9,10 @@ public class ClientSideInstanceManager : MonoBehaviour
 {
     public static ClientSideInstanceManager Instance { get; private set; }
 
+    [Header("Loading")]
+    [SerializeField] private string loadingSceneName = "Loading";
+    [SerializeField] private float minimumLoadingTime = 1.0f;
+
     private bool isSwitching;
 
     private void Awake()
@@ -21,10 +25,14 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        Debug.Log("[ClientSideInstanceManager] Awake");
     }
 
     public void SwitchToInstance(ushort port, string ip, string sceneName)
     {
+        Debug.Log($"[ClientSideInstanceManager] SwitchToInstance called | ip={ip} | port={port} | scene={sceneName}");
+
         if (isSwitching)
         {
             Debug.LogWarning("[ClientSideInstanceManager] Already switching");
@@ -38,9 +46,8 @@ public class ClientSideInstanceManager : MonoBehaviour
     {
         isSwitching = true;
 
-        Debug.Log($"[ClientSideInstanceManager] Switching to {ip}:{port}, requestedScene={sceneName}");
-
         NetworkManager manager = NetworkManager.singleton;
+
         if (manager == null)
         {
             Debug.LogError("[ClientSideInstanceManager] NetworkManager.singleton is null");
@@ -48,37 +55,34 @@ public class ClientSideInstanceManager : MonoBehaviour
             yield break;
         }
 
+        float startTime = Time.time;
+
+        string oldOfflineScene = manager.offlineScene;
+        manager.offlineScene = "";
+
+        yield return LoadLoadingScene();
+
         if (NetworkClient.isConnected || NetworkClient.isConnecting)
         {
             Debug.Log("[ClientSideInstanceManager] Stop current client");
+
             manager.StopClient();
 
             while (NetworkClient.isConnected || NetworkClient.isConnecting)
                 yield return null;
-        }
 
-        yield return null;
-
-        if (!string.IsNullOrWhiteSpace(sceneName) &&
-            SceneManager.GetActiveScene().name != sceneName)
-        {
-            Debug.Log($"[ClientSideInstanceManager] Loading local scene -> {sceneName}");
-
-            AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName);
-            while (!loadOp.isDone)
-                yield return null;
-
-            Debug.Log($"[ClientSideInstanceManager] Local scene loaded -> {SceneManager.GetActiveScene().name}");
-            yield return null;
+            Debug.Log("[ClientSideInstanceManager] Current client stopped");
         }
 
         KcpTransport kcp = manager.transport as KcpTransport;
+
         if (kcp == null)
             kcp = manager.GetComponent<KcpTransport>();
 
         if (kcp == null)
         {
             Debug.LogError("[ClientSideInstanceManager] KcpTransport not found");
+            manager.offlineScene = oldOfflineScene;
             isSwitching = false;
             yield break;
         }
@@ -87,16 +91,50 @@ public class ClientSideInstanceManager : MonoBehaviour
         kcp.Port = port;
 
         Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
+
         manager.StartClient();
 
-        StartCoroutine(SendHubAuthWhenConnected());
+        yield return StartCoroutine(SendHubAuthWhenConnected());
 
+        while (Time.time - startTime < minimumLoadingTime)
+            yield return null;
+
+        manager.offlineScene = oldOfflineScene;
         isSwitching = false;
     }
+
+    private IEnumerator LoadLoadingScene()
+    {
+        if (SceneManager.GetActiveScene().name == loadingSceneName)
+            yield break;
+
+        Debug.Log($"[ClientSideInstanceManager] Loading transition scene -> {loadingSceneName}");
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Single);
+
+        while (!op.isDone)
+            yield return null;
+
+        Debug.Log("[ClientSideInstanceManager] Loading scene loaded");
+    }
+
     private IEnumerator SendHubAuthWhenConnected()
     {
+        float timeout = 10f;
+        float timer = 0f;
+
         while (!NetworkClient.isConnected)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= timeout)
+            {
+                Debug.LogError("[ClientSideInstanceManager] Timeout while waiting for connection");
+                yield break;
+            }
+
             yield return null;
+        }
 
         if (string.IsNullOrEmpty(ClientAccountAPI.CurrentUsername))
         {

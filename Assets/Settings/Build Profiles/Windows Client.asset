@@ -26,6 +26,8 @@ MonoBehaviour:
     m_path: Assets/Scenes/Town/Town.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Player/PlayerUI.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Client/LoadingScene.unity
   m_ScriptingDefines:
   - MIRROR
   - MIRROR_89_OR_NEWER
