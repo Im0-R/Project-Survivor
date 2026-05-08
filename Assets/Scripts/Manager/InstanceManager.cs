@@ -49,12 +49,12 @@ public class InstanceManager : NetworkBehaviour
     }
 
     [Server]
-    public void CreateInstance(NetworkConnectionToClient conn, string scene)
+    public InstanceInfo CreateInstance(NetworkConnectionToClient conn, string scene)
     {
         if (conn == null)
         {
             UnityEngine.Debug.LogError("[InstanceManager] CreateInstance called with null conn");
-            return;
+            return null;
         }
 
         if (string.IsNullOrWhiteSpace(scene))
@@ -63,7 +63,7 @@ public class InstanceManager : NetworkBehaviour
         if (!File.Exists(INSTANCE_EXECUTABLE))
         {
             UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {INSTANCE_EXECUTABLE}");
-            return;
+            return null;
         }
 
         DatabaseManager.SavePlayerStateFromConnection(conn);
@@ -76,10 +76,12 @@ public class InstanceManager : NetworkBehaviour
 
         try
         {
+            string logFile = $"/home/server/instance/logs/instance_{port}.log";
+
             process = Process.Start(new ProcessStartInfo
             {
                 FileName = INSTANCE_EXECUTABLE,
-                Arguments = $"-batchmode -nographics -scene {scene} -port {port} -seed {seed}",
+                Arguments = $"-scene {scene} -port {port} -seed {seed} -logFile {logFile}",
                 UseShellExecute = false,
                 CreateNoWindow = true
             });
@@ -87,13 +89,13 @@ public class InstanceManager : NetworkBehaviour
         catch (System.Exception ex)
         {
             UnityEngine.Debug.LogError($"[InstanceManager] Failed to start instance process: {ex}");
-            return;
+            return null;
         }
 
         if (process == null)
         {
             UnityEngine.Debug.LogError("[InstanceManager] Process.Start returned null");
-            return;
+            return null;
         }
 
         InstanceInfo info = new InstanceInfo(instanceId, port, scene, seed, process.Id);
@@ -101,9 +103,8 @@ public class InstanceManager : NetworkBehaviour
 
         UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}");
 
-        StartCoroutine(DelayedRedirectToInstance(conn, info));
+        return info;
     }
-
     [Server]
     private void CreateInitialHubInstance()
     {
