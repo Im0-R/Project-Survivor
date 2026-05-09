@@ -8,6 +8,7 @@ public class MyNetworkManager : NetworkManager
 
     [Header("Client Scene Names")]
     [SerializeField] private string menuSceneName = "Menu";
+    [SerializeField] private string loadingSceneName = "Loading";
 
     public override void Awake()
     {
@@ -24,7 +25,9 @@ public class MyNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        Debug.Log($"[CLIENT] OnClientConnect activeScene={SceneManager.GetActiveScene().name}");
+
+        string activeScene = SceneManager.GetActiveScene().name;
+        Debug.Log($"[CLIENT] OnClientConnect activeScene={activeScene} ConnectingToHub={ClientAccountAPI.ConnectingToHub}");
 
         if (!ClientAccountAPI.ConnectingToHub)
         {
@@ -32,55 +35,26 @@ public class MyNetworkManager : NetworkManager
             return;
         }
 
-        string activeScene = SceneManager.GetActiveScene().name;
-
-        // Si on a déjà chargé localement Town / la map cible avant la reconnexion,
-        // il n'y aura pas forcément de OnClientSceneChanged derrière.
-        if (activeScene != menuSceneName)
-        {
-            Debug.Log("[CLIENT] Already in gameplay scene, calling Ready + AddPlayer now.");
-            ClientAccountAPI.ConnectingToHub = false;
-
-            if (!NetworkClient.ready)
-            {
-                Debug.Log("[CLIENT] Calling Ready on connect.");
-                NetworkClient.Ready();
-            }
-
-            if (NetworkClient.localPlayer == null)
-            {
-                Debug.Log("[CLIENT] AddPlayer on connect.");
-                NetworkClient.AddPlayer();
-            }
-
-            if (GameUILoader.Instance != null)
-            {
-                Debug.Log("[CLIENT] Starting coroutine to ensure UI is loaded.");
-                GameUILoader.Instance.StartCoroutine(GameUILoader.Instance.EnsureUILoadedOnce());
-            }
-            else
-            {
-                Debug.LogWarning("[CLIENT] GameUILoader.Instance is null.");
-            }
-
-            return;
-        }
-
-        Debug.Log("[CLIENT] Connected to HUB/INSTANCE, waiting for scene sync before AddPlayer.");
+        Debug.Log("[CLIENT] Connected to gameplay server, waiting for scene sync before AddPlayer.");
         pendingAddPlayerAfterSceneSync = true;
+
+        if (!NetworkClient.ready)
+        {
+            Debug.Log("[CLIENT] Calling Ready on connect.");
+            NetworkClient.Ready();
+        }
     }
 
     public override void OnClientDisconnect()
     {
         Debug.Log("[CLIENT] OnClientDisconnect");
+
         base.OnClientDisconnect();
 
         pendingAddPlayerAfterSceneSync = false;
 
         if (ServerTimeManager.instance)
-        {
             ServerTimeManager.instance.ResumeGame();
-        }
     }
 
     public override void OnClientError(TransportError error, string reason)
@@ -98,11 +72,19 @@ public class MyNetworkManager : NetworkManager
     public override void OnClientSceneChanged()
     {
         base.OnClientSceneChanged();
-        Debug.Log("[CLIENT] OnClientSceneChanged activeScene=" + SceneManager.GetActiveScene().name);
+
+        string activeScene = SceneManager.GetActiveScene().name;
+        Debug.Log("[CLIENT] OnClientSceneChanged activeScene=" + activeScene);
 
         if (!pendingAddPlayerAfterSceneSync)
         {
             Debug.Log("[CLIENT] No pending player add after scene sync.");
+            return;
+        }
+
+        if (activeScene == menuSceneName || activeScene == loadingSceneName)
+        {
+            Debug.Log($"[CLIENT] Still in non-gameplay scene ({activeScene}), waiting.");
             return;
         }
 
@@ -145,6 +127,7 @@ public class MyNetworkManager : NetworkManager
         }
 
         Debug.Log("[CLIENT] JoinInstance requested.");
+        ClientAccountAPI.ConnectingToHub = true;
         pendingAddPlayerAfterSceneSync = true;
     }
 }

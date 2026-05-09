@@ -90,6 +90,10 @@ public class ClientSideInstanceManager : MonoBehaviour
         manager.networkAddress = ip;
         kcp.Port = port;
 
+        // IMPORTANT : le prochain serveur est un serveur de gameplay.
+        // Donc MyNetworkManager doit faire Ready + AddPlayer.
+        ClientAccountAPI.ConnectingToHub = true;
+
         Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
 
         manager.StartClient();
