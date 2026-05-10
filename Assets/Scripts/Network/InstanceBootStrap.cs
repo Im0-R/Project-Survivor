@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class InstanceBootStrap : MonoBehaviour
 {
     public static string SceneArg = "Town";
+    public static string MapIdArg = "forest_01";
     public static int PortArg = 8000;
     public static int SeedArg = 0;
 
@@ -37,6 +38,11 @@ public class InstanceBootStrap : MonoBehaviour
                         SceneArg = args[i + 1];
                     break;
 
+                case "-mapId":
+                    if (i + 1 < args.Length)
+                        MapIdArg = args[i + 1];
+                    break;
+
                 case "-port":
                     if (i + 1 < args.Length)
                         int.TryParse(args[i + 1], out PortArg);
@@ -49,7 +55,7 @@ public class InstanceBootStrap : MonoBehaviour
             }
         }
 
-        Debug.Log($"[InstanceBootStrap] ARGS scene={SceneArg} | port={PortArg} | seed={SeedArg}");
+        Debug.Log($"[InstanceBootStrap] ARGS scene={SceneArg} | mapId={MapIdArg} | port={PortArg} | seed={SeedArg}");
     }
 
     private IEnumerator Start()
@@ -57,15 +63,15 @@ public class InstanceBootStrap : MonoBehaviour
         Debug.Log("[InstanceBootStrap] Booting dedicated instance...");
 
         NetworkManager manager = null;
+
         while (manager == null)
         {
             manager = FindFirstObjectByType<NetworkManager>();
             yield return null;
         }
 
-        Debug.Log($"[InstanceBootStrap] Found NetworkManager: {manager.GetType().Name}");
-
         KcpTransport kcp = manager.transport as KcpTransport;
+
         if (kcp == null)
         {
             Debug.LogError("[InstanceBootStrap] Transport is not KcpTransport");
@@ -73,15 +79,11 @@ public class InstanceBootStrap : MonoBehaviour
         }
 
         kcp.Port = (ushort)PortArg;
-        Debug.Log($"[InstanceBootStrap] KCP configured on port {kcp.Port}");
 
         DatabaseManager.Initialize();
-        Debug.Log("[InstanceBootStrap] Database initialized");
 
         manager.StartServer();
-        Debug.Log("[InstanceBootStrap] Server started");
 
-        // Laisse Mirror faire la synchro de scène correctement
         if (manager is InstanceNetworkManager instanceManager)
         {
             instanceManager.LoadGameplayScene(SceneArg);
@@ -93,7 +95,7 @@ public class InstanceBootStrap : MonoBehaviour
 
         while (true)
         {
-            Debug.Log($"[InstanceBootStrap] Alive | targetScene={SceneArg} | port={PortArg} | players={NetworkServer.connections.Count}");
+            Debug.Log($"[InstanceBootStrap] Alive | scene={SceneArg} | mapId={MapIdArg} | port={PortArg} | players={NetworkServer.connections.Count}");
             yield return new WaitForSeconds(10f);
         }
     }

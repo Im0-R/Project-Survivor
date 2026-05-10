@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 305264232302974549}
   - component: {fileID: 7612708086267445508}
   m_Layer: 0
-  m_Name: Environment
+  m_Name: Environment_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

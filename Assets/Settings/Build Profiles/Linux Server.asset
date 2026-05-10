@@ -28,6 +28,8 @@ MonoBehaviour:
     m_path: Assets/Scenes/BootStrapInstance.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Menu.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/MapInstance.unity
   m_ScriptingDefines:
   - EDGEGAP_PLUGIN_SERVERS
   - MIRROR_RPC_USHORT

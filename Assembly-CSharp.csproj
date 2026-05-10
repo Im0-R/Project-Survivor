@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixPoolSO.cs" />
+    <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootLabelUI.cs" />
@@ -137,8 +138,10 @@
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
     <Compile Include="Assets\Scripts\Network\BuildInfo.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
+    <Compile Include="Assets\Scripts\Map\MapConfigSO.cs" />
     <Compile Include="Assets\Scripts\Network\ServerBootStrap.cs" />
     <Compile Include="Assets\Scripts\Inventory\BackGroundSlot.cs" />
+    <Compile Include="Assets\Scripts\Map\BiomeConfigSO.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugSceneIds.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientAccountAPI.cs" />

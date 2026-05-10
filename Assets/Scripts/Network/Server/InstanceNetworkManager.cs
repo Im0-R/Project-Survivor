@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_SERVER
+using System.Collections;
 using AuthMessages;
 using Mirror;
 using UnityEngine;
@@ -9,8 +10,13 @@ public class InstanceNetworkManager : NetworkManager
     [Header("Managers")]
     [SerializeField] private GameObject serverTimeManagerPrefab;
 
+    [Header("Map")]
+    [SerializeField] private MapGenerator mapGenerator;
+
     private bool managersSpawned;
     private bool gameplaySceneLoadingStarted;
+    private bool mapReady;
+    private bool mapGenerationStarted;
 
     public override void Awake()
     {
@@ -23,12 +29,6 @@ public class InstanceNetworkManager : NetworkManager
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnHubAuthMessage(NetworkConnectionToClient conn, HubAuthMessage msg)
-    {
-        conn.authenticationData = msg.username;
-        Debug.Log($"[InstanceNetworkManager] Conn {conn.connectionId} authenticated as {msg.username}");
-    }
-
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -38,6 +38,12 @@ public class InstanceNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<HubAuthMessage>(OnHubAuthMessage);
 
         SpawnServerManagersOnce();
+    }
+
+    private void OnHubAuthMessage(NetworkConnectionToClient conn, HubAuthMessage msg)
+    {
+        conn.authenticationData = msg.username;
+        Debug.Log($"[InstanceNetworkManager] Conn {conn.connectionId} authenticated as {msg.username}");
     }
 
     [Server]
@@ -64,59 +70,67 @@ public class InstanceNetworkManager : NetworkManager
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
+
         Debug.Log($"[InstanceNetworkManager] OnServerSceneChanged -> {sceneName}");
         Debug.Log($"[InstanceNetworkManager] Active scene after change = {SceneManager.GetActiveScene().name}");
+
+        StartCoroutine(GenerateMapWhenSceneReady());
     }
 
-    private void SpawnServerManagersOnce()
+    private IEnumerator GenerateMapWhenSceneReady()
     {
-        if (managersSpawned) return;
-        managersSpawned = true;
+        if (mapGenerationStarted)
+            yield break;
 
-        if (serverTimeManagerPrefab == null)
+        mapGenerationStarted = true;
+        mapReady = false;
+
+        yield return null;
+
+        if (mapGenerator == null)
+            mapGenerator = FindFirstObjectByType<MapGenerator>();
+
+        if (mapGenerator == null)
         {
-            Debug.LogError("[InstanceNetworkManager] serverTimeManagerPrefab is null");
-            return;
+            Debug.LogError("[InstanceNetworkManager] MapGenerator not found in gameplay scene");
+            yield break;
         }
 
-        if (FindFirstObjectByType<ServerTimeManager>() != null)
-        {
-            Debug.LogWarning("[InstanceNetworkManager] ServerTimeManager already exists, skipping");
-            return;
-        }
+        Debug.Log("[InstanceNetworkManager] Starting map generation");
 
-        GameObject stm = Instantiate(serverTimeManagerPrefab);
-        DontDestroyOnLoad(stm);
-        NetworkServer.Spawn(stm);
+        yield return mapGenerator.Generate();
 
-        Debug.Log("[InstanceNetworkManager] Spawned ServerTimeManager");
-    }
+        mapReady = true;
 
-    public override void OnServerConnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerConnect(conn);
-        Debug.Log($"[InstanceNetworkManager] OnServerConnect connId={conn.connectionId}");
-    }
-
-    public override void OnServerReady(NetworkConnectionToClient conn)
-    {
-        base.OnServerReady(conn);
-        Debug.Log($"[InstanceNetworkManager] OnServerReady connId={conn.connectionId}");
+        Debug.Log("[InstanceNetworkManager] Map is ready");
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         Debug.Log($"[InstanceNetworkManager] OnServerAddPlayer connId={conn.connectionId}");
 
-        base.OnServerAddPlayer(conn);
+        StartCoroutine(AddPlayerWhenMapReady(conn));
+    }
 
-        GameObject player = conn.identity != null ? conn.identity.gameObject : null;
+    private IEnumerator AddPlayerWhenMapReady(NetworkConnectionToClient conn)
+    {
+        while (!mapReady)
+            yield return null;
 
-        if (player == null)
+        if (conn == null)
         {
-            Debug.LogError("[InstanceNetworkManager] Player identity is null after AddPlayer");
-            return;
+            Debug.LogWarning("[InstanceNetworkManager] Conn became null before map was ready");
+            yield break;
         }
+
+        Transform spawn = mapGenerator != null ? mapGenerator.GetPlayerSpawnPoint() : null;
+
+        Vector3 spawnPosition = spawn != null ? spawn.position : Vector3.zero;
+        Quaternion spawnRotation = spawn != null ? spawn.rotation : Quaternion.identity;
+
+        GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
+
+        NetworkServer.AddPlayerForConnection(conn, player);
 
         StartCoroutine(LoadPlayerWhenAuthReady(conn, player));
     }
@@ -172,6 +186,42 @@ public class InstanceNetworkManager : NetworkManager
         Debug.Log($"[InstanceNetworkManager] Loaded save for {username}");
     }
 
+    private void SpawnServerManagersOnce()
+    {
+        if (managersSpawned) return;
+        managersSpawned = true;
+
+        if (serverTimeManagerPrefab == null)
+        {
+            Debug.LogError("[InstanceNetworkManager] serverTimeManagerPrefab is null");
+            return;
+        }
+
+        if (FindFirstObjectByType<ServerTimeManager>() != null)
+        {
+            Debug.LogWarning("[InstanceNetworkManager] ServerTimeManager already exists, skipping");
+            return;
+        }
+
+        GameObject stm = Instantiate(serverTimeManagerPrefab);
+        DontDestroyOnLoad(stm);
+        NetworkServer.Spawn(stm);
+
+        Debug.Log("[InstanceNetworkManager] Spawned ServerTimeManager");
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        Debug.Log($"[InstanceNetworkManager] OnServerConnect connId={conn.connectionId}");
+    }
+
+    public override void OnServerReady(NetworkConnectionToClient conn)
+    {
+        base.OnServerReady(conn);
+        Debug.Log($"[InstanceNetworkManager] OnServerReady connId={conn.connectionId}");
+    }
+
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         Debug.Log($"[InstanceNetworkManager] OnServerDisconnect connId={conn.connectionId}");
@@ -206,3 +256,4 @@ public class InstanceNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
     }
 }
+#endif

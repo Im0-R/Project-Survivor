@@ -26,6 +26,10 @@ public class InstanceManager : NetworkBehaviour
     [SerializeField] private string hubSceneName = "Town";
     [SerializeField] private int hubPort = 8000;
 
+    [Header("Map Settings")]
+    [SerializeField] private string defaultMapSceneName = "MapInstance";
+    [SerializeField] private string defaultMapId = "forest_01";
+
     public string HubSceneName => hubSceneName;
     public int HubPort => hubPort;
     public string HubIp => ipAddress;
@@ -50,7 +54,7 @@ public class InstanceManager : NetworkBehaviour
     }
 
     [Server]
-    public InstanceInfo CreateInstance(NetworkConnectionToClient conn, string scene)
+    public InstanceInfo CreateInstance(NetworkConnectionToClient conn, string scene, string mapId = "")
     {
         if (conn == null)
         {
@@ -59,7 +63,10 @@ public class InstanceManager : NetworkBehaviour
         }
 
         if (string.IsNullOrWhiteSpace(scene))
-            scene = hubSceneName;
+            scene = defaultMapSceneName;
+
+        if (string.IsNullOrWhiteSpace(mapId))
+            mapId = defaultMapId;
 
         if (!File.Exists(instanceExecutable))
         {
@@ -84,7 +91,7 @@ public class InstanceManager : NetworkBehaviour
             {
                 FileName = instanceExecutable,
                 WorkingDirectory = workingDirectory,
-                Arguments = $"-scene {scene} -port {port} -seed {seed} -logFile {logFile}",
+                Arguments = $"-scene {scene} -mapId {mapId} -port {port} -seed {seed} -logFile {logFile}",
                 UseShellExecute = false,
                 CreateNoWindow = true
             });
@@ -101,10 +108,10 @@ public class InstanceManager : NetworkBehaviour
             return null;
         }
 
-        InstanceInfo info = new InstanceInfo(instanceId, port, scene, seed, process.Id);
+        InstanceInfo info = new InstanceInfo(instanceId, port, scene, mapId, seed, process.Id);
         activeInstances[instanceId] = info;
 
-        UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}");
+        UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}, mapId={mapId}, seed={seed}");
         UnityEngine.Debug.Log($"[InstanceManager] Log file: {logFile}");
         UnityEngine.Debug.Log($"[InstanceManager] WorkingDirectory: {workingDirectory}");
 
@@ -143,7 +150,7 @@ public class InstanceManager : NetworkBehaviour
                 return;
             }
 
-            activeInstances[instanceId] = new InstanceInfo(instanceId, hubPort, hubSceneName, seed, process.Id)
+            activeInstances[instanceId] = new InstanceInfo(instanceId, hubPort, hubSceneName, "", seed, process.Id)
             {
                 isReady = true
             };
@@ -216,15 +223,17 @@ public class InstanceManager : NetworkBehaviour
         public int id;
         public int port;
         public string scene;
+        public string mapId;
         public int seed;
         public int processId;
         public bool isReady;
 
-        public InstanceInfo(int id, int port, string scene, int seed, int processId)
+        public InstanceInfo(int id, int port, string scene, string mapId, int seed, int processId)
         {
             this.id = id;
             this.port = port;
             this.scene = scene;
+            this.mapId = mapId;
             this.seed = seed;
             this.processId = processId;
             isReady = false;

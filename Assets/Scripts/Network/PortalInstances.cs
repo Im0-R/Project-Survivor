@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PortalInstances : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private string targetScene = "Town";
+    [Header("Target Instance")]
+    [SerializeField] private string targetScene = "MapInstance";
+    [SerializeField] private string targetMapId = "forest_01";
+
+    [Header("Redirect")]
     [SerializeField] private float redirectDelay = 8f;
 
     [SyncVar] private bool isLaunching;
@@ -13,12 +17,13 @@ public class PortalInstances : NetworkBehaviour, IInteractable
     {
         if (!NetworkClient.active) return;
 
-        Debug.Log("[PortalInstances] Interacted");
-        CmdRequestInstance(targetScene);
+        Debug.Log($"[PortalInstances] Interacted | targetScene={targetScene} | targetMapId={targetMapId}");
+
+        CmdRequestInstance(targetScene, targetMapId);
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdRequestInstance(string sceneName, NetworkConnectionToClient sender = null)
+    private void CmdRequestInstance(string sceneName, string mapId, NetworkConnectionToClient sender = null)
     {
         if (isLaunching)
         {
@@ -26,7 +31,7 @@ public class PortalInstances : NetworkBehaviour, IInteractable
             return;
         }
 
-        Debug.Log($"[PortalInstances] Cmd received | sender={(sender == null ? "NULL" : sender.connectionId.ToString())}");
+        Debug.Log($"[PortalInstances] Cmd received | sender={(sender == null ? "NULL" : sender.connectionId.ToString())} | scene={sceneName} | mapId={mapId}");
 
         if (sender == null) return;
 
@@ -36,9 +41,15 @@ public class PortalInstances : NetworkBehaviour, IInteractable
             return;
         }
 
+        if (string.IsNullOrWhiteSpace(sceneName))
+            sceneName = "MapInstance";
+
+        if (string.IsNullOrWhiteSpace(mapId))
+            mapId = "forest_01";
+
         isLaunching = true;
 
-        InstanceManager.InstanceInfo info = InstanceManager.Instance.CreateInstance(sender, sceneName);
+        InstanceManager.InstanceInfo info = InstanceManager.Instance.CreateInstance(sender, sceneName, mapId);
 
         if (info == null)
         {
