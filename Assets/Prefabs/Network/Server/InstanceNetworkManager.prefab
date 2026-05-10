@@ -128,8 +128,8 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  serverTimeManagerPrefab: {fileID: 0}
-  instanceStatePrefab: {fileID: 0}
+  serverTimeManagerPrefab: {fileID: 6847888669026745011, guid: bb0ee45d77c94ff42939522d7ebc29c4, type: 3}
+  instanceStatePrefab: {fileID: 830966420087339749, guid: 287749ae40bb3664b9a4fe4cb5f5a1f8, type: 3}
   mapInstanceSceneName: MapInstance
   mapGenerator: {fileID: 0}
 --- !u!114 &6329816325727970690
