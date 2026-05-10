@@ -1,5 +1,4 @@
-﻿#if UNITY_SERVER
-using System.Collections;
+﻿using System.Collections;
 using AuthMessages;
 using Mirror;
 using UnityEngine;
@@ -10,11 +9,16 @@ public class InstanceNetworkManager : NetworkManager
     [Header("Managers")]
     [SerializeField] private GameObject serverTimeManagerPrefab;
 
+    [Header("Instance State")]
+    [SerializeField] private GameObject instanceStatePrefab;
+
     [Header("Scenes")]
     [SerializeField] private string mapInstanceSceneName = "MapInstance";
 
     [Header("Map")]
     [SerializeField] private MapGenerator mapGenerator;
+
+    private InstanceState instanceState;
 
     private bool managersSpawned;
     private bool gameplaySceneLoadingStarted;
@@ -104,7 +108,49 @@ public class InstanceNetworkManager : NetworkManager
             return;
         }
 
+        SpawnInstanceStateOnce();
+
         StartCoroutine(GenerateMapWhenSceneReady());
+    }
+
+    [Server]
+    private void SpawnInstanceStateOnce()
+    {
+        if (instanceState != null)
+            return;
+
+        string mapId = GetServerMapId();
+        int seed = GetServerSeed();
+
+        if (string.IsNullOrWhiteSpace(mapId))
+        {
+            Debug.LogError("[InstanceNetworkManager] Cannot spawn InstanceState, mapId is empty");
+            return;
+        }
+
+        if (instanceStatePrefab == null)
+        {
+            Debug.LogError("[InstanceNetworkManager] instanceStatePrefab is null");
+            return;
+        }
+
+        GameObject obj = Instantiate(instanceStatePrefab);
+        DontDestroyOnLoad(obj);
+
+        instanceState = obj.GetComponent<InstanceState>();
+
+        if (instanceState == null)
+        {
+            Debug.LogError("[InstanceNetworkManager] InstanceState missing on prefab");
+            Destroy(obj);
+            return;
+        }
+
+        NetworkServer.Spawn(obj);
+
+        instanceState.SetMap(mapId, seed);
+
+        Debug.Log($"[InstanceNetworkManager] Spawned InstanceState | mapId={mapId} | seed={seed}");
     }
 
     private IEnumerator GenerateMapWhenSceneReady()
@@ -127,9 +173,19 @@ public class InstanceNetworkManager : NetworkManager
             yield break;
         }
 
-        Debug.Log("[InstanceNetworkManager] Starting map generation");
+        string mapId = GetServerMapId();
+        int seed = GetServerSeed();
 
-        yield return mapGenerator.Generate();
+        if (string.IsNullOrWhiteSpace(mapId))
+        {
+            Debug.LogError("[InstanceNetworkManager] Cannot generate map, mapId is empty");
+            mapReady = true;
+            yield break;
+        }
+
+        Debug.Log($"[InstanceNetworkManager] Starting map generation | mapId={mapId} | seed={seed}");
+
+        yield return mapGenerator.Generate(mapId, seed);
 
         mapReady = true;
 
@@ -220,7 +276,9 @@ public class InstanceNetworkManager : NetworkManager
 
     private void SpawnServerManagersOnce()
     {
-        if (managersSpawned) return;
+        if (managersSpawned)
+            return;
+
         managersSpawned = true;
 
         if (serverTimeManagerPrefab == null)
@@ -263,5 +321,22 @@ public class InstanceNetworkManager : NetworkManager
 
         base.OnServerDisconnect(conn);
     }
-}
+
+    private string GetServerMapId()
+    {
+#if UNITY_SERVER
+        return InstanceBootStrap.MapIdArg;
+#else
+        return "";
 #endif
+    }
+
+    private int GetServerSeed()
+    {
+#if UNITY_SERVER
+        return InstanceBootStrap.SeedArg;
+#else
+        return 0;
+#endif
+    }
+}

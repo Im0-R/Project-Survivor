@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPauseController.cs" />
     <Compile Include="Assets\Scripts\Loot\LootPreviewUI.cs" />
+    <Compile Include="Assets\Scripts\Map\ClientMapInstanceReceiver.cs" />
     <Compile Include="Assets\Scripts\UI\GameUILoader.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemInstanceSO.cs" />
     <Compile Include="Assets\Scripts\Loot\LootGenerator.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\Inventory\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootLabelUI.cs" />
+    <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />

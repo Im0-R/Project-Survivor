@@ -1,4 +1,3 @@
-#if UNITY_SERVER
 using System.Collections;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -10,13 +9,11 @@ public class MapGenerator : MonoBehaviour
     private GameObject currentEnvironment;
     private MapConfigSO currentMap;
 
-    public IEnumerator Generate()
+    public IEnumerator Generate(string mapId, int seed)
     {
-        string mapId = InstanceBootStrap.MapIdArg;
-
         if (string.IsNullOrWhiteSpace(mapId))
         {
-            Debug.LogError("[MapGenerator] No mapId provided for MapInstance");
+            Debug.LogError("[MapGenerator] Generate called with empty mapId");
             yield break;
         }
 
@@ -34,14 +31,19 @@ public class MapGenerator : MonoBehaviour
             yield break;
         }
 
-        currentEnvironment = Instantiate(currentMap.biome.environmentPrefab, Vector3.zero, Quaternion.identity);
+        if (currentEnvironment != null)
+            Destroy(currentEnvironment);
+
+        currentEnvironment = Instantiate(
+            currentMap.biome.environmentPrefab,
+            Vector3.zero,
+            Quaternion.identity
+        );
 
         RenderSettings.ambientLight = currentMap.biome.ambientColor;
 
-        NavMeshSurface navMeshSurface = currentEnvironment.GetComponent<NavMeshSurface>();
-
-        if (navMeshSurface == null)
-            navMeshSurface = currentEnvironment.GetComponentInChildren<NavMeshSurface>();
+#if UNITY_SERVER
+        NavMeshSurface navMeshSurface = currentEnvironment.GetComponentInChildren<NavMeshSurface>();
 
         if (navMeshSurface == null)
         {
@@ -50,10 +52,9 @@ public class MapGenerator : MonoBehaviour
         }
 
         navMeshSurface.BuildNavMesh();
+#endif
 
-        yield return null;
-
-        Debug.Log($"[MapGenerator] Map generated | mapId={mapId}");
+        Debug.Log($"[MapGenerator] Map generated | mapId={mapId} | seed={seed}");
     }
 
     public Transform GetPlayerSpawnPoint()
@@ -83,4 +84,3 @@ public class MapGenerator : MonoBehaviour
         return null;
     }
 }
-#endif
