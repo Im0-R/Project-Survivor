@@ -58,13 +58,13 @@ public static class BuildScript
                 (
                     s.path.EndsWith("BootStrapInstance.unity") ||
                     s.path.EndsWith("Town.unity") ||
-                    s.path.EndsWith("MapScene.unity")
+                    s.path.EndsWith("MapInstance.unity")
                 ))
             .OrderBy(s =>
             {
                 if (s.path.EndsWith("BootStrapInstance.unity")) return 0;
                 if (s.path.EndsWith("Town.unity")) return 1;
-                if (s.path.EndsWith("MapScene.unity")) return 2;
+                if (s.path.EndsWith("MapInstance.unity")) return 2;
                 return 99;
             })
             .Select(s => s.path)
@@ -72,7 +72,7 @@ public static class BuildScript
 
         if (scenes.Length == 0)
         {
-            Debug.LogError("❌ No BootStrapInstance/Town/MapScene found in Build Settings!");
+            Debug.LogError("❌ No BootStrapInstance/Town/MapInstance found in Build Settings!");
             return;
         }
 
