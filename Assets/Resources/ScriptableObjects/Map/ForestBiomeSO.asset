@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73a76f40717e1c64a9e38e9f00aa4e00, type: 3}
+  m_Script: {fileID: 11500000, guid: 106c0d3ae41d7f1419d42f5a25dd7ec6, type: 3}
   m_Name: ForestBiomeSO
-  m_EditorClassIdentifier: Assembly-CSharp::MapConfigSO
-  mapId: f
-  layoutPrefab: {fileID: 0}
-  biome: {fileID: 0}
-  monsterLevel: 1
-  possibleMonsterPrefabs:
-  - {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeConfigSO
+  biomeId: forest_biome
+  environmentPrefab: {fileID: 2584896768917841429, guid: da6333aae05b88c4990e65809a053a09, type: 3}
+  ambientColor: {r: 1, g: 1, b: 1, a: 1}
