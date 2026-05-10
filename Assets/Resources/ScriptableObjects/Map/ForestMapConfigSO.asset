@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a76f40717e1c64a9e38e9f00aa4e00, type: 3}
   m_Name: ForestMapConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::MapConfigSO
-  mapId: forest_map
+  mapId: forest_01
   biome: {fileID: 11400000, guid: d016c6dc810078441a9fd6002c4fbedc, type: 2}
   monsterLevel: 1
   possibleMonsterPrefabs:
