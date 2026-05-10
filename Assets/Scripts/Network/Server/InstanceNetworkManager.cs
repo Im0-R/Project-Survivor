@@ -20,6 +20,7 @@ public class InstanceNetworkManager : NetworkManager
     private bool gameplaySceneLoadingStarted;
     private bool mapReady;
     private bool mapGenerationStarted;
+    private bool sceneReadyHandled;
 
     public override void Awake()
     {
@@ -65,12 +66,36 @@ public class InstanceNetworkManager : NetworkManager
         ServerChangeScene(sceneName);
     }
 
+    [Server]
+    public void HandleTargetSceneReadyManually()
+    {
+        if (sceneReadyHandled)
+            return;
+
+        Debug.Log("[InstanceNetworkManager] Handling already loaded target scene manually");
+        HandleSceneReady(SceneManager.GetActiveScene().name);
+    }
+
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
 
         Debug.Log($"[InstanceNetworkManager] OnServerSceneChanged -> {sceneName}");
         Debug.Log($"[InstanceNetworkManager] Active scene after change = {SceneManager.GetActiveScene().name}");
+
+        HandleSceneReady(sceneName);
+    }
+
+    [Server]
+    private void HandleSceneReady(string sceneName)
+    {
+        if (sceneReadyHandled)
+        {
+            Debug.LogWarning($"[InstanceNetworkManager] Scene ready already handled, ignoring duplicate for {sceneName}");
+            return;
+        }
+
+        sceneReadyHandled = true;
 
         if (sceneName != mapInstanceSceneName)
         {
@@ -114,14 +139,17 @@ public class InstanceNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         Debug.Log($"[InstanceNetworkManager] OnServerAddPlayer connId={conn.connectionId}");
-
         StartCoroutine(AddPlayerWhenMapReady(conn));
     }
 
     private IEnumerator AddPlayerWhenMapReady(NetworkConnectionToClient conn)
     {
+        Debug.Log("[InstanceNetworkManager] Waiting for mapReady before spawning player");
+
         while (!mapReady)
             yield return null;
+
+        Debug.Log("[InstanceNetworkManager] mapReady true, spawning player");
 
         if (conn == null)
         {
@@ -134,12 +162,16 @@ public class InstanceNetworkManager : NetworkManager
         if (SceneManager.GetActiveScene().name == mapInstanceSceneName && mapGenerator != null)
             spawn = mapGenerator.GetPlayerSpawnPoint();
 
-        Vector3 spawnPosition = spawn != null ? spawn.position : GetStartPosition()?.position ?? Vector3.zero;
-        Quaternion spawnRotation = spawn != null ? spawn.rotation : GetStartPosition()?.rotation ?? Quaternion.identity;
+        Transform start = GetStartPosition();
+
+        Vector3 spawnPosition = spawn != null ? spawn.position : start != null ? start.position : Vector3.zero;
+        Quaternion spawnRotation = spawn != null ? spawn.rotation : start != null ? start.rotation : Quaternion.identity;
 
         GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
 
         NetworkServer.AddPlayerForConnection(conn, player);
+
+        Debug.Log($"[InstanceNetworkManager] Player spawned at {spawnPosition}");
 
         StartCoroutine(LoadPlayerWhenAuthReady(conn, player));
     }

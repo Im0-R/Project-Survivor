@@ -4,6 +4,7 @@ using kcp2k;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InstanceBootStrap : MonoBehaviour
 {
@@ -79,18 +80,30 @@ public class InstanceBootStrap : MonoBehaviour
         }
 
         kcp.Port = (ushort)PortArg;
+        Debug.Log($"[InstanceBootStrap] KCP configured on port {kcp.Port}");
 
         DatabaseManager.Initialize();
+        Debug.Log("[InstanceBootStrap] Database initialized");
 
         manager.StartServer();
+        Debug.Log("[InstanceBootStrap] Server started");
 
-        if (manager is InstanceNetworkManager instanceManager)
+        if (manager is not InstanceNetworkManager instanceManager)
         {
-            instanceManager.LoadGameplayScene(SceneArg);
+            Debug.LogError("[InstanceBootStrap] NetworkManager is not InstanceNetworkManager");
+            yield break;
+        }
+
+        string activeScene = SceneManager.GetActiveScene().name;
+
+        if (activeScene == SceneArg)
+        {
+            Debug.Log($"[InstanceBootStrap] Already in target scene {activeScene}, skipping ServerChangeScene");
+            instanceManager.HandleTargetSceneReadyManually();
         }
         else
         {
-            Debug.LogError("[InstanceBootStrap] NetworkManager is not InstanceNetworkManager");
+            instanceManager.LoadGameplayScene(SceneArg);
         }
 
         while (true)
