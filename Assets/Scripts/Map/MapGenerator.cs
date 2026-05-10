@@ -1,6 +1,5 @@
 #if UNITY_SERVER
 using System.Collections;
-
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -15,6 +14,12 @@ public class MapGenerator : MonoBehaviour
     {
         string mapId = InstanceBootStrap.MapIdArg;
 
+        if (string.IsNullOrWhiteSpace(mapId))
+        {
+            Debug.LogError("[MapGenerator] No mapId provided for MapInstance");
+            yield break;
+        }
+
         currentMap = FindMap(mapId);
 
         if (currentMap == null)
@@ -23,23 +28,13 @@ public class MapGenerator : MonoBehaviour
             yield break;
         }
 
-        if (currentMap.biome == null)
+        if (currentMap.biome == null || currentMap.biome.environmentPrefab == null)
         {
-            Debug.LogError($"[MapGenerator] Biome is null for mapId={mapId}");
+            Debug.LogError($"[MapGenerator] Invalid biome or environmentPrefab for mapId={mapId}");
             yield break;
         }
 
-        if (currentMap.biome.environmentPrefab == null)
-        {
-            Debug.LogError($"[MapGenerator] environmentPrefab is null for mapId={mapId}");
-            yield break;
-        }
-
-        currentEnvironment = Instantiate(
-            currentMap.biome.environmentPrefab,
-            Vector3.zero,
-            Quaternion.identity
-        );
+        currentEnvironment = Instantiate(currentMap.biome.environmentPrefab, Vector3.zero, Quaternion.identity);
 
         RenderSettings.ambientLight = currentMap.biome.ambientColor;
 

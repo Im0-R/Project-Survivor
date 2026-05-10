@@ -10,6 +10,9 @@ public class InstanceNetworkManager : NetworkManager
     [Header("Managers")]
     [SerializeField] private GameObject serverTimeManagerPrefab;
 
+    [Header("Scenes")]
+    [SerializeField] private string mapInstanceSceneName = "MapInstance";
+
     [Header("Map")]
     [SerializeField] private MapGenerator mapGenerator;
 
@@ -20,11 +23,6 @@ public class InstanceNetworkManager : NetworkManager
 
     public override void Awake()
     {
-#if !UNITY_SERVER
-        Destroy(gameObject);
-        return;
-#endif
-
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }
@@ -74,6 +72,13 @@ public class InstanceNetworkManager : NetworkManager
         Debug.Log($"[InstanceNetworkManager] OnServerSceneChanged -> {sceneName}");
         Debug.Log($"[InstanceNetworkManager] Active scene after change = {SceneManager.GetActiveScene().name}");
 
+        if (sceneName != mapInstanceSceneName)
+        {
+            Debug.Log($"[InstanceNetworkManager] Scene {sceneName} is not {mapInstanceSceneName}, skipping map generation");
+            mapReady = true;
+            return;
+        }
+
         StartCoroutine(GenerateMapWhenSceneReady());
     }
 
@@ -92,7 +97,8 @@ public class InstanceNetworkManager : NetworkManager
 
         if (mapGenerator == null)
         {
-            Debug.LogError("[InstanceNetworkManager] MapGenerator not found in gameplay scene");
+            Debug.LogError("[InstanceNetworkManager] MapGenerator not found in MapInstance scene");
+            mapReady = true;
             yield break;
         }
 
@@ -123,10 +129,13 @@ public class InstanceNetworkManager : NetworkManager
             yield break;
         }
 
-        Transform spawn = mapGenerator != null ? mapGenerator.GetPlayerSpawnPoint() : null;
+        Transform spawn = null;
 
-        Vector3 spawnPosition = spawn != null ? spawn.position : Vector3.zero;
-        Quaternion spawnRotation = spawn != null ? spawn.rotation : Quaternion.identity;
+        if (SceneManager.GetActiveScene().name == mapInstanceSceneName && mapGenerator != null)
+            spawn = mapGenerator.GetPlayerSpawnPoint();
+
+        Vector3 spawnPosition = spawn != null ? spawn.position : GetStartPosition()?.position ?? Vector3.zero;
+        Quaternion spawnRotation = spawn != null ? spawn.rotation : GetStartPosition()?.rotation ?? Quaternion.identity;
 
         GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
 
@@ -144,17 +153,8 @@ public class InstanceNetworkManager : NetworkManager
 
         while (timer < timeout)
         {
-            if (conn == null)
-            {
-                Debug.LogWarning("[InstanceNetworkManager] Conn became null before auth was ready");
+            if (conn == null || player == null)
                 yield break;
-            }
-
-            if (player == null)
-            {
-                Debug.LogWarning("[InstanceNetworkManager] Player destroyed before auth was ready");
-                yield break;
-            }
 
             if (conn.authenticationData is string user && !string.IsNullOrWhiteSpace(user))
             {
@@ -168,7 +168,7 @@ public class InstanceNetworkManager : NetworkManager
 
         if (string.IsNullOrWhiteSpace(username))
         {
-            Debug.LogError($"[InstanceNetworkManager] Cannot load save, username still missing after timeout connId={conn.connectionId}");
+            Debug.LogError($"[InstanceNetworkManager] Cannot load save, username missing connId={conn.connectionId}");
             yield break;
         }
 
@@ -198,28 +198,13 @@ public class InstanceNetworkManager : NetworkManager
         }
 
         if (FindFirstObjectByType<ServerTimeManager>() != null)
-        {
-            Debug.LogWarning("[InstanceNetworkManager] ServerTimeManager already exists, skipping");
             return;
-        }
 
         GameObject stm = Instantiate(serverTimeManagerPrefab);
         DontDestroyOnLoad(stm);
         NetworkServer.Spawn(stm);
 
         Debug.Log("[InstanceNetworkManager] Spawned ServerTimeManager");
-    }
-
-    public override void OnServerConnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerConnect(conn);
-        Debug.Log($"[InstanceNetworkManager] OnServerConnect connId={conn.connectionId}");
-    }
-
-    public override void OnServerReady(NetworkConnectionToClient conn)
-    {
-        base.OnServerReady(conn);
-        Debug.Log($"[InstanceNetworkManager] OnServerReady connId={conn.connectionId}");
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -229,7 +214,6 @@ public class InstanceNetworkManager : NetworkManager
         if (conn.identity != null)
         {
             GameObject player = conn.identity.gameObject;
-
             string username = conn.authenticationData as string;
 
             if (!string.IsNullOrWhiteSpace(username))
@@ -242,14 +226,6 @@ public class InstanceNetworkManager : NetworkManager
                     DatabaseManager.SavePlayerState(username, inv, equip);
                     Debug.Log($"[InstanceNetworkManager] Saved player state for {username}");
                 }
-                else
-                {
-                    Debug.LogWarning("[InstanceNetworkManager] Cannot save, PlayerInventory or PlayerEquipment missing");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[InstanceNetworkManager] Cannot save, username is missing in authenticationData");
             }
         }
 

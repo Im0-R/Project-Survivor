@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class InstanceBootStrap : MonoBehaviour
 {
     public static string SceneArg = "Town";
-    public static string MapIdArg = "forest_01";
+    public static string MapIdArg = "";
     public static int PortArg = 8000;
     public static int SeedArg = 0;
 
