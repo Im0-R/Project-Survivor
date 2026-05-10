@@ -11,6 +11,13 @@ public class MapGenerator : MonoBehaviour
 
     public IEnumerator Generate(string mapId, int seed)
     {
+
+        Debug.Log(
+    $"[MapGenerator] Generate START | " +
+    $"mapId={mapId} | " +
+    $"seed={seed} | " +
+    $"isServer={Application.isBatchMode}"
+);
         if (string.IsNullOrWhiteSpace(mapId))
         {
             Debug.LogError("[MapGenerator] Generate called with empty mapId");
@@ -33,13 +40,19 @@ public class MapGenerator : MonoBehaviour
 
         if (currentEnvironment != null)
             Destroy(currentEnvironment);
-
+        Debug.Log(
+    $"[MapGenerator] Instantiating environment prefab: " +
+    $"{currentMap.biome.environmentPrefab.name}"
+);
         currentEnvironment = Instantiate(
             currentMap.biome.environmentPrefab,
             Vector3.zero,
             Quaternion.identity
         );
-
+        Debug.Log(
+    $"[MapGenerator] Environment instantiated: " +
+    $"{currentEnvironment.name}"
+);
         RenderSettings.ambientLight = currentMap.biome.ambientColor;
 
 #if UNITY_SERVER

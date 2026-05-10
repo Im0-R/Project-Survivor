@@ -22,6 +22,14 @@ public class InstanceState : NetworkBehaviour
     {
         base.OnStartClient();
 
+        Debug.Log(
+            $"[InstanceState] OnStartClient | " +
+            $"netId={netId} | " +
+            $"mapId={mapId} | " +
+            $"seed={seed} | " +
+            $"isServer={isServer}"
+        );
+
         TryGenerateClientMap();
     }
 
@@ -37,6 +45,13 @@ public class InstanceState : NetworkBehaviour
 
     private void TryGenerateClientMap()
     {
+        Debug.Log(
+            $"[InstanceState] TryGenerateClientMap | " +
+            $"isServer={isServer} | " +
+            $"clientMapGenerated={clientMapGenerated} | " +
+            $"mapId={mapId}"
+        );
+
         if (isServer)
             return;
 
@@ -44,15 +59,20 @@ public class InstanceState : NetworkBehaviour
             return;
 
         if (string.IsNullOrWhiteSpace(mapId))
+        {
+            Debug.LogWarning("[InstanceState] mapId empty on client");
             return;
+        }
 
         MapGenerator generator = FindFirstObjectByType<MapGenerator>();
 
         if (generator == null)
         {
-            Debug.LogError("[InstanceState] MapGenerator not found on client");
+            Debug.LogError("[InstanceState] MapGenerator NOT FOUND on client");
             return;
         }
+
+        Debug.Log($"[InstanceState] Found MapGenerator: {generator.name}");
 
         clientMapGenerated = true;
 

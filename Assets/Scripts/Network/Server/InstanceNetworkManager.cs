@@ -146,6 +146,7 @@ public class InstanceNetworkManager : NetworkManager
             return;
         }
 
+        SpawnDebug.LogSpawn(obj, "InstanceState");
         NetworkServer.Spawn(obj);
 
         instanceState.SetMap(mapId, seed);
@@ -292,6 +293,7 @@ public class InstanceNetworkManager : NetworkManager
 
         GameObject stm = Instantiate(serverTimeManagerPrefab);
         DontDestroyOnLoad(stm);
+        SpawnDebug.LogSpawn(stm, "ServerTimeManager");
         NetworkServer.Spawn(stm);
 
         Debug.Log("[InstanceNetworkManager] Spawned ServerTimeManager");
