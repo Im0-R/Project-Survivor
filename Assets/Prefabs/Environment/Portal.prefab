@@ -130,7 +130,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  destinationType: 0
+  destinationType: 1
   targetScene: MapInstance
   targetMapId: forest_01
   townScene: Town
