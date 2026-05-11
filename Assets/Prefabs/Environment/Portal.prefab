@@ -107,7 +107,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -130,6 +130,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  destinationType: 0
+  targetScene: MapInstance
+  targetMapId: forest_01
+  townScene: Town
+  masterIp: 72.60.212.58
+  masterPort: 7777
+  redirectDelay: 8
 --- !u!114 &7961059368687619112
 MonoBehaviour:
   m_ObjectHideFlags: 0

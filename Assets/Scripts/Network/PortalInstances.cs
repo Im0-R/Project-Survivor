@@ -2,11 +2,25 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 
+public enum PortalDestinationType
+{
+    MapInstance,
+    Town
+}
+
 public class PortalInstances : NetworkBehaviour, IInteractable
 {
+    [Header("Destination")]
+    [SerializeField] private PortalDestinationType destinationType = PortalDestinationType.MapInstance;
+
     [Header("Target Instance")]
     [SerializeField] private string targetScene = "MapInstance";
     [SerializeField] private string targetMapId = "forest_01";
+
+    [Header("Town / Master Server")]
+    [SerializeField] private string townScene = "Town";
+    [SerializeField] private string masterIp = "72.60.212.58";
+    [SerializeField] private int masterPort = 7777;
 
     [Header("Redirect")]
     [SerializeField] private float redirectDelay = 8f;
@@ -17,51 +31,106 @@ public class PortalInstances : NetworkBehaviour, IInteractable
     {
         if (!NetworkClient.active) return;
 
-        Debug.Log($"[PortalInstances] Interacted | targetScene={targetScene} | targetMapId={targetMapId}");
+        Debug.Log($"[PortalInstances] Interacted | destination={destinationType}");
 
-        CmdRequestInstance(targetScene, targetMapId);
+        CmdRequestPortal();
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdRequestInstance(string sceneName, string mapId, NetworkConnectionToClient sender = null)
+    private void CmdRequestPortal(NetworkConnectionToClient sender = null)
     {
         if (isLaunching)
         {
-            Debug.LogWarning("[PortalInstances] Instance already launching, ignoring request.");
+            Debug.LogWarning("[PortalInstances] Portal already launching, ignoring request.");
             return;
         }
 
-        Debug.Log($"[PortalInstances] Cmd received | sender={(sender == null ? "NULL" : sender.connectionId.ToString())} | scene={sceneName} | mapId={mapId}");
-
-        if (sender == null) return;
-
-        if (InstanceManager.Instance == null)
+        if (sender == null)
         {
-            Debug.LogError("[PortalInstances] InstanceManager.Instance is null");
+            Debug.LogError("[PortalInstances] Sender is null");
             return;
         }
-
-        if (string.IsNullOrWhiteSpace(sceneName))
-            sceneName = "MapInstance";
-
-        if (string.IsNullOrWhiteSpace(mapId))
-            mapId = "forest_01";
 
         isLaunching = true;
 
-        InstanceManager.InstanceInfo info = InstanceManager.Instance.CreateInstance(sender, sceneName, mapId);
-
-        if (info == null)
+        switch (destinationType)
         {
+            case PortalDestinationType.MapInstance:
+                RequestMapInstance(sender);
+                break;
+
+            case PortalDestinationType.Town:
+                RequestTown(sender);
+                break;
+        }
+    }
+
+    [Server]
+    private void RequestMapInstance(NetworkConnectionToClient sender)
+    {
+        if (InstanceManager.Instance == null)
+        {
+            Debug.LogError("[PortalInstances] InstanceManager.Instance is null");
             isLaunching = false;
             return;
         }
 
-        StartCoroutine(DelayedRedirect(sender, info));
+        string sceneName = string.IsNullOrWhiteSpace(targetScene)
+            ? "MapInstance"
+            : targetScene;
+
+        string mapId = string.IsNullOrWhiteSpace(targetMapId)
+            ? "forest_01"
+            : targetMapId;
+
+        Debug.Log($"[PortalInstances] Creating instance | scene={sceneName} | mapId={mapId}");
+
+        InstanceManager.InstanceInfo info =
+            InstanceManager.Instance.CreateInstance(sender, sceneName, mapId);
+
+        if (info == null)
+        {
+            Debug.LogError("[PortalInstances] CreateInstance returned null");
+            isLaunching = false;
+            return;
+        }
+
+        StartCoroutine(DelayedRedirect(
+            sender,
+            InstanceManager.Instance.HubIp,
+            info.port,
+            info.scene
+        ));
     }
 
     [Server]
-    private IEnumerator DelayedRedirect(NetworkConnectionToClient conn, InstanceManager.InstanceInfo info)
+    private void RequestTown(NetworkConnectionToClient sender)
+    {
+        string ip = string.IsNullOrWhiteSpace(masterIp)
+            ? "127.0.0.1"
+            : masterIp;
+
+        string sceneName = string.IsNullOrWhiteSpace(townScene)
+            ? "Town"
+            : townScene;
+
+        Debug.Log($"[PortalInstances] Returning to town | ip={ip} | port={masterPort} | scene={sceneName}");
+
+        StartCoroutine(DelayedRedirect(
+            sender,
+            ip,
+            masterPort,
+            sceneName
+        ));
+    }
+
+    [Server]
+    private IEnumerator DelayedRedirect(
+        NetworkConnectionToClient conn,
+        string ip,
+        int port,
+        string sceneName
+    )
     {
         yield return new WaitForSeconds(redirectDelay);
 
@@ -72,15 +141,20 @@ public class PortalInstances : NetworkBehaviour, IInteractable
             yield break;
         }
 
-        Debug.Log($"[PortalInstances] Redirecting conn={conn.connectionId} to {InstanceManager.Instance.HubIp}:{info.port} scene={info.scene}");
+        Debug.Log($"[PortalInstances] Redirecting conn={conn.connectionId} to {ip}:{port} scene={sceneName}");
 
-        TargetSwitchToInstance(conn, InstanceManager.Instance.HubIp, info.port, info.scene);
+        TargetSwitchToInstance(conn, ip, port, sceneName);
 
         isLaunching = false;
     }
 
     [TargetRpc]
-    private void TargetSwitchToInstance(NetworkConnectionToClient conn, string ip, int port, string sceneName)
+    private void TargetSwitchToInstance(
+        NetworkConnectionToClient conn,
+        string ip,
+        int port,
+        string sceneName
+    )
     {
         Debug.Log($"[PortalInstances CLIENT] TargetSwitchToInstance received | ip={ip} | port={port} | scene={sceneName}");
 
@@ -90,6 +164,10 @@ public class PortalInstances : NetworkBehaviour, IInteractable
             return;
         }
 
-        ClientSideInstanceManager.Instance.SwitchToInstance((ushort)port, ip, sceneName);
+        ClientSideInstanceManager.Instance.SwitchToInstance(
+            (ushort)port,
+            ip,
+            sceneName
+        );
     }
 }
