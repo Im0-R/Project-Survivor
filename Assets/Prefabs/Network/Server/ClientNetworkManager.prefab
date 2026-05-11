@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 6847888669026745011, guid: bb0ee45d77c94ff42939522d7ebc29c4, type: 3}
   - {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
   - {fileID: 3180879256419302217, guid: 0df6a83bd8b671645a675100d6161a36, type: 3}
+  - {fileID: 830966420087339749, guid: 287749ae40bb3664b9a4fe4cb5f5a1f8, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -92,6 +93,7 @@ MonoBehaviour:
   evaluationInterval: 3
   timeInterpolationGui: 0
   menuSceneName: Menu
+  loadingSceneName: Loading
 --- !u!114 &2756691690596845048
 MonoBehaviour:
   m_ObjectHideFlags: 0
