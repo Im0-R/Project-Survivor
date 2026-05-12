@@ -135,7 +135,7 @@ MonoBehaviour:
   targetMapId: forest_01
   townScene: Town
   masterIp: 72.60.212.58
-  masterPort: 7777
+  masterPort: 8000
   redirectDelay: 8
 --- !u!114 &7961059368687619112
 MonoBehaviour:

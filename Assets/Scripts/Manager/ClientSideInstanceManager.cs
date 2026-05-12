@@ -10,7 +10,7 @@ public class ClientSideInstanceManager : MonoBehaviour
 
     [Header("Loading")]
     [SerializeField] private string loadingSceneName = "Loading";
-    [SerializeField] private float minimumLoadingTime = 1f;
+    [SerializeField] private float reconnectTimeout = 10f;
 
     private bool isSwitching;
 
@@ -54,27 +54,39 @@ public class ClientSideInstanceManager : MonoBehaviour
             yield break;
         }
 
-        float startTime = Time.time;
-
         string oldOfflineScene = manager.offlineScene;
+
+        // IMPORTANT :
+        // Pendant le switch, on empêche Mirror de renvoyer automatiquement au Menu.
         manager.offlineScene = "";
 
         yield return LoadLoadingScene();
 
-        if (NetworkClient.isConnected || NetworkClient.isConnecting)
+        if (NetworkClient.active || NetworkClient.isConnected || NetworkClient.isConnecting)
         {
             Debug.Log("[ClientSideInstanceManager] Stop current client");
 
             manager.StopClient();
 
-            while (NetworkClient.isConnected || NetworkClient.isConnecting)
+            float stopTimer = 0f;
+
+            while (NetworkClient.active || NetworkClient.isConnected || NetworkClient.isConnecting)
+            {
+                stopTimer += Time.deltaTime;
+
+                if (stopTimer > 5f)
+                {
+                    Debug.LogWarning("[ClientSideInstanceManager] StopClient timeout, continuing anyway.");
+                    break;
+                }
+
                 yield return null;
+            }
 
             Debug.Log("[ClientSideInstanceManager] Current client stopped");
         }
 
-        // Petit délai pour laisser Mirror nettoyer proprement
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
 
         KcpTransport kcp = manager.transport as KcpTransport;
 
@@ -84,7 +96,6 @@ public class ClientSideInstanceManager : MonoBehaviour
         if (kcp == null)
         {
             Debug.LogError("[ClientSideInstanceManager] KcpTransport not found");
-
             manager.offlineScene = oldOfflineScene;
             isSwitching = false;
             yield break;
@@ -93,18 +104,34 @@ public class ClientSideInstanceManager : MonoBehaviour
         manager.networkAddress = ip;
         kcp.Port = port;
 
-        // IMPORTANT
-        // Le prochain serveur est un serveur gameplay
-        // donc OnClientConnect devra faire Ready + AddPlayer
         ClientAccountAPI.ConnectingToHub = true;
 
         Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
 
         manager.StartClient();
 
-        while (Time.time - startTime < minimumLoadingTime)
-            yield return null;
+        float timer = 0f;
 
+        while (!NetworkClient.isConnected)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= reconnectTimeout)
+            {
+                Debug.LogError($"[ClientSideInstanceManager] Reconnect timeout to {ip}:{port}");
+
+                manager.offlineScene = oldOfflineScene;
+                isSwitching = false;
+
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("[ClientSideInstanceManager] Reconnected successfully.");
+
+        // On restaure seulement APRÈS une vraie reconnexion.
         manager.offlineScene = oldOfflineScene;
         isSwitching = false;
     }
@@ -116,8 +143,7 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         Debug.Log($"[ClientSideInstanceManager] Loading transition scene -> {loadingSceneName}");
 
-        AsyncOperation op =
-            SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Single);
+        AsyncOperation op = SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Single);
 
         while (!op.isDone)
             yield return null;
