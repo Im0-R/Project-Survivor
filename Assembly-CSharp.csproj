@@ -161,6 +161,7 @@
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixSO.cs" />
+    <Compile Include="Assets\Scripts\PlayerStashData.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsRowUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemBaseSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
