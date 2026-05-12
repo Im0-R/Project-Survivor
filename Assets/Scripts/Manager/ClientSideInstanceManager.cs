@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using AuthMessages;
 using kcp2k;
 using Mirror;
 using UnityEngine;
@@ -11,7 +10,7 @@ public class ClientSideInstanceManager : MonoBehaviour
 
     [Header("Loading")]
     [SerializeField] private string loadingSceneName = "Loading";
-    [SerializeField] private float minimumLoadingTime = 1.0f;
+    [SerializeField] private float minimumLoadingTime = 1f;
 
     private bool isSwitching;
 
@@ -74,6 +73,9 @@ public class ClientSideInstanceManager : MonoBehaviour
             Debug.Log("[ClientSideInstanceManager] Current client stopped");
         }
 
+        // Petit délai pour laisser Mirror nettoyer proprement
+        yield return new WaitForSeconds(0.25f);
+
         KcpTransport kcp = manager.transport as KcpTransport;
 
         if (kcp == null)
@@ -82,6 +84,7 @@ public class ClientSideInstanceManager : MonoBehaviour
         if (kcp == null)
         {
             Debug.LogError("[ClientSideInstanceManager] KcpTransport not found");
+
             manager.offlineScene = oldOfflineScene;
             isSwitching = false;
             yield break;
@@ -90,15 +93,14 @@ public class ClientSideInstanceManager : MonoBehaviour
         manager.networkAddress = ip;
         kcp.Port = port;
 
-        // IMPORTANT : le prochain serveur est un serveur de gameplay.
-        // Donc MyNetworkManager doit faire Ready + AddPlayer.
+        // IMPORTANT
+        // Le prochain serveur est un serveur gameplay
+        // donc OnClientConnect devra faire Ready + AddPlayer
         ClientAccountAPI.ConnectingToHub = true;
 
         Debug.Log($"[ClientSideInstanceManager] StartClient -> {ip}:{port}");
 
         manager.StartClient();
-
-        yield return StartCoroutine(SendHubAuthWhenConnected());
 
         while (Time.time - startTime < minimumLoadingTime)
             yield return null;
@@ -114,43 +116,12 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         Debug.Log($"[ClientSideInstanceManager] Loading transition scene -> {loadingSceneName}");
 
-        AsyncOperation op = SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Single);
+        AsyncOperation op =
+            SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Single);
 
         while (!op.isDone)
             yield return null;
 
         Debug.Log("[ClientSideInstanceManager] Loading scene loaded");
-    }
-
-    private IEnumerator SendHubAuthWhenConnected()
-    {
-        float timeout = 10f;
-        float timer = 0f;
-
-        while (!NetworkClient.isConnected)
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= timeout)
-            {
-                Debug.LogError("[ClientSideInstanceManager] Timeout while waiting for connection");
-                yield break;
-            }
-
-            yield return null;
-        }
-
-        if (string.IsNullOrEmpty(ClientAccountAPI.CurrentUsername))
-        {
-            Debug.LogWarning("[ClientSideInstanceManager] Cannot send HubAuthMessage, CurrentUsername is empty");
-            yield break;
-        }
-
-        NetworkClient.Send(new HubAuthMessage
-        {
-            username = ClientAccountAPI.CurrentUsername
-        });
-
-        Debug.Log($"[ClientSideInstanceManager] Sent HubAuthMessage as {ClientAccountAPI.CurrentUsername}");
     }
 }

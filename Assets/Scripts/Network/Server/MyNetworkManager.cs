@@ -1,3 +1,4 @@
+using AuthMessages;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,15 +28,14 @@ public class MyNetworkManager : NetworkManager
         base.OnClientConnect();
 
         string activeScene = SceneManager.GetActiveScene().name;
-        Debug.Log($"[CLIENT] OnClientConnect activeScene={activeScene} ConnectingToHub={ClientAccountAPI.ConnectingToHub}");
 
-        if (!ClientAccountAPI.ConnectingToHub)
-        {
-            Debug.Log("[CLIENT] Connected to MASTER, not spawning player.");
-            return;
-        }
+        Debug.Log(
+            $"[CLIENT] OnClientConnect activeScene={activeScene} " +
+            $"ConnectingToHub={ClientAccountAPI.ConnectingToHub}"
+        );
 
-        Debug.Log("[CLIENT] Connected to gameplay server, waiting for scene sync before AddPlayer.");
+        SendAuthToServer();
+
         pendingAddPlayerAfterSceneSync = true;
 
         if (!NetworkClient.ready)
@@ -43,18 +43,20 @@ public class MyNetworkManager : NetworkManager
             Debug.Log("[CLIENT] Calling Ready on connect.");
             NetworkClient.Ready();
         }
+
+        TryAddPlayerIfSceneIsReady();
     }
 
     public override void OnClientDisconnect()
     {
         Debug.Log("[CLIENT] OnClientDisconnect");
 
-        base.OnClientDisconnect();
-
         pendingAddPlayerAfterSceneSync = false;
 
         if (ServerTimeManager.instance)
             ServerTimeManager.instance.ResumeGame();
+
+        base.OnClientDisconnect();
     }
 
     public override void OnClientError(TransportError error, string reason)
@@ -63,9 +65,17 @@ public class MyNetworkManager : NetworkManager
         base.OnClientError(error, reason);
     }
 
-    public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+    public override void OnClientChangeScene(
+        string newSceneName,
+        SceneOperation sceneOperation,
+        bool customHandling
+    )
     {
-        Debug.Log($"[CLIENT] OnClientChangeScene -> {newSceneName} op={sceneOperation} customHandling={customHandling}");
+        Debug.Log(
+            $"[CLIENT] OnClientChangeScene -> {newSceneName} " +
+            $"op={sceneOperation} customHandling={customHandling}"
+        );
+
         base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
     }
 
@@ -74,13 +84,37 @@ public class MyNetworkManager : NetworkManager
         base.OnClientSceneChanged();
 
         string activeScene = SceneManager.GetActiveScene().name;
+
         Debug.Log("[CLIENT] OnClientSceneChanged activeScene=" + activeScene);
 
+        TryAddPlayerIfSceneIsReady();
+    }
+
+    private void SendAuthToServer()
+    {
+        if (string.IsNullOrEmpty(ClientAccountAPI.CurrentUsername))
+        {
+            Debug.LogWarning("[CLIENT] CurrentUsername is empty, auth not sent.");
+            return;
+        }
+
+        NetworkClient.Send(new HubAuthMessage
+        {
+            username = ClientAccountAPI.CurrentUsername
+        });
+
+        Debug.Log($"[CLIENT] Sent HubAuthMessage as {ClientAccountAPI.CurrentUsername}");
+    }
+
+    private void TryAddPlayerIfSceneIsReady()
+    {
         if (!pendingAddPlayerAfterSceneSync)
         {
             Debug.Log("[CLIENT] No pending player add after scene sync.");
             return;
         }
+
+        string activeScene = SceneManager.GetActiveScene().name;
 
         if (activeScene == menuSceneName || activeScene == loadingSceneName)
         {
@@ -90,13 +124,13 @@ public class MyNetworkManager : NetworkManager
 
         if (!NetworkClient.ready)
         {
-            Debug.Log("[CLIENT] Calling Ready after scene sync.");
+            Debug.Log("[CLIENT] Calling Ready before AddPlayer.");
             NetworkClient.Ready();
         }
 
         if (NetworkClient.localPlayer == null)
         {
-            Debug.Log("[CLIENT] AddPlayer after scene sync.");
+            Debug.Log("[CLIENT] AddPlayer.");
             NetworkClient.AddPlayer();
         }
         else
@@ -107,6 +141,11 @@ public class MyNetworkManager : NetworkManager
         pendingAddPlayerAfterSceneSync = false;
         ClientAccountAPI.ConnectingToHub = false;
 
+        LoadGameUI();
+    }
+
+    private void LoadGameUI()
+    {
         if (GameUILoader.Instance != null)
         {
             Debug.Log("[CLIENT] Starting coroutine to ensure UI is loaded.");
@@ -127,6 +166,7 @@ public class MyNetworkManager : NetworkManager
         }
 
         Debug.Log("[CLIENT] JoinInstance requested.");
+
         ClientAccountAPI.ConnectingToHub = true;
         pendingAddPlayerAfterSceneSync = true;
     }
