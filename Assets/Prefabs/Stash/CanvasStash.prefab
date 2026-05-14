@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasStash
   root: {fileID: 6651021714098149583}
-  tabsParent: {fileID: 7574966431003539119}
+  tabsParent: {fileID: 105381584133743829}
   tabButtonPrefab: {fileID: 5080059074087496983, guid: 00deefe89201d6e40a0c75f098e9ee90, type: 3}
   addTabButton: {fileID: 2711027455775209380}
   closeButton: {fileID: 7041288312431819795}

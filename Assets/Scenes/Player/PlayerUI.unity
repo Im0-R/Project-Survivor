@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6718184197546676912, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
+      propertyPath: tabsParent
+      value: 
+      objectReference: {fileID: 1714588469}
     - target: {fileID: 7009561104198211032, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -528,6 +532,11 @@ GameObject:
 --- !u!1 &1714588468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8688140787051954883, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
+  m_PrefabInstance: {fileID: 1714588464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1714588469 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5250978471615005669, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
   m_PrefabInstance: {fileID: 1714588464}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1722017676 stripped
