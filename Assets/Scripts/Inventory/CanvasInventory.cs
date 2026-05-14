@@ -42,6 +42,7 @@ public class CanvasInventory : MonoBehaviour
         foreach (var equipSlot in equipmentSlots)
             equipSlot.SetId(-1);
 
+        gameObject.SetActive(false);
         Debug.Log($"[CanvasInventory] InventorySlots={inventorySlots.Length} EquipmentSlots={equipmentSlots.Length}");
     }
 
