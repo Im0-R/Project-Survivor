@@ -84,6 +84,7 @@
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
+    <Compile Include="Assets\Scripts\Stash\StashInteractable.cs" />
     <Compile Include="Assets\Scripts\Loot\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
+    <Compile Include="Assets\Scripts\Stash\StashBackGroundSlot.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Manager\ServerTimeManager.cs" />
@@ -161,7 +163,6 @@
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixSO.cs" />
-    <Compile Include="Assets\Scripts\PlayerStashData.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsRowUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemBaseSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
@@ -169,7 +170,9 @@
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPickupController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
+    <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
+    <Compile Include="Assets\Scripts\Stash\CanvasStash.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>
   <ItemGroup>

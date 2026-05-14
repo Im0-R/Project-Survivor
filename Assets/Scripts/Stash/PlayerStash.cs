@@ -39,7 +39,6 @@ public class PlayerStash : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-
         EnsureDefaultTabs();
         RefreshSyncedTabNames();
         RefreshSyncedCurrentTab();
@@ -115,20 +114,49 @@ public class PlayerStash : NetworkBehaviour
         if (inventory == null) return;
 
         ItemInstance item = inventory.GetItemByIndex(inventoryIndex);
-
-        if (item == null || item.instanceId == 0)
-            return;
+        if (item == null || item.instanceId == 0) return;
 
         bool added = AddItemToTabServer(CurrentTabIndex, item);
-
-        if (!added)
-            return;
+        if (!added) return;
 
         inventory.RemoveAt(inventoryIndex);
 
         RefreshSyncedCurrentTab();
 
-        Debug.Log($"[Stash] Moved inventory slot {inventoryIndex} to stash tab {CurrentTabIndex}.");
+        Debug.Log($"[Stash] Moved inventory slot {inventoryIndex} to first empty slot in stash tab {CurrentTabIndex}.");
+    }
+
+    [Command]
+    public void CmdMoveInventoryToCurrentStashSlot(int inventoryIndex, int stashIndex)
+    {
+        PlayerInventory inventory = GetComponent<PlayerInventory>();
+        if (inventory == null) return;
+
+        EnsureDefaultTabs();
+
+        if (!IsValidTabIndex(CurrentTabIndex)) return;
+
+        StashTabData tab = stashData.tabs[CurrentTabIndex];
+        EnsureTabSlots(tab);
+
+        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
+        if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
+
+        ItemInstance inventoryItem = inventory.GetItemByIndex(inventoryIndex);
+        if (inventoryItem == null || inventoryItem.instanceId == 0) return;
+
+        ItemInstance stashItem = GetItemFromTab(CurrentTabIndex, stashIndex);
+
+        tab.itemsJson[stashIndex] = SerializeItem(inventoryItem);
+
+        if (stashItem != null && stashItem.instanceId != 0)
+            inventory.SetSlot(inventoryIndex, stashItem);
+        else
+            inventory.RemoveAt(inventoryIndex);
+
+        RefreshSyncedCurrentTab();
+
+        Debug.Log($"[Stash] Inventory slot {inventoryIndex} moved/swapped to stash slot {stashIndex}");
     }
 
     [Command]
@@ -138,20 +166,49 @@ public class PlayerStash : NetworkBehaviour
         if (inventory == null) return;
 
         ItemInstance item = GetItemFromTab(CurrentTabIndex, stashIndex);
-
-        if (item == null || item.instanceId == 0)
-            return;
+        if (item == null || item.instanceId == 0) return;
 
         bool added = inventory.AddItem(item);
-
-        if (!added)
-            return;
+        if (!added) return;
 
         RemoveAtServer(CurrentTabIndex, stashIndex);
 
         RefreshSyncedCurrentTab();
 
-        Debug.Log($"[Stash] Moved stash tab {CurrentTabIndex} slot {stashIndex} to inventory.");
+        Debug.Log($"[Stash] Moved stash tab {CurrentTabIndex} slot {stashIndex} to first empty inventory slot.");
+    }
+
+    [Command]
+    public void CmdMoveCurrentStashToInventorySlot(int stashIndex, int inventoryIndex)
+    {
+        PlayerInventory inventory = GetComponent<PlayerInventory>();
+        if (inventory == null) return;
+
+        EnsureDefaultTabs();
+
+        if (!IsValidTabIndex(CurrentTabIndex)) return;
+
+        StashTabData tab = stashData.tabs[CurrentTabIndex];
+        EnsureTabSlots(tab);
+
+        if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
+        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
+
+        ItemInstance stashItem = GetItemFromTab(CurrentTabIndex, stashIndex);
+        if (stashItem == null || stashItem.instanceId == 0) return;
+
+        ItemInstance inventoryItem = inventory.GetItemByIndex(inventoryIndex);
+
+        inventory.SetSlot(inventoryIndex, stashItem);
+
+        if (inventoryItem != null && inventoryItem.instanceId != 0)
+            tab.itemsJson[stashIndex] = SerializeItem(inventoryItem);
+        else
+            tab.itemsJson[stashIndex] = "";
+
+        RefreshSyncedCurrentTab();
+
+        Debug.Log($"[Stash] Stash slot {stashIndex} moved/swapped to inventory slot {inventoryIndex}");
     }
 
     // =========================
