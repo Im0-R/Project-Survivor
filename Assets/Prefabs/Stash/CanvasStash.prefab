@@ -300,6 +300,7 @@ MonoBehaviour:
   tabsParent: {fileID: 7574966431003539119}
   tabButtonPrefab: {fileID: 5080059074087496983, guid: 00deefe89201d6e40a0c75f098e9ee90, type: 3}
   addTabButton: {fileID: 2711027455775209380}
+  closeButton: {fileID: 7041288312431819795}
   stashSlots: []
   itemCardPrefab: {fileID: 3822715666718912106, guid: 8cb4f096fe3af934ba1991f5de2845aa, type: 3}
 --- !u!1001 &567893761599074049
@@ -517,6 +518,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2012823989690489063, guid: ac364aa34920ac64b9fe5c04529662b0, type: 3}
   m_PrefabInstance: {fileID: 2297580737368291587}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7041288312431819795 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9103195312893609232, guid: ac364aa34920ac64b9fe5c04529662b0, type: 3}
+  m_PrefabInstance: {fileID: 2297580737368291587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1001 &7419090561521230262
 PrefabInstance:
   m_ObjectHideFlags: 0
