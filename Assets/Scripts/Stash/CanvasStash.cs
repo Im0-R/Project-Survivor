@@ -15,6 +15,9 @@ public class CanvasStash : MonoBehaviour
     [SerializeField] private Button tabButtonPrefab;
     [SerializeField] private Button addTabButton;
 
+    [Header("Close")]
+    [SerializeField] private Button closeButton;
+
     [Header("Stash Slots")]
     [SerializeField] private StashBackGroundSlot[] stashSlots;
 
@@ -43,6 +46,9 @@ public class CanvasStash : MonoBehaviour
         if (addTabButton != null)
             addTabButton.onClick.AddListener(CreateTab);
 
+        if (closeButton != null)
+            closeButton.onClick.AddListener(Close);
+
         Debug.Log($"[CanvasStash] StashSlots={stashSlots.Length}");
     }
 
@@ -63,7 +69,8 @@ public class CanvasStash : MonoBehaviour
         if (root != null)
             root.SetActive(true);
 
-        CanvasInventory.Instance.gameObject.SetActive(true);
+        if (CanvasInventory.Instance != null)
+            CanvasInventory.Instance.gameObject.SetActive(true);
 
         RefreshAll();
     }
@@ -135,8 +142,6 @@ public class CanvasStash : MonoBehaviour
             ItemCard card = cardObj.GetComponent<ItemCard>();
             card.SetItemInstance(item);
             card.SetSlotIndex(i);
-
-            // Important, voir étape 4
             card.SetSource(ItemCardSource.Stash);
 
             RectTransform rt = cardObj.GetComponent<RectTransform>();
