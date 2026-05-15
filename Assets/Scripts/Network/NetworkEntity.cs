@@ -120,7 +120,38 @@ public class NetworkEntity : NetworkBehaviour
         else
             Destroy(gameObject);
     }
+    [Server]
+    public void AddArcanaWithRunes(string arcanaName, string[] runeIds)
+    {
+        Spell newSpell = SpellsManager.Instance.GetArcanaWithRunes(arcanaName, runeIds);
 
+        if (newSpell == null)
+        {
+            Debug.LogWarning($"[SERVER] AddArcanaWithRunes failed: Arcana '{arcanaName}' not found.");
+            return;
+        }
+
+        Spell.SpellData newData = newSpell.GetData();
+
+        activeSpells.Add(newSpell);
+        newSpell.OnAdd(this);
+
+        SpellSyncData syncData = new SpellSyncData(
+            newData.spellName,
+            newData.description,
+            newData.manaCost,
+            newData.cooldown,
+            newData.damage,
+            newData.range,
+            newData.speed,
+            newData.currentLevel,
+            newData.maxLevel
+        );
+
+        syncedSpells.Add(syncData);
+
+        Debug.Log($"[SERVER] Arcana added: {newData.spellName} with {runeIds?.Length ?? 0} rune(s) to {StatComp.Name}");
+    }
     [Server]
     public void ApplyDamageServer(float amount)
     {

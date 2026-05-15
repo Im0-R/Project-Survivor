@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Enemy\Zombie.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
+    <Compile Include="Assets\Scripts\Spells\SpellTag.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
+    <Compile Include="Assets\Scripts\Spells\RuneSO.cs" />
     <Compile Include="Assets\Scripts\Stash\CanvasStash.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>

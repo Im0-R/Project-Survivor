@@ -53,6 +53,8 @@ MonoBehaviour:
             PublicKeyToken=null
         UISprite: {fileID: 21300000, guid: af8f4914b7b3ea341a9884bd339b0cca, type: 3}
         spellName: Fireball
+        description: Launch a fireball on nearby enemy
+        tags: 000000000200000005000000
         prefab: {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
         damage: 10
         speed: 6
@@ -64,9 +66,13 @@ MonoBehaviour:
         autoCast: 1
         firePoint: {fileID: 0}
         owner: {fileID: 0}
-        maxLevel: 3
+        maxLevel: 7
         currentLevel: 1
-        description: Launch a fireball on nearby enemy
+        projectileCount: 1
+        projectileSpreadAngle: 12
+        pierceCount: 0
+        runeIds:
+        - fireball
     - Key: Frostball
       Value:
         spellType:
@@ -74,6 +80,8 @@ MonoBehaviour:
             PublicKeyToken=null
         UISprite: {fileID: 21300000, guid: 3785053677c7c924aa5f5f5542049175, type: 3}
         spellName: Frostball
+        description: Launch a frostball on nearby enemy
+        tags: 000000000200000006000000
         prefab: {fileID: 497663693229510926, guid: dbd520ebf27f0374db5f6f7c8a3a8759, type: 3}
         damage: 8
         speed: 10
@@ -87,7 +95,11 @@ MonoBehaviour:
         owner: {fileID: 0}
         maxLevel: 3
         currentLevel: 1
-        description: Launch a frostball on nearby enemy
+        projectileCount: 1
+        projectileSpreadAngle: 12
+        pierceCount: 0
+        runeIds:
+        - frostball
     - Key: Slash
       Value:
         spellType:
@@ -95,6 +107,8 @@ MonoBehaviour:
             PublicKeyToken=null
         UISprite: {fileID: 21300000, guid: 3785053677c7c924aa5f5f5542049175, type: 3}
         spellName: Slash
+        description: 'Slash the enemy in front of you '
+        tags: 000000000300000009000000
         prefab: {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
         damage: 8
         speed: 10
@@ -108,4 +122,12 @@ MonoBehaviour:
         owner: {fileID: 0}
         maxLevel: 3
         currentLevel: 1
-        description: 'Slash the enemy in front of you '
+        projectileCount: 1
+        projectileSpreadAngle: 12
+        pierceCount: 0
+        runeIds:
+        - slash
+  runes:
+  - {fileID: 11400000, guid: 7fcf8cfc4999a1c4e880bc22730d6e99, type: 2}
+  - {fileID: 11400000, guid: 3163be0a1902ddf4b9508858e40ba7af, type: 2}
+  - {fileID: 11400000, guid: 701cd6b8b95a4f744adb379f738d25ff, type: 2}

@@ -12,7 +12,59 @@ public class SpellsManager : MonoBehaviour
     [Header("Spells Database")]
     [Tooltip("All available spells (used by both client and server )")]
     public SerializableDictionary<string, Spell.SpellData> spellsDictionary = new();
+    [Header("Runes Database")]
+    public RuneSO[] runes;
 
+    public RuneSO GetRune(string runeId)
+    {
+        if (string.IsNullOrWhiteSpace(runeId))
+            return null;
+
+        foreach (RuneSO rune in runes)
+        {
+            if (rune != null && rune.runeId == runeId)
+                return rune;
+        }
+
+        Debug.LogWarning($"[SpellsManager] Rune '{runeId}' not found.");
+        return null;
+    }
+
+    public Spell GetArcanaWithRunes(string arcanaName, string[] runeIds)
+    {
+        Spell spell = GetSpell(arcanaName);
+
+        if (spell == null)
+            return null;
+
+        Spell.SpellData data = spell.GetData();
+
+        data.runeIds = runeIds;
+
+        if (runeIds != null)
+        {
+            foreach (string runeId in runeIds)
+            {
+                RuneSO rune = GetRune(runeId);
+
+                if (rune == null)
+                    continue;
+
+                if (!rune.CanApplyTo(data))
+                {
+                    Debug.LogWarning($"[SpellsManager] Rune '{rune.runeName}' cannot apply to Arcana '{data.spellName}'.");
+                    continue;
+                }
+
+                rune.ApplyTo(data);
+
+                Debug.Log($"[SpellsManager] Applied Rune '{rune.runeName}' to Arcana '{data.spellName}'.");
+            }
+        }
+
+        spell.Init(data);
+        return spell;
+    }
     // ==========================================================
     // == INITIALIZATION ========================================
     // ==========================================================
