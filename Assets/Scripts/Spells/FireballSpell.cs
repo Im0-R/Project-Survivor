@@ -58,6 +58,6 @@ public class FireballSpell : Spell
             NetworkServer.Spawn(obj);
         }
 
-        Debug.Log($"{owner.StatComp.Name} cast Fireball Arcana | projectiles={projectileCount} | pierce={data.pierceCount}");
+        Debug.Log($"[Fireball] projectileCount={projectileCount}, spread={spread}, damage={data.damage}, pierce={data.pierceCount}");
     }
 }
