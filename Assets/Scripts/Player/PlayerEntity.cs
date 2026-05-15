@@ -44,9 +44,10 @@ public class PlayerEntity : NetworkEntity
     {
         base.OnStartServer();
 
-
         if (StatComp != null)
             StatComp.OnLevelUpServer += HandleLevelUpServer;
+
+        StartCoroutine(GiveStarterBuild());
     }
 
     public override void OnStopServer()
@@ -292,5 +293,18 @@ public class PlayerEntity : NetworkEntity
         PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null)
             movement.InputBlocked = false;
+    }
+    private IEnumerator GiveStarterBuild()
+    {
+        yield return new WaitForSeconds(1f);
+
+        AddArcanaWithRunes(
+            "Fireball",
+            new string[]
+            {
+            "splitting_rune",
+            "piercing_rune"
+            }
+        );
     }
 }

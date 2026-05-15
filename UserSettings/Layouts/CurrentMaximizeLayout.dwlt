@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 2248
+  controlID: 2395
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 2249
+  controlID: 2396
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -783,11 +783,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.29303408, y: 0.03555404, z: -0.010905149, w: -0.95538145}
     speed: 2
-    m_Value: {x: -0.29303408, y: 0.03555404, z: -0.010905148, w: -0.9553814}
+    m_Value: {x: -0.29303324, y: 0.03555394, z: -0.010905118, w: -0.9553787}
   m_Size:
-    m_Target: 337.54944
+    m_Target: 459.06723
     speed: 2
-    m_Value: 337.54944
+    m_Value: 459.06723
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -976,7 +976,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0efbffff
+      m_ExpandedIDs: 0efbfffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1064,7 +1064,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: spellsmana
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1078,7 +1078,7 @@ MonoBehaviour:
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
-    m_OriginalText: spellsmana
+    m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 0
