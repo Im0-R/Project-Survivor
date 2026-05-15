@@ -7,6 +7,8 @@ public class FrostballSpell : Spell
 
     public override void ExecuteServer(NetworkEntity owner)
     {
+        if (data == null || data.prefab == null) return;
+
         Transform target = null;
 
         if (owner is PlayerEntity)
@@ -19,31 +21,43 @@ public class FrostballSpell : Spell
         int projectileCount = Mathf.Max(1, data.projectileCount);
         float spread = data.projectileSpreadAngle;
 
-        Vector3 baseDirection = (target.position - owner.transform.position).normalized;
+        Vector3 baseDirection = target.position - owner.transform.position;
         baseDirection.y = 0f;
 
+        if (baseDirection == Vector3.zero)
+            baseDirection = owner.transform.forward;
+
+        baseDirection.Normalize();
+
         float totalAngle = spread * (projectileCount - 1);
-        float startAngle = -totalAngle / 2f;
+        float startAngle = -totalAngle * 0.5f;
 
         for (int i = 0; i < projectileCount; i++)
         {
             float angle = startAngle + spread * i;
-            Vector3 dir = Quaternion.Euler(0f, angle, 0f) * baseDirection;
+            Vector3 direction = Quaternion.Euler(0f, angle, 0f) * baseDirection;
 
-            GameObject obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
-            Projectile proj = obj.GetComponent<Projectile>();
+            GameObject obj = GameObject.Instantiate(
+                data.prefab,
+                owner.transform.position,
+                Quaternion.LookRotation(direction)
+            );
 
-            proj?.Initialize(
+            Projectile projectile = obj.GetComponent<Projectile>();
+
+            projectile?.Initialize(
                 owner,
                 target,
                 data.damage,
                 data.speed,
                 data.currentLevel,
                 data.pierceCount,
-                dir
+                direction
             );
 
             NetworkServer.Spawn(obj);
         }
+
+        Debug.Log($"{owner.StatComp.Name} cast Frostball Arcana | projectiles={projectileCount} | pierce={data.pierceCount}");
     }
 }

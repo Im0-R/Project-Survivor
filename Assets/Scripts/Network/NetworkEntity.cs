@@ -62,7 +62,7 @@ public class NetworkEntity : NetworkBehaviour
 
     // Client list of spells for UI synchronization
     public readonly SyncList<SpellSyncData> syncedSpells = new SyncList<SpellSyncData>();
-
+    protected Dictionary<string, List<RuneSO>> attachedRunes = new();
     [Header("Config")]
 
     public StatsComponent StatComp;
@@ -209,6 +209,13 @@ public class NetworkEntity : NetworkBehaviour
         newSpell.Init(newData);
 
         activeSpells.Add(newSpell);
+        if (attachedRunes.TryGetValue(newData.spellName, out List<RuneSO> runes))
+        {
+            foreach (RuneSO rune in runes)
+            {
+                rune.ApplyTo(newData);
+            }
+        }
         newSpell.OnAdd(this);
 
         SpellSyncData syncData = new SpellSyncData(
@@ -289,7 +296,39 @@ public class NetworkEntity : NetworkBehaviour
             Debug.LogWarning($"[SERVER] Spell {spellName} not found on {StatComp.Name}.");
         }
     }
+    [Server]
+    public bool AddRuneToArcana(string arcanaName, RuneSO rune)
+    {
+        if (rune == null)
+            return false;
 
+        Spell spell = GetSpellByName(arcanaName);
+
+        if (spell == null)
+        {
+            Debug.LogWarning($"[Arcana] Cannot attach rune, arcana not found: {arcanaName}");
+            return false;
+        }
+
+        Spell.SpellData data = spell.GetData();
+
+        if (!rune.CanApplyTo(data))
+        {
+            Debug.LogWarning($"[Arcana] Rune {rune.runeName} incompatible with {arcanaName}");
+            return false;
+        }
+
+        if (!attachedRunes.ContainsKey(arcanaName))
+            attachedRunes[arcanaName] = new List<RuneSO>();
+
+        attachedRunes[arcanaName].Add(rune);
+
+        rune.ApplyTo(data);
+
+        Debug.Log($"[Arcana] Added rune {rune.runeName} to {arcanaName}");
+
+        return true;
+    }
     public Spell GetRandomSpellFromActivesSpells()
     {
         if (activeSpells.Count == 0) return null;

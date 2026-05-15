@@ -34,11 +34,6 @@ public class PlayerEntity : NetworkEntity
         if (!isServer) return;
 
         base.Update();
-        AddArcanaWithRunes("Fireball", new string[]
-        {
-            "splitting_rune",
-            "piercing_rune"
-        });
 
 
         if (agent != null)
@@ -48,6 +43,7 @@ public class PlayerEntity : NetworkEntity
     public override void OnStartServer()
     {
         base.OnStartServer();
+
 
         if (StatComp != null)
             StatComp.OnLevelUpServer += HandleLevelUpServer;
