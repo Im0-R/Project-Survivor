@@ -20,7 +20,7 @@ public class FireballSpell : Spell
         if (target == null) return;
 
         int projectileCount = Mathf.Max(1, data.projectileCount);
-        float spread = data.projectileSpreadAngle;
+        float spread = 45f;
 
         Vector3 baseDirection = target.position - owner.transform.position;
         baseDirection.y = 0f;
