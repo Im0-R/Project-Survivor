@@ -43,6 +43,7 @@ public class CanvasInventory : MonoBehaviour
             equipSlot.SetId(-1);
 
         gameObject.SetActive(false);
+
         Debug.Log($"[CanvasInventory] InventorySlots={inventorySlots.Length} EquipmentSlots={equipmentSlots.Length}");
     }
 
@@ -71,6 +72,7 @@ public class CanvasInventory : MonoBehaviour
 
         RefreshAll();
     }
+
     private void RefreshAll()
     {
         PopulateInventory();
@@ -97,7 +99,7 @@ public class CanvasInventory : MonoBehaviour
         ItemInstance item = LocalEquipment.GetEquippedItem(slot);
         if (item == null || item.instanceId == 0) return;
 
-        CreateCard(item, uiSlot.transform, -1);
+        CreateCard(item, uiSlot.transform, -1, ItemCardSource.Equipment);
     }
 
     private BackGroundSlot GetEquipmentUiSlot(EquipmentSlot slot)
@@ -110,18 +112,21 @@ public class CanvasInventory : MonoBehaviour
 
         return null;
     }
-    private void CreateCard(ItemInstance item, Transform parent, int slotIndex)
+
+    private void CreateCard(ItemInstance item, Transform parent, int slotIndex, ItemCardSource source)
     {
         GameObject cardObj = Instantiate(itemCardPrefab, parent);
 
         ItemCard card = cardObj.GetComponent<ItemCard>();
         card.SetItemInstance(item);
         card.SetSlotIndex(slotIndex);
+        card.SetSource(source);
 
         RectTransform rt = cardObj.GetComponent<RectTransform>();
         rt.anchoredPosition = Vector2.zero;
         rt.localScale = Vector3.one;
     }
+
     private void ClearEquipmentCards()
     {
         foreach (var slot in equipmentSlots)
@@ -134,6 +139,7 @@ public class CanvasInventory : MonoBehaviour
                 Destroy(card.gameObject);
         }
     }
+
     public void PopulateInventory()
     {
         ClearInventoryCards();
@@ -145,7 +151,7 @@ public class CanvasInventory : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             string json = LocalInventory.ItemsJson[i];
-            if (string.IsNullOrEmpty(json)) continue;
+            if (string.IsNullOrWhiteSpace(json)) continue;
 
             ItemInstance item = JsonUtility.FromJson<ItemInstance>(json);
 
@@ -163,14 +169,7 @@ public class CanvasInventory : MonoBehaviour
                 continue;
             }
 
-            GameObject cardObj = Instantiate(itemCardPrefab, inventorySlots[i].transform);
-            ItemCard card = cardObj.GetComponent<ItemCard>();
-            card.SetItemInstance(item);
-            card.SetSlotIndex(i);
-
-            RectTransform rt = cardObj.GetComponent<RectTransform>();
-            rt.anchoredPosition = Vector2.zero;
-            rt.localScale = Vector3.one;
+            CreateCard(item, inventorySlots[i].transform, i, ItemCardSource.Inventory);
         }
     }
 
@@ -178,6 +177,8 @@ public class CanvasInventory : MonoBehaviour
     {
         foreach (var slot in inventorySlots)
         {
+            if (slot == null) continue;
+
             ItemCard[] cards = slot.GetComponentsInChildren<ItemCard>(true);
 
             foreach (var card in cards)
@@ -192,18 +193,46 @@ public class CanvasInventory : MonoBehaviour
         if (PlayerUI.Instance == null || PlayerUI.Instance.playerEnt == null)
             return;
 
+        if (card.Source == ItemCardSource.Stash)
+        {
+            RequestMoveStashToInventory(card, targetSlot);
+            return;
+        }
+
         if (targetSlot.IsEquipmentSlot)
         {
             RequestEquip(card, targetSlot.SlotType);
         }
         else
         {
-            RequestMove(card, targetSlot.Id);
+            RequestMoveInventory(card, targetSlot.Id);
         }
+    }
+
+    private void RequestMoveStashToInventory(ItemCard card, BackGroundSlot targetSlot)
+    {
+        if (targetSlot.IsEquipmentSlot)
+        {
+            Debug.LogWarning("[CanvasInventory] Cannot equip directly from stash.");
+            return;
+        }
+
+        PlayerStash stash = PlayerUI.Instance.playerEnt.GetComponent<PlayerStash>();
+
+        if (stash == null)
+        {
+            Debug.LogError("[CanvasInventory] PlayerStash missing on player.");
+            return;
+        }
+
+        stash.CmdMoveCurrentStashToInventorySlot(card.SlotIndex, targetSlot.Id);
     }
 
     private void RequestEquip(ItemCard card, EquipmentSlot targetEquipmentSlot)
     {
+        if (card.Source != ItemCardSource.Inventory)
+            return;
+
         ItemInstance item = card.GetItemInstance();
         if (item == null || item.instanceId == 0) return;
 
@@ -227,9 +256,10 @@ public class CanvasInventory : MonoBehaviour
         equipment.CmdEquipFromInventoryIndex(card.SlotIndex);
     }
 
-    private void RequestMove(ItemCard card, int toSlotId)
+    private void RequestMoveInventory(ItemCard card, int toSlotId)
     {
         if (card == null) return;
+        if (card.Source != ItemCardSource.Inventory) return;
         if (toSlotId < 0 || toSlotId >= inventorySlots.Length) return;
 
         PlayerInventory inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();

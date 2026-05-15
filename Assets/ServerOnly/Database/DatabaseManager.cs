@@ -7,20 +7,13 @@ using System.Security.Cryptography;
 using System.Text;
 using Mirror;
 
-/// <summary>
-/// manages user accounts and data using SQLite.
-/// </summary>
 public static class DatabaseManager
 {
     private static SQLiteConnection db;
 
-    // ==============================Initialize
-    // INITIALISATION DATABASE
-    // ==============================
     public static void Initialize()
     {
-        // Empêche les clients de lancer la DB
-        if (!Application.isBatchMode)  // client = FALSE, serveur headless = TRUE
+        if (!Application.isBatchMode)
         {
             Debug.Log("[DB] Skipped: Running as client, not server");
             return;
@@ -32,14 +25,31 @@ public static class DatabaseManager
         Debug.Log("[DB] UNITY_SERVER = TRUE (server build)");
         string dbPath = "/home/server/database.db";
 #else
-    string dbPath = Path.Combine(Application.persistentDataPath, "database_server_debug.db");
-    Debug.Log("[DB] UNITY_SERVER = FALSE but batchMode = TRUE → test server");
+        string dbPath = Path.Combine(Application.persistentDataPath, "database_server_debug.db");
+        Debug.Log("[DB] UNITY_SERVER = FALSE but batchMode = TRUE → test server");
 #endif
 
         db = new SQLiteConnection(dbPath);
         db.CreateTable<UserAccount>();
+
+        TryAddColumn("UserAccount", "StashJson", "TEXT DEFAULT ''");
+
         Debug.Log($"[DB] Initialized at: {dbPath}");
     }
+
+    private static void TryAddColumn(string tableName, string columnName, string columnDefinition)
+    {
+        try
+        {
+            db.Execute($"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnDefinition}");
+            Debug.Log($"[DB] Added column {columnName} to {tableName}");
+        }
+        catch
+        {
+            // Normal si la colonne existe déjà.
+        }
+    }
+
     // ==============================
     // USER
     // ==============================
@@ -68,60 +78,19 @@ public static class DatabaseManager
         Debug.Log($"[DB] User '{username}' created.");
     }
 
-
-    public static void DeleteUser(string username)
-    {
-        var user = db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
-        if (user != null)
-        {
-            db.Delete(user);
-            Debug.Log($"[DB] User '{username}' deleted.");
-        }
-        else
-        {
-            Debug.LogWarning($"[DB] User '{username}' not found.");
-        }
-    }
-
-    public static void UpdatePassword(string username, string oldPassword, string newPassword)
-    {
-        var user = db.Table<UserAccount>().FirstOrDefault(u =>
-            u.Username == username && u.Password == HashPassword(oldPassword));
-
-        if (user != null)
-        {
-            user.Password = HashPassword(newPassword);
-            db.Update(user);
-            Debug.Log($"[DB] Password updated for '{username}'.");
-        }
-        else
-        {
-            Debug.LogWarning($"[DB] Invalid old password for '{username}'.");
-        }
-    }
-
     public static UserAccount GetUser(string username)
     {
         return db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
     }
+
     // ==============================
-    // SAVE & LOAD
+    // CLEAR
     // ==============================
+
     public static void ClearInventory(string username)
     {
-        if (db == null)
-        {
-            Debug.LogError("[DB] ClearInventory failed: database not initialized.");
-            return;
-        }
-
         var user = GetUser(username);
-
-        if (user == null)
-        {
-            Debug.LogError($"[DB] Cannot clear inventory, user not found: {username}");
-            return;
-        }
+        if (user == null) return;
 
         PlayerInventoryData emptyInventory = new PlayerInventoryData();
 
@@ -129,44 +98,49 @@ public static class DatabaseManager
             emptyInventory.itemsJson.Add("");
 
         user.InventoryJson = JsonUtility.ToJson(emptyInventory);
-
         db.Update(user);
 
         Debug.Log($"[DB] Inventory cleared for {username}");
     }
+
     public static void ClearEquipment(string username)
     {
-        if (db == null)
-        {
-            Debug.LogError("[DB] ClearEquipment failed: database not initialized.");
-            return;
-        }
-
         var user = GetUser(username);
+        if (user == null) return;
 
-        if (user == null)
-        {
-            Debug.LogError($"[DB] Cannot clear equipment, user not found: {username}");
-            return;
-        }
-
-        PlayerEquipmentData emptyEquipment = new PlayerEquipmentData();
-
-        user.EquipmentJson = JsonUtility.ToJson(emptyEquipment);
-
+        user.EquipmentJson = JsonUtility.ToJson(new PlayerEquipmentData());
         db.Update(user);
 
         Debug.Log($"[DB] Equipment cleared for {username}");
     }
+
+    public static void ClearStash(string username)
+    {
+        var user = GetUser(username);
+        if (user == null) return;
+
+        user.StashJson = JsonUtility.ToJson(new PlayerStashData());
+        db.Update(user);
+
+        Debug.Log($"[DB] Stash cleared for {username}");
+    }
+
     public static void ClearPlayerState(string username)
     {
         ClearInventory(username);
         ClearEquipment(username);
 
-        Debug.Log($"[DB] Full player state cleared for {username}");
+        // Décommente si tu veux que L supprime aussi le stash :
+        // ClearStash(username);
+
+        Debug.Log($"[DB] Player state cleared for {username}");
     }
 
-    public static void SavePlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
+    // ==============================
+    // SAVE
+    // ==============================
+
+    public static void SavePlayerState(string username, PlayerInventory inv, PlayerEquipment equip, PlayerStash stash)
     {
         var user = GetUser(username);
 
@@ -176,60 +150,66 @@ public static class DatabaseManager
             return;
         }
 
-        user.InventoryJson = JsonUtility.ToJson(inv.GetSaveData());
-        user.EquipmentJson = JsonUtility.ToJson(equip.GetSaveData());
+        if (inv != null)
+            user.InventoryJson = JsonUtility.ToJson(inv.GetSaveData());
+
+        if (equip != null)
+            user.EquipmentJson = JsonUtility.ToJson(equip.GetSaveData());
+
+        if (stash != null)
+            user.StashJson = JsonUtility.ToJson(stash.GetSaveData());
 
         db.Update(user);
 
-        Debug.Log($"[DB] Saved player state for {username}");
+        Debug.Log($"[DB] Saved player state + stash for {username}");
     }
+
     [Server]
-public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
-{
-    if (db == null)
+    public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
     {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: database not initialized.");
-        return;
+        if (db == null)
+        {
+            Debug.LogError("[DB] Save failed: database not initialized.");
+            return;
+        }
+
+        if (conn == null || conn.identity == null)
+        {
+            Debug.LogError("[DB] Save failed: connection or identity null.");
+            return;
+        }
+
+        string username = conn.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Debug.LogError("[DB] Save failed: username missing.");
+            return;
+        }
+
+        PlayerInventory inv = conn.identity.GetComponent<PlayerInventory>();
+        PlayerEquipment equip = conn.identity.GetComponent<PlayerEquipment>();
+        PlayerStash stash = conn.identity.GetComponent<PlayerStash>();
+
+        SavePlayerState(username, inv, equip, stash);
     }
 
-    if (conn == null)
+    public static void SaveStash(string username, PlayerStash stash)
     {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: conn is null.");
-        return;
+        var user = GetUser(username);
+        if (user == null || stash == null) return;
+
+        user.StashJson = JsonUtility.ToJson(stash.GetSaveData());
+        db.Update(user);
+
+        Debug.Log($"[DB] Stash saved for {username}");
     }
 
-    if (conn.identity == null)
-    {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: conn.identity is null.");
-        return;
-    }
+    // ==============================
+    // LOAD
+    // ==============================
 
-    string username = conn.authenticationData as string;
-
-    if (string.IsNullOrWhiteSpace(username))
-    {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: username missing in authenticationData.");
-        return;
-    }
-
-    PlayerInventory inv = conn.identity.GetComponent<PlayerInventory>();
-    PlayerEquipment equip = conn.identity.GetComponent<PlayerEquipment>();
-
-    if (inv == null)
-    {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: PlayerInventory missing.");
-        return;
-    }
-
-    if (equip == null)
-    {
-        Debug.LogError("[DB] SavePlayerStateFromConnection failed: PlayerEquipment missing.");
-        return;
-    }
-
-    SavePlayerState(username, inv, equip);
-}
-    public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip)
+    public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip, PlayerStash stash)
     {
         var user = GetUser(username);
 
@@ -238,8 +218,10 @@ public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
             Debug.LogError($"[DB] Cannot load player state, user not found: {username}");
             return;
         }
+
         PlayerInventoryData inventoryData = new PlayerInventoryData();
         PlayerEquipmentData equipmentData = new PlayerEquipmentData();
+        PlayerStashData stashData = new PlayerStashData();
 
         if (!string.IsNullOrWhiteSpace(user.InventoryJson) && user.InventoryJson.StartsWith("{"))
             inventoryData = JsonUtility.FromJson<PlayerInventoryData>(user.InventoryJson);
@@ -247,14 +229,38 @@ public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
         if (!string.IsNullOrWhiteSpace(user.EquipmentJson) && user.EquipmentJson.StartsWith("{"))
             equipmentData = JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
 
-        inv.LoadSaveData(inventoryData);
-        equip.LoadSaveData(equipmentData);
+        if (!string.IsNullOrWhiteSpace(user.StashJson) && user.StashJson.StartsWith("{"))
+            stashData = JsonUtility.FromJson<PlayerStashData>(user.StashJson);
 
-        Debug.Log($"[DB] Loaded player state for {username}");
+        if (inv != null)
+            inv.LoadSaveData(inventoryData);
+
+        if (equip != null)
+            equip.LoadSaveData(equipmentData);
+
+        if (stash != null)
+            stash.LoadSaveData(stashData);
+
+        Debug.Log($"[DB] Loaded player state + stash for {username}");
     }
+
+    public static PlayerStashData LoadStash(string username)
+    {
+        var user = GetUser(username);
+
+        if (user == null)
+            return new PlayerStashData();
+
+        if (string.IsNullOrWhiteSpace(user.StashJson) || !user.StashJson.StartsWith("{"))
+            return new PlayerStashData();
+
+        return JsonUtility.FromJson<PlayerStashData>(user.StashJson);
+    }
+
     // ==============================
-    // GENERALS METHODS
+    // GENERAL
     // ==============================
+
     public static void Close()
     {
         db?.Close();
@@ -267,9 +273,6 @@ public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
         return db != null;
     }
 
-    // ==============================
-    // SECURITY
-    // ==============================
     private static string HashPassword(string input)
     {
         using (SHA256 sha = SHA256.Create())
@@ -278,30 +281,8 @@ public static void SavePlayerStateFromConnection(NetworkConnectionToClient conn)
             return System.BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
         }
     }
-    // Equipment Side
-
-    public static void SaveEquipment(int userId, PlayerEquipmentData equip)
-    {
-        var user = db.Table<UserAccount>().First(u => u.Id == userId);
-        user.EquipmentJson = JsonUtility.ToJson(equip);
-        db.Update(user);
-    }
-    public static PlayerEquipmentData LoadEquipment(int userId)
-    {
-        var user = db.Table<UserAccount>().First(u => u.Id == userId);
-
-        if (string.IsNullOrEmpty(user.EquipmentJson))
-            return new PlayerEquipmentData();
-
-        return JsonUtility.FromJson<PlayerEquipmentData>(user.EquipmentJson);
-    }
-
 }
 
-
-/// <summary>
-/// User-Data connected to the database.
-/// </summary>
 public class UserAccount
 {
     [PrimaryKey, AutoIncrement]
@@ -312,14 +293,12 @@ public class UserAccount
 
     public string Password { get; set; }
 
-    //Player Progression
     public int Level { get; set; } = 1;
     public int Experience { get; set; } = 0;
 
-
-    //Equipment System
     public string EquipmentJson { get; set; } = "";
     public string InventoryJson { get; set; } = "";
+    public string StashJson { get; set; } = "";
 }
 
 #endif

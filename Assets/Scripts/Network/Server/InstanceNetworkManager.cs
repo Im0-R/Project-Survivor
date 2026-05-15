@@ -263,16 +263,17 @@ public class InstanceNetworkManager : NetworkManager
 
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         PlayerEquipment equip = player.GetComponent<PlayerEquipment>();
+        PlayerStash stash = player.GetComponent<PlayerStash>();
 
-        if (inv == null || equip == null)
+        if (inv == null || equip == null || stash == null)
         {
-            Debug.LogError("[InstanceNetworkManager] PlayerInventory or PlayerEquipment missing on player prefab");
+            Debug.LogError("[InstanceNetworkManager] PlayerInventory, PlayerEquipment or PlayerStash missing on player prefab");
             yield break;
         }
 
-        DatabaseManager.LoadPlayerState(username, inv, equip);
+        DatabaseManager.LoadPlayerState(username, inv, equip, stash);
 
-        Debug.Log($"[InstanceNetworkManager] Loaded save for {username}");
+        Debug.Log($"[InstanceNetworkManager] Loaded save + stash for {username}");
     }
 
     private void SpawnServerManagersOnce()
@@ -312,12 +313,21 @@ public class InstanceNetworkManager : NetworkManager
             {
                 PlayerInventory inv = player.GetComponent<PlayerInventory>();
                 PlayerEquipment equip = player.GetComponent<PlayerEquipment>();
+                PlayerStash stash = player.GetComponent<PlayerStash>();
 
-                if (inv != null && equip != null)
+                if (inv != null && equip != null && stash != null)
                 {
-                    DatabaseManager.SavePlayerState(username, inv, equip);
-                    Debug.Log($"[InstanceNetworkManager] Saved player state for {username}");
+                    DatabaseManager.SavePlayerState(username, inv, equip, stash);
+                    Debug.Log($"[InstanceNetworkManager] Saved player state + stash for {username}");
                 }
+                else
+                {
+                    Debug.LogError("[InstanceNetworkManager] Cannot save, PlayerInventory, PlayerEquipment or PlayerStash missing");
+                }
+            }
+            else
+            {
+                Debug.LogError("[InstanceNetworkManager] Cannot save, username missing from authenticationData");
             }
         }
 
