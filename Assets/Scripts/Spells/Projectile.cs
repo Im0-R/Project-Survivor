@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class Projectile : NetworkBehaviour
 {
-    private Transform target;
     private float speed;
     private float damage;
     private NetworkEntity owner;
     private Vector3 direction;
 
     private int pierceRemaining;
+    private bool initialized;
 
     [SerializeField] private float lifeTime = 3f;
 
@@ -23,22 +23,34 @@ public class Projectile : NetworkBehaviour
         Vector3? forcedDirection = null)
     {
         owner = ownerEntity;
-        target = targetTransform;
         damage = dmg;
         speed = spd;
         pierceRemaining = pierce;
 
         if (forcedDirection.HasValue)
-            direction = forcedDirection.Value.normalized;
+        {
+            direction = forcedDirection.Value;
+        }
+        else if (targetTransform != null)
+        {
+            direction = targetTransform.position - transform.position;
+        }
         else
-            direction = target != null ? (target.position - transform.position).normalized : transform.forward;
+        {
+            direction = transform.forward;
+        }
 
         direction.y = 0f;
 
-        if (direction != Vector3.zero)
-            transform.forward = direction;
+        if (direction.sqrMagnitude <= 0.001f)
+            direction = transform.forward;
 
+        direction.Normalize();
+
+        transform.forward = direction;
         transform.localScale *= scale;
+
+        initialized = true;
 
         if (isServer)
             Invoke(nameof(DespawnSelf), lifeTime);
@@ -47,6 +59,7 @@ public class Projectile : NetworkBehaviour
     private void Update()
     {
         if (!isServer) return;
+        if (!initialized) return;
 
         transform.position += direction * speed * Time.deltaTime;
 
@@ -59,6 +72,7 @@ public class Projectile : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!isServer) return;
+        if (!initialized) return;
 
         NetworkEntity otherNetEntity = other.GetComponent<NetworkEntity>();
 
@@ -82,6 +96,8 @@ public class Projectile : NetworkBehaviour
     [Server]
     public void DespawnSelf()
     {
+        if (gameObject == null) return;
+
         NetworkIdentity ni = GetComponent<NetworkIdentity>();
 
         if (ni != null && ni.netId != 0)

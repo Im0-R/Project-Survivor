@@ -7,6 +7,7 @@ public class FireballSpell : Spell
 
     public override void ExecuteServer(NetworkEntity owner)
     {
+        if (owner == null) return;
         if (data == null || data.prefab == null) return;
 
         Transform target = null;
@@ -24,30 +25,44 @@ public class FireballSpell : Spell
         Vector3 baseDirection = target.position - owner.transform.position;
         baseDirection.y = 0f;
 
-        if (baseDirection == Vector3.zero)
+        if (baseDirection.sqrMagnitude <= 0.001f)
             baseDirection = owner.transform.forward;
 
+        baseDirection.y = 0f;
         baseDirection.Normalize();
 
         float totalAngle = spread * (projectileCount - 1);
         float startAngle = -totalAngle * 0.5f;
 
+        Vector3 baseSpawnPosition = owner.transform.position + Vector3.up * 1f;
+
         for (int i = 0; i < projectileCount; i++)
         {
             float angle = startAngle + spread * i;
             Vector3 direction = Quaternion.Euler(0f, angle, 0f) * baseDirection;
+            direction.y = 0f;
+            direction.Normalize();
+
+            Vector3 spawnPosition = baseSpawnPosition + direction * 0.6f;
 
             GameObject obj = GameObject.Instantiate(
                 data.prefab,
-                owner.transform.position,
+                spawnPosition,
                 Quaternion.LookRotation(direction)
             );
 
             Projectile projectile = obj.GetComponent<Projectile>();
 
-            projectile?.Initialize(
+            if (projectile == null)
+            {
+                Debug.LogError("[Fireball] Projectile component missing on prefab.");
+                GameObject.Destroy(obj);
+                continue;
+            }
+
+            projectile.Initialize(
                 owner,
-                target,
+                null,
                 data.damage,
                 data.speed,
                 data.currentLevel,
