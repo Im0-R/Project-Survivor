@@ -4996,7 +4996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkTransformUnreliable
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.03
+  syncInterval: 0
   target: {fileID: 1736587078589040676}
   syncPosition: 1
   syncRotation: 1
