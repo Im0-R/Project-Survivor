@@ -23,7 +23,14 @@ public abstract class Spell
         public SpellTag[] tags;
 
         [Header("Prefab")]
+        [Tooltip("Ancien champ. À éviter pour les projectiles non-networkés.")]
         public GameObject prefab;
+
+        [Header("Cast Mode")]
+        public SpellCastMode castMode = SpellCastMode.Projectile;
+
+        [Header("Visual")]
+        public SpellVisualId visualId = SpellVisualId.None;
 
         [Header("Base Stats")]
         public float damage;
@@ -43,9 +50,26 @@ public abstract class Spell
         public int maxLevel = 20;
         public int currentLevel = 1;
 
+        [Header("Projectile")]
+        public ProjectileMotionType motionType = ProjectileMotionType.Straight;
+
+        [Tooltip("Rayon utilisé par le SphereCast serveur.")]
+        public float projectileRadius = 0.35f;
+
+        [Tooltip("Durée maximale du projectile avant disparition.")]
+        public float projectileLifetime = 2f;
+
+        [Tooltip("Nombre total d'ennemis que le projectile peut toucher. 1 = pas de pierce, 3 = touche 3 ennemis.")]
+        public int maxHits = 1;
+
+        [Tooltip("Hauteur utilisée pour les projectiles en Arc.")]
+        public float arcHeight = 3f;
+
         [Header("Projectile Modifiers")]
         public int projectileCount = 1;
         public float projectileSpreadAngle = 12f;
+
+        [Tooltip("Ancien champ. Remplacé par maxHits. À supprimer plus tard quand tout est migré.")]
         public int pierceCount = 0;
 
         [Header("Runes")]
@@ -62,6 +86,8 @@ public abstract class Spell
                 clone.runeIds = (string[])runeIds.Clone();
 
             clone.lastCastTime = 0f;
+            clone.owner = null;
+            clone.firePoint = null;
 
             return clone;
         }
@@ -75,6 +101,7 @@ public abstract class Spell
     }
 
     public virtual void OnAdd(NetworkEntity owner) { }
+
     public virtual void OnRemove(NetworkEntity owner) { }
 
     public virtual void UpdateSpell(NetworkEntity owner)
@@ -90,6 +117,7 @@ public abstract class Spell
 
     public void TryCast(NetworkEntity netEntity)
     {
+        if (netEntity == null) return;
         if (!netEntity.isServer) return;
         if (data == null) return;
 

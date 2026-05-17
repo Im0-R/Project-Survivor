@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\CanvasArcana.cs" />
+    <Compile Include="Assets\Scripts\Visual\SpellVisualId.cs" />
     <Compile Include="Assets\Scripts\Stash\StashInteractable.cs" />
     <Compile Include="Assets\Scripts\Loot\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
@@ -94,8 +95,10 @@
     <Compile Include="Assets\ServerOnly\Database\AffixDatabase.cs" />
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
+    <Compile Include="Assets\Scripts\Visual\SpellNetworkFX.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
     <Compile Include="Assets\Scripts\KeepAlive.cs" />
+    <Compile Include="Assets\Scripts\Visual\ClientSpellVisualManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Debug\SpawnDebug.cs" />
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
@@ -110,16 +113,19 @@
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixPoolSO.cs" />
+    <Compile Include="Assets\Scripts\Visual\ProjectileSpellExecutor.cs" />
     <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootLabelUI.cs" />
+    <Compile Include="Assets\Scripts\Visual\SpellCasterServer.cs" />
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotUI.cs" />
     <Compile Include="Assets\Scripts\Stash\StashBackGroundSlot.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
+    <Compile Include="Assets\Scripts\Visual\SpellVisualDatabase.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Manager\ServerTimeManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyAttackState.cs" />
@@ -132,6 +138,7 @@
     <Compile Include="Assets\Scripts\Spells\FrostballSpell.cs" />
     <Compile Include="Assets\Scripts\Network\InterestManagement\ProximityInterestManagement.cs" />
     <Compile Include="Assets\Scripts\Loot\LootPickUp.cs" />
+    <Compile Include="Assets\Scripts\Visual\SpellCastMode.cs" />
     <Compile Include="Assets\AuthentificatorLogin.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyPool.cs" />
@@ -139,6 +146,7 @@
     <Compile Include="Assets\Scripts\Misc\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Spells\Spell.cs" />
+    <Compile Include="Assets\Scripts\Visual\ISpellExecutor.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
@@ -146,6 +154,7 @@
     <Compile Include="Assets\Scripts\Network\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemPreview.cs" />
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
+    <Compile Include="Assets\Scripts\Visual\ProjectileMotionType.cs" />
     <Compile Include="Assets\Scripts\Network\BuildInfo.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerUI.cs" />
     <Compile Include="Assets\Scripts\Map\MapConfigSO.cs" />
@@ -163,6 +172,7 @@
     <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashSpell.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEntity.cs" />
+    <Compile Include="Assets\Scripts\Visual\ProjectileVisual.cs" />
     <Compile Include="Assets\Scripts\Inventory\CanvasInventory.cs" />
     <Compile Include="Assets\Scripts\Enemy\Spawners\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellSyncData.cs" />
@@ -180,6 +190,7 @@
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
     <Compile Include="Assets\Scripts\Spells\RuneSO.cs" />
+    <Compile Include="Assets\Scripts\Visual\ProjectileSpell.cs" />
     <Compile Include="Assets\Scripts\Stash\CanvasStash.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>
