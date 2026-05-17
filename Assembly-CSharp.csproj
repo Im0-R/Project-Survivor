@@ -82,9 +82,11 @@
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTag.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Arcana\ArcanaButtonUI.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
+    <Compile Include="Assets\Scripts\UI\Arcana\CanvasArcana.cs" />
     <Compile Include="Assets\Scripts\Stash\StashInteractable.cs" />
     <Compile Include="Assets\Scripts\Loot\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
+    <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotUI.cs" />
     <Compile Include="Assets\Scripts\Stash\StashBackGroundSlot.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
@@ -139,6 +142,7 @@
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
+    <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotData.cs" />
     <Compile Include="Assets\Scripts\Network\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemPreview.cs" />
     <Compile Include="Assets\Scripts\UI\SpellChoice.cs" />
@@ -149,6 +153,7 @@
     <Compile Include="Assets\Scripts\Inventory\BackGroundSlot.cs" />
     <Compile Include="Assets\Scripts\Map\BiomeConfigSO.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseInitializer.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerArcanaLoadout.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugSceneIds.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientAccountAPI.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyRanged.cs" />
@@ -171,6 +176,7 @@
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPickupController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
+    <Compile Include="Assets\Scripts\UI\Arcana\RuneButtonUI.cs" />
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
     <Compile Include="Assets\Scripts\Spells\RuneSO.cs" />

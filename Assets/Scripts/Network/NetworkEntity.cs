@@ -182,6 +182,22 @@ public class NetworkEntity : NetworkBehaviour
         var spell = GetSpellByName(spellName);
         spell?.ExecuteClient(this); // VFX / anim côté client
     }
+
+    [Server]
+    public void ClearRuntimeArcana()
+    {
+        foreach (Spell spell in activeSpells)
+        {
+            if (spell != null)
+                spell.OnRemove(this);
+        }
+
+        activeSpells.Clear();
+        syncedSpells.Clear();
+
+        Debug.Log($"[SERVER] Runtime Arcana cleared for {StatComp.Name}");
+    }
+
     [Command]
     public void CmdAddSpell(string spellName)
     {

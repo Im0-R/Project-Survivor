@@ -104,6 +104,11 @@ public class PlayerEntity : NetworkEntity
         {
             CmdTriggerDebugSpellReward();
         }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            if (CanvasArcana.Instance != null)
+                CanvasArcana.Instance.Open();
+        }
     }
     [Server]
     private void TriggerSpellRewardSelection(int displayLevel = -1)

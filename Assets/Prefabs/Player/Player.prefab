@@ -2403,6 +2403,7 @@ GameObject:
   - component: {fileID: 3701304664878415495}
   - component: {fileID: 1919268728759228574}
   - component: {fileID: 367121440337246784}
+  - component: {fileID: 8923659421738781033}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2729,6 +2730,30 @@ MonoBehaviour:
   defaultTabCount: 1
   maxTabCount: 20
   CurrentTabIndex: 0
+--- !u!114 &8923659421738781033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16787e6f10144b940a404b713f9e79f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerArcanaLoadout
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  arcanaSlotCount: 4
+  runeSlotsPerArcana: 3
+  ownedArcanaNames:
+  - Fireball
+  - Frostball
+  ownedRuneIds:
+  - splitting_rune
+  - piercing_rune
+  - rapid_rune
 --- !u!1 &8349008975104809151
 GameObject:
   m_ObjectHideFlags: 0
