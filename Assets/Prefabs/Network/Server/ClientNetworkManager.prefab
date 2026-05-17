@@ -122,7 +122,7 @@ MonoBehaviour:
   UnreliableMaxMessageSize: 1194
   debugLog: 0
   statisticsGUI: 1
-  statisticsLog: 1
+  statisticsLog: 0
 --- !u!114 &5073950128032601462
 MonoBehaviour:
   m_ObjectHideFlags: 0
