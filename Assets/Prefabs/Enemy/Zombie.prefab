@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   StatComp: {fileID: 0}
   attackRange: 2
   attackDamage: 10
@@ -500,7 +500,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0dfb0736d3f0e8c4c96b817f6f4e44fa, type: 2}
   m_Controller: {fileID: 9100000, guid: 3b51aae8b7fbd3c40af99dbe4e37b847, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -555,7 +555,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.2
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 3966264665843785687}
 --- !u!114 &-7465196351752380378
 MonoBehaviour:
@@ -588,9 +588,9 @@ MonoBehaviour:
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   bufferResetMultiplier: 3
   useFixedUpdate: 0
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  positionSensitivity: 0.1
+  rotationSensitivity: 0.1
+  scaleSensitivity: 0.1
 --- !u!114 &5641178401999730782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatsComponent
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   statsData: {fileID: 11400000, guid: b87507f304c4a8549b9148c9e5ade104, type: 2}
   level: 0
   Name: 

@@ -2657,7 +2657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   maxSlots: 40
 --- !u!114 &8996619305502583810
 MonoBehaviour:
@@ -2707,7 +2707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   TotalDamage: 0
   TotalDefense: 0
   TotalVitality: 0
@@ -2744,7 +2744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerArcanaLoadout
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   arcanaSlotCount: 4
   runeSlotsPerArcana: 3
   ownedArcanaNames:
