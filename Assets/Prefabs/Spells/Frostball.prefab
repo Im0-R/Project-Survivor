@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkTransformUnreliable
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.05
   target: {fileID: 1736587078589040676}
   syncPosition: 1
   syncRotation: 1
@@ -5040,7 +5040,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   bufferResetMultiplier: 3
-  useFixedUpdate: 0
+  useFixedUpdate: 1
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01

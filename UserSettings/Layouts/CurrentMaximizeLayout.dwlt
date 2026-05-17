@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 150}
   m_MaxSize: {x: 32384, y: 24288}
   vertical: 0
-  controlID: 29363
+  controlID: 29510
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 150}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 29364
+  controlID: 29511
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -783,11 +783,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.08629256, y: -0.015543836, z: 0.0013464544, w: -0.9961515}
     speed: 2
-    m_Value: {x: -0.08629256, y: -0.015543837, z: 0.0013464544, w: -0.99615157}
+    m_Value: {x: -0.08629223, y: -0.015543777, z: 0.0013464493, w: -0.9961477}
   m_Size:
     m_Target: 547.9247
     speed: 2
-    m_Value: 524.32983
+    m_Value: 547.9247
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -840,8 +840,8 @@ MonoBehaviour:
     y: 340.8
     width: 770.4
     height: 252
-  m_MinSize: {x: 201, y: 226}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -866,8 +866,8 @@ MonoBehaviour:
     y: 592.8
     width: 770.4
     height: 220
-  m_MinSize: {x: 51, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -928,8 +928,8 @@ MonoBehaviour:
     y: 0
     width: 248.79999
     height: 812.8
-  m_MinSize: {x: 202, y: 226}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -1064,7 +1064,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: menu
+    m_NameFilter: Player
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1078,7 +1078,7 @@ MonoBehaviour:
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
-    m_OriginalText: menu
+    m_OriginalText: Player
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 0
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1198,8 +1198,8 @@ MonoBehaviour:
     y: 0
     width: 328.80005
     height: 812.8
-  m_MinSize: {x: 276, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
