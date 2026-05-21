@@ -505,7 +505,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182742771}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300002, guid: b6814f96c7f305e4f982c84f3d888a39, type: 3}
 --- !u!4 &1182742775
 Transform:
   m_ObjectHideFlags: 0
@@ -550,6 +550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5fbdadbe1f474fbfe92c85f732442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StashInteractable
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &1214892483
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +769,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4900258931912547315, guid: 556b42445743ec848b2f7703994182ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900258931912547315, guid: 556b42445743ec848b2f7703994182ac, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7961059368687619112, guid: 556b42445743ec848b2f7703994182ac, type: 3}
