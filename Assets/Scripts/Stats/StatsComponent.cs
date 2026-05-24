@@ -167,16 +167,16 @@ public class StatsComponent : NetworkBehaviour
         stats[StatId.CurrentHealth] = Mathf.Clamp(oldHealth, 0f, maxHealth);
         stats[StatId.CurrentMana] = Mathf.Clamp(oldMana, 0f, maxMana);
     }
-
     [Server]
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool isCrit = false)
     {
-        SetFinalStatServer(
-            StatId.CurrentHealth,
-            Mathf.Max(0f, Get(StatId.CurrentHealth) - amount)
-        );
-    }
+        float oldHealth = Get(StatId.CurrentHealth);
+        float newHealth = Mathf.Max(0f, oldHealth - amount);
 
+        SetFinalStatServer(StatId.CurrentHealth, newHealth);
+
+        RpcShowDamagePopup(transform.position, Mathf.RoundToInt(amount), isCrit);
+    }
     [Server]
     public void Heal(float amount)
     {
@@ -235,5 +235,20 @@ public class StatsComponent : NetworkBehaviour
 
         Debug.Log($"[StatsComponent] {name} leveled up to {level}");
         OnLevelUpServer?.Invoke(level);
+    }
+
+    [ClientRpc]
+    private void RpcShowDamagePopup(Vector3 position, int damage, bool isCrit)
+    {
+        if (DamagePopupManager.Instance == null)
+            return;
+
+        Vector3 offset = new Vector3(
+            UnityEngine.Random.Range(-0.4f, 0.4f),
+            UnityEngine.Random.Range(1.2f, 1.8f),
+            0f
+        );
+
+        DamagePopupManager.Instance.ShowDamage(position + offset, damage, isCrit);
     }
 }

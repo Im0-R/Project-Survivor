@@ -153,10 +153,14 @@ public class NetworkEntity : NetworkBehaviour
         Debug.Log($"[SERVER] Arcana added: {newData.spellName} with {runeIds?.Length ?? 0} rune(s) to {StatComp.Name}");
     }
     [Server]
-    public void ApplyDamageServer(float amount)
+    public void ApplyDamageServer(float amount, bool isCrit = false)
     {
-        StatComp.stats[StatId.CurrentHealth] -= amount;
-        if (StatComp.stats[StatId.CurrentHealth] <= 0f)
+        if (StatComp == null)
+            return;
+
+        StatComp.TakeDamage(amount, isCrit);
+
+        if (StatComp.Get(StatId.CurrentHealth) <= 0f)
             OnDeath?.Invoke();
     }
     public void RequestDeathServer()

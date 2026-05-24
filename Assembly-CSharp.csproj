@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
     <Compile Include="Assets\Scripts\Enemy\Zombie.cs" />
+    <Compile Include="Assets\Scripts\UI\Damage\DamagePopUp.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTag.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Assets\Scripts\UI\CanvasCreateAccount.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyIdleState.cs" />
     <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Damage\DamagePopUpManager.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashSpell.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEntity.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileVisual.cs" />
