@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SpellChoice : MonoBehaviour
 {
-    private string spellName;
+    private string rewardCode;
 
     [Header("UI")]
     [SerializeField] private Button buttonHitbox;
@@ -13,47 +13,21 @@ public class SpellChoice : MonoBehaviour
     [SerializeField] private TextMeshProUGUI spellDescriptionText;
     [SerializeField] private Image spellIconImage;
 
-    public void Init(string spellNameFromServer)
+    public void Init(string rewardCodeFromServer)
     {
-        spellName = spellNameFromServer;
-
-        Spell spell = SpellsManager.Instance.GetSpell(spellName);
-        if (spell == null)
-        {
-            Debug.LogError($"[SpellChoice] Spell '{spellName}' introuvable dans SpellsManager.");
-            return;
-        }
-
-        var data = spell.GetData();
+        rewardCode = rewardCodeFromServer;
 
         if (spellNameText != null)
-            spellNameText.text = data.spellName;
+            spellNameText.text = RunRewardUtility.GetRewardTitle(rewardCode);
 
         if (spellDescriptionText != null)
-            spellDescriptionText.text = data.description;
-
-        if (spellIconImage != null)
-            spellIconImage.sprite = data.UISprite;
-
-        var playerEnt = PlayerUI.Instance?.playerEnt;
-        Spell ownedSpell = playerEnt != null ? playerEnt.GetSpellByName(data.spellName) : null;
+            spellDescriptionText.text = RunRewardUtility.GetRewardDescription(rewardCode);
 
         if (spellLevelText != null)
-        {
-            if (ownedSpell == null)
-            {
-                spellLevelText.text = "New Spell";
-            }
-            else if (ownedSpell.IsMaxLevel())
-            {
-                spellLevelText.text = "Max Level";
-            }
-            else
-            {
-                int currentLevel = ownedSpell.GetData().currentLevel;
-                spellLevelText.text = $"Level {currentLevel} -> {currentLevel + 1}";
-            }
-        }
+            spellLevelText.text = "Run Upgrade";
+
+        if (spellIconImage != null)
+            spellIconImage.enabled = false;
 
         if (buttonHitbox != null)
         {
@@ -65,12 +39,13 @@ public class SpellChoice : MonoBehaviour
     public void OnChoosed()
     {
         var playerEnt = PlayerUI.Instance?.playerEnt;
+
         if (playerEnt == null)
         {
             Debug.LogWarning("[SpellChoice] playerEnt introuvable au moment du choix.");
             return;
         }
 
-        playerEnt.CmdChooseSpellReward(spellName);
+        playerEnt.CmdChooseSpellReward(rewardCode);
     }
 }

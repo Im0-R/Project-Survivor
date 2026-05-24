@@ -12,14 +12,19 @@ public class PlayerEntity : NetworkEntity
 
     private NavMeshAgent agent;
 
-    private bool pendingSpellReward = false;
+    private RunStatsComponent runStats;
+    private RunSpellModifiers runSpellMods;
 
+    private bool pendingSpellReward = false;
     private string[] currentRewardChoices;
 
     protected override void Awake()
     {
         base.Awake();
+
         agent = GetComponent<NavMeshAgent>();
+        runStats = GetComponent<RunStatsComponent>();
+        runSpellMods = GetComponent<RunSpellModifiers>();
     }
 
     protected override void Update()
@@ -27,7 +32,7 @@ public class PlayerEntity : NetworkEntity
         if (isLocalPlayer)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        HandleDebugInput();
+            HandleDebugInput();
 #endif
         }
 
@@ -35,9 +40,11 @@ public class PlayerEntity : NetworkEntity
 
         base.Update();
 
-
         if (agent != null)
-            agent.speed = StatComp.Get(StatId.MoveSpeedMult);
+        {
+            float moveSpeed = GetCurrentStat(StatId.MoveSpeedMult);
+            agent.speed = moveSpeed;
+        }
     }
 
     public override void OnStartServer()
@@ -58,33 +65,238 @@ public class PlayerEntity : NetworkEntity
         base.OnStopServer();
     }
 
+    // =====================================================
+    // PUBLIC STAT ACCESS
+    // =====================================================
+
+    public float GetCurrentStat(StatId stat)
+    {
+        float baseValue = StatComp != null ? StatComp.Get(stat) : 0f;
+        float runBonus = runStats != null ? runStats.GetBonus(stat) : 0f;
+
+        return baseValue + runBonus;
+    }
+
+    public float GetSpellModifier(string spellName, string modifierName)
+    {
+        if (runSpellMods == null)
+            return 0f;
+
+        return runSpellMods.GetModifier(spellName, modifierName);
+    }
+
+    // =====================================================
+    // LEVEL UP REWARD
+    // =====================================================
+
     [Server]
     private void HandleLevelUpServer(int newLevel)
+    {
+        TriggerSpellRewardSelection(newLevel);
+    }
+
+    [Server]
+    private void TriggerSpellRewardSelection(int displayLevel = -1)
     {
         if (pendingSpellReward)
             return;
 
-        List<string> rewardSpells = BuildRewardSpellChoices();
+        List<string> rewards = BuildRewardSpellChoices();
 
-        if (rewardSpells == null || rewardSpells.Count == 0)
+        if (rewards == null || rewards.Count == 0)
         {
-            Debug.LogWarning($"[PlayerEntity] No reward spells available for {name}");
+            Debug.LogWarning($"[PlayerEntity] No run rewards available for {name}");
             return;
         }
 
-        currentRewardChoices = rewardSpells.ToArray();
+        currentRewardChoices = rewards.ToArray();
         pendingSpellReward = true;
 
-        TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, newLevel);
+        int shownLevel = displayLevel >= 0 ? displayLevel : StatComp.level;
+        TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, shownLevel);
     }
+
+    [Server]
+    private List<string> BuildRewardSpellChoices()
+    {
+        List<string> choices = new();
+        List<string> activeSpellNames = new();
+
+        foreach (Spell spell in GetAllActiveSpells())
+        {
+            if (spell == null || spell.GetData() == null)
+                continue;
+
+            string spellName = spell.GetData().spellName;
+
+            if (!string.IsNullOrWhiteSpace(spellName))
+                activeSpellNames.Add(spellName);
+        }
+
+        int safety = 0;
+
+        while (choices.Count < 3 && safety < 50)
+        {
+            safety++;
+
+            bool chooseSpellUpgrade =
+                activeSpellNames.Count > 0 &&
+                UnityEngine.Random.value < 0.6f;
+
+            string rewardCode;
+
+            if (chooseSpellUpgrade)
+            {
+                string spellName = activeSpellNames[UnityEngine.Random.Range(0, activeSpellNames.Count)];
+
+                string[] possibleMods =
+                {
+                    "Damage",
+                    "ProjectileCount",
+                    "ProjectileSpeed",
+                    "Pierce",
+                    "CooldownReduction"
+                };
+
+                string modName = possibleMods[UnityEngine.Random.Range(0, possibleMods.Length)];
+                float value = GetSpellUpgradeValue(modName);
+
+                rewardCode = RunRewardUtility.CreateSpellUpgradeReward(spellName, modName, value);
+            }
+            else
+            {
+                StatId[] possibleStats =
+                {
+                    StatId.MaxHealth,
+                    StatId.MaxMana,
+                    StatId.SpellDamage,
+                    StatId.FireDamage,
+                    StatId.CritChance,
+                    StatId.CritDamage,
+                    StatId.ProjectileSpeed,
+                    StatId.CooldownReduction,
+                    StatId.MoveSpeedMult
+                };
+
+                StatId stat = possibleStats[UnityEngine.Random.Range(0, possibleStats.Length)];
+                float value = GetStatRewardValue(stat);
+
+                rewardCode = RunRewardUtility.CreateStatReward(stat, value);
+            }
+
+            if (!choices.Contains(rewardCode))
+                choices.Add(rewardCode);
+        }
+
+        return choices;
+    }
+
+    private float GetSpellUpgradeValue(string modName)
+    {
+        return modName switch
+        {
+            "Damage" => 10f,
+            "ProjectileCount" => 1f,
+            "ProjectileSpeed" => 10f,
+            "Pierce" => 1f,
+            "CooldownReduction" => 5f,
+            _ => 1f
+        };
+    }
+
+    private float GetStatRewardValue(StatId stat)
+    {
+        return stat switch
+        {
+            StatId.MaxHealth => 20f,
+            StatId.MaxMana => 15f,
+            StatId.SpellDamage => 5f,
+            StatId.FireDamage => 5f,
+            StatId.CritChance => 2f,
+            StatId.CritDamage => 10f,
+            StatId.ProjectileSpeed => 10f,
+            StatId.CooldownReduction => 3f,
+            StatId.MoveSpeedMult => 0.2f,
+            _ => 1f
+        };
+    }
+
+    [Command]
+    public void CmdChooseSpellReward(string rewardCode)
+    {
+        if (!pendingSpellReward)
+        {
+            Debug.LogWarning("[SERVER] No pending run reward.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(rewardCode))
+        {
+            Debug.LogWarning("[SERVER] Empty run reward choice.");
+            return;
+        }
+
+        if (currentRewardChoices == null || Array.IndexOf(currentRewardChoices, rewardCode) < 0)
+        {
+            Debug.LogWarning($"[SERVER] Run reward choice not allowed: {rewardCode}");
+            return;
+        }
+
+        ApplyRunRewardServer(rewardCode);
+
+        pendingSpellReward = false;
+        currentRewardChoices = null;
+
+        TargetHideSpellRewardUI(connectionToClient);
+    }
+
+    [Server]
+    private void ApplyRunRewardServer(string rewardCode)
+    {
+        string[] parts = rewardCode.Split('|');
+
+        if (parts.Length < 3)
+            return;
+
+        if (parts[0] == "STAT")
+        {
+            if (runStats == null)
+                return;
+
+            StatId stat = Enum.Parse<StatId>(parts[1]);
+            float value = float.Parse(parts[2]);
+
+            runStats.AddRunStatBonus(stat, value);
+            return;
+        }
+
+        if (parts[0] == "SPELL_UPGRADE")
+        {
+            if (runSpellMods == null)
+                return;
+
+            if (parts.Length < 4)
+                return;
+
+            string spellName = parts[1];
+            string modifierName = parts[2];
+            float value = float.Parse(parts[3]);
+
+            runSpellMods.AddModifier(spellName, modifierName, value);
+        }
+    }
+
+    // =====================================================
+    // UI
+    // =====================================================
 
     [TargetRpc]
-    private void TargetShowSpellRewardUI(NetworkConnection target, string[] spellNames, int newLevel)
+    private void TargetShowSpellRewardUI(NetworkConnection target, string[] rewardCodes, int newLevel)
     {
-        StartCoroutine(ShowSpellRewardUIWhenReady(spellNames, newLevel));
+        StartCoroutine(ShowSpellRewardUIWhenReady(rewardCodes, newLevel));
     }
 
-    private IEnumerator ShowSpellRewardUIWhenReady(string[] spellNames, int newLevel)
+    private IEnumerator ShowSpellRewardUIWhenReady(string[] rewardCodes, int newLevel)
     {
         while (PlayerUI.Instance == null)
             yield return null;
@@ -92,203 +304,13 @@ public class PlayerEntity : NetworkEntity
         while (UIManager.Instance == null)
             yield return null;
 
-        UIManager.Instance.ShowSpellsRewardUI(spellNames, newLevel);
+        UIManager.Instance.ShowSpellsRewardUI(rewardCodes, newLevel);
 
         PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null)
             movement.InputBlocked = true;
     }
-    private void HandleDebugInput()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            CmdTriggerDebugSpellReward();
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            if (CanvasArcana.Instance != null)
-                CanvasArcana.Instance.Open();
-        }
-    }
-    [Server]
-    private void TriggerSpellRewardSelection(int displayLevel = -1)
-    {
-        if (pendingSpellReward)
-            return;
 
-        List<string> rewardSpells = BuildRewardSpellChoices();
-
-        if (rewardSpells == null || rewardSpells.Count == 0)
-        {
-            Debug.LogWarning($"[PlayerEntity] No reward spells available for {name}");
-            return;
-        }
-
-        currentRewardChoices = rewardSpells.ToArray();
-        pendingSpellReward = true;
-
-        int shownLevel = displayLevel >= 0 ? displayLevel : StatComp.level;
-        TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, shownLevel);
-    }
-    [Server]
-    private List<string> BuildRewardSpellChoices()
-    {
-        List<string> possibleChoices = new List<string>();
-
-        // 1. Ajouter les sorts déjà possédés mais pas max level
-        foreach (Spell ownedSpell in GetAllActiveSpells())
-        {
-            if (ownedSpell == null || ownedSpell.GetData() == null)
-                continue;
-
-            if (!ownedSpell.IsMaxLevel())
-            {
-                string spellName = ownedSpell.GetData().spellName;
-
-                if (!possibleChoices.Contains(spellName))
-                    possibleChoices.Add(spellName);
-            }
-        }
-
-        // 2. Ajouter des nouveaux sorts
-        List<string> alreadyOwnedNames = new List<string>();
-
-        foreach (Spell ownedSpell in GetAllActiveSpells())
-        {
-            if (ownedSpell != null && ownedSpell.GetData() != null)
-                alreadyOwnedNames.Add(ownedSpell.GetData().spellName);
-        }
-
-        int safety = 0;
-
-        while (possibleChoices.Count < 10 && safety < 50)
-        {
-            safety++;
-
-            Spell randomSpell = SpellsManager.Instance.GetRandomSpellServer(
-                new HashSet<string>(alreadyOwnedNames)
-            );
-
-            if (randomSpell == null)
-                break;
-
-            string spellName = randomSpell.GetData().spellName;
-
-            if (string.IsNullOrWhiteSpace(spellName))
-                continue;
-
-            if (possibleChoices.Contains(spellName))
-                continue;
-
-            possibleChoices.Add(spellName);
-        }
-
-        // 3. Mélanger et prendre 3 choix
-        for (int i = 0; i < possibleChoices.Count; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(i, possibleChoices.Count);
-            (possibleChoices[i], possibleChoices[randomIndex]) =
-                (possibleChoices[randomIndex], possibleChoices[i]);
-        }
-
-        if (possibleChoices.Count > 3)
-            possibleChoices = possibleChoices.GetRange(0, 3);
-
-        return possibleChoices;
-    }
-
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
-        StartCoroutine(LoadAndBindPlayerUI());
-    }
-
-    private IEnumerator LoadAndBindPlayerUI()
-    {
-        AsyncOperation op = SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive);
-        while (!op.isDone)
-            yield return null;
-
-        while (PlayerUI.Instance == null)
-            yield return null;
-
-        PlayerUI.Instance.Bind(this);
-    }
-
-    [Command]
-    public void CmdChooseSpellReward(string spellName)
-    {
-        if (!pendingSpellReward)
-        {
-            Debug.LogWarning("[SERVER] No pending spell reward.");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(spellName))
-        {
-            Debug.LogWarning("[SERVER] Empty spell reward choice.");
-            return;
-        }
-
-        if (currentRewardChoices == null || Array.IndexOf(currentRewardChoices, spellName) < 0)
-        {
-            Debug.LogWarning($"[SERVER] Spell reward choice not allowed: {spellName}");
-            return;
-        }
-
-        Spell spell = SpellsManager.Instance.GetSpell(spellName);
-        if (spell == null)
-        {
-            Debug.LogWarning($"[SERVER] Spell reward does not exist: {spellName}");
-            return;
-        }
-
-        Spell ownedSpell = GetSpellByName(spellName);
-        if (ownedSpell != null)
-        {
-            if (!ownedSpell.IsMaxLevel())
-                UpgradeSpell(spellName);
-            else
-                Debug.Log($"[SERVER] {spellName} already max level on {name}");
-        }
-        else
-        {
-            AddSpell(spellName);
-        }
-
-        pendingSpellReward = false;
-        currentRewardChoices = null;
-
-        TargetHideSpellRewardUI(connectionToClient);
-    }
-    [Command]
-    private void CmdTriggerDebugSpellReward()
-    {
-        TriggerSpellRewardSelection();
-    }
-    [Command]
-    private void CmdGiveDebugSpell(string spellName)
-    {
-        Spell spell = SpellsManager.Instance.GetSpell(spellName);
-        if (spell == null)
-        {
-            Debug.LogWarning($"[SERVER] Debug spell not found: {spellName}");
-            return;
-        }
-
-        Spell ownedSpell = GetSpellByName(spellName);
-        if (ownedSpell != null)
-        {
-            if (!ownedSpell.IsMaxLevel())
-                UpgradeSpell(spellName);
-            else
-                Debug.Log($"[SERVER] {spellName} already max level on {name}");
-        }
-        else
-        {
-            AddSpell(spellName);
-        }
-    }
     [TargetRpc]
     private void TargetHideSpellRewardUI(NetworkConnection target)
     {
@@ -299,6 +321,75 @@ public class PlayerEntity : NetworkEntity
         if (movement != null)
             movement.InputBlocked = false;
     }
+
+    // =====================================================
+    // RUN RESET
+    // =====================================================
+
+    [Server]
+    public void ClearRunProgressionServer()
+    {
+        if (runStats != null)
+            runStats.ClearRunStats();
+
+        if (runSpellMods != null)
+            runSpellMods.ClearModifiers();
+
+        if (StatComp != null)
+        {
+            StatComp.level = 1;
+            StatComp.SetFinalStatServer(StatId.Experience, 0);
+            StatComp.SetFinalStatServer(StatId.CurrentHealth, GetCurrentStat(StatId.MaxHealth));
+            StatComp.SetFinalStatServer(StatId.CurrentMana, GetCurrentStat(StatId.MaxMana));
+        }
+
+        pendingSpellReward = false;
+        currentRewardChoices = null;
+
+        Debug.Log($"[PlayerEntity] Cleared run progression for {name}");
+    }
+
+    // =====================================================
+    // CLIENT SETUP / DEBUG
+    // =====================================================
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        StartCoroutine(LoadAndBindPlayerUI());
+    }
+
+    private IEnumerator LoadAndBindPlayerUI()
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync("PlayerUI", LoadSceneMode.Additive);
+
+        while (!op.isDone)
+            yield return null;
+
+        while (PlayerUI.Instance == null)
+            yield return null;
+
+        PlayerUI.Instance.Bind(this);
+    }
+
+    private void HandleDebugInput()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+            CmdTriggerDebugSpellReward();
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            if (CanvasArcana.Instance != null)
+                CanvasArcana.Instance.Open();
+        }
+    }
+
+    [Command]
+    private void CmdTriggerDebugSpellReward()
+    {
+        TriggerSpellRewardSelection();
+    }
+
     private IEnumerator GiveStarterBuild()
     {
         yield return new WaitForSeconds(1f);
@@ -307,8 +398,8 @@ public class PlayerEntity : NetworkEntity
             "Fireball",
             new string[]
             {
-            "splitting_rune",
-            "piercing_rune"
+                "splitting_rune",
+                "piercing_rune"
             }
         );
     }

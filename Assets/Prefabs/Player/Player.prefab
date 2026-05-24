@@ -2404,6 +2404,8 @@ GameObject:
   - component: {fileID: 1919268728759228574}
   - component: {fileID: 367121440337246784}
   - component: {fileID: 8923659421738781033}
+  - component: {fileID: -5419829414548410825}
+  - component: {fileID: -2749654801539997314}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2754,6 +2756,36 @@ MonoBehaviour:
   - splitting_rune
   - piercing_rune
   - rapid_rune
+--- !u!114 &-5419829414548410825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59b8ebc2fe18f846b1a1de95473561f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunStatsComponent
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &-2749654801539997314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691504422253265128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c3afc47c21c134f9cbb189e3bfa18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunSpellModifiers
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &8349008975104809151
 GameObject:
   m_ObjectHideFlags: 0

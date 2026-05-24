@@ -61,8 +61,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Stats\RunStatsComponent.cs" />
     <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
     <Compile Include="Assets\Scripts\Network\InstanceBootStrap.cs" />
+    <Compile Include="Assets\Scripts\Stats\RunSpellModifiers.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipment.cs" />
     <Compile Include="Assets\Scripts\Network\Messages\RedirectMessage.cs" />
     <Compile Include="Assets\ServerOnly\Database\ItemDatabase.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
     <Compile Include="Assets\Scripts\Enemy\Zombie.cs" />
+    <Compile Include="Assets\Scripts\Stats\RunRewardUtility.cs" />
     <Compile Include="Assets\Scripts\UI\Damage\DamagePopUp.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
