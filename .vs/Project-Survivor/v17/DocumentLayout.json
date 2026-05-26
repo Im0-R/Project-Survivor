@@ -3,20 +3,60 @@
   "WorkspaceRootPath": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\lpvray\\documents\\github\\project-survivor\\assets\\scripts\\stats\\runspellmodifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\runspellmodifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\lpvray\\documents\\github\\project-survivor\\assets\\scripts\\mapmechanic\\mapeventstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\mapmechanic\\mapeventstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\lpvray\\documents\\github\\project-survivor\\assets\\scripts\\stats\\runstatscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\lpvray\\documents\\github\\project-survivor\\assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\mapmechanic\\mapeventactivator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\mapmechanic\\mapeventactivator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\map\\instancestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\map\\instancestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\map\\mapgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\map\\mapgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunSpellModifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Stats\\RunSpellModifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\runstatscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\runstatscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\player\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\player\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\ui\\rewardspellscanvas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,10 +69,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\ui\\spellchoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\ui\\spellchoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\networkentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\spells\\projectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -67,10 +103,6 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\spells\\frostballspell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\enemy\\zombie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\enemy\\zombie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -93,14 +125,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\enemy\\spawners\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\server\\instancenetworkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\serveronly\\database\\databasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -165,22 +189,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\debug\\spawndebug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\debug\\spawndebug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\map\\mapgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\map\\mapgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\map\\instancestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\map\\instancestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\network\\instancebootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\manager\\instancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\map\\clientmapinstancereceiver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -366,80 +374,153 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MapEventState.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MapMechanic\\MapEventState.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MapMechanic\\MapEventState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T22:07:36.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InstanceState.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\InstanceState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\InstanceState.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\InstanceState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Map\\InstanceState.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAqwFYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T17:42:12.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MapGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapGenerator.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapGenerator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Map\\MapGenerator.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAuwGoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T17:50:07.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnemySpawner.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAqwKQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T00:41:58.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NetworkEntity.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\NetworkEntity.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Network\\NetworkEntity.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAwwDgAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T20:17:09.845Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StatsComponent.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ViewState": "AgIAANIAAAAAAAAAAAAmwP0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T18:26:19.798Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InstanceNetworkManager.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAewKMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T20:42:42.216Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MapEventActivator.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAiwCsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T20:49:08.452Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "InstanceBootStrap.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAuwGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T20:42:23.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BuildScript.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\BuildScript.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
+              "RelativeToolTip": "Assets\\Editor\\BuildScript.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwDoAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T15:08:07.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InstanceManager.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Manager\\InstanceManager.cs",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAiwOMAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T20:24:32.653Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "RunSpellModifier.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunSpellModifier.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\RunSpellModifier.cs",
               "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunSpellModifier.cs",
               "RelativeToolTip": "Assets\\Scripts\\Stats\\RunSpellModifier.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-24T18:35:12.35Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RunStatsComponent.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunStatsComponent.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\RunStatsComponent.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunStatsComponent.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stats\\RunStatsComponent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-24T18:34:27.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "StatsComponent.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAcAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T18:26:19.798Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "FireballSpell.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Spells\\FireballSpell.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAwwEEAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:44:28.636Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Projectile.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Projectile.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Projectile.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Projectile.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Spells\\Projectile.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAmwFQAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T20:14:37.964Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "NetworkEntity.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\NetworkEntity.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Network\\NetworkEntity.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAswI4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T20:17:09.845Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 13,
               "Title": "PlayerEntity.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerEntity.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerEntity.cs",
@@ -451,7 +532,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 17,
+              "Title": "Projectile.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Projectile.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Projectile.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Projectile.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Spells\\Projectile.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAmwFQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T20:14:37.964Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FireballSpell.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Spells\\FireballSpell.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAwwEEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T19:44:28.636Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RunStatsComponent.cs",
+              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunStatsComponent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\RunStatsComponent.cs",
+              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunStatsComponent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\RunStatsComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-24T18:34:27.061Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "UIManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\UIManager.cs",
@@ -463,7 +580,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "RewardSpellsCanvas.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\RewardSpellsCanvas.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\RewardSpellsCanvas.cs",
@@ -475,7 +592,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
               "Title": "DamagePopUpManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Damage\\DamagePopUpManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Damage\\DamagePopUpManager.cs",
@@ -487,7 +604,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "SpellChoice.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\SpellChoice.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SpellChoice.cs",
@@ -499,7 +616,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 20,
               "Title": "DamagePopUp.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Damage\\DamagePopUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Damage\\DamagePopUp.cs",
@@ -511,7 +628,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 25,
               "Title": "Zombie.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Zombie.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Zombie.cs",
@@ -523,7 +640,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 24,
               "Title": "FrostballSpell.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FrostballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FrostballSpell.cs",
@@ -535,7 +652,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
+              "DocumentIndex": 88,
               "Title": "ClientVisualEffectsManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Visual\\ClientVisualEffectsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Visual\\ClientVisualEffectsManager.cs",
@@ -548,7 +665,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 21,
               "Title": "SlashSpell.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Slash\\SlashSpell.cs",
@@ -560,20 +677,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "BuildScript.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Editor\\BuildScript.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
-              "RelativeToolTip": "Assets\\Editor\\BuildScript.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAuwJ0AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T15:08:07.297Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "CanvasStash.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\CanvasStash.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\CanvasStash.cs",
@@ -585,7 +689,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 89,
               "Title": "FireballVisual.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Visual\\FireballVisual.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Visual\\FireballVisual.cs",
@@ -593,11 +697,12 @@
               "RelativeToolTip": "Assets\\Scripts\\Visual\\FireballVisual.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-17T15:06:38.341Z"
+              "WhenOpened": "2026-05-17T15:06:38.341Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 26,
               "Title": "RuneSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\RuneSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\RuneSO.cs",
@@ -609,7 +714,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "CanvasArcana.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Arcana\\CanvasArcana.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Arcana\\CanvasArcana.cs",
@@ -621,7 +726,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 27,
               "Title": "SpellsManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\SpellsManager.cs",
@@ -633,7 +738,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 28,
               "Title": "SpellTag.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\SpellTag.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\SpellTag.cs",
@@ -645,7 +750,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 29,
               "Title": "Spell.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Spell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Spell.cs",
@@ -657,7 +762,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 32,
               "Title": "ItemDatabase.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\ItemDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\ItemDatabase.cs",
@@ -669,7 +774,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 33,
               "Title": "CanvasInventory.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
@@ -681,7 +786,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 34,
               "Title": "PlayerStash.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\PlayerStash.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\PlayerStash.cs",
@@ -693,19 +798,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "EnemySpawner.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAiwCsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T00:41:58.173Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 30,
               "Title": "PlayerInventory.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
@@ -717,7 +810,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 31,
               "Title": "DatabaseManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseManager.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseManager.cs",
@@ -729,19 +822,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "InstanceNetworkManager.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
-              "ViewState": "AgIAADQBAAAAAAAAAAAuwFcBAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T20:42:42.216Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 35,
               "Title": "StashInteractable.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\StashInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\StashInteractable.cs",
@@ -753,7 +834,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 36,
               "Title": "StashBackGroundSlot.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\StashBackGroundSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\StashBackGroundSlot.cs",
@@ -765,7 +846,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 39,
               "Title": "PlayerEquipment.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
@@ -777,7 +858,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 40,
               "Title": "PlayerEquipmentData.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
@@ -789,7 +870,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 38,
               "Title": "ItemInstanceSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
@@ -801,7 +882,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 37,
               "Title": "PlayerStatsPanelUI.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerStatsPanelUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerStatsPanelUI.cs",
@@ -813,7 +894,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "CLIDefaults.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Library\\PackageCache\\com.unity.dedicated-server@5a2666836321\\CliArguments\\Editor\\CLIDefaults.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.dedicated-server@5a2666836321\\CliArguments\\Editor\\CLIDefaults.cs",
@@ -825,7 +906,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "ServerBootStrap.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\ServerBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\ServerBootStrap.cs",
@@ -837,7 +918,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "PortalInstances.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\PortalInstances.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\PortalInstances.cs",
@@ -849,7 +930,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 44,
               "Title": "ClientSideInstanceManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
@@ -861,7 +942,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 45,
               "Title": "MyNetworkManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
@@ -873,55 +954,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "InstanceManager.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Manager\\InstanceManager.cs",
-              "ViewState": "AgIAAMcAAAAAAAAAAAAiwPEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T20:24:32.653Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "InstanceBootStrap.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAuwEoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T20:42:23.593Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "MapGenerator.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapGenerator.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapGenerator.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapGenerator.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Map\\MapGenerator.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwDYAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T17:50:07.231Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "InstanceState.cs",
-              "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\InstanceState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\InstanceState.cs",
-              "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\InstanceState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Map\\InstanceState.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAowDoAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-10T17:42:12.717Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 46,
               "Title": "SpawnDebug.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Debug\\SpawnDebug.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Debug\\SpawnDebug.cs",
@@ -933,7 +966,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "ClientMapInstanceReceiver.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\ClientMapInstanceReceiver.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\ClientMapInstanceReceiver.cs",
@@ -945,7 +978,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "MapConfigSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapConfigSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapConfigSO.cs",
@@ -957,7 +990,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 87,
               "Title": "MapConfigSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
               "RelativeDocumentMoniker": "Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
@@ -965,11 +998,12 @@
               "RelativeToolTip": "Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T17:37:35.841Z"
+              "WhenOpened": "2026-05-09T17:37:35.841Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 86,
               "Title": "BiomeConfigSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Resources\\ScriptableObjects\\Map\\BiomeConfigSO.cs",
               "RelativeDocumentMoniker": "Assets\\Resources\\ScriptableObjects\\Map\\BiomeConfigSO.cs",
@@ -982,7 +1016,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 53,
               "Title": "LootGenerator.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootGenerator.cs",
@@ -994,7 +1028,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "TestDebugLog.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Debug\\TestDebugLog.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Debug\\TestDebugLog.cs",
@@ -1006,7 +1040,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 57,
               "Title": "AffixDatabase.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\AffixDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\AffixDatabase.cs",
@@ -1018,7 +1052,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 56,
               "Title": "AffixSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
@@ -1030,7 +1064,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 58,
               "Title": "AffixPoolSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
@@ -1042,7 +1076,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "StatsRowUI.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsRowUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsRowUI.cs",
@@ -1054,7 +1088,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "PlayerUI.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerUI.cs",
@@ -1066,7 +1100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 55,
               "Title": "PlayerPickupController.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerPickupController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerPickupController.cs",
@@ -1078,7 +1112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "LootManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootManager.cs",
@@ -1090,7 +1124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 54,
               "Title": "ItemBaseSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
@@ -1102,7 +1136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 59,
               "Title": "ItemCard.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemCard.cs",
@@ -1114,7 +1148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 60,
               "Title": "BackGroundSlot.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
@@ -1126,7 +1160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 61,
               "Title": "Enemy.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Enemy.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Enemy.cs",
@@ -1138,7 +1172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 62,
               "Title": "HitboxHitHumanoidMonster.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Fight\\HitboxHitHumanoidMonster.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Fight\\HitboxHitHumanoidMonster.cs",
@@ -1150,7 +1184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 63,
               "Title": "HumanoidAnimator.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\HumanoidAnimator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HumanoidAnimator.cs",
@@ -1162,7 +1196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 64,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerMovement.cs",
@@ -1174,7 +1208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 85,
               "Title": "PlayerInventoryData.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventoryData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventoryData.cs",
@@ -1182,11 +1216,12 @@
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\PlayerInventoryData.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T10:38:09.327Z"
+              "WhenOpened": "2026-04-26T10:38:09.327Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 65,
               "Title": "ServerCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\ServerCommandHandler.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\ServerCommandHandler.cs",
@@ -1198,7 +1233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 66,
               "Title": "DatabaseInitializer.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
@@ -1210,7 +1245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 67,
               "Title": "ClientAccountAPI.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
@@ -1222,7 +1257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 68,
               "Title": "CanvasCreateAccount.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasCreateAccount.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasCreateAccount.cs",
@@ -1234,7 +1269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 69,
               "Title": "ItemPreview.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
@@ -1246,7 +1281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 70,
               "Title": "ItemGenerator.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\ItemGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\ItemGenerator.cs",
@@ -1258,7 +1293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 71,
               "Title": "EnemyManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\EnemyManager.cs",
@@ -1270,7 +1305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 74,
               "Title": "EnemyPool.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyPool.cs",
@@ -1282,7 +1317,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 72,
               "Title": "EnemyChaseState.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
@@ -1294,7 +1329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 75,
               "Title": "StatsDataSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
@@ -1306,7 +1341,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 73,
               "Title": "EnemyAttackState.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyAttackState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyAttackState.cs",
@@ -1318,7 +1353,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 76,
               "Title": "CameraFollow.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\CameraFollow.cs",
@@ -1330,7 +1365,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
+              "DocumentIndex": 77,
               "Title": "EnemyDeadState.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyDeadState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyDeadState.cs",
@@ -1342,7 +1377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 78,
               "Title": "EnemyEntity.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyEntity.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyEntity.cs",
@@ -1354,7 +1389,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 79,
               "Title": "CanvasTarget.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasTarget.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasTarget.cs",
@@ -1366,7 +1401,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 81,
               "Title": "AffixGenerator.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\AffixGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Editor\\AffixGenerator.cs",
@@ -1379,7 +1414,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 82,
               "Title": "ItemPreviewManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
@@ -1391,7 +1426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 80,
               "Title": "InventorySlotDrop.cs",
               "DocumentMoniker": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\InventorySlotDrop.cs",
               "ToolTip": "D:\\Projects\\PersonnalProjects\\Hack\u0027n Slash\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\InventorySlotDrop.cs",
@@ -1401,7 +1436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
+              "DocumentIndex": 83,
               "Title": "LootUIManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootUIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootUIManager.cs",
@@ -1413,7 +1448,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 84,
               "Title": "LootPickUp.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPickUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootPickUp.cs",

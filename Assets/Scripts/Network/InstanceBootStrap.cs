@@ -12,6 +12,7 @@ public class InstanceBootStrap : MonoBehaviour
     public static string MapIdArg = "";
     public static int PortArg = 8000;
     public static int SeedArg = 0;
+    public static int DifficultyArg = 1;
 
     private void Awake()
     {
@@ -53,10 +54,20 @@ public class InstanceBootStrap : MonoBehaviour
                     if (i + 1 < args.Length)
                         int.TryParse(args[i + 1], out SeedArg);
                     break;
+
+                case "-difficulty":
+                    if (i + 1 < args.Length)
+                        int.TryParse(args[i + 1], out DifficultyArg);
+                    break;
             }
         }
 
-        Debug.Log($"[InstanceBootStrap] ARGS scene={SceneArg} | mapId={MapIdArg} | port={PortArg} | seed={SeedArg}");
+        DifficultyArg = Mathf.Max(1, DifficultyArg);
+
+        Debug.Log(
+            $"[InstanceBootStrap] ARGS scene={SceneArg} | mapId={MapIdArg} | " +
+            $"port={PortArg} | seed={SeedArg} | difficulty={DifficultyArg}"
+        );
     }
 
     private IEnumerator Start()
@@ -108,7 +119,12 @@ public class InstanceBootStrap : MonoBehaviour
 
         while (true)
         {
-            Debug.Log($"[InstanceBootStrap] Alive | scene={SceneArg} | mapId={MapIdArg} | port={PortArg} | players={NetworkServer.connections.Count}");
+            Debug.Log(
+                $"[InstanceBootStrap] Alive | scene={SceneArg} | mapId={MapIdArg} | " +
+                $"port={PortArg} | seed={SeedArg} | difficulty={DifficultyArg} | " +
+                $"players={NetworkServer.connections.Count}"
+            );
+
             yield return new WaitForSeconds(10f);
         }
     }

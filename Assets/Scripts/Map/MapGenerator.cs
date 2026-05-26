@@ -9,15 +9,22 @@ public class MapGenerator : MonoBehaviour
     private GameObject currentEnvironment;
     private MapConfigSO currentMap;
 
+    public int CurrentDifficulty { get; private set; } = 1;
+
     public IEnumerator Generate(string mapId, int seed)
     {
+        yield return Generate(mapId, seed, 1);
+    }
+
+    public IEnumerator Generate(string mapId, int seed, int difficulty)
+    {
+        CurrentDifficulty = Mathf.Max(1, difficulty);
 
         Debug.Log(
-    $"[MapGenerator] Generate START | " +
-    $"mapId={mapId} | " +
-    $"seed={seed} | " +
-    $"isServer={Application.isBatchMode}"
-);
+            $"[MapGenerator] Generate START | mapId={mapId} | " +
+            $"seed={seed} | difficulty={CurrentDifficulty} | isServer={Application.isBatchMode}"
+        );
+
         if (string.IsNullOrWhiteSpace(mapId))
         {
             Debug.LogError("[MapGenerator] Generate called with empty mapId");
@@ -40,19 +47,17 @@ public class MapGenerator : MonoBehaviour
 
         if (currentEnvironment != null)
             Destroy(currentEnvironment);
-        Debug.Log(
-    $"[MapGenerator] Instantiating environment prefab: " +
-    $"{currentMap.biome.environmentPrefab.name}"
-);
+
+        Debug.Log($"[MapGenerator] Instantiating environment prefab: {currentMap.biome.environmentPrefab.name}");
+
         currentEnvironment = Instantiate(
             currentMap.biome.environmentPrefab,
             Vector3.zero,
             Quaternion.identity
         );
-        Debug.Log(
-    $"[MapGenerator] Environment instantiated: " +
-    $"{currentEnvironment.name}"
-);
+
+        Debug.Log($"[MapGenerator] Environment instantiated: {currentEnvironment.name}");
+
         RenderSettings.ambientLight = currentMap.biome.ambientColor;
 
 #if UNITY_SERVER
@@ -67,7 +72,10 @@ public class MapGenerator : MonoBehaviour
         navMeshSurface.BuildNavMesh();
 #endif
 
-        Debug.Log($"[MapGenerator] Map generated | mapId={mapId} | seed={seed}");
+        Debug.Log(
+            $"[MapGenerator] Map generated | mapId={mapId} | " +
+            $"seed={seed} | difficulty={CurrentDifficulty}"
+        );
     }
 
     public Transform GetPlayerSpawnPoint()

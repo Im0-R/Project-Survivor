@@ -11,6 +11,9 @@ public class InstanceState : NetworkBehaviour
     [SyncVar(hook = nameof(OnSeedChanged))]
     public int seed;
 
+    [SyncVar(hook = nameof(OnDifficultyChanged))]
+    public int difficulty = 1;
+
     private bool clientMapGenerated;
 
     private void Awake()
@@ -23,11 +26,8 @@ public class InstanceState : NetworkBehaviour
         base.OnStartClient();
 
         Debug.Log(
-            $"[InstanceState] OnStartClient | " +
-            $"netId={netId} | " +
-            $"mapId={mapId} | " +
-            $"seed={seed} | " +
-            $"isServer={isServer}"
+            $"[InstanceState] OnStartClient | netId={netId} | " +
+            $"mapId={mapId} | seed={seed} | difficulty={difficulty} | isServer={isServer}"
         );
 
         TryGenerateClientMap();
@@ -43,13 +43,16 @@ public class InstanceState : NetworkBehaviour
         TryGenerateClientMap();
     }
 
+    private void OnDifficultyChanged(int oldValue, int newValue)
+    {
+        TryGenerateClientMap();
+    }
+
     private void TryGenerateClientMap()
     {
         Debug.Log(
-            $"[InstanceState] TryGenerateClientMap | " +
-            $"isServer={isServer} | " +
-            $"clientMapGenerated={clientMapGenerated} | " +
-            $"mapId={mapId}"
+            $"[InstanceState] TryGenerateClientMap | isServer={isServer} | " +
+            $"clientMapGenerated={clientMapGenerated} | mapId={mapId} | difficulty={difficulty}"
         );
 
         if (isServer)
@@ -72,17 +75,18 @@ public class InstanceState : NetworkBehaviour
             return;
         }
 
-        Debug.Log($"[InstanceState] Found MapGenerator: {generator.name}");
-
         clientMapGenerated = true;
 
-        Debug.Log($"[InstanceState] Client generating map | mapId={mapId} | seed={seed}");
+        Debug.Log(
+            $"[InstanceState] Client generating map | mapId={mapId} | " +
+            $"seed={seed} | difficulty={difficulty}"
+        );
 
-        generator.StartCoroutine(generator.Generate(mapId, seed));
+        generator.StartCoroutine(generator.Generate(mapId, seed, difficulty));
     }
 
     [Server]
-    public void SetMap(string newMapId, int newSeed)
+    public void SetMap(string newMapId, int newSeed, int newDifficulty)
     {
         if (string.IsNullOrWhiteSpace(newMapId))
         {
@@ -92,7 +96,11 @@ public class InstanceState : NetworkBehaviour
 
         seed = newSeed;
         mapId = newMapId;
+        difficulty = Mathf.Max(1, newDifficulty);
 
-        Debug.Log($"[InstanceState] Server map set | mapId={mapId} | seed={seed}");
+        Debug.Log(
+            $"[InstanceState] Server map set | mapId={mapId} | " +
+            $"seed={seed} | difficulty={difficulty}"
+        );
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
+    <Compile Include="Assets\Scripts\MapMechanic\MapEventTimerUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixPoolSO.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileSpellExecutor.cs" />
     <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
+    <Compile Include="Assets\Scripts\MapMechanic\MapEventState.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotData.cs" />
     <Compile Include="Assets\Scripts\Network\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemPreview.cs" />

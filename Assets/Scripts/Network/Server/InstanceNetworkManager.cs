@@ -149,11 +149,19 @@ public class InstanceNetworkManager : NetworkManager
         SpawnDebug.LogSpawn(obj, "InstanceState");
         NetworkServer.Spawn(obj);
 
-        instanceState.SetMap(mapId, seed);
+        int difficulty = GetServerDifficulty();
 
+        instanceState.SetMap(mapId, seed, difficulty);
         Debug.Log($"[InstanceNetworkManager] Spawned InstanceState | mapId={mapId} | seed={seed}");
     }
-
+    private int GetServerDifficulty()
+    {
+#if UNITY_SERVER
+    return InstanceBootStrap.DifficultyArg;
+#else
+        return 1;
+#endif
+    }
     private IEnumerator GenerateMapWhenSceneReady()
     {
         if (mapGenerationStarted)
