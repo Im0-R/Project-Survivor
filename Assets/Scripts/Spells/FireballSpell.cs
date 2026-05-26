@@ -22,10 +22,10 @@ public class FireballSpell : Spell
         PlayerEntity player = owner as PlayerEntity;
         string spellName = data.spellName;
 
-        float finalDamage = data.damage;
-        float finalSpeed = data.speed;
-        int finalProjectileCount = data.projectileCount;
-        int finalPierce = data.pierceCount;
+        float finalDamage = GetFinalDamage(owner);
+        float finalSpeed = GetFinalProjectileSpeed(owner);
+        int finalProjectileCount = GetFinalProjectileCount(owner);
+        int finalPierce = GetFinalPierce(owner);
 
         if (player != null)
         {
