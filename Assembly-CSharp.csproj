@@ -108,6 +108,7 @@
     <Compile Include="Assets\Scripts\Network\SmoothNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemPreviewManager.cs" />
     <Compile Include="Assets\Scripts\Spells\Projectile.cs" />
+    <Compile Include="Assets\Scripts\MapMechanic\MapEventActivator.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsComponent.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticlesSpawner.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixSO.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsRowUI.cs" />
+    <Compile Include="Assets\Scripts\MapMechanic\MapEventController.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemBaseSO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\InstanceNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Spells\TargetHelper.cs" />
