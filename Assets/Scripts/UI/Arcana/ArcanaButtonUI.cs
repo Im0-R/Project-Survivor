@@ -24,7 +24,7 @@ public class ArcanaButtonUI : MonoBehaviour, IPointerClickHandler
         if (iconImage != null)
         {
             iconImage.sprite = icon;
-            iconImage.enabled = icon != null;
+            //iconImage.enabled = icon != null;
         }
 
         if (selectedFrame != null)
