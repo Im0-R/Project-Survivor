@@ -48,6 +48,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  instanceExecutable: /home/server/instance/current/InstanceServer.x86_64
+  instanceBootDelay: 2
+  hubSceneName: Town
+  hubPort: 8000
+  defaultMapSceneName: MapInstance
+  defaultMapId: forest_01
 --- !u!114 &5761178432924310450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +68,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
   sceneId: 0
   _assetId: 1879916300
-  serverOnly: 0
+  serverOnly: 1
   visibility: 0
   hasSpawned: 0

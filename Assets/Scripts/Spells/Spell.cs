@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 [System.Serializable]
 public abstract class Spell
@@ -23,7 +24,6 @@ public abstract class Spell
         public SpellTag[] tags;
 
         [Header("Prefab")]
-        [Tooltip("Ancien champ. À éviter pour les projectiles non-networkés.")]
         public GameObject prefab;
 
         [Header("Cast Mode")]
@@ -52,24 +52,14 @@ public abstract class Spell
 
         [Header("Projectile")]
         public ProjectileMotionType motionType = ProjectileMotionType.Straight;
-
-        [Tooltip("Rayon utilisé par le SphereCast serveur.")]
         public float projectileRadius = 0.35f;
-
-        [Tooltip("Durée maximale du projectile avant disparition.")]
         public float projectileLifetime = 2f;
-
-        [Tooltip("Nombre total d'ennemis que le projectile peut toucher. 1 = pas de pierce, 3 = touche 3 ennemis.")]
         public int maxHits = 1;
-
-        [Tooltip("Hauteur utilisée pour les projectiles en Arc.")]
         public float arcHeight = 3f;
 
         [Header("Projectile Modifiers")]
         public int projectileCount = 1;
         public float projectileSpreadAngle = 12f;
-
-        [Tooltip("Ancien champ. Remplacé par maxHits. À supprimer plus tard quand tout est migré.")]
         public int pierceCount = 0;
 
         [Header("Runes")]
@@ -108,7 +98,9 @@ public abstract class Spell
     {
         if (data == null) return;
 
-        if (data.autoCast && Time.time >= data.lastCastTime + data.cooldown)
+        float cooldown = GetFinalCooldown(owner);
+
+        if (data.autoCast && Time.time >= data.lastCastTime + cooldown)
         {
             ExecuteServer(owner);
             data.lastCastTime = Time.time;
@@ -121,11 +113,32 @@ public abstract class Spell
         if (!netEntity.isServer) return;
         if (data == null) return;
 
-        if (Time.time >= data.lastCastTime + data.cooldown)
+        float cooldown = GetFinalCooldown(netEntity);
+
+        if (Time.time >= data.lastCastTime + cooldown)
         {
             ExecuteServer(netEntity);
             data.lastCastTime = Time.time;
         }
+    }
+
+    protected float GetFinalCooldown(NetworkEntity owner)
+    {
+        if (data == null)
+            return 1f;
+
+        float cooldown = data.cooldown;
+
+        if (owner is PlayerEntity player)
+        {
+            float globalReduction = player.GetCurrentStat(StatId.CooldownReduction);
+            float spellReduction = player.GetSpellModifier(data.spellName, "CooldownReduction");
+
+            float totalReduction = Mathf.Clamp(globalReduction + spellReduction, 0f, 80f);
+            cooldown *= 1f - totalReduction / 100f;
+        }
+
+        return Mathf.Max(0.1f, cooldown);
     }
 
     public SpellData GetData()

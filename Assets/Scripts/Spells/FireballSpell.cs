@@ -19,8 +19,34 @@ public class FireballSpell : Spell
 
         if (target == null) return;
 
-        int projectileCount = Mathf.Max(1, data.projectileCount);
-        float spread = 45f;
+        PlayerEntity player = owner as PlayerEntity;
+        string spellName = data.spellName;
+
+        float finalDamage = data.damage;
+        float finalSpeed = data.speed;
+        int finalProjectileCount = data.projectileCount;
+        int finalPierce = data.pierceCount;
+
+        if (player != null)
+        {
+            finalDamage += player.GetCurrentStat(StatId.SpellDamage);
+            finalDamage += player.GetCurrentStat(StatId.FireDamage);
+            finalDamage += player.GetSpellModifier(spellName, "Damage");
+
+            float damageMult = player.GetCurrentStat(StatId.DamageMult);
+            finalDamage *= 1f + damageMult / 100f;
+
+            finalSpeed += player.GetCurrentStat(StatId.ProjectileSpeed);
+            finalSpeed += player.GetSpellModifier(spellName, "ProjectileSpeed");
+
+            finalProjectileCount += Mathf.RoundToInt(player.GetSpellModifier(spellName, "ProjectileCount"));
+            finalPierce += Mathf.RoundToInt(player.GetSpellModifier(spellName, "Pierce"));
+        }
+
+        finalProjectileCount = Mathf.Max(1, finalProjectileCount);
+        finalPierce = Mathf.Max(0, finalPierce);
+
+        float spread = data.projectileSpreadAngle;
 
         Vector3 baseDirection = target.position - owner.transform.position;
         baseDirection.y = 0f;
@@ -28,18 +54,18 @@ public class FireballSpell : Spell
         if (baseDirection.sqrMagnitude <= 0.001f)
             baseDirection = owner.transform.forward;
 
-        baseDirection.y = 0f;
         baseDirection.Normalize();
 
-        float totalAngle = spread * (projectileCount - 1);
+        float totalAngle = spread * (finalProjectileCount - 1);
         float startAngle = -totalAngle * 0.5f;
 
         Vector3 baseSpawnPosition = owner.transform.position + Vector3.up * 1f;
 
-        for (int i = 0; i < projectileCount; i++)
+        for (int i = 0; i < finalProjectileCount; i++)
         {
             float angle = startAngle + spread * i;
             Vector3 direction = Quaternion.Euler(0f, angle, 0f) * baseDirection;
+
             direction.y = 0f;
             direction.Normalize();
 
@@ -63,16 +89,18 @@ public class FireballSpell : Spell
             projectile.Initialize(
                 owner,
                 null,
-                data.damage,
-                data.speed,
+                finalDamage,
+                finalSpeed,
                 data.currentLevel,
-                data.pierceCount,
+                finalPierce,
                 direction
             );
 
             NetworkServer.Spawn(obj);
         }
 
-        Debug.Log($"[Fireball] projectileCount={projectileCount}, spread={spread}, damage={data.damage}, pierce={data.pierceCount}");
+        Debug.Log(
+            $"[Fireball] count={finalProjectileCount}, damage={finalDamage}, speed={finalSpeed}, pierce={finalPierce}, cooldown={GetFinalCooldown(owner)}"
+        );
     }
 }
