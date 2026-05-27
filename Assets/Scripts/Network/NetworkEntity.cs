@@ -434,8 +434,10 @@ public class NetworkEntity : NetworkBehaviour
         }
 
         if (isLocalPlayer && CanvasArcana.Instance != null)
+        {
             CanvasArcana.Instance.Refresh();
-
+            SpellsSlotsUI.Instance.Bind(this);
+        }
         Debug.Log($"[CLIENT] Rebuild spells OK, {activeSpells.Count} spell(s) pour {name}.");
     }
 

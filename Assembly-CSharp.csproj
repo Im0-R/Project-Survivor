@@ -154,6 +154,7 @@
     <Compile Include="Assets\Scripts\Spells\Spell.cs" />
     <Compile Include="Assets\Scripts\Visual\ISpellExecutor.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
+    <Compile Include="Assets\Scripts\UI\SpellSlotUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
     <Compile Include="Assets\Scripts\MapMechanic\MapEventState.cs" />
