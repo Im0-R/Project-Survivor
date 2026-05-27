@@ -86,9 +86,39 @@ public class CanvasArcana : MonoBehaviour
 
     public void Refresh()
     {
+        if (currentLoadout == null)
+        {
+            TryBindLocalPlayer();
+        }
+
+        if (currentLoadout == null)
+            return;
+
         RefreshAll();
     }
+    private bool TryBindLocalPlayer()
+    {
+        if (NetworkClient.localPlayer == null)
+        {
+            Debug.LogWarning("[CanvasArcana] localPlayer NULL");
+            return false;
+        }
 
+        PlayerArcanaLoadout loadout =
+            NetworkClient.localPlayer.GetComponent<PlayerArcanaLoadout>();
+
+        if (loadout == null)
+        {
+            Debug.LogWarning("[CanvasArcana] PlayerArcanaLoadout NULL");
+            return false;
+        }
+
+        Bind(loadout);
+
+        Debug.Log("[CanvasArcana] Bound to local player");
+
+        return true;
+    }
     private void Bind(PlayerArcanaLoadout loadout)
     {
         Unbind();
