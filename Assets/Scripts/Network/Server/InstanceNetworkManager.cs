@@ -152,16 +152,18 @@ public class InstanceNetworkManager : NetworkManager
         int difficulty = GetServerDifficulty();
 
         instanceState.SetMap(mapId, seed, difficulty);
-        Debug.Log($"[InstanceNetworkManager] Spawned InstanceState | mapId={mapId} | seed={seed}");
+        Debug.Log($"[InstanceNetworkManager] Spawned InstanceState | mapId={mapId} | seed={seed} | difficulty={difficulty}");
     }
+
     private int GetServerDifficulty()
     {
 #if UNITY_SERVER
-    return InstanceBootStrap.DifficultyArg;
+        return InstanceBootStrap.DifficultyArg;
 #else
         return 1;
 #endif
     }
+
     private IEnumerator GenerateMapWhenSceneReady()
     {
         if (mapGenerationStarted)
@@ -272,16 +274,17 @@ public class InstanceNetworkManager : NetworkManager
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         PlayerEquipment equip = player.GetComponent<PlayerEquipment>();
         PlayerStash stash = player.GetComponent<PlayerStash>();
+        PlayerArcanaLoadout arcanaLoadout = player.GetComponent<PlayerArcanaLoadout>();
 
-        if (inv == null || equip == null || stash == null)
+        if (inv == null || equip == null || stash == null || arcanaLoadout == null)
         {
-            Debug.LogError("[InstanceNetworkManager] PlayerInventory, PlayerEquipment or PlayerStash missing on player prefab");
+            Debug.LogError("[InstanceNetworkManager] Missing PlayerInventory, PlayerEquipment, PlayerStash or PlayerArcanaLoadout on player prefab");
             yield break;
         }
 
-        DatabaseManager.LoadPlayerState(username, inv, equip, stash);
+        DatabaseManager.LoadPlayerState(username, inv, equip, stash, arcanaLoadout);
 
-        Debug.Log($"[InstanceNetworkManager] Loaded save + stash for {username}");
+        Debug.Log($"[InstanceNetworkManager] Loaded save + stash + arcana loadout for {username}");
     }
 
     private void SpawnServerManagersOnce()
@@ -322,15 +325,16 @@ public class InstanceNetworkManager : NetworkManager
                 PlayerInventory inv = player.GetComponent<PlayerInventory>();
                 PlayerEquipment equip = player.GetComponent<PlayerEquipment>();
                 PlayerStash stash = player.GetComponent<PlayerStash>();
+                PlayerArcanaLoadout arcanaLoadout = player.GetComponent<PlayerArcanaLoadout>();
 
-                if (inv != null && equip != null && stash != null)
+                if (inv != null && equip != null && stash != null && arcanaLoadout != null)
                 {
-                    DatabaseManager.SavePlayerState(username, inv, equip, stash);
-                    Debug.Log($"[InstanceNetworkManager] Saved player state + stash for {username}");
+                    DatabaseManager.SavePlayerState(username, inv, equip, stash, arcanaLoadout);
+                    Debug.Log($"[InstanceNetworkManager] Saved player state + stash + arcana loadout for {username}");
                 }
                 else
                 {
-                    Debug.LogError("[InstanceNetworkManager] Cannot save, PlayerInventory, PlayerEquipment or PlayerStash missing");
+                    Debug.LogError("[InstanceNetworkManager] Cannot save, PlayerInventory, PlayerEquipment, PlayerStash or PlayerArcanaLoadout missing");
                 }
             }
             else

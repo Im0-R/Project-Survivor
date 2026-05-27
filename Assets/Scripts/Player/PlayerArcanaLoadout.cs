@@ -227,7 +227,46 @@ public class PlayerArcanaLoadout : NetworkBehaviour
             entity.AddArcanaWithRunes(slot.arcanaName, validRunes.ToArray());
         }
     }
+    [Server]
+    public void EquipArcanaWithRunesServer(int slotIndex, string arcanaName, params string[] runeIds)
+    {
+        EnsureSlotsServer();
 
+        if (!IsValidArcanaSlot(slotIndex))
+            return;
+
+        if (string.IsNullOrWhiteSpace(arcanaName))
+            return;
+
+        if (!PlayerOwnsArcana(arcanaName))
+        {
+            Debug.LogWarning($"[ArcanaLoadout] Player does not own Arcana: {arcanaName}");
+            return;
+        }
+
+        slots[slotIndex].arcanaName = arcanaName;
+
+        for (int i = 0; i < runeSlotsPerArcana; i++)
+        {
+            string runeId = i < runeIds.Length ? runeIds[i] : "";
+            slots[slotIndex].runeIds[i] = runeId;
+        }
+
+        RefreshSyncedSlots();
+        RebuildRuntimeArcanaServer();
+
+        Debug.Log($"[ArcanaLoadout] Equipped {arcanaName} with {runeIds.Length} rune(s) in slot {slotIndex}");
+    }
+    [Server]
+    public void EquipStarterBuildServer()
+    {
+        EquipArcanaWithRunesServer(
+            0,
+            "Fireball",
+            "splitting_rune",
+            "piercing_rune"
+        );
+    }
     public ArcanaLoadoutSlotData GetSlot(int index)
     {
         if (index < 0 || index >= EquippedSlotsJson.Count)
@@ -322,7 +361,39 @@ public class PlayerArcanaLoadout : NetworkBehaviour
 
         return false;
     }
+    [Server]
+    public void EquipStarterBuildIfEmptyServer()
+    {
+        EnsureSlotsServer();
 
+        bool hasEquippedArcana = false;
+
+        foreach (ArcanaLoadoutSlotData slot in slots)
+        {
+            if (slot != null && !string.IsNullOrWhiteSpace(slot.arcanaName))
+            {
+                hasEquippedArcana = true;
+                break;
+            }
+        }
+
+        if (hasEquippedArcana)
+        {
+            Debug.Log("[ArcanaLoadout] Existing loadout found, rebuilding runtime arcana.");
+            RefreshSyncedSlots();
+            RebuildRuntimeArcanaServer();
+            return;
+        }
+
+        Debug.Log("[ArcanaLoadout] Empty loadout, giving starter build.");
+
+        EquipArcanaWithRunesServer(
+            0,
+            "Fireball",
+            "splitting_rune",
+            "piercing_rune"
+        );
+    }
     private bool PlayerOwnsRune(string runeId)
     {
         foreach (string owned in ownedRuneIds)
@@ -332,5 +403,49 @@ public class PlayerArcanaLoadout : NetworkBehaviour
         }
 
         return false;
+    }
+    [Serializable]
+    public class ArcanaLoadoutSaveData
+    {
+        public List<ArcanaLoadoutSlotData> slots = new();
+    }
+    [Server]
+    public string ToSaveJsonServer()
+    {
+        EnsureSlotsServer();
+
+        ArcanaLoadoutSaveData saveData = new ArcanaLoadoutSaveData();
+
+        foreach (ArcanaLoadoutSlotData slot in slots)
+            saveData.slots.Add(slot);
+
+        return JsonUtility.ToJson(saveData);
+    }
+    [Server]
+    public void LoadFromSaveJsonServer(string json)
+    {
+        EnsureSlotsServer();
+
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            EquipStarterBuildIfEmptyServer();
+            return;
+        }
+
+        ArcanaLoadoutSaveData saveData = JsonUtility.FromJson<ArcanaLoadoutSaveData>(json);
+
+        slots.Clear();
+
+        if (saveData != null && saveData.slots != null)
+        {
+            foreach (ArcanaLoadoutSlotData slot in saveData.slots)
+                slots.Add(slot);
+        }
+
+        EnsureSlotsServer();
+        RefreshSyncedSlots();
+        RebuildRuntimeArcanaServer();
+
+        EquipStarterBuildIfEmptyServer();
     }
 }

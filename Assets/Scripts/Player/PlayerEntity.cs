@@ -394,13 +394,17 @@ public class PlayerEntity : NetworkEntity
     {
         yield return new WaitForSeconds(1f);
 
-        AddArcanaWithRunes(
-            "Fireball",
-            new string[]
-            {
-                "splitting_rune",
-                "piercing_rune"
-            }
-        );
+        if (!isServer)
+            yield break;
+
+        PlayerArcanaLoadout loadout = GetComponent<PlayerArcanaLoadout>();
+
+        if (loadout == null)
+        {
+            Debug.LogError("[PlayerEntity] PlayerArcanaLoadout missing.");
+            yield break;
+        }
+
+        loadout.EquipStarterBuildIfEmptyServer();
     }
 }

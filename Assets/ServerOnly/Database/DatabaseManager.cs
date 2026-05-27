@@ -33,6 +33,7 @@ public static class DatabaseManager
         db.CreateTable<UserAccount>();
 
         TryAddColumn("UserAccount", "StashJson", "TEXT DEFAULT ''");
+        TryAddColumn("UserAccount", "ArcanaLoadoutJson", "TEXT DEFAULT ''");
 
         Debug.Log($"[DB] Initialized at: {dbPath}");
     }
@@ -49,10 +50,6 @@ public static class DatabaseManager
             // Normal si la colonne existe déjà.
         }
     }
-
-    // ==============================
-    // USER
-    // ==============================
 
     public static bool ValidateUser(string username, string password)
     {
@@ -82,10 +79,6 @@ public static class DatabaseManager
     {
         return db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
     }
-
-    // ==============================
-    // CLEAR
-    // ==============================
 
     public static void ClearInventory(string username)
     {
@@ -125,22 +118,35 @@ public static class DatabaseManager
         Debug.Log($"[DB] Stash cleared for {username}");
     }
 
+    public static void ClearArcanaLoadout(string username)
+    {
+        var user = GetUser(username);
+        if (user == null) return;
+
+        user.ArcanaLoadoutJson = "";
+        db.Update(user);
+
+        Debug.Log($"[DB] Arcana loadout cleared for {username}");
+    }
+
     public static void ClearPlayerState(string username)
     {
         ClearInventory(username);
         ClearEquipment(username);
+        ClearArcanaLoadout(username);
 
-        // Décommente si tu veux que L supprime aussi le stash :
+        // Décommente si tu veux aussi supprimer le stash :
         // ClearStash(username);
 
         Debug.Log($"[DB] Player state cleared for {username}");
     }
 
-    // ==============================
-    // SAVE
-    // ==============================
-
-    public static void SavePlayerState(string username, PlayerInventory inv, PlayerEquipment equip, PlayerStash stash)
+    public static void SavePlayerState(
+        string username,
+        PlayerInventory inv,
+        PlayerEquipment equip,
+        PlayerStash stash,
+        PlayerArcanaLoadout arcanaLoadout)
     {
         var user = GetUser(username);
 
@@ -159,9 +165,12 @@ public static class DatabaseManager
         if (stash != null)
             user.StashJson = JsonUtility.ToJson(stash.GetSaveData());
 
+        if (arcanaLoadout != null)
+            user.ArcanaLoadoutJson = arcanaLoadout.ToSaveJsonServer();
+
         db.Update(user);
 
-        Debug.Log($"[DB] Saved player state + stash for {username}");
+        Debug.Log($"[DB] Saved player state + stash + arcana loadout for {username}");
     }
 
     [Server]
@@ -190,8 +199,9 @@ public static class DatabaseManager
         PlayerInventory inv = conn.identity.GetComponent<PlayerInventory>();
         PlayerEquipment equip = conn.identity.GetComponent<PlayerEquipment>();
         PlayerStash stash = conn.identity.GetComponent<PlayerStash>();
+        PlayerArcanaLoadout arcanaLoadout = conn.identity.GetComponent<PlayerArcanaLoadout>();
 
-        SavePlayerState(username, inv, equip, stash);
+        SavePlayerState(username, inv, equip, stash, arcanaLoadout);
     }
 
     public static void SaveStash(string username, PlayerStash stash)
@@ -205,11 +215,23 @@ public static class DatabaseManager
         Debug.Log($"[DB] Stash saved for {username}");
     }
 
-    // ==============================
-    // LOAD
-    // ==============================
+    public static void SaveArcanaLoadout(string username, PlayerArcanaLoadout arcanaLoadout)
+    {
+        var user = GetUser(username);
+        if (user == null || arcanaLoadout == null) return;
 
-    public static void LoadPlayerState(string username, PlayerInventory inv, PlayerEquipment equip, PlayerStash stash)
+        user.ArcanaLoadoutJson = arcanaLoadout.ToSaveJsonServer();
+        db.Update(user);
+
+        Debug.Log($"[DB] Arcana loadout saved for {username}");
+    }
+
+    public static void LoadPlayerState(
+        string username,
+        PlayerInventory inv,
+        PlayerEquipment equip,
+        PlayerStash stash,
+        PlayerArcanaLoadout arcanaLoadout)
     {
         var user = GetUser(username);
 
@@ -241,7 +263,10 @@ public static class DatabaseManager
         if (stash != null)
             stash.LoadSaveData(stashData);
 
-        Debug.Log($"[DB] Loaded player state + stash for {username}");
+        if (arcanaLoadout != null)
+            arcanaLoadout.LoadFromSaveJsonServer(user.ArcanaLoadoutJson);
+
+        Debug.Log($"[DB] Loaded player state + stash + arcana loadout for {username}");
     }
 
     public static PlayerStashData LoadStash(string username)
@@ -257,9 +282,15 @@ public static class DatabaseManager
         return JsonUtility.FromJson<PlayerStashData>(user.StashJson);
     }
 
-    // ==============================
-    // GENERAL
-    // ==============================
+    public static string LoadArcanaLoadoutJson(string username)
+    {
+        var user = GetUser(username);
+
+        if (user == null)
+            return "";
+
+        return user.ArcanaLoadoutJson;
+    }
 
     public static void Close()
     {
@@ -299,6 +330,7 @@ public class UserAccount
     public string EquipmentJson { get; set; } = "";
     public string InventoryJson { get; set; } = "";
     public string StashJson { get; set; } = "";
+    public string ArcanaLoadoutJson { get; set; } = "";
 }
 
 #endif
