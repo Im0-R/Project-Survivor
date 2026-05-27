@@ -56,8 +56,12 @@ public class CanvasArcana : MonoBehaviour
             return;
         }
 
+        Debug.Log("[CanvasArcana] Open()");
+        Debug.Log($"[CanvasArcana] localPlayer = {NetworkClient.localPlayer}");
+
         PlayerArcanaLoadout loadout = NetworkClient.localPlayer.GetComponent<PlayerArcanaLoadout>();
 
+        Debug.Log($"[CanvasArcana] loadout = {loadout}");
         if (loadout == null)
         {
             Debug.LogError("[CanvasArcana] Local player has no PlayerArcanaLoadout.");
@@ -89,9 +93,13 @@ public class CanvasArcana : MonoBehaviour
     {
         Unbind();
 
+        Debug.Log($"[CanvasArcana] Bind()");
+
         currentLoadout = loadout;
         currentEntity = loadout != null ? loadout.GetComponent<NetworkEntity>() : null;
 
+        Debug.Log($"[CanvasArcana] currentLoadout = {currentLoadout}");
+        Debug.Log($"[CanvasArcana] currentEntity = {currentEntity}");
         if (currentLoadout != null)
             currentLoadout.OnLoadoutChanged += RefreshAll;
 
@@ -113,6 +121,7 @@ public class CanvasArcana : MonoBehaviour
 
     private void RefreshAll()
     {
+        Debug.Log("[CanvasArcana] RefreshAll()");
         RefreshLoadout();
         RefreshInventory();
         RefreshSelectedText();
@@ -186,23 +195,42 @@ public class CanvasArcana : MonoBehaviour
 
     private void RefreshInventory()
     {
-        if (currentLoadout == null) return;
+        Debug.Log("[CanvasArcana] RefreshInventory()");
+
+        if (currentLoadout == null)
+        {
+            Debug.LogError("[CanvasArcana] currentLoadout NULL");
+            return;
+        }
+
+        if (currentEntity == null)
+        {
+            Debug.LogError("[CanvasArcana] currentEntity NULL");
+            return;
+        }
 
         string[] ownedArcana = currentLoadout.OwnedArcanaNames;
         string[] ownedRunes = currentLoadout.OwnedRuneIds;
 
+        Debug.Log($"[CanvasArcana] ownedArcana count = {ownedArcana.Length}");
+        Debug.Log($"[CanvasArcana] ownedRunes count = {ownedRunes.Length}");
+
+        Debug.Log($"[CanvasArcana] activeSpells count = {currentEntity.GetAllActiveSpells().Count}");
+
         for (int i = 0; i < arcanaInventorySlots.Length; i++)
         {
-            if (arcanaInventorySlots[i] == null)
-                continue;
+            Debug.Log($"[CanvasArcana] Slot {i}");
 
             if (i >= ownedArcana.Length)
             {
+                Debug.Log($"[CanvasArcana] Slot {i} EMPTY");
                 arcanaInventorySlots[i].Clear();
                 continue;
             }
 
             string arcanaName = ownedArcana[i];
+
+            Debug.Log($"[CanvasArcana] Slot {i} = {arcanaName}");
 
             arcanaInventorySlots[i].Set(
                 arcanaName,

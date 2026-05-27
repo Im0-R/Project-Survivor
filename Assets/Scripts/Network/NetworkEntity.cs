@@ -428,6 +428,11 @@ public class NetworkEntity : NetworkBehaviour
 
         OnSpellsChanged?.Invoke();
 
+        foreach (Spell spell in activeSpells)
+        {
+            Debug.Log($"[CLIENT] ActiveSpell = {spell.GetData().spellName}");
+        }
+
         if (isLocalPlayer && CanvasArcana.Instance != null)
             CanvasArcana.Instance.Refresh();
 
