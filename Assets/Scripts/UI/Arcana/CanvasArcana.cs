@@ -24,6 +24,7 @@ public class CanvasArcana : MonoBehaviour
     [SerializeField] private TMP_Text selectedText;
 
     private PlayerArcanaLoadout currentLoadout;
+    private NetworkEntity currentEntity;
 
     private int selectedArcanaSlotIndex = 0;
     private int selectedRuneSlotIndex = -1;
@@ -37,6 +38,14 @@ public class CanvasArcana : MonoBehaviour
 
         if (root != null)
             root.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        Unbind();
+
+        if (Instance == this)
+            Instance = null;
     }
 
     public void Open()
@@ -65,24 +74,41 @@ public class CanvasArcana : MonoBehaviour
 
     public void Close()
     {
-        if (currentLoadout != null)
-            currentLoadout.OnLoadoutChanged -= RefreshAll;
-
-        currentLoadout = null;
+        Unbind();
 
         if (root != null)
             root.SetActive(false);
     }
 
+    public void Refresh()
+    {
+        RefreshAll();
+    }
+
     private void Bind(PlayerArcanaLoadout loadout)
+    {
+        Unbind();
+
+        currentLoadout = loadout;
+        currentEntity = loadout != null ? loadout.GetComponent<NetworkEntity>() : null;
+
+        if (currentLoadout != null)
+            currentLoadout.OnLoadoutChanged += RefreshAll;
+
+        if (currentEntity != null)
+            currentEntity.OnSpellsChanged += RefreshAll;
+    }
+
+    private void Unbind()
     {
         if (currentLoadout != null)
             currentLoadout.OnLoadoutChanged -= RefreshAll;
 
-        currentLoadout = loadout;
+        if (currentEntity != null)
+            currentEntity.OnSpellsChanged -= RefreshAll;
 
-        if (currentLoadout != null)
-            currentLoadout.OnLoadoutChanged += RefreshAll;
+        currentLoadout = null;
+        currentEntity = null;
     }
 
     private void RefreshAll()
@@ -128,6 +154,9 @@ public class CanvasArcana : MonoBehaviour
 
             for (int r = 0; r < runeSlots.Length; r++)
             {
+                if (runeSlots[r] == null)
+                    continue;
+
                 int runeSlotIndex = r;
                 string runeId = "";
 
@@ -164,6 +193,9 @@ public class CanvasArcana : MonoBehaviour
 
         for (int i = 0; i < arcanaInventorySlots.Length; i++)
         {
+            if (arcanaInventorySlots[i] == null)
+                continue;
+
             if (i >= ownedArcana.Length)
             {
                 arcanaInventorySlots[i].Clear();
@@ -184,6 +216,9 @@ public class CanvasArcana : MonoBehaviour
 
         for (int i = 0; i < runeInventorySlots.Length; i++)
         {
+            if (runeInventorySlots[i] == null)
+                continue;
+
             if (i >= ownedRunes.Length)
             {
                 runeInventorySlots[i].Clear();
