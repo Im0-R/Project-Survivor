@@ -39,7 +39,7 @@ public class LootLabelUI : MonoBehaviour
 
     string BuildLabel(LootPickup loot)
     {
-        return $"Item {loot.GetItem().itemName}";
+        return $"{loot.GetItem().itemName}";
     }
     private Color GetRarityColor(ItemRarity rarity)
     {

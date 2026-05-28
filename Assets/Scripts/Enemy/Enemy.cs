@@ -39,6 +39,8 @@ public class Enemy : NetworkEntity
 
         OnDeath -= OnDeathEffects;
         OnDeath += OnDeathEffects;
+
+        AddSpell("Slash");
     }
 
     public override void OnStopServer()

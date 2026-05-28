@@ -3,24 +3,25 @@ using UnityEngine;
 
 public class SlashSpell : Spell
 {
-    // Viable constructor for Activator
     public SlashSpell() { }
 
     public override void ExecuteServer(NetworkEntity owner)
     {
-        if (owner == null) return;
+        if (owner == null || data == null || data.prefab == null)
+            return;
 
-        // Instancier le slash au niveau du joueur
-        var obj = GameObject.Instantiate(data.prefab, owner.transform.position, Quaternion.identity);
+        GameObject obj = GameObject.Instantiate(
+            data.prefab,
+            owner.transform.position,
+            owner.transform.rotation
+        );
 
-        // Récupérer le script SlashBehaviour et l'initialiser (on passe le NetworkEntity owner)
-        var slash = obj.GetComponent<SlashBehaviour>();
+        SlashBehaviour slash = obj.GetComponent<SlashBehaviour>();
         if (slash != null)
         {
             slash.Initialize(owner, data.damage, data.duration, data.range);
         }
 
-        // Network spawn (même pattern que pour FrostballSpell)
         NetworkServer.Spawn(obj);
     }
 }

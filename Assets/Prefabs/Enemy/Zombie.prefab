@@ -462,7 +462,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   StatComp: {fileID: 0}
-  attackRange: 2
+  attackRange: 5
   attackDamage: 10
   hitboxHit: {fileID: 8228046526072054306}
   humanoidAnimator: {fileID: 6373443025740128648}

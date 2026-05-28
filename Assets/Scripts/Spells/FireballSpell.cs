@@ -10,12 +10,7 @@ public class FireballSpell : Spell
         if (owner == null) return;
         if (data == null || data.prefab == null) return;
 
-        Transform target = null;
-
-        if (owner is PlayerEntity)
-            target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
-        else if (owner is EnemyEntity)
-            target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
+        Transform target = TargetHelper.FindClosestEnemyTarget(owner, data.range);
 
         if (target == null) return;
 

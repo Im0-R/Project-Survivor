@@ -49,9 +49,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  spawnRadius: 10
-  baseSpawnRate: 3
-  baseSwarmSize: 20
+  spawnRadius: 40
+  baseSpawnRate: 6
+  baseSwarmSize: 4
   eventDuration: 60
   eventRewardLootProfile: {fileID: 11400000, guid: e1defa3f0b5788f41af6f329edc32d9f, type: 2}
 --- !u!114 &8788121106781141535

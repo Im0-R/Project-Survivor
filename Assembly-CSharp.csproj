@@ -62,8 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Stats\RunStatsComponent.cs" />
-    <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootProfileSO.cs" />
+    <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
     <Compile Include="Assets\Scripts\Network\InstanceBootStrap.cs" />
     <Compile Include="Assets\Scripts\Stats\RunSpellModifiers.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipment.cs" />

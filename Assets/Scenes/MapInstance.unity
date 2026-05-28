@@ -501,7 +501,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   enemyPrefab: {fileID: 3180879256419302217, guid: 0df6a83bd8b671645a675100d6161a36, type: 3}
-  poolSize: 50
+  poolSize: 100
 --- !u!4 &1123234126
 Transform:
   m_ObjectHideFlags: 0
