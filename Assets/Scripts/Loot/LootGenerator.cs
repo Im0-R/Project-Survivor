@@ -89,8 +89,8 @@ public static class LootGenerator
         int roll = rng.Next(0, 1000);
 
         if (roll < 700) return ItemRarity.Normal;
-        if (roll < 920) return ItemRarity.Magic;
-        if (roll < 995) return ItemRarity.Rare;
+        if (roll < 850) return ItemRarity.Magic;
+        if (roll < 975) return ItemRarity.Rare;
         return ItemRarity.Unique;
     }
 

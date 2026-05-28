@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LootProfileSO
   tableRolls:
   - table: {fileID: 11400000, guid: 42f7f0cac8d800446865cb29328f5c77, type: 2}
-    chanceToRoll: 100
+    chanceToRoll: 10
     minRolls: 1
     maxRolls: 1
     quantityMultiplier: 0
   - table: {fileID: 11400000, guid: 6805153ca1763264f9b7fbd5489a9977, type: 2}
-    chanceToRoll: 100
+    chanceToRoll: 20
     minRolls: 1
     maxRolls: 1
     quantityMultiplier: 1
