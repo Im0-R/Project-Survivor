@@ -15,12 +15,17 @@ public class Enemy : NetworkEntity
     public IEnemyState currentState;
     public Transform firePoint;
 
+    [Header("Loot")]
+    [SerializeField] private LootProfileSO lootProfile;
+    [SerializeField] private int monsterLevel = 1;
+
+    [Header("Scaling")]
+    [SerializeField] private DifficultyScalingSO difficultyScaling;
+    [SerializeField] private int difficultyPoints = 0;
+
     public float AttackRange => attackRange;
     public float AttackDamage => attackDamage;
 
-    // ======================
-    // SERVER INIT
-    // ======================
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -42,9 +47,6 @@ public class Enemy : NetworkEntity
         base.OnStopServer();
     }
 
-    // ======================
-    // AI TICK
-    // ======================
     public void Tick(float dt)
     {
         if (!isServer) return;
@@ -65,9 +67,6 @@ public class Enemy : NetworkEntity
         agent.speed = StatComp.Get(StatId.MoveSpeedMult);
     }
 
-    // ======================
-    // STATE MACHINE
-    // ======================
     public void ChangeState(IEnemyState newState)
     {
         currentState?.Exit(this);
@@ -85,9 +84,6 @@ public class Enemy : NetworkEntity
         ChangeState(new EnemySleepState());
     }
 
-    // ======================
-    // NAV
-    // ======================
     public NavMeshAgent GetAgent() => agent;
 
     public void StopMoving()
@@ -96,9 +92,6 @@ public class Enemy : NetworkEntity
             agent.isStopped = true;
     }
 
-    // ======================
-    // PLAYER DETECTION
-    // ======================
     public Transform GetClosestPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -119,9 +112,6 @@ public class Enemy : NetworkEntity
         return best;
     }
 
-    // ======================
-    // DEATH
-    // ======================
     public void OnDeathEffects()
     {
         Debug.Log($"[Enemy] OnDeathEffects {name}");
@@ -145,17 +135,80 @@ public class Enemy : NetworkEntity
         if (!isServer) return;
 
 #if UNITY_SERVER
-        int seed = (int)(Time.time * 1000f);
-        Debug.Log($"[Enemy] GenerateDrop {name}");
-        LootManager.Instance.GenerateDrop(1, seed, transform.position);
+        int seed = unchecked((int)(Time.time * 1000f) + GetInstanceID());
+
+        float lootQuantityMultiplier = GetDifficultyLootQuantityMultiplier();
+        float currencyQuantityMultiplier = GetDifficultyCurrencyQuantityMultiplier();
+        float goldQuantityMultiplier = GetDifficultyGoldQuantityMultiplier();
+
+        if (LootManager.Instance != null)
+        {
+            Debug.Log($"[Enemy] GenerateDrops {name} difficulty={difficultyPoints}");
+            LootManager.Instance.GenerateDrops(
+                lootProfile,
+                monsterLevel,
+                seed,
+                transform.position,
+                lootQuantityMultiplier,
+                currencyQuantityMultiplier,
+                goldQuantityMultiplier
+            );
+        }
 #endif
 
         EnemyPool.Instance?.DespawnEnemy(gameObject);
     }
 
-    // ======================
-    // ATTACK
-    // ======================
+    [Server]
+    private void ApplyDifficultyScaling()
+    {
+        if (difficultyScaling == null || StatComp == null)
+            return;
+
+        float healthMult = 1f + difficultyPoints * difficultyScaling.healthPercentPerPoint / 100f;
+        float damageMult = 1f + difficultyPoints * difficultyScaling.damagePercentPerPoint / 100f;
+        float speedMult = 1f + difficultyPoints * difficultyScaling.moveSpeedPercentPerPoint / 100f;
+        float expMult = 1f + difficultyPoints * difficultyScaling.experiencePercentPerPoint / 100f;
+
+        ScaleStat(StatId.MaxHealth, healthMult);
+        ScaleStat(StatId.CurrentHealth, healthMult);
+        ScaleStat(StatId.SpellDamage, damageMult);
+        ScaleStat(StatId.MoveSpeedMult, speedMult);
+        ScaleStat(StatId.ExperienceGiven, expMult);
+
+        Debug.Log($"[Enemy] Difficulty applied: points={difficultyPoints}");
+    }
+
+    [Server]
+    private void ScaleStat(StatId statId, float multiplier)
+    {
+        float current = StatComp.GetBaseStatServer(statId);
+        StatComp.SetBaseStatServer(statId, current * multiplier);
+    }
+    private float GetDifficultyLootQuantityMultiplier()
+    {
+        if (difficultyScaling == null)
+            return 1f;
+
+        return 1f + difficultyPoints * difficultyScaling.lootQuantityPercentPerPoint / 100f;
+    }
+
+    private float GetDifficultyCurrencyQuantityMultiplier()
+    {
+        if (difficultyScaling == null)
+            return 1f;
+
+        return 1f + difficultyPoints * difficultyScaling.currencyQuantityPercentPerPoint / 100f;
+    }
+
+    private float GetDifficultyGoldQuantityMultiplier()
+    {
+        if (difficultyScaling == null)
+            return 1f;
+
+        return 1f + difficultyPoints * difficultyScaling.goldQuantityPercentPerPoint / 100f;
+    }
+
     public void CanDealMeleeDamage()
     {
         hitboxHit?.EnableHitbox();
@@ -172,29 +225,19 @@ public class Enemy : NetworkEntity
         ChangeState(new EnemyChaseState());
     }
 
-    // ======================
-    // COLLISION
-    // ======================
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Debug.Log($"[Enemy] Collision with Player {collision.gameObject.name}");
         }
     }
 
-    // ======================
-    // CLIENT VISUAL STATE
-    // ======================
     [ClientRpc]
     public void RpcSetActive(bool active)
     {
         gameObject.SetActive(active);
     }
 
-    // ======================
-    // POOL RESET
-    // ======================
     [Server]
     public virtual void ResetForSpawn()
     {
@@ -202,6 +245,7 @@ public class Enemy : NetworkEntity
             agent = GetComponent<NavMeshAgent>();
 
         StatComp.InitFromSO_Server();
+        ApplyDifficultyScaling();
 
         hitboxHit?.DisableHitbox();
 
@@ -228,9 +272,6 @@ public class Enemy : NetworkEntity
         currentState = null;
     }
 
-    // ======================
-    // CLEANUP
-    // ======================
     private void OnDisable()
     {
         if (!isServer) return;
