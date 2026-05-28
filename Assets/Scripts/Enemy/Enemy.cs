@@ -132,29 +132,51 @@ public class Enemy : NetworkEntity
 
     protected override void Die()
     {
-        if (!isServer) return;
+        if (!isServer)
+            return;
 
 #if UNITY_SERVER
-        int seed = unchecked((int)(Time.time * 1000f) + GetInstanceID());
 
-        float lootQuantityMultiplier = GetDifficultyLootQuantityMultiplier();
-        float currencyQuantityMultiplier = GetDifficultyCurrencyQuantityMultiplier();
-        float goldQuantityMultiplier = GetDifficultyGoldQuantityMultiplier();
+    Debug.Log($"[LOOT][Enemy.Die] START enemy={name}");
 
-        if (LootManager.Instance != null)
-        {
-            Debug.Log($"[Enemy] GenerateDrops {name} difficulty={difficultyPoints}");
-            LootManager.Instance.GenerateDrops(
-                lootProfile,
-                monsterLevel,
-                seed,
-                transform.position,
-                lootQuantityMultiplier,
-                currencyQuantityMultiplier,
-                goldQuantityMultiplier
-            );
-        }
+    int seed = unchecked((int)(Time.time * 1000f) + GetInstanceID());
+
+    float lootQuantityMultiplier = GetDifficultyLootQuantityMultiplier();
+    float currencyQuantityMultiplier = GetDifficultyCurrencyQuantityMultiplier();
+    float goldQuantityMultiplier = GetDifficultyGoldQuantityMultiplier();
+
+    Debug.Log(
+        $"[LOOT][Enemy.Die] " +
+        $"profile={(lootProfile != null ? lootProfile.name : "NULL")} " +
+        $"monsterLevel={monsterLevel} " +
+        $"difficultyPoints={difficultyPoints} " +
+        $"lootMult={lootQuantityMultiplier} " +
+        $"currencyMult={currencyQuantityMultiplier} " +
+        $"goldMult={goldQuantityMultiplier}"
+    );
+
+    if (LootManager.Instance == null)
+    {
+        Debug.LogError("[LOOT][Enemy.Die] LootManager.Instance is NULL");
+    }
+    else
+    {
+        Debug.Log("[LOOT][Enemy.Die] Calling GenerateDrops");
+
+        LootManager.Instance.GenerateDrops(
+            lootProfile,
+            monsterLevel,
+            seed,
+            transform.position,
+            lootQuantityMultiplier,
+            currencyQuantityMultiplier,
+            goldQuantityMultiplier
+        );
+    }
+
 #endif
+
+        Debug.Log($"[LOOT][Enemy.Die] DESPAWN {name}");
 
         EnemyPool.Instance?.DespawnEnemy(gameObject);
     }

@@ -23,26 +23,71 @@ public class LootManager : MonoBehaviour
         float extraCurrencyMultiplier = 1f,
         float extraGoldMultiplier = 1f)
     {
+        Debug.Log(
+            $"[LOOT][GenerateDrops] " +
+            $"serverActive={NetworkServer.active} " +
+            $"profile={(profile != null ? profile.name : "NULL")} " +
+            $"itemLevel={itemLevel} " +
+            $"seed={seed} " +
+            $"position={position}"
+        );
+
         if (!NetworkServer.active)
         {
-            Debug.LogError("[LootManager] GenerateDrops called but server not active!");
+            Debug.LogError("[LOOT][GenerateDrops] Server not active!");
             return;
         }
 
-        if (profile == null || profile.tableRolls == null || profile.tableRolls.Length == 0)
+        if (profile == null)
         {
-            Debug.LogWarning("[LootManager] Empty loot profile.");
+            Debug.LogError("[LOOT][GenerateDrops] profile NULL");
+            return;
+        }
+
+        if (profile.tableRolls == null)
+        {
+            Debug.LogError("[LOOT][GenerateDrops] tableRolls NULL");
+            return;
+        }
+
+        if (profile.tableRolls.Length == 0)
+        {
+            Debug.LogError("[LOOT][GenerateDrops] tableRolls EMPTY");
             return;
         }
 
         System.Random rng = new System.Random(seed);
 
+        Debug.Log($"[LOOT][GenerateDrops] tableRollCount={profile.tableRolls.Length}");
+
         foreach (LootTableRoll tableRoll in profile.tableRolls)
         {
-            if (tableRoll == null || tableRoll.table == null)
+            if (tableRoll == null)
+            {
+                Debug.LogWarning("[LOOT][TableRoll] tableRoll NULL");
                 continue;
+            }
 
-            if (!RollChance(rng, tableRoll.chanceToRoll))
+            Debug.Log(
+                $"[LOOT][TableRoll] " +
+                $"table={(tableRoll.table != null ? tableRoll.table.name : "NULL")} " +
+                $"chance={tableRoll.chanceToRoll} " +
+                $"minRolls={tableRoll.minRolls} " +
+                $"maxRolls={tableRoll.maxRolls} " +
+                $"quantityMultiplier={tableRoll.quantityMultiplier}"
+            );
+
+            if (tableRoll.table == null)
+            {
+                Debug.LogWarning("[LOOT][TableRoll] table NULL");
+                continue;
+            }
+
+            bool passedChance = RollChance(rng, tableRoll.chanceToRoll);
+
+            Debug.Log($"[LOOT][Chance] passed={passedChance}");
+
+            if (!passedChance)
                 continue;
 
             int baseRolls = rng.Next(tableRoll.minRolls, tableRoll.maxRolls + 1);
@@ -56,14 +101,33 @@ public class LootManager : MonoBehaviour
             finalRolls += profile.additionalRolls;
             finalRolls = Mathf.Max(0, finalRolls);
 
-            Debug.Log($"[LootManager] Rolling table={tableRoll.table.name}, rolls={finalRolls}");
+            Debug.Log(
+                $"[LOOT][Rolls] " +
+                $"baseRolls={baseRolls} " +
+                $"quantity={quantity} " +
+                $"finalRolls={finalRolls}"
+            );
 
             for (int i = 0; i < finalRolls; i++)
             {
                 LootTableEntry entry = tableRoll.table.RollOne(rng);
 
+                Debug.Log(
+                    $"[LOOT][RollOne] " +
+                    $"entryNull={entry == null}"
+                );
+
                 if (entry == null)
                     continue;
+
+                Debug.Log(
+                    $"[LOOT][Entry] " +
+                    $"dropType={entry.dropType} " +
+                    $"itemBase={(entry.itemBase != null ? entry.itemBase.name : "NULL")} " +
+                    $"currency={(entry.currency != null ? entry.currency.name : "NULL")} " +
+                    $"minAmount={entry.minAmount} " +
+                    $"maxAmount={entry.maxAmount}"
+                );
 
                 SpawnDrop(
                     entry,
@@ -76,6 +140,8 @@ public class LootManager : MonoBehaviour
                 );
             }
         }
+
+        Debug.Log("[LOOT][GenerateDrops] END");
     }
 
     private bool RollChance(System.Random rng, float chance)
@@ -137,29 +203,53 @@ public class LootManager : MonoBehaviour
 
     private void SpawnItem(LootTableEntry entry, int itemLevel, System.Random rng, Vector3 position)
     {
+        Debug.Log(
+            $"[LOOT][SpawnItem] " +
+            $"itemBase={(entry.itemBase != null ? entry.itemBase.name : "NULL")} " +
+            $"itemLevel={itemLevel} " +
+            $"position={position}"
+        );
+
         if (entry.itemBase == null)
+        {
+            Debug.LogError("[LOOT][SpawnItem] itemBase NULL");
             return;
+        }
 
         if (itemObject == null)
         {
-            Debug.LogError("[LootManager] itemObject prefab missing.");
+            Debug.LogError("[LOOT][SpawnItem] itemObject prefab missing");
             return;
         }
 
         ItemInstance itemInstance = LootGenerator.Generate(entry.itemBase, itemLevel, rng);
 
+        Debug.Log(
+            $"[LOOT][SpawnItem] GENERATED " +
+            $"name={itemInstance.itemName} " +
+            $"rarity={itemInstance.rarity}"
+        );
+
         GameObject obj = Instantiate(itemObject, position, Quaternion.identity);
 
+        Debug.Log($"[LOOT][SpawnItem] Instantiate OK obj={obj.name}");
+
         LootPickup pickup = obj.GetComponent<LootPickup>();
+
         if (pickup == null)
         {
-            Debug.LogError("[LootManager] itemObject has no LootPickup.");
+            Debug.LogError("[LOOT][SpawnItem] LootPickup missing on prefab");
             Destroy(obj);
             return;
         }
 
         pickup.Init(itemInstance);
+
+        Debug.Log("[LOOT][SpawnItem] pickup.Init OK");
+
         NetworkServer.Spawn(obj);
+
+        Debug.Log("[LOOT][SpawnItem] NetworkServer.Spawn OK");
     }
 
     private void SpawnCurrency(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
