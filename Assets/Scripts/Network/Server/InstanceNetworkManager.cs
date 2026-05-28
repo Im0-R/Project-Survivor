@@ -236,6 +236,18 @@ public class InstanceNetworkManager : NetworkManager
 
         GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
 
+        NetworkEntity entity = player.GetComponent<NetworkEntity>();
+
+        if (entity != null)
+        {
+            bool isTown = SceneManager.GetActiveScene().name == "Town";
+
+            if (isTown)
+                entity.DisableSpells();
+            else
+                entity.EnableSpells();
+        }
+
         NetworkServer.AddPlayerForConnection(conn, player);
 
         Debug.Log($"[InstanceNetworkManager] Player spawned at {spawnPosition}");

@@ -53,6 +53,9 @@ public class NetworkEntity : NetworkBehaviour
 
     protected Dictionary<string, List<RuneSO>> attachedRunes = new();
 
+    [SyncVar]
+    private bool spellsEnabled = true;
+        
     [Header("Config")]
     public StatsComponent StatComp;
 
@@ -92,7 +95,11 @@ public class NetworkEntity : NetworkBehaviour
 
     protected virtual void Update()
     {
-        if (!isServer) return;
+        if (!isServer)
+            return;
+
+        if (!spellsEnabled)
+            return;
 
         UpdateSpells();
     }
@@ -106,7 +113,17 @@ public class NetworkEntity : NetworkBehaviour
         else
             Destroy(gameObject);
     }
+    [Server]
+    public void EnableSpells()
+    {
+        spellsEnabled = true;
+    }
 
+    [Server]
+    public void DisableSpells()
+    {
+        spellsEnabled = false;
+    }
     [Server]
     public void AddArcanaWithRunes(string arcanaName, string[] runeIds)
     {
