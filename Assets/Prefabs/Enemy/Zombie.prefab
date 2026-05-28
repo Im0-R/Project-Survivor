@@ -469,6 +469,8 @@ MonoBehaviour:
   firePoint: {fileID: 8913022215254427481}
   lootProfile: {fileID: 11400000, guid: e1defa3f0b5788f41af6f329edc32d9f, type: 2}
   monsterLevel: 1
+  difficultyScaling: {fileID: 11400000, guid: c58483fe9aa67174dabf7fde831e8655, type: 2}
+  difficultyPoints: 0
 --- !u!195 &7237563171414369568
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -44,9 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801efb53ae0223e458a0d1ce57363747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootManager
-  possibleDrops:
-  - {fileID: 11400000, guid: bcbc84375bcd6cf4e9212f969110e03b, type: 2}
-  - {fileID: 11400000, guid: 5ce5d8113603975438e5b6eef519af67, type: 2}
-  - {fileID: 11400000, guid: bcb3a28e00f3b4a4e934f5ca477c9f68, type: 2}
-  - {fileID: 11400000, guid: 1e4336097655bad4fa553009a488cc33, type: 2}
   itemObject: {fileID: 4912486867336673683, guid: 6eb136100135aea4e92262216e75b74e, type: 3}
+  currencyObject: {fileID: 4912486867336673683, guid: 6eb136100135aea4e92262216e75b74e, type: 3}
