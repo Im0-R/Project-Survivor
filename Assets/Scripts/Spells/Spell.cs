@@ -96,30 +96,48 @@ public abstract class Spell
 
     public virtual void UpdateSpell(NetworkEntity owner)
     {
+        if (owner == null) return;
+        if (!owner.isServer) return;
+        if (data == null) return;
+        if (!data.autoCast) return;
+
+        float cooldown = GetFinalCooldown(owner);
+
+        if (Time.time < data.lastCastTime + cooldown)
+            return;
+
+        ExecuteServer(owner);
+
+        data.lastCastTime = Time.time;
+
+        TriggerCooldownUI(owner, cooldown);
+    }
+
+    public void TryCast(NetworkEntity owner)
+    {
+        if (owner == null) return;
+        if (!owner.isServer) return;
         if (data == null) return;
 
         float cooldown = GetFinalCooldown(owner);
 
-        if (data.autoCast && Time.time >= data.lastCastTime + cooldown)
-        {
-            ExecuteServer(owner);
-            data.lastCastTime = Time.time;
-        }
+        if (Time.time < data.lastCastTime + cooldown)
+            return;
+
+        ExecuteServer(owner);
+
+        data.lastCastTime = Time.time;
+
+        TriggerCooldownUI(owner, cooldown);
     }
 
-    public void TryCast(NetworkEntity netEntity)
+    private void TriggerCooldownUI(NetworkEntity owner, float cooldown)
     {
-        if (netEntity == null) return;
-        if (!netEntity.isServer) return;
+        if (owner == null) return;
+        if (!owner.isServer) return;
         if (data == null) return;
 
-        float cooldown = GetFinalCooldown(netEntity);
-
-        if (Time.time >= data.lastCastTime + cooldown)
-        {
-            ExecuteServer(netEntity);
-            data.lastCastTime = Time.time;
-        }
+        owner.RpcTriggerSpellCooldown(data.spellName, cooldown);
     }
 
     protected float GetFinalCooldown(NetworkEntity owner)
@@ -166,6 +184,7 @@ public abstract class Spell
     {
         return data != null && data.currentLevel >= data.maxLevel;
     }
+
     protected bool HasTag(SpellTag tag)
     {
         if (data == null || data.tags == null)
@@ -189,10 +208,8 @@ public abstract class Spell
 
         if (owner is PlayerEntity player)
         {
-            // Bonus global spell
             damage += player.GetCurrentStat(StatId.SpellDamage);
 
-            // Bonus par élément
             if (HasTag(SpellTag.Fire))
                 damage += player.GetCurrentStat(StatId.FireDamage);
 
@@ -205,10 +222,8 @@ public abstract class Spell
             if (HasTag(SpellTag.Chaos))
                 damage += player.GetCurrentStat(StatId.ChaosDamage);
 
-            // Bonus spécifique à ce spell
             damage += player.GetSpellModifier(data.spellName, "Damage");
 
-            // Multiplicateur global
             float damageMult = player.GetCurrentStat(StatId.DamageMult);
             damage *= 1f + damageMult / 100f;
         }

@@ -171,7 +171,15 @@ public class NetworkEntity : NetworkBehaviour
         spell.ExecuteServer(this);
         RpcCastSpell(spellName);
     }
+    [ClientRpc]
+    public void RpcTriggerSpellCooldown(string spellName, float cooldown)
+    {
+        if (!isLocalPlayer)
+            return;
 
+        if (SpellsSlotsUI.Instance != null)
+            SpellsSlotsUI.Instance.TriggerCooldown(spellName, cooldown);
+    }
     [ClientRpc]
     private void RpcCastSpell(string spellName)
     {
