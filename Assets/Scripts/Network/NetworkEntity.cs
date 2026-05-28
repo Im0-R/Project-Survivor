@@ -177,6 +177,15 @@ public class NetworkEntity : NetworkBehaviour
     {
         Spell spell = GetSpellByName(spellName);
         spell?.ExecuteClient(this);
+
+        if (!isLocalPlayer)
+            return;
+
+        if (spell == null || spell.GetData() == null)
+            return;
+
+        if (SpellsSlotsUI.Instance != null)
+            SpellsSlotsUI.Instance.TriggerCooldown(spellName, spell.GetData().cooldown);
     }
 
     [Server]
