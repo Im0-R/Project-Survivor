@@ -22,7 +22,7 @@ MonoBehaviour:
     chanceToRoll: 100
     minRolls: 1
     maxRolls: 1
-    quantityMultiplier: 0
+    quantityMultiplier: 1
   quantityMultiplier: 1
   additionalRolls: 0
   itemQuantityMultiplier: 1
