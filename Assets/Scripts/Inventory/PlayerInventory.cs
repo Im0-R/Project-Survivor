@@ -18,20 +18,18 @@ public class PlayerInventory : NetworkBehaviour
     [SerializeField] private int maxSlots = 40;
 
     public event Action OnInventoryChanged;
+
     void Update()
     {
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(KeyCode.K))
-        {
             CmdClearInventory();
-        }
 
         if (Input.GetKeyDown(KeyCode.L))
-        {
             CmdClearPlayerState();
-        }
     }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -81,9 +79,24 @@ public class PlayerInventory : NetworkBehaviour
     }
 
     [Server]
+    private void SavePlayerStateServer()
+    {
+#if !UNITY_CLIENT || UNITY_EDITOR
+        if (connectionToClient == null)
+            return;
+
+        if (!DatabaseManager.IsInitialized())
+            return;
+
+        DatabaseManager.SavePlayerStateFromConnection(connectionToClient);
+#endif
+    }
+
+    [Server]
     public bool AddItem(ItemInstance item)
     {
         EnsureSlots();
+
         int emptyCount = 0;
 
         for (int i = 0; i < ItemsJson.Count; i++)
@@ -93,6 +106,7 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         Debug.Log($"[InventoryDebug] Count={ItemsJson.Count} Empty={emptyCount} Full={ItemsJson.Count - emptyCount}");
+
         if (item == null || item.instanceId == 0)
         {
             Debug.LogError("[Inventory] AddItem failed: invalid item");
@@ -106,7 +120,10 @@ public class PlayerInventory : NetworkBehaviour
             if (IsEmptySlot(ItemsJson[i]))
             {
                 ItemsJson[i] = json;
+
                 Debug.Log($"[Inventory] {netId} picked item={item.itemName} baseId={item.baseId} rarity={item.rarity} slot={i}");
+
+                SavePlayerStateServer();
                 return true;
             }
         }
@@ -132,21 +149,52 @@ public class PlayerInventory : NetworkBehaviour
         if (item == null || item.instanceId == 0)
         {
             ItemsJson[index] = "";
-            return;
+        }
+        else
+        {
+            ItemsJson[index] = SerializeItem(item);
         }
 
-        ItemsJson[index] = SerializeItem(item);
+        SavePlayerStateServer();
     }
 
     [Server]
     public void RemoveAt(int index)
     {
+        DeleteItemServer(index);
+    }
+
+    [Server]
+    public bool DeleteItemServer(int index)
+    {
         EnsureSlots();
 
         if (index < 0 || index >= ItemsJson.Count)
-            return;
+            return false;
+
+        if (IsEmptySlot(ItemsJson[index]))
+            return false;
+
+        ItemInstance deletedItem = DeserializeItem(ItemsJson[index]);
 
         ItemsJson[index] = "";
+
+        Debug.Log($"[Inventory] Deleted item slot={index} item={(deletedItem != null ? deletedItem.itemName : "unknown")}");
+
+        SavePlayerStateServer();
+        return true;
+    }
+
+    [Command]
+    public void CmdDeleteItem(int index)
+    {
+        DeleteItemServer(index);
+    }
+
+    [Command]
+    public void CmdDeleteItemByInstanceId(long instanceId)
+    {
+        TryRemoveByInstanceId(instanceId);
     }
 
     [Server]
@@ -158,27 +206,14 @@ public class PlayerInventory : NetworkBehaviour
         if (to < 0 || to >= ItemsJson.Count) return false;
         if (from == to) return true;
 
-        if (string.IsNullOrWhiteSpace(ItemsJson[from]))
+        if (IsEmptySlot(ItemsJson[from]))
             return false;
 
         string temp = ItemsJson[from];
         ItemsJson[from] = ItemsJson[to];
         ItemsJson[to] = temp;
 
-        return true;
-    }
-
-    [Server]
-    public bool TryRemoveByInstanceId(long instanceId)
-    {
-        EnsureSlots();
-
-        int idx = FindIndexByInstanceId(instanceId);
-
-        if (idx < 0)
-            return false;
-
-        ItemsJson[idx] = "";
+        SavePlayerStateServer();
         return true;
     }
 
@@ -188,6 +223,27 @@ public class PlayerInventory : NetworkBehaviour
         MoveOrSwap(from, to);
     }
 
+    [Server]
+    public bool TryRemoveByInstanceId(long instanceId)
+    {
+        EnsureSlots();
+
+        if (instanceId == 0)
+            return false;
+
+        int idx = FindIndexByInstanceId(instanceId);
+
+        if (idx < 0)
+            return false;
+
+        ItemsJson[idx] = "";
+
+        Debug.Log($"[Inventory] Deleted item instanceId={instanceId} slot={idx}");
+
+        SavePlayerStateServer();
+        return true;
+    }
+
     public int Count => ItemsJson.Count;
 
     public ItemInstance GetItemByIndex(int index)
@@ -195,7 +251,7 @@ public class PlayerInventory : NetworkBehaviour
         if (index < 0 || index >= ItemsJson.Count)
             return default;
 
-        if (string.IsNullOrWhiteSpace(ItemsJson[index]))
+        if (IsEmptySlot(ItemsJson[index]))
             return default;
 
         return DeserializeItem(ItemsJson[index]);
@@ -205,7 +261,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+            if (IsEmptySlot(ItemsJson[i]))
                 continue;
 
             ItemInstance tmp = DeserializeItem(ItemsJson[i]);
@@ -222,6 +278,21 @@ public class PlayerInventory : NetworkBehaviour
         index = -1;
         return false;
     }
+
+    public ItemInstance[] GetInventory()
+    {
+        ItemInstance[] items = new ItemInstance[ItemsJson.Count];
+
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            items[i] = IsEmptySlot(ItemsJson[i])
+                ? default
+                : DeserializeItem(ItemsJson[i]);
+        }
+
+        return items;
+    }
+
     private bool IsEmptySlot(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -236,25 +307,12 @@ public class PlayerInventory : NetworkBehaviour
 
         return item == null || item.instanceId == 0;
     }
-    public ItemInstance[] GetInventory()
-    {
-        ItemInstance[] items = new ItemInstance[ItemsJson.Count];
-
-        for (int i = 0; i < ItemsJson.Count; i++)
-        {
-            items[i] = string.IsNullOrWhiteSpace(ItemsJson[i])
-                ? default
-                : DeserializeItem(ItemsJson[i]);
-        }
-
-        return items;
-    }
 
     private int FindIndexByInstanceId(long instanceId)
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+            if (IsEmptySlot(ItemsJson[i]))
                 continue;
 
             ItemInstance tmp = DeserializeItem(ItemsJson[i]);
@@ -319,11 +377,7 @@ public class PlayerInventory : NetworkBehaviour
             if (data != null && data.itemsJson != null && i < data.itemsJson.Count)
             {
                 string slotJson = data.itemsJson[i];
-
-                if (IsEmptySlot(slotJson))
-                    ItemsJson.Add("");
-                else
-                    ItemsJson.Add(slotJson);
+                ItemsJson.Add(IsEmptySlot(slotJson) ? "" : slotJson);
             }
             else
             {
@@ -333,6 +387,7 @@ public class PlayerInventory : NetworkBehaviour
 
         Debug.Log($"[PlayerInventory] Inventory loaded with {ItemsJson.Count} slots.");
     }
+
     [Command]
     public void CmdClearInventory()
     {
@@ -362,13 +417,14 @@ public class PlayerInventory : NetworkBehaviour
     [Server]
     public void ClearInventoryServer()
     {
+        EnsureSlots();
+
         for (int i = 0; i < ItemsJson.Count; i++)
-        {
-            ItemsJson[i] = ""; // slot vide
-        }
+            ItemsJson[i] = "";
 
         OnInventoryChanged?.Invoke();
     }
+
     [Command]
     public void CmdClearPlayerState()
     {

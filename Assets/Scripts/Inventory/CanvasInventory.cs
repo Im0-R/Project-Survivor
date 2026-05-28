@@ -227,7 +227,33 @@ public class CanvasInventory : MonoBehaviour
 
         stash.CmdMoveCurrentStashToInventorySlot(card.SlotIndex, targetSlot.Id);
     }
+    public void RequestDelete(ItemCard card)
+    {
+        if (card == null)
+            return;
 
+        if (card.Source != ItemCardSource.Inventory)
+        {
+            Debug.LogWarning("[CanvasInventory] Only inventory items can be deleted.");
+            return;
+        }
+
+        if (card.SlotIndex < 0)
+            return;
+
+        if (PlayerUI.Instance == null || PlayerUI.Instance.playerEnt == null)
+            return;
+
+        PlayerInventory inv = PlayerUI.Instance.playerEnt.GetComponent<PlayerInventory>();
+
+        if (inv == null)
+        {
+            Debug.LogError("[CanvasInventory] PlayerInventory missing on player.");
+            return;
+        }
+
+        inv.CmdDeleteItem(card.SlotIndex);
+    }
     private void RequestEquip(ItemCard card, EquipmentSlot targetEquipmentSlot)
     {
         if (card.Source != ItemCardSource.Inventory)
