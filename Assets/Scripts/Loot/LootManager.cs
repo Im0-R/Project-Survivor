@@ -1,4 +1,3 @@
-#if UNITY_SERVER
 using Mirror;
 using UnityEngine;
 
@@ -210,4 +209,3 @@ public class LootManager : MonoBehaviour
         return Mathf.Max(1, amount);
     }
 }
-#endif
