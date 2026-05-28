@@ -53,6 +53,7 @@ MonoBehaviour:
   baseSpawnRate: 3
   baseSwarmSize: 20
   eventDuration: 60
+  eventRewardLootProfile: {fileID: 11400000, guid: e1defa3f0b5788f41af6f329edc32d9f, type: 2}
 --- !u!114 &8788121106781141535
 MonoBehaviour:
   m_ObjectHideFlags: 0

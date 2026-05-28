@@ -13,6 +13,9 @@ public class EnemySpawner : NetworkBehaviour
     [Header("Event Settings")]
     [SerializeField] private float eventDuration = 60f;
 
+    [Header("Event Rewards")]
+    [SerializeField] private LootProfileSO eventRewardLootProfile;
+
     private bool eventRunning;
     private Coroutine eventRoutine;
 
@@ -95,35 +98,13 @@ public class EnemySpawner : NetworkBehaviour
         if (NavMesh.SamplePosition(rawPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
             spawnPosition = hit.position;
 
-        GameObject enemyObject = EnemyPool.Instance.SpawnEnemy(spawnPosition);
-
-        ApplyDifficulty(enemyObject, difficulty);
-    }
-
-    [Server]
-    private void ApplyDifficulty(GameObject enemyObject, int difficulty)
-    {
-        if (enemyObject == null)
+        if (EnemyPool.Instance == null)
+        {
+            Debug.LogError("[EnemySpawner] EnemyPool.Instance is null.");
             return;
-
-        NetworkEntity entity = enemyObject.GetComponent<NetworkEntity>();
-
-        if (entity == null || entity.StatComp == null)
-            return;
-
-        float hpMult = 1f + difficulty * 0.25f;
-        float dmgMult = 1f + difficulty * 0.15f;
-
-        float maxHp = entity.StatComp.Get(StatId.MaxHealth);
-        float damage = entity.StatComp.Get(StatId.SpellDamage);
-
-        entity.StatComp.SetFinalStatServer(StatId.MaxHealth, maxHp * hpMult);
-        entity.StatComp.SetFinalStatServer(StatId.CurrentHealth, maxHp * hpMult);
-        entity.StatComp.SetFinalStatServer(StatId.SpellDamage, damage * dmgMult);
-
-        Debug.Log($"[EnemySpawner] Difficulty applied | difficulty={difficulty} | hpMult={hpMult} | dmgMult={dmgMult}");
+        }
+        EnemyPool.Instance.SpawnEnemy(spawnPosition, difficulty);
     }
-
     [Server]
     private void SpawnRewards(int difficulty)
     {
@@ -131,6 +112,12 @@ public class EnemySpawner : NetworkBehaviour
         if (LootManager.Instance == null)
         {
             Debug.LogError("[EnemySpawner] No LootManager found.");
+            return;
+        }
+
+        if (eventRewardLootProfile == null)
+        {
+            Debug.LogError("[EnemySpawner] eventRewardLootProfile is missing.");
             return;
         }
 
@@ -149,9 +136,17 @@ public class EnemySpawner : NetworkBehaviour
             offset.y = 0f;
 
             int seed = Random.Range(0, int.MaxValue);
-            int itemLevel = difficulty;
+            int itemLevel = Mathf.Max(1, difficulty);
 
-            LootManager.Instance.GenerateDrop(itemLevel, seed, center + offset);
+            LootManager.Instance.GenerateDrops(
+                eventRewardLootProfile,
+                itemLevel,
+                seed,
+                center + offset,
+                1f,
+                1f,
+                1f
+            );
         }
 #endif
     }

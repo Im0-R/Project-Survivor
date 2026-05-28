@@ -271,7 +271,11 @@ public class Enemy : NetworkEntity
 
         currentState = null;
     }
-
+    [Server]
+    public void SetDifficultyPoints(int points)
+    {
+        difficultyPoints = Mathf.Max(0, points);
+    }
     private void OnDisable()
     {
         if (!isServer) return;

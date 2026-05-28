@@ -29,7 +29,7 @@ public class EnemyPool : NetworkBehaviour
         }
     }
     [Server]
-    public GameObject SpawnEnemy(Vector3 position)
+    public GameObject SpawnEnemy(Vector3 position, int difficulty = 0)
     {
         if (pool.Count == 0)
         {
@@ -68,10 +68,10 @@ public class EnemyPool : NetworkBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
+            enemyScript.SetDifficultyPoints(difficulty);
             enemyScript.ResetForSpawn();
             EnemyManager.Instance?.RegisterEnemy(enemyScript);
         }
-
         Debug.Log($"[EnemyPool] Spawned {enemy.name} at {finalPos} | scene={enemy.scene.name}");
         return enemy;
     }
