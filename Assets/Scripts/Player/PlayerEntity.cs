@@ -84,6 +84,128 @@ public class PlayerEntity : NetworkEntity
     }
 
     // =====================================================
+    // PARTY
+    // =====================================================
+
+    [Command]
+    public void CmdInviteToParty(uint targetNetId)
+    {
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][Party] PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.InvitePlayer(this, targetNetId);
+    }
+
+    [Command]
+    public void CmdTeleportToPartyMember(uint targetNetId)
+    {
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][PartyTP] PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.TeleportToPartyMember(this, targetNetId);
+    }
+
+    [Command]
+    public void CmdTeleportToPartyMemberByName(string memberName)
+    {
+        Debug.Log($"[Server][PartyTP] CmdTeleportToPartyMemberByName received to {memberName}");
+
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][PartyTP] PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.TeleportToPartyMemberByName(this, memberName);
+    }
+
+    [Command]
+    public void CmdCompletePartyTeleport(string memberName)
+    {
+        Debug.Log($"[Server][PartyTP] CmdCompletePartyTeleport received to {memberName}");
+
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][PartyTP] PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.CompletePartyTeleport(this, memberName);
+    }
+
+    [Command]
+    public void CmdRequestPartyUIRefresh()
+    {
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][Party] CmdRequestPartyUIRefresh failed, PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.RefreshPartyUIFor(this);
+    }
+
+    [TargetRpc]
+    public void TargetReceivePartyMembers(NetworkConnection target, string[] members)
+    {
+        Debug.Log($"[Client][Party] Received party members count={(members == null ? 0 : members.Length)}");
+
+        if (CanvasPartyListUI.Instance != null)
+            CanvasPartyListUI.Instance.SetMembers(members);
+        else
+            Debug.LogWarning("[Client][Party] CanvasPartyListUI.Instance is null.");
+    }
+
+    [TargetRpc]
+    public void TargetSwitchToPartyMemberInstance(
+        NetworkConnection target,
+        string ip,
+        int port,
+        string sceneName,
+        string targetMemberName)
+    {
+        Debug.Log($"[Client][PartyTP] Switching to {targetMemberName} instance {ip}:{port} scene={sceneName}");
+
+        if (ClientSideInstanceManager.Instance == null)
+        {
+            Debug.LogError("[Client][PartyTP] ClientSideInstanceManager.Instance is null.");
+            return;
+        }
+
+        ClientSideInstanceManager.Instance.SetPendingPartyTeleport(targetMemberName);
+
+        ClientSideInstanceManager.Instance.SwitchToInstance(
+            (ushort)port,
+            ip,
+            sceneName
+        );
+    }
+
+    [TargetRpc]
+    public void TargetSwitchToInstance(NetworkConnection target, int port, string sceneName)
+    {
+        Debug.Log($"[Client] Switching to instance {sceneName}:{port}");
+
+        if (ClientSideInstanceManager.Instance == null)
+        {
+            Debug.LogError("[Client] ClientSideInstanceManager.Instance is null.");
+            return;
+        }
+
+        ClientSideInstanceManager.Instance.SwitchToInstance(
+            (ushort)port,
+            "72.60.212.58",
+            sceneName
+        );
+    }
+
+    // =====================================================
     // LEVEL UP REWARD
     // =====================================================
 
@@ -113,17 +235,7 @@ public class PlayerEntity : NetworkEntity
         int shownLevel = displayLevel >= 0 ? displayLevel : StatComp.level;
         TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, shownLevel);
     }
-    [Command]
-    public void CmdInviteToParty(uint targetNetId)
-    {
-        PartyManager.Instance.InvitePlayer(this, targetNetId);
-    }
 
-    [Command]
-    public void CmdTeleportToPartyMember(uint targetNetId)
-    {
-        PartyManager.Instance.TeleportToPartyMember(this, targetNetId);
-    }
     [Server]
     private List<string> BuildRewardSpellChoices()
     {
@@ -234,19 +346,19 @@ public class PlayerEntity : NetworkEntity
     {
         if (!pendingSpellReward)
         {
-            Debug.LogWarning("[SERVER] No pending run reward.");
+            Debug.LogWarning("[Server] No pending run reward.");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(rewardCode))
         {
-            Debug.LogWarning("[SERVER] Empty run reward choice.");
+            Debug.LogWarning("[Server] Empty run reward choice.");
             return;
         }
 
         if (currentRewardChoices == null || Array.IndexOf(currentRewardChoices, rewardCode) < 0)
         {
-            Debug.LogWarning($"[SERVER] Run reward choice not allowed: {rewardCode}");
+            Debug.LogWarning($"[Server] Run reward choice not allowed: {rewardCode}");
             return;
         }
 
@@ -318,29 +430,7 @@ public class PlayerEntity : NetworkEntity
         if (movement != null)
             movement.InputBlocked = true;
     }
-    [TargetRpc]
-    public void TargetReceivePartyMembers(NetworkConnection target, string[] members)
-    {
-        if (CanvasPartyListUI.Instance != null)
-            CanvasPartyListUI.Instance.SetMembers(members);
-    }
-    [TargetRpc]
-    public void TargetSwitchToInstance(NetworkConnection target, int port, string sceneName)
-    {
-        Debug.Log($"[CLIENT] Switching to instance {sceneName}:{port}");
 
-        if (ClientSideInstanceManager.Instance == null)
-        {
-            Debug.LogError("[CLIENT] ClientSideInstanceManager.Instance is null");
-            return;
-        }
-
-        ClientSideInstanceManager.Instance.SwitchToInstance(
-            (ushort)port,
-            "72.60.212.58",
-            sceneName
-        );
-    }
     [TargetRpc]
     private void TargetHideSpellRewardUI(NetworkConnection target)
     {
@@ -386,7 +476,10 @@ public class PlayerEntity : NetworkEntity
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+
         StartCoroutine(LoadAndBindPlayerUI());
+        StartCoroutine(CompletePartyTeleportWhenReady());
+        StartCoroutine(RequestPartyUIRefreshWhenReady());
     }
 
     private IEnumerator LoadAndBindPlayerUI()
@@ -402,11 +495,23 @@ public class PlayerEntity : NetworkEntity
         PlayerUI.Instance.Bind(this);
     }
 
+    private IEnumerator CompletePartyTeleportWhenReady()
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (ClientSideInstanceManager.Instance != null)
+            ClientSideInstanceManager.Instance.TryCompletePendingPartyTeleport();
+    }
+
+    private IEnumerator RequestPartyUIRefreshWhenReady()
+    {
+        yield return new WaitForSeconds(1f);
+
+        CmdRequestPartyUIRefresh();
+    }
+
     private void HandleDebugInput()
     {
-        //if (Input.GetKeyDown(KeyCode.F1))
-        //    CmdTriggerDebugSpellReward();
-
         if (Input.GetKeyDown(KeyCode.F2))
         {
             if (CanvasArcana.Instance != null)
@@ -437,13 +542,4 @@ public class PlayerEntity : NetworkEntity
 
         loadout.EquipStarterBuildIfEmptyServer();
     }
-    [Command]
-    public void CmdTeleportToPartyMemberByName(string memberName)
-    {
-        if (string.IsNullOrWhiteSpace(memberName))
-            return;
-
-        PartyManager.Instance.TeleportToPartyMemberByName(this, memberName);
-    }
-
 }

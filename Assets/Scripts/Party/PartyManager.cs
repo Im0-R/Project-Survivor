@@ -6,6 +6,9 @@ public class PartyManager : NetworkBehaviour
 {
     public static PartyManager Instance;
 
+    [Header("Instance")]
+    [SerializeField] private string publicServerIp = "72.60.212.58";
+
     private void Awake()
     {
         Instance = this;
@@ -21,6 +24,7 @@ public class PartyManager : NetworkBehaviour
             return;
 
         PlayerEntity target = targetIdentity.GetComponent<PlayerEntity>();
+
         if (target == null)
             return;
 
@@ -48,31 +52,126 @@ public class PartyManager : NetworkBehaviour
             return;
 
         PlayerEntity target = targetIdentity.GetComponent<PlayerEntity>();
+
         if (target == null)
             return;
 
-        string requesterName = requester.connectionToClient.authenticationData as string;
         string targetName = target.connectionToClient.authenticationData as string;
 
-        if (!DatabaseManager.AreInSameParty(requesterName, targetName))
+        TeleportToPartyMemberByName(requester, targetName);
+    }
+
+    [Server]
+    public void TeleportToPartyMemberByName(PlayerEntity requester, string memberName)
+    {
+        if (requester == null)
+            return;
+
+        string requesterName = requester.connectionToClient.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(requesterName) || string.IsNullOrWhiteSpace(memberName))
         {
-            Debug.Log("[Party] Players are not in same party.");
+            Debug.LogWarning("[PartyTP] requesterName or memberName missing.");
             return;
         }
 
-        PlayerLocationData location = DatabaseManager.GetPlayerLocation(targetName);
-
-        if (location == null)
+        if (requesterName == memberName)
         {
-            Debug.Log("[Party] Target location not found.");
+            Debug.LogWarning("[PartyTP] Player tried to teleport to self.");
             return;
         }
 
-        requester.TargetSwitchToInstance(
-            requester.connectionToClient,
-            location.CurrentPort,
-            location.CurrentScene
+        if (!DatabaseManager.AreInSameParty(requesterName, memberName))
+        {
+            Debug.LogWarning($"[PartyTP] {requesterName} and {memberName} are not in same party.");
+            return;
+        }
+
+        PlayerLocationData targetLocation = DatabaseManager.GetPlayerLocation(memberName);
+
+        if (targetLocation == null)
+        {
+            Debug.LogWarning($"[PartyTP] No DB location found for {memberName}.");
+            return;
+        }
+
+        int currentPort = GetCurrentServerPort();
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        Debug.Log(
+            $"[PartyTP] {requesterName} wants to join {memberName}. " +
+            $"Target={targetLocation.CurrentScene}:{targetLocation.CurrentPort}, Current={currentScene}:{currentPort}"
         );
+
+        if (targetLocation.CurrentPort == currentPort && targetLocation.CurrentScene == currentScene)
+        {
+            TeleportNearMemberInCurrentInstance(requester, memberName);
+            return;
+        }
+
+        requester.TargetSwitchToPartyMemberInstance(
+            requester.connectionToClient,
+            publicServerIp,
+            targetLocation.CurrentPort,
+            targetLocation.CurrentScene,
+            memberName
+        );
+    }
+
+    [Server]
+    public void CompletePartyTeleport(PlayerEntity requester, string memberName)
+    {
+        if (requester == null)
+            return;
+
+        string requesterName = requester.connectionToClient.authenticationData as string;
+
+        if (!DatabaseManager.AreInSameParty(requesterName, memberName))
+        {
+            Debug.LogWarning($"[PartyTP] Complete failed, {requesterName} and {memberName} are not in same party.");
+            return;
+        }
+
+        TeleportNearMemberInCurrentInstance(requester, memberName);
+    }
+
+    [Server]
+    private void TeleportNearMemberInCurrentInstance(PlayerEntity requester, string memberName)
+    {
+        PlayerEntity target = FindPlayerByUsername(memberName);
+
+        if (target == null)
+        {
+            Debug.LogWarning($"[PartyTP] Target not found in this instance: {memberName}");
+            return;
+        }
+
+        if (target == requester)
+        {
+            Debug.LogWarning("[PartyTP] Target is requester.");
+            return;
+        }
+
+        requester.transform.position = target.transform.position + target.transform.right * 1.5f;
+
+        Debug.Log($"[PartyTP] {GetUsername(requester)} teleported near {memberName}");
+    }
+
+    [Server]
+    private PlayerEntity FindPlayerByUsername(string username)
+    {
+        foreach (PlayerEntity player in FindObjectsByType<PlayerEntity>(FindObjectsSortMode.None))
+        {
+            if (player == null || player.connectionToClient == null)
+                continue;
+
+            string playerUsername = player.connectionToClient.authenticationData as string;
+
+            if (playerUsername == username)
+                return player;
+        }
+
+        return null;
     }
 
     [Server]
@@ -87,7 +186,11 @@ public class PartyManager : NetworkBehaviour
             return;
 
         string sceneName = SceneManager.GetActiveScene().name;
+
         DatabaseManager.UpdatePlayerLocation(username, port, sceneName);
+
+        if (Instance != null)
+            Instance.RefreshPartyUI(username);
     }
 
     [Server]
@@ -105,48 +208,49 @@ public class PartyManager : NetworkBehaviour
             if (connUsername == username)
             {
                 PlayerEntity player = conn.identity.GetComponent<PlayerEntity>();
+
                 if (player != null)
                     player.TargetReceivePartyMembers(conn, members);
             }
         }
     }
+
     [Server]
-    public void TeleportToPartyMemberByName(PlayerEntity requester, string memberName)
+    public void RefreshPartyUIFor(PlayerEntity player)
     {
-        if (requester == null)
+        if (player == null || player.connectionToClient == null)
             return;
 
-        PlayerEntity target = FindPartyMemberByName(requester, memberName);
+        string username = player.connectionToClient.authenticationData as string;
 
-        if (target == null)
-        {
-            Debug.LogWarning($"[Party] Teleport failed. Target not found: {memberName}");
+        if (string.IsNullOrWhiteSpace(username))
             return;
-        }
 
-        if (target == requester)
-        {
-            Debug.LogWarning("[Party] Teleport failed. Player tried to teleport to self.");
-            return;
-        }
-
-        requester.transform.position = target.transform.position + target.transform.right * 1.5f;
-
-        Debug.Log($"[Party] {requester.StatComp.Name} teleported to {target.StatComp.Name}");
+        RefreshPartyUI(username);
     }
 
     [Server]
-    private PlayerEntity FindPartyMemberByName(PlayerEntity requester, string memberName)
+    private int GetCurrentServerPort()
     {
-        foreach (PlayerEntity player in FindObjectsByType<PlayerEntity>(FindObjectsSortMode.None))
-        {
-            if (player == null || player.StatComp == null)
-                continue;
+        kcp2k.KcpTransport kcp = Transport.active as kcp2k.KcpTransport;
 
-            if (player.StatComp.Name == memberName)
-                return player;
+        if (kcp == null)
+            kcp = FindFirstObjectByType<kcp2k.KcpTransport>();
+
+        if (kcp == null)
+        {
+            Debug.LogWarning("[PartyTP] Cannot find KcpTransport, current port unknown.");
+            return -1;
         }
 
-        return null;
+        return kcp.Port;
+    }
+
+    private string GetUsername(PlayerEntity player)
+    {
+        if (player == null || player.connectionToClient == null)
+            return "Unknown";
+
+        return player.connectionToClient.authenticationData as string;
     }
 }

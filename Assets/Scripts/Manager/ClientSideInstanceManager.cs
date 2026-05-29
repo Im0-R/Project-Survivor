@@ -13,6 +13,7 @@ public class ClientSideInstanceManager : MonoBehaviour
     [SerializeField] private float reconnectTimeout = 10f;
 
     private bool isSwitching;
+    private string pendingPartyTeleportTargetName;
 
     private void Awake()
     {
@@ -26,6 +27,39 @@ public class ClientSideInstanceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Debug.Log("[ClientSideInstanceManager] Awake");
+    }
+
+    public void SetPendingPartyTeleport(string targetName)
+    {
+        pendingPartyTeleportTargetName = targetName;
+        Debug.Log($"[ClientSideInstanceManager] Pending party teleport target={targetName}");
+    }
+
+    public void TryCompletePendingPartyTeleport()
+    {
+        if (string.IsNullOrWhiteSpace(pendingPartyTeleportTargetName))
+            return;
+
+        if (NetworkClient.localPlayer == null)
+        {
+            Debug.LogWarning("[ClientSideInstanceManager] Cannot complete party teleport, localPlayer is null.");
+            return;
+        }
+
+        PlayerEntity localPlayer = NetworkClient.localPlayer.GetComponent<PlayerEntity>();
+
+        if (localPlayer == null)
+        {
+            Debug.LogWarning("[ClientSideInstanceManager] Cannot complete party teleport, PlayerEntity missing.");
+            return;
+        }
+
+        string target = pendingPartyTeleportTargetName;
+        pendingPartyTeleportTargetName = null;
+
+        Debug.Log($"[ClientSideInstanceManager] Completing party teleport near {target}");
+
+        localPlayer.CmdCompletePartyTeleport(target);
     }
 
     public void SwitchToInstance(ushort port, string ip, string sceneName)
@@ -55,9 +89,6 @@ public class ClientSideInstanceManager : MonoBehaviour
         }
 
         string oldOfflineScene = manager.offlineScene;
-
-        // IMPORTANT :
-        // Pendant le switch, on empêche Mirror de renvoyer automatiquement au Menu.
         manager.offlineScene = "";
 
         yield return LoadLoadingScene();
@@ -131,7 +162,6 @@ public class ClientSideInstanceManager : MonoBehaviour
 
         Debug.Log("[ClientSideInstanceManager] Reconnected successfully.");
 
-        // On restaure seulement APRÈS une vraie reconnexion.
         manager.offlineScene = oldOfflineScene;
         isSwitching = false;
     }
