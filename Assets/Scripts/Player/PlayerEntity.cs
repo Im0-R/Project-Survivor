@@ -49,12 +49,40 @@ public class PlayerEntity : NetworkEntity
     {
         base.OnStartServer();
 
+        ApplyUsernameAsDisplayName();
+
         if (StatComp != null)
             StatComp.OnLevelUpServer += HandleLevelUpServer;
 
         StartCoroutine(GiveStarterBuild());
     }
+    [Server]
+    private void ApplyUsernameAsDisplayName()
+    {
+        if (StatComp == null)
+        {
+            Debug.LogWarning("[PlayerEntity] StatComp is null, cannot apply username.");
+            return;
+        }
 
+        if (connectionToClient == null)
+        {
+            Debug.LogWarning("[PlayerEntity] connectionToClient is null, cannot apply username.");
+            return;
+        }
+
+        string username = connectionToClient.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Debug.LogWarning("[PlayerEntity] authenticationData username is empty.");
+            return;
+        }
+
+        StatComp.Name = username;
+
+        Debug.Log($"[PlayerEntity] Display name set to username: {username}");
+    }
     public override void OnStopServer()
     {
         if (StatComp != null)
