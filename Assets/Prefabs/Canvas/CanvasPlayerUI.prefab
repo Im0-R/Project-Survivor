@@ -2496,7 +2496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CanvasPartyListUI
   panel: {fileID: 8606020721523614731}
   contentParent: {fileID: 1060155658988396159}
-  memberTextPrefab: {fileID: 5200304190987959030, guid: db20038bfb7d2fb4a96b58710d05bae0, type: 3}
+  memberPrefab: {fileID: 7276953304596938745, guid: db20038bfb7d2fb4a96b58710d05bae0, type: 3}
+  enableClientLogs: 1
 --- !u!1001 &240556051763143399
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -437,6 +437,13 @@ public class PlayerEntity : NetworkEntity
 
         loadout.EquipStarterBuildIfEmptyServer();
     }
+    [Command]
+    public void CmdTeleportToPartyMemberByName(string memberName)
+    {
+        if (string.IsNullOrWhiteSpace(memberName))
+            return;
 
+        PartyManager.Instance.TeleportToPartyMemberByName(this, memberName);
+    }
 
 }

@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Mirror;
 
 public class CanvasPartyListUI : MonoBehaviour
 {
@@ -8,7 +10,10 @@ public class CanvasPartyListUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject panel;
     [SerializeField] private Transform contentParent;
-    [SerializeField] private TextMeshProUGUI memberTextPrefab;
+    [SerializeField] private GameObject memberPrefab;
+
+    [Header("Debug")]
+    [SerializeField] private bool enableClientLogs = true;
 
     private void Awake()
     {
@@ -20,11 +25,7 @@ public class CanvasPartyListUI : MonoBehaviour
 
     public void SetMembers(string[] members)
     {
-        if (contentParent == null || memberTextPrefab == null)
-        {
-            Debug.LogError("[PartyUI] Missing contentParent or memberTextPrefab");
-            return;
-        }
+        LogClient($"SetMembers called. Count={(members == null ? 0 : members.Length)}");
 
         foreach (Transform child in contentParent)
             Destroy(child.gameObject);
@@ -39,9 +40,62 @@ public class CanvasPartyListUI : MonoBehaviour
 
         foreach (string member in members)
         {
-            TextMeshProUGUI row = Instantiate(memberTextPrefab, contentParent);
-            row.gameObject.SetActive(true);
-            row.text = member;
+            GameObject row = Instantiate(memberPrefab, contentParent);
+
+            TMP_Text text = row.GetComponentInChildren<TMP_Text>(true);
+
+            Button teleportButton = null;
+
+            Transform buttonTransform = row.transform.Find("ButtonTeleportation");
+
+            if (buttonTransform != null)
+                teleportButton = buttonTransform.GetComponent<Button>();
+
+            if (text != null)
+                text.text = member;
+
+            string targetName = member;
+
+            if (teleportButton != null)
+            {
+                teleportButton.onClick.RemoveAllListeners();
+
+                teleportButton.onClick.AddListener(() =>
+                {
+                    LogClient($"Teleport button clicked for {targetName}");
+
+                    if (NetworkClient.localPlayer == null)
+                    {
+                        LogClient("NetworkClient.localPlayer is null.");
+                        return;
+                    }
+
+                    PlayerEntity localPlayer =
+                        NetworkClient.localPlayer.GetComponent<PlayerEntity>();
+
+                    if (localPlayer == null)
+                    {
+                        LogClient("Local player has no PlayerEntity.");
+                        return;
+                    }
+
+                    LogClient($"Sending teleport request to {targetName}");
+
+                    localPlayer.CmdTeleportToPartyMemberByName(targetName);
+                });
+            }
+            else
+            {
+                LogClient($"ButtonTeleportation not found for {targetName}");
+            }
         }
+    }
+
+    private void LogClient(string message)
+    {
+        if (!enableClientLogs)
+            return;
+
+        Debug.Log($"[Client][CanvasPartyListUI] {message}");
     }
 }

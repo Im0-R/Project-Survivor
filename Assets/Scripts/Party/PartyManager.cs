@@ -110,4 +110,43 @@ public class PartyManager : NetworkBehaviour
             }
         }
     }
+    [Server]
+    public void TeleportToPartyMemberByName(PlayerEntity requester, string memberName)
+    {
+        if (requester == null)
+            return;
+
+        PlayerEntity target = FindPartyMemberByName(requester, memberName);
+
+        if (target == null)
+        {
+            Debug.LogWarning($"[Party] Teleport failed. Target not found: {memberName}");
+            return;
+        }
+
+        if (target == requester)
+        {
+            Debug.LogWarning("[Party] Teleport failed. Player tried to teleport to self.");
+            return;
+        }
+
+        requester.transform.position = target.transform.position + target.transform.right * 1.5f;
+
+        Debug.Log($"[Party] {requester.StatComp.Name} teleported to {target.StatComp.Name}");
+    }
+
+    [Server]
+    private PlayerEntity FindPartyMemberByName(PlayerEntity requester, string memberName)
+    {
+        foreach (PlayerEntity player in FindObjectsByType<PlayerEntity>(FindObjectsSortMode.None))
+        {
+            if (player == null || player.StatComp == null)
+                continue;
+
+            if (player.StatComp.Name == memberName)
+                return player;
+        }
+
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Mirror;
 
 public class CanvasPartyTargetUI : MonoBehaviour
@@ -26,10 +27,16 @@ public class CanvasPartyTargetUI : MonoBehaviour
             panel.SetActive(false);
 
         if (inviteButton != null)
+        {
+            inviteButton.onClick.RemoveListener(OnInviteClicked);
             inviteButton.onClick.AddListener(OnInviteClicked);
+        }
 
         if (teleportButton != null)
+        {
+            teleportButton.onClick.RemoveListener(OnTeleportClicked);
             teleportButton.onClick.AddListener(OnTeleportClicked);
+        }
 
         LogClient("Awake initialized.");
     }
@@ -37,10 +44,22 @@ public class CanvasPartyTargetUI : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))
+        {
             TryOpenOnTarget();
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0) && panel != null && panel.activeSelf)
+        {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                LogClient("Left click over UI, not closing.");
+                return;
+            }
+
+            LogClient("Left click outside UI, closing.");
             Close();
+        }
     }
 
     private void TryOpenOnTarget()
@@ -113,6 +132,8 @@ public class CanvasPartyTargetUI : MonoBehaviour
 
     private void OnInviteClicked()
     {
+        LogClient("Invite button clicked.");
+
         if (currentTarget == null)
         {
             LogClient("Invite clicked but currentTarget is null.");
@@ -142,6 +163,8 @@ public class CanvasPartyTargetUI : MonoBehaviour
 
     private void OnTeleportClicked()
     {
+        LogClient("Teleport button clicked.");
+
         if (currentTarget == null)
         {
             LogClient("Teleport clicked but currentTarget is null.");
@@ -188,11 +211,7 @@ public class CanvasPartyTargetUI : MonoBehaviour
 
         Transform root = hitCollider.transform.root;
         if (root != null)
-        {
-            entity = root.GetComponentInChildren<NetworkEntity>();
-            if (entity != null)
-                return entity;
-        }
+            return root.GetComponentInChildren<NetworkEntity>();
 
         return null;
     }
