@@ -115,7 +115,17 @@ public class PlayerEntity : NetworkEntity
         int shownLevel = displayLevel >= 0 ? displayLevel : StatComp.level;
         TargetShowSpellRewardUI(connectionToClient, currentRewardChoices, shownLevel);
     }
+    [Command]
+    public void CmdInviteToParty(uint targetNetId)
+    {
+        PartyManager.Instance.InvitePlayer(this, targetNetId);
+    }
 
+    [Command]
+    public void CmdTeleportToPartyMember(uint targetNetId)
+    {
+        PartyManager.Instance.TeleportToPartyMember(this, targetNetId);
+    }
     [Server]
     private List<string> BuildRewardSpellChoices()
     {
@@ -310,7 +320,29 @@ public class PlayerEntity : NetworkEntity
         if (movement != null)
             movement.InputBlocked = true;
     }
+    [TargetRpc]
+    public void TargetReceivePartyMembers(NetworkConnection target, string[] members)
+    {
+        if (CanvasPartyListUI.Instance != null)
+            CanvasPartyListUI.Instance.SetMembers(members);
+    }
+    [TargetRpc]
+    public void TargetSwitchToInstance(NetworkConnection target, int port, string sceneName)
+    {
+        Debug.Log($"[CLIENT] Switching to instance {sceneName}:{port}");
 
+        if (ClientSideInstanceManager.Instance == null)
+        {
+            Debug.LogError("[CLIENT] ClientSideInstanceManager.Instance is null");
+            return;
+        }
+
+        ClientSideInstanceManager.Instance.SwitchToInstance(
+            (ushort)port,
+            "72.60.212.58",
+            sceneName
+        );
+    }
     [TargetRpc]
     private void TargetHideSpellRewardUI(NetworkConnection target)
     {
@@ -407,4 +439,6 @@ public class PlayerEntity : NetworkEntity
 
         loadout.EquipStarterBuildIfEmptyServer();
     }
+
+
 }

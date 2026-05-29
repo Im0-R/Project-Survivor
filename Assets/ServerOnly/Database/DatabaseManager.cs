@@ -1,5 +1,6 @@
 ﻿#if !UNITY_CLIENT || UNITY_EDITOR
 using SQLite;
+using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -30,7 +31,11 @@ public static class DatabaseManager
 #endif
 
         db = new SQLiteConnection(dbPath);
+
         db.CreateTable<UserAccount>();
+        db.CreateTable<PartyData>();
+        db.CreateTable<PartyMemberData>();
+        db.CreateTable<PlayerLocationData>();
 
         TryAddColumn("UserAccount", "StashJson", "TEXT DEFAULT ''");
         TryAddColumn("UserAccount", "ArcanaLoadoutJson", "TEXT DEFAULT ''");
@@ -50,6 +55,10 @@ public static class DatabaseManager
             // Normal si la colonne existe déjà.
         }
     }
+
+    // =====================================================
+    // AUTH
+    // =====================================================
 
     public static bool ValidateUser(string username, string password)
     {
@@ -79,6 +88,178 @@ public static class DatabaseManager
     {
         return db.Table<UserAccount>().FirstOrDefault(u => u.Username == username);
     }
+
+    // =====================================================
+    // PARTY
+    // =====================================================
+
+    public static int CreateParty(string usernameA, string usernameB)
+    {
+        if (string.IsNullOrWhiteSpace(usernameA) || string.IsNullOrWhiteSpace(usernameB))
+            return 0;
+
+        int existingPartyA = GetPartyId(usernameA);
+        int existingPartyB = GetPartyId(usernameB);
+
+        if (existingPartyA != 0 && existingPartyA == existingPartyB)
+            return existingPartyA;
+
+        if (existingPartyA != 0)
+        {
+            AddPlayerToParty(existingPartyA, usernameB);
+            return existingPartyA;
+        }
+
+        if (existingPartyB != 0)
+        {
+            AddPlayerToParty(existingPartyB, usernameA);
+            return existingPartyB;
+        }
+
+        PartyData party = new PartyData
+        {
+            CreatedAt = DateTime.UtcNow.ToString("O")
+        };
+
+        db.Insert(party);
+
+        AddPlayerToParty(party.PartyId, usernameA);
+        AddPlayerToParty(party.PartyId, usernameB);
+
+        Debug.Log($"[DB] Party created id={party.PartyId} with {usernameA} + {usernameB}");
+
+        return party.PartyId;
+    }
+
+    public static void AddPlayerToParty(int partyId, string username)
+    {
+        if (partyId <= 0 || string.IsNullOrWhiteSpace(username))
+            return;
+
+        PartyMemberData existing = db.Table<PartyMemberData>()
+            .FirstOrDefault(m => m.PartyId == partyId && m.Username == username);
+
+        if (existing != null)
+            return;
+
+        db.Insert(new PartyMemberData
+        {
+            PartyId = partyId,
+            Username = username,
+            JoinedAt = DateTime.UtcNow.ToString("O")
+        });
+
+        Debug.Log($"[DB] Added {username} to party {partyId}");
+    }
+
+    public static void RemovePlayerFromParty(string username)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            return;
+
+        PartyMemberData member = db.Table<PartyMemberData>()
+            .FirstOrDefault(m => m.Username == username);
+
+        if (member == null)
+            return;
+
+        int partyId = member.PartyId;
+
+        db.Delete(member);
+
+        int remainingMembers = db.Table<PartyMemberData>()
+            .Count(m => m.PartyId == partyId);
+
+        if (remainingMembers <= 0)
+        {
+            PartyData party = db.Table<PartyData>()
+                .FirstOrDefault(p => p.PartyId == partyId);
+
+            if (party != null)
+                db.Delete(party);
+        }
+
+        Debug.Log($"[DB] Removed {username} from party {partyId}");
+    }
+
+    public static int GetPartyId(string username)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            return 0;
+
+        PartyMemberData member = db.Table<PartyMemberData>()
+            .FirstOrDefault(m => m.Username == username);
+
+        return member != null ? member.PartyId : 0;
+    }
+
+    public static bool AreInSameParty(string usernameA, string usernameB)
+    {
+        int partyA = GetPartyId(usernameA);
+        int partyB = GetPartyId(usernameB);
+
+        return partyA != 0 && partyA == partyB;
+    }
+
+    public static string[] GetPartyMembers(string username)
+    {
+        int partyId = GetPartyId(username);
+
+        if (partyId == 0)
+            return Array.Empty<string>();
+
+        return db.Table<PartyMemberData>()
+            .Where(m => m.PartyId == partyId)
+            .Select(m => m.Username)
+            .ToArray();
+    }
+
+    // =====================================================
+    // PLAYER LOCATION
+    // =====================================================
+
+    public static void UpdatePlayerLocation(string username, int currentPort, string currentScene)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            return;
+
+        PlayerLocationData existing = db.Table<PlayerLocationData>()
+            .FirstOrDefault(l => l.Username == username);
+
+        if (existing == null)
+        {
+            db.Insert(new PlayerLocationData
+            {
+                Username = username,
+                CurrentPort = currentPort,
+                CurrentScene = currentScene,
+                UpdatedAt = DateTime.UtcNow.ToString("O")
+            });
+        }
+        else
+        {
+            existing.CurrentPort = currentPort;
+            existing.CurrentScene = currentScene;
+            existing.UpdatedAt = DateTime.UtcNow.ToString("O");
+
+            db.Update(existing);
+        }
+
+        Debug.Log($"[DB] Location updated for {username}: {currentScene}:{currentPort}");
+    }
+
+    public static PlayerLocationData GetPlayerLocation(string username)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            return null;
+
+        return db.Table<PlayerLocationData>()
+            .FirstOrDefault(l => l.Username == username);
+    }
+
+    // =====================================================
+    // CLEAR
+    // =====================================================
 
     public static void ClearInventory(string username)
     {
@@ -135,11 +316,12 @@ public static class DatabaseManager
         ClearEquipment(username);
         ClearArcanaLoadout(username);
 
-        // Décommente si tu veux aussi supprimer le stash :
-        // ClearStash(username);
-
         Debug.Log($"[DB] Player state cleared for {username}");
     }
+
+    // =====================================================
+    // SAVE / LOAD
+    // =====================================================
 
     public static void SavePlayerState(
         string username,
@@ -292,6 +474,10 @@ public static class DatabaseManager
         return user.ArcanaLoadoutJson;
     }
 
+    // =====================================================
+    // UTILS
+    // =====================================================
+
     public static void Close()
     {
         db?.Close();
@@ -309,7 +495,7 @@ public static class DatabaseManager
         using (SHA256 sha = SHA256.Create())
         {
             byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
-            return System.BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
+            return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
         }
     }
 }
@@ -331,6 +517,40 @@ public class UserAccount
     public string InventoryJson { get; set; } = "";
     public string StashJson { get; set; } = "";
     public string ArcanaLoadoutJson { get; set; } = "";
+}
+
+public class PartyData
+{
+    [PrimaryKey, AutoIncrement]
+    public int PartyId { get; set; }
+
+    public string CreatedAt { get; set; }
+}
+
+public class PartyMemberData
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    [Indexed]
+    public int PartyId { get; set; }
+
+    [Indexed]
+    public string Username { get; set; }
+
+    public string JoinedAt { get; set; }
+}
+
+public class PlayerLocationData
+{
+    [PrimaryKey]
+    public string Username { get; set; }
+
+    public int CurrentPort { get; set; }
+
+    public string CurrentScene { get; set; }
+
+    public string UpdatedAt { get; set; }
 }
 
 #endif

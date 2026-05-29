@@ -73,8 +73,10 @@
     <Compile Include="Assets\Scripts\UI\RewardSpellsCanvas.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPauseController.cs" />
+    <Compile Include="Assets\Scripts\Party\CanvasPartyListUI.cs" />
     <Compile Include="Assets\Scripts\Map\ClientMapInstanceReceiver.cs" />
     <Compile Include="Assets\Scripts\UI\GameUILoader.cs" />
+    <Compile Include="Assets\Scripts\Inventory\TrashSlotUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemInstanceSO.cs" />
     <Compile Include="Assets\Scripts\Loot\LootGenerator.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Assets\Scripts\UI\Damage\DamagePopUpManager.cs" />
     <Compile Include="Assets\Scripts\Spells\Slash\SlashSpell.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerEntity.cs" />
+    <Compile Include="Assets\Scripts\Party\PartyManager.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileVisual.cs" />
     <Compile Include="Assets\Scripts\Inventory\CanvasInventory.cs" />
     <Compile Include="Assets\Scripts\Loot\LootTableSO.cs" />
@@ -204,7 +207,9 @@
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\RuneButtonUI.cs" />
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
+    <Compile Include="Assets\Scripts\Party\CanvasPartyTargetUI.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
+    <Compile Include="Assets\Scripts\Party\Party.cs" />
     <Compile Include="Assets\Scripts\Loot\UI\LootLabelUI.cs" />
     <Compile Include="Assets\Scripts\Spells\RuneSO.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileSpell.cs" />

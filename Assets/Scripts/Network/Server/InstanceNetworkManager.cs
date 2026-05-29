@@ -295,7 +295,19 @@ public class InstanceNetworkManager : NetworkManager
         }
 
         DatabaseManager.LoadPlayerState(username, inv, equip, stash, arcanaLoadout);
+        PlayerEntity playerEntity = player.GetComponent<PlayerEntity>();
 
+        if (playerEntity != null)
+        {
+            ushort currentPort = 7777;
+
+            kcp2k.KcpTransport kcp = Transport.active as kcp2k.KcpTransport;
+
+            if (kcp != null)
+                currentPort = kcp.port;
+
+            PartyManager.UpdateLocationFor(playerEntity, currentPort);
+        }
         Debug.Log($"[InstanceNetworkManager] Loaded save + stash + arcana loadout for {username}");
     }
 
