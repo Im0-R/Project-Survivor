@@ -49,39 +49,35 @@ public class PlayerEntity : NetworkEntity
     {
         base.OnStartServer();
 
-        ApplyUsernameAsDisplayName();
+        StartCoroutine(ApplyUsernameAsDisplayNameWhenReady());
 
         if (StatComp != null)
             StatComp.OnLevelUpServer += HandleLevelUpServer;
 
         StartCoroutine(GiveStarterBuild());
     }
+
     [Server]
-    private void ApplyUsernameAsDisplayName()
+    private IEnumerator ApplyUsernameAsDisplayNameWhenReady()
     {
-        if (StatComp == null)
+        float timer = 0f;
+
+        while (timer < 5f)
         {
-            Debug.LogWarning("[PlayerEntity] StatComp is null, cannot apply username.");
-            return;
+            string username = connectionToClient?.authenticationData as string;
+
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                StatComp.Name = username;
+                Debug.Log($"[PlayerEntity] Display name set to username: {username}");
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
         }
 
-        if (connectionToClient == null)
-        {
-            Debug.LogWarning("[PlayerEntity] connectionToClient is null, cannot apply username.");
-            return;
-        }
-
-        string username = connectionToClient.authenticationData as string;
-
-        if (string.IsNullOrWhiteSpace(username))
-        {
-            Debug.LogWarning("[PlayerEntity] authenticationData username is empty.");
-            return;
-        }
-
-        StatComp.Name = username;
-
-        Debug.Log($"[PlayerEntity] Display name set to username: {username}");
+        Debug.LogWarning("[PlayerEntity] Could not set display name, username not found after timeout.");
     }
     public override void OnStopServer()
     {
