@@ -25,7 +25,7 @@ public class Projectile : NetworkBehaviour
         owner = ownerEntity;
         damage = dmg;
         speed = spd;
-        pierceRemaining = pierce;
+        pierceRemaining = Mathf.Max(0, pierce);
 
         if (forcedDirection.HasValue)
         {
@@ -48,12 +48,9 @@ public class Projectile : NetworkBehaviour
         direction.Normalize();
 
         transform.forward = direction;
-        transform.localScale *= scale;
+        transform.localScale = Vector3.one * Mathf.Max(0.1f, scale);
 
         initialized = true;
-
-        if (isServer)
-            Invoke(nameof(DespawnSelf), lifeTime);
     }
 
     private void Update()

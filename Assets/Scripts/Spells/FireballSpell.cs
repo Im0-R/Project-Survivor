@@ -10,9 +10,18 @@ public class FireballSpell : Spell
         if (owner == null) return;
         if (data == null || data.prefab == null) return;
 
-        Transform target = TargetHelper.FindClosestEnemyTarget(owner, data.range);
+        Transform target = null;
 
-        if (target == null) return;
+        if (owner is PlayerEntity)
+            target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
+        else if (owner is EnemyEntity)
+            target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
+
+        if (target == null)
+        {
+            Debug.LogWarning("[Fireball] No target found.");
+            return;
+        }
 
         PlayerEntity player = owner as PlayerEntity;
         string spellName = data.spellName;
@@ -56,6 +65,8 @@ public class FireballSpell : Spell
 
         Vector3 baseSpawnPosition = owner.transform.position + Vector3.up * 1f;
 
+        float projectileScale = Mathf.Max(1f, data.currentLevel);
+
         for (int i = 0; i < finalProjectileCount; i++)
         {
             float angle = startAngle + spread * i;
@@ -86,7 +97,7 @@ public class FireballSpell : Spell
                 null,
                 finalDamage,
                 finalSpeed,
-                data.currentLevel,
+                projectileScale,
                 finalPierce,
                 direction
             );

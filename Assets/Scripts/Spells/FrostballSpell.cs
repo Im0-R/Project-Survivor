@@ -17,7 +17,11 @@ public class FrostballSpell : Spell
         else if (owner is EnemyEntity)
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
 
-        if (target == null) return;
+        if (target == null)
+        {
+            Debug.LogWarning("[Frostball] No target found.");
+            return;
+        }
 
         PlayerEntity player = owner as PlayerEntity;
         string spellName = data.spellName;
@@ -61,6 +65,8 @@ public class FrostballSpell : Spell
 
         Vector3 baseSpawnPosition = owner.transform.position + Vector3.up * 1f;
 
+        float projectileScale = Mathf.Max(1f, data.currentLevel);
+
         for (int i = 0; i < finalProjectileCount; i++)
         {
             float angle = startAngle + spread * i;
@@ -91,7 +97,7 @@ public class FrostballSpell : Spell
                 null,
                 finalDamage,
                 finalSpeed,
-                data.currentLevel,
+                projectileScale,
                 finalPierce,
                 direction
             );

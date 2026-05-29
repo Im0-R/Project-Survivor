@@ -31,9 +31,7 @@ public class PlayerEntity : NetworkEntity
     {
         if (isLocalPlayer)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
             HandleDebugInput();
-#endif
         }
 
         if (!isServer) return;
@@ -406,8 +404,8 @@ public class PlayerEntity : NetworkEntity
 
     private void HandleDebugInput()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
-            CmdTriggerDebugSpellReward();
+        //if (Input.GetKeyDown(KeyCode.F1))
+        //    CmdTriggerDebugSpellReward();
 
         if (Input.GetKeyDown(KeyCode.F2))
         {
