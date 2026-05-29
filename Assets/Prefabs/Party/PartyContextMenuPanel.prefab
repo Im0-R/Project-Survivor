@@ -663,7 +663,6 @@ GameObject:
   - component: {fileID: 1320553448942433641}
   - component: {fileID: 6363808608875865048}
   - component: {fileID: 8115830890482860146}
-  - component: {fileID: 6485460221829174158}
   m_Layer: 5
   m_Name: PartyContextMenuPanel
   m_TagString: Untagged
@@ -771,19 +770,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 0
---- !u!114 &6485460221829174158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7469783207898936690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a697e75277401914e831f22e4b69b745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CanvasPartyTargetUI
-  panel: {fileID: 7469783207898936690}
-  targetNameTMP: {fileID: 2737551516258344862}
-  inviteButton: {fileID: 2603619427468299119}
-  teleportButton: {fileID: 6802656072144490405}
