@@ -228,7 +228,33 @@ public class PartyManager : NetworkBehaviour
 
         RefreshPartyUI(username);
     }
+    [Server]
+    public void LeaveParty(PlayerEntity player)
+    {
+        if (player == null || player.connectionToClient == null)
+            return;
 
+        string username = player.connectionToClient.authenticationData as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+            return;
+
+        string[] oldMembers = DatabaseManager.GetPartyMembers(username);
+
+        DatabaseManager.RemovePlayerFromParty(username);
+
+        Debug.Log($"[Party] {username} left the party.");
+
+        player.TargetReceivePartyMembers(player.connectionToClient, new string[0]);
+
+        foreach (string member in oldMembers)
+        {
+            if (member == username)
+                continue;
+
+            RefreshPartyUI(member);
+        }
+    }
     [Server]
     private int GetCurrentServerPort()
     {

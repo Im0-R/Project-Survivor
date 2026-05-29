@@ -11,7 +11,7 @@ public class CanvasPartyListUI : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject memberPrefab;
-
+    [SerializeField] private Button leavePartyButton;
     [Header("Debug")]
     [SerializeField] private bool enableClientLogs = true;
 
@@ -21,6 +21,16 @@ public class CanvasPartyListUI : MonoBehaviour
 
         if (panel != null)
             panel.SetActive(false);
+
+
+
+
+
+        if (leavePartyButton != null)
+        {
+            leavePartyButton.onClick.RemoveListener(OnLeavePartyClicked);
+            leavePartyButton.onClick.AddListener(OnLeavePartyClicked);
+        }
     }
 
     public void SetMembers(string[] members)
@@ -90,7 +100,26 @@ public class CanvasPartyListUI : MonoBehaviour
             }
         }
     }
+    private void OnLeavePartyClicked()
+    {
+        LogClient("Leave party clicked.");
 
+        if (NetworkClient.localPlayer == null)
+        {
+            LogClient("NetworkClient.localPlayer is null.");
+            return;
+        }
+
+        PlayerEntity localPlayer = NetworkClient.localPlayer.GetComponent<PlayerEntity>();
+
+        if (localPlayer == null)
+        {
+            LogClient("Local player has no PlayerEntity.");
+            return;
+        }
+
+        localPlayer.CmdLeaveParty();
+    }
     private void LogClient(string message)
     {
         if (!enableClientLogs)

@@ -86,7 +86,19 @@ public class PlayerEntity : NetworkEntity
     // =====================================================
     // PARTY
     // =====================================================
+    [Command]
+    public void CmdLeaveParty()
+    {
+        Debug.Log("[Server][Party] CmdLeaveParty received.");
 
+        if (PartyManager.Instance == null)
+        {
+            Debug.LogWarning("[Server][Party] PartyManager.Instance is null.");
+            return;
+        }
+
+        PartyManager.Instance.LeaveParty(this);
+    }
     [Command]
     public void CmdInviteToParty(uint targetNetId)
     {
