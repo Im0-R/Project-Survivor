@@ -12,6 +12,8 @@ public class SpellsSlotsUI : MonoBehaviour
     private readonly List<SpellSlotUI> slots = new();
     private NetworkEntity currentEntity;
 
+    private bool cooldownPaused;
+
     private void Awake()
     {
         Instance = this;
@@ -34,6 +36,9 @@ public class SpellsSlotsUI : MonoBehaviour
     {
         if (currentEntity != null)
             currentEntity.OnSpellsChanged -= Refresh;
+
+        if (Instance == this)
+            Instance = null;
     }
 
     public void Refresh()
@@ -66,12 +71,31 @@ public class SpellsSlotsUI : MonoBehaviour
 
         for (int i = 0; i < spells.Count; i++)
         {
+            if (i >= slots.Count)
+                return;
+
             if (spells[i]?.GetData()?.spellName == spellName)
             {
                 slots[i].SetCooldown(cooldownDuration, cooldownDuration);
                 return;
             }
         }
+    }
+
+    public void SetCooldownPaused(bool paused)
+    {
+        cooldownPaused = paused;
+
+        foreach (SpellSlotUI slot in slots)
+        {
+            if (slot != null)
+                slot.SetCooldownPaused(paused);
+        }
+    }
+
+    public bool IsCooldownPaused()
+    {
+        return cooldownPaused;
     }
 
     private void ClearSlots()

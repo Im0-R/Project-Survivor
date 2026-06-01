@@ -5,6 +5,13 @@ public class PlayerPauseController : NetworkBehaviour
 {
     public static PlayerPauseController Local;
 
+    private NetworkEntity networkEntity;
+
+    private void Awake()
+    {
+        networkEntity = GetComponent<NetworkEntity>();
+    }
+
     public override void OnStartLocalPlayer()
     {
         Local = this;
@@ -12,12 +19,14 @@ public class PlayerPauseController : NetworkBehaviour
 
     public override void OnStopLocalPlayer()
     {
-        if (Local == this) Local = null;
+        if (Local == this)
+            Local = null;
     }
 
     public void RequestPause()
     {
         if (!isLocalPlayer) return;
+
         CmdRequestPause();
         Debug.Log("[Client] Pause requested");
     }
@@ -25,6 +34,7 @@ public class PlayerPauseController : NetworkBehaviour
     public void RequestResume()
     {
         if (!isLocalPlayer) return;
+
         CmdRequestResume();
         Debug.Log("[Client] Resume requested");
     }
@@ -32,38 +42,42 @@ public class PlayerPauseController : NetworkBehaviour
     [Command]
     private void CmdRequestPause()
     {
-        if (ServerTimeManager.instance == null)
-        {
-            var found = FindFirstObjectByType<ServerTimeManager>();
-            Debug.LogWarning($"[Server] ServerTimeManager.instance NULL. FoundInScene={(found != null)}");
-            if (found != null) ServerTimeManager.instance = found;
-            else return;
-        }
+        if (networkEntity == null)
+            networkEntity = GetComponent<NetworkEntity>();
 
-        ServerTimeManager.instance.PauseGame();
+        if (networkEntity != null)
+            networkEntity.DisableSpells();
+
+        RpcPauseCooldownUI();
+
+        Debug.Log($"[Server] Spells disabled for {name}");
     }
 
     [Command]
     private void CmdRequestResume()
     {
-        if (ServerTimeManager.instance == null)
-        {
-            var found = FindFirstObjectByType<ServerTimeManager>();
-            Debug.LogWarning($"[Server] ServerTimeManager.instance NULL. FoundInScene={(found != null)}");
-            if (found != null) ServerTimeManager.instance = found;
-            else return;
-        }
+        if (networkEntity == null)
+            networkEntity = GetComponent<NetworkEntity>();
 
-        ServerTimeManager.instance.ResumeGame();
+        if (networkEntity != null)
+            networkEntity.EnableSpells();
+
+        RpcResumeCooldownUI();
+
+        Debug.Log($"[Server] Spells enabled for {name}");
     }
-    private void OnDisable()
+
+    [TargetRpc]
+    private void RpcPauseCooldownUI()
     {
-        Debug.LogWarning($"[PPC] OnDisable name={name} netId={netId} scene={gameObject.scene.name}\n{System.Environment.StackTrace}");
+        if (SpellsSlotsUI.Instance != null)
+            SpellsSlotsUI.Instance.SetCooldownPaused(true);
     }
 
-    private void OnDestroy()
+    [TargetRpc]
+    private void RpcResumeCooldownUI()
     {
-        Debug.LogWarning($"[PPC] OnDestroy name={name} netId={netId} scene={gameObject.scene.name}\n{System.Environment.StackTrace}");
+        if (SpellsSlotsUI.Instance != null)
+            SpellsSlotsUI.Instance.SetCooldownPaused(false);
     }
-
 }

@@ -13,6 +13,8 @@ public class SpellSlotUI : MonoBehaviour
     private float cooldownDuration;
     private float cooldownRemaining;
 
+    private bool cooldownPaused;
+
     public void SetSpell(Sprite icon)
     {
         if (iconImage != null)
@@ -32,8 +34,16 @@ public class SpellSlotUI : MonoBehaviour
         RefreshCooldownUI();
     }
 
+    public void SetCooldownPaused(bool paused)
+    {
+        cooldownPaused = paused;
+    }
+
     private void Update()
     {
+        if (cooldownPaused)
+            return;
+
         if (cooldownRemaining <= 0f)
             return;
 
@@ -64,8 +74,10 @@ public class SpellSlotUI : MonoBehaviour
         }
 
         if (backgroundImage != null)
+        {
             backgroundImage.color = cooldownRemaining > 0f
                 ? new Color(0.35f, 0.35f, 0.35f, 1f)
                 : Color.white;
+        }
     }
 }
