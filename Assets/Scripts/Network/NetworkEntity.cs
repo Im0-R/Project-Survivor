@@ -98,6 +98,9 @@ public class NetworkEntity : NetworkBehaviour
         if (!isServer)
             return;
 
+        if (ServerTimeManager.IsPaused)
+            return;
+
         if (!spellsEnabled)
             return;
 

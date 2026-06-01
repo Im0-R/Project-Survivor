@@ -47,7 +47,7 @@ public class Projectile : NetworkBehaviour
 
         direction.Normalize();
 
-        transform.forward = direction;
+        transform.rotation = Quaternion.LookRotation(direction);
         transform.localScale = Vector3.one * Mathf.Max(0.1f, scale);
 
         initialized = true;
@@ -55,8 +55,14 @@ public class Projectile : NetworkBehaviour
 
     private void Update()
     {
-        if (!isServer) return;
-        if (!initialized) return;
+        if (!isServer)
+            return;
+
+        if (ServerTimeManager.IsPaused)
+            return;
+
+        if (!initialized)
+            return;
 
         transform.position += direction * speed * Time.deltaTime;
 
@@ -68,16 +74,25 @@ public class Projectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isServer) return;
-        if (!initialized) return;
+        if (!isServer)
+            return;
+
+        if (ServerTimeManager.IsPaused)
+            return;
+
+        if (!initialized)
+            return;
 
         NetworkEntity otherNetEntity = other.GetComponent<NetworkEntity>();
 
         if (otherNetEntity == null || otherNetEntity == owner)
             return;
 
-        if (otherNetEntity is PlayerEntity && owner is PlayerEntity) return;
-        if (otherNetEntity is EnemyEntity && owner is EnemyEntity) return;
+        if (otherNetEntity is PlayerEntity && owner is PlayerEntity)
+            return;
+
+        if (otherNetEntity is EnemyEntity && owner is EnemyEntity)
+            return;
 
         otherNetEntity.ApplyDamageServer(damage);
 
@@ -93,7 +108,8 @@ public class Projectile : NetworkBehaviour
     [Server]
     public void DespawnSelf()
     {
-        if (gameObject == null) return;
+        if (gameObject == null)
+            return;
 
         NetworkIdentity ni = GetComponent<NetworkIdentity>();
 

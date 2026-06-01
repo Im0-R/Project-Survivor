@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance;
+
     private readonly List<Enemy> activeEnemies = new();
 
     private void Awake()
@@ -14,28 +15,43 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        if (!NetworkServer.active) return;
+        if (!NetworkServer.active)
+            return;
 
-        if (ServerTimeManager.instance != null && ServerTimeManager.instance.isPaused)
+        if (ServerTimeManager.IsPaused)
             return;
 
         float dt = Time.deltaTime;
 
-        for (int i = 0; i < activeEnemies.Count; i++)
+        for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
-            if (activeEnemies[i] != null && activeEnemies[i].isActiveAndEnabled)
-                activeEnemies[i].Tick(dt);
+            Enemy enemy = activeEnemies[i];
+
+            if (enemy == null)
+            {
+                activeEnemies.RemoveAt(i);
+                continue;
+            }
+
+            if (enemy.isActiveAndEnabled)
+                enemy.Tick(dt);
         }
     }
 
     public void RegisterEnemy(Enemy enemy)
     {
+        if (enemy == null)
+            return;
+
         if (!activeEnemies.Contains(enemy))
             activeEnemies.Add(enemy);
     }
 
     public void UnregisterEnemy(Enemy enemy)
     {
+        if (enemy == null)
+            return;
+
         activeEnemies.Remove(enemy);
     }
 }

@@ -5,13 +5,6 @@ public class PlayerPauseController : NetworkBehaviour
 {
     public static PlayerPauseController Local;
 
-    private NetworkEntity networkEntity;
-
-    private void Awake()
-    {
-        networkEntity = GetComponent<NetworkEntity>();
-    }
-
     public override void OnStartLocalPlayer()
     {
         Local = this;
@@ -42,42 +35,51 @@ public class PlayerPauseController : NetworkBehaviour
     [Command]
     private void CmdRequestPause()
     {
-        if (networkEntity == null)
-            networkEntity = GetComponent<NetworkEntity>();
+        ServerTimeManager manager = ServerTimeManager.instance;
 
-        if (networkEntity != null)
-            networkEntity.DisableSpells();
+        if (manager == null)
+            manager = FindFirstObjectByType<ServerTimeManager>();
 
-        RpcPauseCooldownUI();
+        if (manager == null)
+        {
+            Debug.LogWarning("[PlayerPauseController] ServerTimeManager not found.");
+            return;
+        }
 
-        Debug.Log($"[Server] Spells disabled for {name}");
+        ServerTimeManager.instance = manager;
+        manager.PauseGame();
+
+        TargetSetCooldownPaused(connectionToClient, true);
+
+        Debug.Log("[Server] Global pause requested");
     }
 
     [Command]
     private void CmdRequestResume()
     {
-        if (networkEntity == null)
-            networkEntity = GetComponent<NetworkEntity>();
+        ServerTimeManager manager = ServerTimeManager.instance;
 
-        if (networkEntity != null)
-            networkEntity.EnableSpells();
+        if (manager == null)
+            manager = FindFirstObjectByType<ServerTimeManager>();
 
-        RpcResumeCooldownUI();
+        if (manager == null)
+        {
+            Debug.LogWarning("[PlayerPauseController] ServerTimeManager not found.");
+            return;
+        }
 
-        Debug.Log($"[Server] Spells enabled for {name}");
+        ServerTimeManager.instance = manager;
+        manager.ResumeGame();
+
+        TargetSetCooldownPaused(connectionToClient, false);
+
+        Debug.Log("[Server] Global resume requested");
     }
 
     [TargetRpc]
-    private void RpcPauseCooldownUI()
+    private void TargetSetCooldownPaused(NetworkConnectionToClient target, bool paused)
     {
         if (SpellsSlotsUI.Instance != null)
-            SpellsSlotsUI.Instance.SetCooldownPaused(true);
-    }
-
-    [TargetRpc]
-    private void RpcResumeCooldownUI()
-    {
-        if (SpellsSlotsUI.Instance != null)
-            SpellsSlotsUI.Instance.SetCooldownPaused(false);
+            SpellsSlotsUI.Instance.SetCooldownPaused(paused);
     }
 }
