@@ -114,7 +114,6 @@
     <Compile Include="Assets\Scripts\MapMechanic\MapEventActivator.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsComponent.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticlesSpawner.cs" />
-    <Compile Include="Assets\Scripts\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStatsPanelUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\EquipItemRequest.cs" />
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />

@@ -20,7 +20,7 @@ public static class TargetHelper
         if (owner is PlayerEntity)
             return "Enemy";
 
-        if (owner is EnemyEntity)
+        if (owner is Enemy)
             return "Player";
 
         return null;
@@ -34,10 +34,10 @@ public static class TargetHelper
         if (owner == target)
             return false;
 
-        if (owner is PlayerEntity && target is EnemyEntity)
+        if (owner is PlayerEntity && target is Enemy)
             return true;
 
-        if (owner is EnemyEntity && target is PlayerEntity)
+        if (owner is Enemy && target is PlayerEntity)
             return true;
 
         return false;

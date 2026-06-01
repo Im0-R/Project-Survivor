@@ -16,7 +16,7 @@ public class FrostballSpell : Spell
 
         if (owner is PlayerEntity)
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
-        else if (owner is EnemyEntity)
+        else if (owner is Enemy)
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
 
         if (target == null)

@@ -91,7 +91,7 @@ public class Projectile : NetworkBehaviour
         if (otherNetEntity is PlayerEntity && owner is PlayerEntity)
             return;
 
-        if (otherNetEntity is EnemyEntity && owner is EnemyEntity)
+        if (otherNetEntity is Enemy && owner is Enemy)
             return;
 
         otherNetEntity.ApplyDamageServer(damage);

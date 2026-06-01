@@ -18,7 +18,7 @@ public class ProjectileSpellExecutor : ISpellExecutor
 
         if (owner is PlayerEntity)
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Enemy", data.range);
-        else if (owner is EnemyEntity)
+        else if (owner is Enemy)
             target = TargetHelper.FindClosestTarget(owner.transform.position, "Player", data.range);
 
         if (target == null) return;
@@ -208,7 +208,7 @@ public class ProjectileSpellExecutor : ISpellExecutor
         if (target == owner) return false;
 
         if (owner is PlayerEntity && target is PlayerEntity) return false;
-        if (owner is EnemyEntity && target is EnemyEntity) return false;
+        if (owner is Enemy && target is Enemy) return false;
 
         return true;
     }
