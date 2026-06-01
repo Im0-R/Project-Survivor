@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class FrostballSpell : Spell
 {
+    private const float FixedSpreadAngle = 15f;
+
     public FrostballSpell() { }
 
     public override void ExecuteServer(NetworkEntity owner)
@@ -23,34 +25,10 @@ public class FrostballSpell : Spell
             return;
         }
 
-        PlayerEntity player = owner as PlayerEntity;
-        string spellName = data.spellName;
-
         float finalDamage = GetFinalDamage(owner);
         float finalSpeed = GetFinalProjectileSpeed(owner);
         int finalProjectileCount = GetFinalProjectileCount(owner);
         int finalPierce = GetFinalPierce(owner);
-
-        if (player != null)
-        {
-            finalDamage += player.GetCurrentStat(StatId.SpellDamage);
-            finalDamage += player.GetCurrentStat(StatId.ColdDamage);
-            finalDamage += player.GetSpellModifier(spellName, "Damage");
-
-            float damageMult = player.GetCurrentStat(StatId.DamageMult);
-            finalDamage *= 1f + damageMult / 100f;
-
-            finalSpeed += player.GetCurrentStat(StatId.ProjectileSpeed);
-            finalSpeed += player.GetSpellModifier(spellName, "ProjectileSpeed");
-
-            finalProjectileCount += Mathf.RoundToInt(player.GetSpellModifier(spellName, "ProjectileCount"));
-            finalPierce += Mathf.RoundToInt(player.GetSpellModifier(spellName, "Pierce"));
-        }
-
-        finalProjectileCount = Mathf.Max(1, finalProjectileCount);
-        finalPierce = Mathf.Max(0, finalPierce);
-
-        float spread = data.projectileSpreadAngle;
 
         Vector3 baseDirection = target.position - owner.transform.position;
         baseDirection.y = 0f;
@@ -60,18 +38,14 @@ public class FrostballSpell : Spell
 
         baseDirection.Normalize();
 
-        float totalAngle = spread * (finalProjectileCount - 1);
-        float startAngle = -totalAngle * 0.5f;
-
         Vector3 baseSpawnPosition = owner.transform.position + Vector3.up * 1f;
-
-        float projectileScale = Mathf.Max(1f, data.currentLevel);
+        float projectileScale = 1f;
 
         for (int i = 0; i < finalProjectileCount; i++)
         {
-            float angle = startAngle + spread * i;
-            Vector3 direction = Quaternion.Euler(0f, angle, 0f) * baseDirection;
+            float angle = (i - (finalProjectileCount - 1) * 0.5f) * FixedSpreadAngle;
 
+            Vector3 direction = Quaternion.Euler(0f, angle, 0f) * baseDirection;
             direction.y = 0f;
             direction.Normalize();
 
@@ -105,8 +79,6 @@ public class FrostballSpell : Spell
             NetworkServer.Spawn(obj);
         }
 
-        Debug.Log(
-            $"[Frostball] count={finalProjectileCount}, damage={finalDamage}, speed={finalSpeed}, pierce={finalPierce}, cooldown={GetFinalCooldown(owner)}"
-        );
+        Debug.Log($"[Frostball] count={finalProjectileCount}, damage={finalDamage}, speed={finalSpeed}, pierce={finalPierce}, cooldown={GetFinalCooldown(owner)}");
     }
 }

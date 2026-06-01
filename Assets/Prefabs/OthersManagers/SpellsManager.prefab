@@ -56,6 +56,8 @@ MonoBehaviour:
         description: Launch a fireball on nearby enemy
         tags: 000000000200000005000000
         prefab: {fileID: 497663693229510926, guid: 08303a73ee4b0e74191282e6a77c7272, type: 3}
+        castMode: 0
+        visualId: 0
         damage: 10
         speed: 6
         range: 25
@@ -68,8 +70,13 @@ MonoBehaviour:
         owner: {fileID: 0}
         maxLevel: 7
         currentLevel: 1
+        motionType: 0
+        projectileRadius: 0.35
+        projectileLifetime: 2
+        maxHits: 1
+        arcHeight: 3
         projectileCount: 1
-        projectileSpreadAngle: 12
+        projectileSpreadAngle: 30
         pierceCount: 0
         runeIds:
         - fireball
@@ -83,6 +90,8 @@ MonoBehaviour:
         description: Launch a frostball on nearby enemy
         tags: 000000000200000006000000
         prefab: {fileID: 497663693229510926, guid: dbd520ebf27f0374db5f6f7c8a3a8759, type: 3}
+        castMode: 0
+        visualId: 0
         damage: 8
         speed: 10
         range: 35
@@ -95,6 +104,11 @@ MonoBehaviour:
         owner: {fileID: 0}
         maxLevel: 3
         currentLevel: 1
+        motionType: 0
+        projectileRadius: 0.35
+        projectileLifetime: 2
+        maxHits: 1
+        arcHeight: 3
         projectileCount: 1
         projectileSpreadAngle: 12
         pierceCount: 0
@@ -110,6 +124,8 @@ MonoBehaviour:
         description: 'Slash the enemy in front of you '
         tags: 000000000300000009000000
         prefab: {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
+        castMode: 0
+        visualId: 0
         damage: 8
         speed: 10
         range: 4
@@ -122,6 +138,11 @@ MonoBehaviour:
         owner: {fileID: 0}
         maxLevel: 3
         currentLevel: 1
+        motionType: 0
+        projectileRadius: 0.35
+        projectileLifetime: 2
+        maxHits: 1
+        arcHeight: 3
         projectileCount: 1
         projectileSpreadAngle: 12
         pierceCount: 0
