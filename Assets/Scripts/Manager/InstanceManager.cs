@@ -54,7 +54,11 @@ public class InstanceManager : NetworkBehaviour
     }
 
     [Server]
-    public InstanceInfo CreateInstance(NetworkConnectionToClient conn, string scene, string mapId = "")
+    public InstanceInfo CreateInstance(
+        NetworkConnectionToClient conn,
+        string scene,
+        string mapId = "",
+        int difficulty = 1)
     {
         if (conn == null)
         {
@@ -67,6 +71,8 @@ public class InstanceManager : NetworkBehaviour
 
         if (string.IsNullOrWhiteSpace(mapId))
             mapId = defaultMapId;
+
+        difficulty = Mathf.Clamp(difficulty, 1, 10);
 
         if (!File.Exists(instanceExecutable))
         {
@@ -91,7 +97,13 @@ public class InstanceManager : NetworkBehaviour
             {
                 FileName = instanceExecutable,
                 WorkingDirectory = workingDirectory,
-                Arguments = $"-scene {scene} -mapId {mapId} -port {port} -seed {seed} -logFile {logFile}",
+                Arguments =
+                    $"-scene {scene} " +
+                    $"-mapId {mapId} " +
+                    $"-difficulty {difficulty} " +
+                    $"-port {port} " +
+                    $"-seed {seed} " +
+                    $"-logFile {logFile}",
                 UseShellExecute = false,
                 CreateNoWindow = true
             });
@@ -108,10 +120,24 @@ public class InstanceManager : NetworkBehaviour
             return null;
         }
 
-        InstanceInfo info = new InstanceInfo(instanceId, port, scene, mapId, seed, process.Id);
+        InstanceInfo info = new InstanceInfo(
+            instanceId,
+            port,
+            scene,
+            mapId,
+            seed,
+            process.Id,
+            difficulty
+        );
+
         activeInstances[instanceId] = info;
 
-        UnityEngine.Debug.Log($"[InstanceManager] Starting instance #{instanceId} on port {port}, pid={process.Id}, scene={scene}, mapId={mapId}, seed={seed}");
+        UnityEngine.Debug.Log(
+            $"[InstanceManager] Starting instance #{instanceId} | " +
+            $"port={port} | pid={process.Id} | scene={scene} | " +
+            $"mapId={mapId} | seed={seed} | difficulty={difficulty}"
+        );
+
         UnityEngine.Debug.Log($"[InstanceManager] Log file: {logFile}");
         UnityEngine.Debug.Log($"[InstanceManager] WorkingDirectory: {workingDirectory}");
 
@@ -119,48 +145,9 @@ public class InstanceManager : NetworkBehaviour
     }
 
     [Server]
-    private void CreateInitialHubInstance()
+    public void StartRedirect(NetworkConnectionToClient conn, InstanceInfo info)
     {
-        if (!File.Exists(instanceExecutable))
-        {
-            UnityEngine.Debug.LogError($"[InstanceManager] Missing executable: {instanceExecutable}");
-            return;
-        }
-
-        int instanceId = nextInstanceId++;
-        int seed = Random.Range(0, 999999);
-
-        string logFile = $"/home/server/instance/logs/hub_{hubPort}.log";
-        string workingDirectory = Path.GetDirectoryName(instanceExecutable);
-
-        try
-        {
-            Process process = Process.Start(new ProcessStartInfo
-            {
-                FileName = instanceExecutable,
-                WorkingDirectory = workingDirectory,
-                Arguments = $"-scene {hubSceneName} -port {hubPort} -seed {seed} -logFile {logFile}",
-                UseShellExecute = false,
-                CreateNoWindow = true
-            });
-
-            if (process == null)
-            {
-                UnityEngine.Debug.LogError("[InstanceManager] Hub process returned null");
-                return;
-            }
-
-            activeInstances[instanceId] = new InstanceInfo(instanceId, hubPort, hubSceneName, "", seed, process.Id)
-            {
-                isReady = true
-            };
-
-            UnityEngine.Debug.Log($"[InstanceManager] HUB launched on {ipAddress}:{hubPort}, pid={process.Id}");
-        }
-        catch (System.Exception ex)
-        {
-            UnityEngine.Debug.LogError($"[InstanceManager] Failed to launch HUB: {ex}");
-        }
+        StartCoroutine(DelayedRedirectToInstance(conn, info));
     }
 
     [Server]
@@ -176,14 +163,12 @@ public class InstanceManager : NetworkBehaviour
             yield break;
         }
 
-        UnityEngine.Debug.Log($"[InstanceManager] Redirecting conn={conn.connectionId} to {ipAddress}:{info.port} scene={info.scene}");
-        TargetSendInstanceInfo(conn, ipAddress, info.port, info.scene);
-    }
+        UnityEngine.Debug.Log(
+            $"[InstanceManager] Redirecting conn={conn.connectionId} " +
+            $"to {ipAddress}:{info.port} scene={info.scene} difficulty={info.difficulty}"
+        );
 
-    [Server]
-    private void SavePlayerBeforeRedirect(NetworkConnectionToClient conn)
-    {
-        DatabaseManager.SavePlayerStateFromConnection(conn);
+        TargetSendInstanceInfo(conn, ipAddress, info.port, info.scene);
     }
 
     private int GetNextFreeDynamicPort()
@@ -226,9 +211,17 @@ public class InstanceManager : NetworkBehaviour
         public string mapId;
         public int seed;
         public int processId;
+        public int difficulty;
         public bool isReady;
 
-        public InstanceInfo(int id, int port, string scene, string mapId, int seed, int processId)
+        public InstanceInfo(
+            int id,
+            int port,
+            string scene,
+            string mapId,
+            int seed,
+            int processId,
+            int difficulty)
         {
             this.id = id;
             this.port = port;
@@ -236,6 +229,7 @@ public class InstanceManager : NetworkBehaviour
             this.mapId = mapId;
             this.seed = seed;
             this.processId = processId;
+            this.difficulty = difficulty;
             isReady = false;
         }
     }

@@ -50,11 +50,6 @@ public class InstanceState : NetworkBehaviour
 
     private void TryGenerateClientMap()
     {
-        Debug.Log(
-            $"[InstanceState] TryGenerateClientMap | isServer={isServer} | " +
-            $"clientMapGenerated={clientMapGenerated} | mapId={mapId} | difficulty={difficulty}"
-        );
-
         if (isServer)
             return;
 
@@ -94,9 +89,9 @@ public class InstanceState : NetworkBehaviour
             return;
         }
 
-        seed = newSeed;
         mapId = newMapId;
-        difficulty = Mathf.Max(1, newDifficulty);
+        seed = newSeed;
+        difficulty = Mathf.Clamp(newDifficulty, 1, 10);
 
         Debug.Log(
             $"[InstanceState] Server map set | mapId={mapId} | " +

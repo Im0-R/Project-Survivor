@@ -29,15 +29,36 @@ public class PortalInstances : NetworkBehaviour, IInteractable
 
     public void OnInteract()
     {
-        if (!NetworkClient.active) return;
+        if (!NetworkClient.active)
+            return;
 
         Debug.Log($"[PortalInstances] Interacted | destination={destinationType}");
 
-        CmdRequestPortal();
+        if (destinationType == PortalDestinationType.MapInstance)
+        {
+            if (MapDifficultyCanvas.Instance == null)
+            {
+                Debug.LogError("[PortalInstances] MapDifficultyCanvas.Instance is null");
+                return;
+            }
+
+            MapDifficultyCanvas.Instance.Open(this);
+            return;
+        }
+
+        CmdRequestTown();
+    }
+
+    public void RequestMapWithDifficulty(int difficulty)
+    {
+        if (!NetworkClient.active)
+            return;
+
+        CmdRequestMapInstance(difficulty);
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdRequestPortal(NetworkConnectionToClient sender = null)
+    private void CmdRequestMapInstance(int difficulty, NetworkConnectionToClient sender = null)
     {
         if (isLaunching)
         {
@@ -53,20 +74,31 @@ public class PortalInstances : NetworkBehaviour, IInteractable
 
         isLaunching = true;
 
-        switch (destinationType)
-        {
-            case PortalDestinationType.MapInstance:
-                RequestMapInstance(sender);
-                break;
+        RequestMapInstance(sender, difficulty);
+    }
 
-            case PortalDestinationType.Town:
-                RequestTown(sender);
-                break;
+    [Command(requiresAuthority = false)]
+    private void CmdRequestTown(NetworkConnectionToClient sender = null)
+    {
+        if (isLaunching)
+        {
+            Debug.LogWarning("[PortalInstances] Portal already launching, ignoring request.");
+            return;
         }
+
+        if (sender == null)
+        {
+            Debug.LogError("[PortalInstances] Sender is null");
+            return;
+        }
+
+        isLaunching = true;
+
+        RequestTown(sender);
     }
 
     [Server]
-    private void RequestMapInstance(NetworkConnectionToClient sender)
+    private void RequestMapInstance(NetworkConnectionToClient sender, int difficulty)
     {
         if (InstanceManager.Instance == null)
         {
@@ -83,10 +115,15 @@ public class PortalInstances : NetworkBehaviour, IInteractable
             ? "forest_01"
             : targetMapId;
 
-        Debug.Log($"[PortalInstances] Creating instance | scene={sceneName} | mapId={mapId}");
+        difficulty = Mathf.Clamp(difficulty, 1, 10);
+
+        Debug.Log(
+            $"[PortalInstances] Creating instance | scene={sceneName} | " +
+            $"mapId={mapId} | difficulty={difficulty}"
+        );
 
         InstanceManager.InstanceInfo info =
-            InstanceManager.Instance.CreateInstance(sender, sceneName, mapId);
+            InstanceManager.Instance.CreateInstance(sender, sceneName, mapId, difficulty);
 
         if (info == null)
         {

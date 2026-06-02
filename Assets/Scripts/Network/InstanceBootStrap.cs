@@ -62,7 +62,7 @@ public class InstanceBootStrap : MonoBehaviour
             }
         }
 
-        DifficultyArg = Mathf.Max(1, DifficultyArg);
+        DifficultyArg = Mathf.Clamp(DifficultyArg, 1, 10);
 
         Debug.Log(
             $"[InstanceBootStrap] ARGS scene={SceneArg} | mapId={MapIdArg} | " +

@@ -121,6 +121,7 @@ public class InstanceNetworkManager : NetworkManager
 
         string mapId = GetServerMapId();
         int seed = GetServerSeed();
+        int difficulty = GetServerDifficulty();
 
         if (string.IsNullOrWhiteSpace(mapId))
         {
@@ -149,19 +150,12 @@ public class InstanceNetworkManager : NetworkManager
         SpawnDebug.LogSpawn(obj, "InstanceState");
         NetworkServer.Spawn(obj);
 
-        int difficulty = GetServerDifficulty();
-
         instanceState.SetMap(mapId, seed, difficulty);
-        Debug.Log($"[InstanceNetworkManager] Spawned InstanceState | mapId={mapId} | seed={seed} | difficulty={difficulty}");
-    }
 
-    private int GetServerDifficulty()
-    {
-#if UNITY_SERVER
-        return InstanceBootStrap.DifficultyArg;
-#else
-        return 1;
-#endif
+        Debug.Log(
+            $"[InstanceNetworkManager] Spawned InstanceState | " +
+            $"mapId={mapId} | seed={seed} | difficulty={difficulty}"
+        );
     }
 
     private IEnumerator GenerateMapWhenSceneReady()
@@ -186,6 +180,7 @@ public class InstanceNetworkManager : NetworkManager
 
         string mapId = GetServerMapId();
         int seed = GetServerSeed();
+        int difficulty = GetServerDifficulty();
 
         if (string.IsNullOrWhiteSpace(mapId))
         {
@@ -194,9 +189,12 @@ public class InstanceNetworkManager : NetworkManager
             yield break;
         }
 
-        Debug.Log($"[InstanceNetworkManager] Starting map generation | mapId={mapId} | seed={seed}");
+        Debug.Log(
+            $"[InstanceNetworkManager] Starting map generation | " +
+            $"mapId={mapId} | seed={seed} | difficulty={difficulty}"
+        );
 
-        yield return mapGenerator.Generate(mapId, seed);
+        yield return mapGenerator.Generate(mapId, seed, difficulty);
 
         mapReady = true;
 
@@ -295,6 +293,7 @@ public class InstanceNetworkManager : NetworkManager
         }
 
         DatabaseManager.LoadPlayerState(username, inv, equip, stash, arcanaLoadout);
+
         PlayerEntity playerEntity = player.GetComponent<PlayerEntity>();
 
         if (playerEntity != null)
@@ -304,10 +303,11 @@ public class InstanceNetworkManager : NetworkManager
             kcp2k.KcpTransport kcp = Transport.active as kcp2k.KcpTransport;
 
             if (kcp != null)
-                currentPort = kcp.port;
+                currentPort = kcp.Port;
 
             PartyManager.UpdateLocationFor(playerEntity, currentPort);
         }
+
         Debug.Log($"[InstanceNetworkManager] Loaded save + stash + arcana loadout for {username}");
     }
 
@@ -329,6 +329,7 @@ public class InstanceNetworkManager : NetworkManager
 
         GameObject stm = Instantiate(serverTimeManagerPrefab);
         DontDestroyOnLoad(stm);
+
         SpawnDebug.LogSpawn(stm, "ServerTimeManager");
         NetworkServer.Spawn(stm);
 
@@ -385,6 +386,15 @@ public class InstanceNetworkManager : NetworkManager
         return InstanceBootStrap.SeedArg;
 #else
         return 0;
+#endif
+    }
+
+    private int GetServerDifficulty()
+    {
+#if UNITY_SERVER
+        return Mathf.Clamp(InstanceBootStrap.DifficultyArg, 1, 10);
+#else
+        return 1;
 #endif
     }
 }
