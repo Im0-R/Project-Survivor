@@ -2,7 +2,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
-
+using UnityEngine.EventSystems;
 public class PlayerMovement : NetworkBehaviour
 {
     private NavMeshAgent agent;
@@ -112,6 +112,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MoveToCursor()
     {
+        // Block clicks when mouse is over UI
+        if (EventSystem.current != null &&
+            EventSystem.current.IsPointerOverGameObject())
+            return;
+
         Camera cam = GetCamera();
 
         if (cam == null)

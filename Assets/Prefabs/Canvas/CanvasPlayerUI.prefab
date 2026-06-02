@@ -1657,9 +1657,9 @@ RectTransform:
   - {fileID: 1948627766603265103}
   - {fileID: 4256921044296193490}
   - {fileID: 7862152213399008253}
+  - {fileID: 4569422136460298007}
   - {fileID: 1107515846382870538}
   - {fileID: 5477354197699278441}
-  - {fileID: 4569422136460298007}
   - {fileID: 144439067534586168}
   - {fileID: 5355158873094024716}
   - {fileID: 6290470570338896824}
@@ -2497,6 +2497,7 @@ MonoBehaviour:
   panel: {fileID: 8606020721523614731}
   contentParent: {fileID: 1060155658988396159}
   memberPrefab: {fileID: 7276953304596938745, guid: db20038bfb7d2fb4a96b58710d05bae0, type: 3}
+  leavePartyButton: {fileID: 0}
   enableClientLogs: 1
 --- !u!1001 &240556051763143399
 PrefabInstance:
@@ -8557,6 +8558,18 @@ PrefabInstance:
       value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -8586,7 +8599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960
+      value: 960.00024
       objectReference: {fileID: 0}
     - target: {fileID: 8069935233708724773, guid: d1c041c53eefa3e4cbbc7848a4f8bc72, type: 3}
       propertyPath: m_AnchoredPosition.y
