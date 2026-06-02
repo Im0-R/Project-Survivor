@@ -49,7 +49,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   townIp: 72.60.212.58
-  townPort: 7777
+  townPort: 8000
   townSceneName: Town
 --- !u!114 &3901439048469826075
 MonoBehaviour:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
   sceneId: 0
-  _assetId: 0
+  _assetId: 3003218610
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
