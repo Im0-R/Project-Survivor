@@ -27,7 +27,7 @@ public class MapDifficultyCanvas : MonoBehaviour
             panel.SetActive(false);
 
         difficultySlider.minValue = 1;
-        difficultySlider.maxValue = 10;
+        difficultySlider.maxValue = 50;
         difficultySlider.wholeNumbers = true;
         difficultySlider.value = 1;
 

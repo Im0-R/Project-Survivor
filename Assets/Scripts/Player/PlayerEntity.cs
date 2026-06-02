@@ -445,6 +445,41 @@ public class PlayerEntity : NetworkEntity
     // =====================================================
     // UI
     // =====================================================
+    [Server]
+    public void ShowDeathCanvasServer()
+    {
+        if (connectionToClient == null)
+        {
+            Debug.LogError("[PlayerEntity] Cannot show death canvas, connectionToClient is null");
+            return;
+        }
+
+        TargetShowDeathCanvas(connectionToClient);
+    }
+
+    [TargetRpc]
+    private void TargetShowDeathCanvas(NetworkConnection target)
+    {
+        if (DeathCanvas.Instance == null)
+        {
+            Debug.LogError("[PlayerEntity] DeathCanvas.Instance is null");
+            return;
+        }
+
+        DeathCanvas.Instance.Open(this);
+    }
+
+    [Command]
+    public void CmdRespawnToTown()
+    {
+        if (InstanceRedirectManager.Instance == null)
+        {
+            Debug.LogError("[PlayerEntity] InstanceRedirectManager.Instance is null");
+            return;
+        }
+
+        InstanceRedirectManager.Instance.RedirectToTown(connectionToClient);
+    }
 
     [TargetRpc]
     private void TargetShowSpellRewardUI(NetworkConnection target, string[] rewardCodes, int newLevel)

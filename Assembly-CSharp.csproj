@@ -103,6 +103,7 @@
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellNetworkFX.cs" />
+    <Compile Include="Assets\Scripts\Map\MapDifficultyCanvas.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
     <Compile Include="Assets\Scripts\KeepAlive.cs" />
     <Compile Include="Assets\Scripts\Visual\ClientSpellVisualManager.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Assets\Scripts\Stats\StatsDataSO.cs" />
     <Compile Include="Assets\Scripts\Loot\LootTableEntry.cs" />
     <Compile Include="Assets\Scripts\Manager\InstanceManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Death\DeathCanvas.cs" />
     <Compile Include="Assets\Scripts\Misc\Entity.cs" />
     <Compile Include="Assets\Scripts\Network\NetworkEntity.cs" />
     <Compile Include="Assets\Scripts\Spells\FrostballSpell.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Spells\Spell.cs" />
     <Compile Include="Assets\Scripts\Visual\ISpellExecutor.cs" />
+    <Compile Include="Assets\Scripts\Manager\InstanceRedirectManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemySleepState.cs" />
     <Compile Include="Assets\Scripts\UI\SpellSlotUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />

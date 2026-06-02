@@ -95,7 +95,7 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -167,7 +167,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4795202096430730119}
-  - {fileID: 3777103471835375605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -195,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa04a1722c46d7f44bcde40d2eadba26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapDifficultyCanvas
-  panel: {fileID: 3074547533602701834}
+  panel: {fileID: 8317132302696181036}
   difficultySlider: {fileID: 413778008039222775}
   difficultyText: {fileID: 7755391963340460806}
   multipliersText: {fileID: 1468747798471584056}
@@ -229,7 +228,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3777103471835375605}
   m_Father: {fileID: 48666817523622938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -281,7 +281,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 48666817523622938}
+    m_TransformParent: {fileID: 4795202096430730119}
     m_Modifications:
     - target: {fileID: 959491077074204366, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -405,15 +405,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6222414655627627071, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6222414655627627071, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6222414655627627071, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6222414655627627071, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -474,11 +474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
---- !u!1 &3074547533602701834 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5231632455979216832, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}
-  m_PrefabInstance: {fileID: 7075298711982239178}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3777103471835375605 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6222414655627627071, guid: 433b26ae9a5282f4c896a8a4dbf9f74a, type: 3}

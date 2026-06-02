@@ -55,7 +55,10 @@ public class NetworkEntity : NetworkBehaviour
 
     [SyncVar]
     private bool spellsEnabled = true;
-        
+
+    [SyncVar]
+    private bool isDead;
+
     [Header("Config")]
     public StatsComponent StatComp;
 
@@ -70,6 +73,8 @@ public class NetworkEntity : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        isDead = false;
 
         OnDeath -= Die;
         OnDeath += Die;
@@ -104,18 +109,23 @@ public class NetworkEntity : NetworkBehaviour
         if (!spellsEnabled)
             return;
 
+        if (isDead)
+            return;
+
         UpdateSpells();
     }
 
     protected virtual void Die()
     {
-        if (!isServer) return;
+        if (!isServer)
+            return;
 
         if (TryGetComponent<NetworkIdentity>(out NetworkIdentity netIdentity))
             NetworkServer.Destroy(gameObject);
         else
             Destroy(gameObject);
     }
+
     [Server]
     public void EnableSpells()
     {
@@ -127,6 +137,7 @@ public class NetworkEntity : NetworkBehaviour
     {
         spellsEnabled = false;
     }
+
     [Server]
     public void AddArcanaWithRunes(string arcanaName, string[] runeIds)
     {
@@ -166,20 +177,38 @@ public class NetworkEntity : NetworkBehaviour
         if (StatComp == null)
             return;
 
+        if (isDead)
+            return;
+
         StatComp.TakeDamage(amount, isCrit);
 
-        if (StatComp.Get(StatId.CurrentHealth) <= 0f)
-            OnDeath?.Invoke();
+        if (StatComp.Get(StatId.CurrentHealth) > 0f)
+            return;
+
+        isDead = true;
+        DisableSpells();
+
+        if (this is PlayerEntity player)
+        {
+            player.ShowDeathCanvasServer();
+            return;
+        }
+
+        OnDeath?.Invoke();
     }
 
     public void RequestDeathServer()
     {
-        if (!isServer) return;
+        if (!isServer)
+            return;
     }
 
     [Command]
     public void CmdCastSpell(string spellName)
     {
+        if (isDead)
+            return;
+
         Spell spell = GetSpellByName(spellName);
 
         if (spell == null)
@@ -191,6 +220,7 @@ public class NetworkEntity : NetworkBehaviour
         spell.ExecuteServer(this);
         RpcCastSpell(spellName);
     }
+
     [ClientRpc]
     public void RpcTriggerSpellCooldown(string spellName, float cooldown)
     {
@@ -200,6 +230,7 @@ public class NetworkEntity : NetworkBehaviour
         if (SpellsSlotsUI.Instance != null)
             SpellsSlotsUI.Instance.TriggerCooldown(spellName, cooldown);
     }
+
     [ClientRpc]
     private void RpcCastSpell(string spellName)
     {
@@ -473,8 +504,11 @@ public class NetworkEntity : NetworkBehaviour
         if (isLocalPlayer && CanvasArcana.Instance != null)
         {
             CanvasArcana.Instance.Refresh();
-            SpellsSlotsUI.Instance.Bind(this);
+
+            if (SpellsSlotsUI.Instance != null)
+                SpellsSlotsUI.Instance.Bind(this);
         }
+
         Debug.Log($"[CLIENT] Rebuild spells OK, {activeSpells.Count} spell(s) pour {name}.");
     }
 
