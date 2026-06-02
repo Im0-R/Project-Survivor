@@ -499,9 +499,18 @@ public class PlayerEntity : NetworkEntity
 
         PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null)
-            movement.InputBlocked = true;
+            movement.SetInputBlocked(true);
     }
+    [TargetRpc]
+    public void TargetSetDeadState(NetworkConnection target, bool dead)
+    {
+        PlayerMovement movement = GetComponent<PlayerMovement>();
 
+        if (movement != null)
+            movement.SetInputBlocked(dead);
+        if (SpellsSlotsUI.Instance != null)
+            SpellsSlotsUI.Instance.SetInteractable(!dead);
+    }
     [TargetRpc]
     private void TargetHideSpellRewardUI(NetworkConnection target)
     {
@@ -510,7 +519,7 @@ public class PlayerEntity : NetworkEntity
 
         PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null)
-            movement.InputBlocked = false;
+            movement.SetInputBlocked(false);
     }
 
     // =====================================================

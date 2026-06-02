@@ -7,7 +7,7 @@ public class InstanceRedirectManager : NetworkBehaviour
 
     [Header("Town")]
     [SerializeField] private string townIp = "72.60.212.58";
-    [SerializeField] private int townPort = 7777;
+    [SerializeField] private int townPort = 8000;
     [SerializeField] private string townSceneName = "Town";
 
     private void Awake()

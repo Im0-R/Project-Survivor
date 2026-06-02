@@ -40,7 +40,17 @@ public class SpellsSlotsUI : MonoBehaviour
         if (Instance == this)
             Instance = null;
     }
+    public void SetInteractable(bool interactable)
+    {
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
 
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+        canvasGroup.interactable = interactable;
+        canvasGroup.blocksRaycasts = interactable;
+        canvasGroup.alpha = interactable ? 1f : 0.4f;
+    }
     public void Refresh()
     {
         ClearSlots();

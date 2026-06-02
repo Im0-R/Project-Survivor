@@ -182,19 +182,23 @@ public class NetworkEntity : NetworkBehaviour
 
         StatComp.TakeDamage(amount, isCrit);
 
-        if (StatComp.Get(StatId.CurrentHealth) > 0f)
-            return;
-
-        isDead = true;
-        DisableSpells();
-
-        if (this is PlayerEntity player)
+        if (StatComp.Get(StatId.CurrentHealth) <= 0f)
         {
-            player.ShowDeathCanvasServer();
-            return;
-        }
+            if (isDead)
+                return;
 
-        OnDeath?.Invoke();
+            isDead = true;
+            DisableSpells();
+
+            if (this is PlayerEntity player)
+            {
+                player.TargetSetDeadState(player.connectionToClient, true);
+                player.ShowDeathCanvasServer();
+                return;
+            }
+
+            OnDeath?.Invoke();
+        }
     }
 
     public void RequestDeathServer()

@@ -11,62 +11,100 @@ public class PlayerMovement : NetworkBehaviour
     private GameObject interactableTarget;
     private bool isHoldingClick = false;
 
-    public bool InputBlocked { get; set; }
+    public bool InputBlocked { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         inputActions = new PlayerInputActions();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         inputActions.Enable();
         inputActions.Player.MoveClick.started += OnMoveClickStarted;
         inputActions.Player.MoveClick.canceled += OnMoveClickCanceled;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         inputActions.Player.MoveClick.started -= OnMoveClickStarted;
         inputActions.Player.MoveClick.canceled -= OnMoveClickCanceled;
         inputActions.Disable();
     }
 
-    private void OnMoveClickStarted(InputAction.CallbackContext ctx)
+    private void Start()
     {
-        isHoldingClick = true;
-    }
-
-    private void OnMoveClickCanceled(InputAction.CallbackContext ctx)
-    {
-        isHoldingClick = false;
-    }
-
-    void Start()
-    {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer)
+            return;
 
         agent = GetComponent<NavMeshAgent>();
+
         if (agent != null)
             agent.updateRotation = false;
 
         mainCamera = Camera.main;
     }
 
+    public void SetInputBlocked(bool blocked)
+    {
+        InputBlocked = blocked;
+
+        if (blocked)
+        {
+            isHoldingClick = false;
+            interactableTarget = null;
+
+            if (agent != null && agent.isOnNavMesh)
+            {
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+            }
+        }
+    }
+
+    private void OnMoveClickStarted(InputAction.CallbackContext ctx)
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (InputBlocked)
+            return;
+
+        isHoldingClick = true;
+    }
+
+    private void OnMoveClickCanceled(InputAction.CallbackContext ctx)
+    {
+        if (!isLocalPlayer)
+            return;
+
+        isHoldingClick = false;
+    }
+
     private void Update()
     {
-        if (!isLocalPlayer) return;
-        if (InputBlocked) return;
-        if (agent == null) return;
+        if (!isLocalPlayer)
+            return;
+
+        if (InputBlocked)
+            return;
+
+        if (agent == null)
+            return;
 
         InteractTarget();
     }
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
-        if (InputBlocked) return;
-        if (agent == null) return;
+        if (!isLocalPlayer)
+            return;
+
+        if (InputBlocked)
+            return;
+
+        if (agent == null)
+            return;
 
         if (isHoldingClick)
             MoveToCursor();
@@ -74,10 +112,13 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MoveToCursor()
     {
-        var cam = GetCamera();
-        if (cam == null) return;
+        Camera cam = GetCamera();
+
+        if (cam == null)
+            return;
 
         Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (ClickInteractable(hit))
@@ -98,7 +139,10 @@ public class PlayerMovement : NetworkBehaviour
         if (hit.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
             interactableTarget = hit.collider.gameObject;
-            agent.SetDestination(interactableTarget.transform.position);
+
+            if (agent != null && agent.isOnNavMesh)
+                agent.SetDestination(interactableTarget.transform.position);
+
             return true;
         }
 
@@ -108,9 +152,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void InteractTarget()
     {
-        if (!interactableTarget) return;
+        if (!interactableTarget)
+            return;
 
         float distance = Vector3.Distance(transform.position, interactableTarget.transform.position);
+
         if (distance < 3f)
         {
             if (interactableTarget.TryGetComponent<IInteractable>(out IInteractable interactable))
@@ -123,7 +169,8 @@ public class PlayerMovement : NetworkBehaviour
 
     private Camera GetCamera()
     {
-        if (mainCamera != null) return mainCamera;
+        if (mainCamera != null)
+            return mainCamera;
 
         if (CameraFollow.LocalCamera != null)
             mainCamera = CameraFollow.LocalCamera;
