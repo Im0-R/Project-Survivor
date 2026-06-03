@@ -69,7 +69,7 @@ public class ItemPreview : MonoBehaviour
                     continue;
                 }
 
-                modText.text = $"Grant +{item.affixes[i].value} to {affix.stat}";
+                modText.text = $"{item.affixes[i].value} to {affix.stat}";
             }
         }
 

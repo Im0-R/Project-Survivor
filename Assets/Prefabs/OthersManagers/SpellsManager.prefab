@@ -126,7 +126,7 @@ MonoBehaviour:
         prefab: {fileID: 9160945438132965766, guid: a5070dc45bef38d4c90ca5cac39b6115, type: 3}
         castMode: 0
         visualId: 0
-        damage: 8
+        damage: 4
         speed: 10
         range: 4
         duration: 0.3

@@ -225,17 +225,14 @@ public class CanvasArcana : MonoBehaviour
 
     private void RefreshInventory()
     {
-        Debug.Log("[CanvasArcana] RefreshInventory()");
 
         if (currentLoadout == null)
         {
-            Debug.LogError("[CanvasArcana] currentLoadout NULL");
             return;
         }
 
         if (currentEntity == null)
         {
-            Debug.LogError("[CanvasArcana] currentEntity NULL");
             return;
         }
 
@@ -253,14 +250,12 @@ public class CanvasArcana : MonoBehaviour
 
             if (i >= ownedArcana.Length)
             {
-                Debug.Log($"[CanvasArcana] Slot {i} EMPTY");
                 arcanaInventorySlots[i].Clear();
                 continue;
             }
 
             string arcanaName = ownedArcana[i];
 
-            Debug.Log($"[CanvasArcana] Slot {i} = {arcanaName}");
 
             arcanaInventorySlots[i].Set(
                 arcanaName,

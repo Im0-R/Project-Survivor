@@ -31,7 +31,7 @@ public static class BuildScript
 
         if (scenes.Length == 0)
         {
-            Debug.LogError("❌ No Server_Main.unity found in Build Settings!");
+            Debug.LogError("No Server_Main.unity found in Build Settings!");
             return;
         }
 
@@ -40,7 +40,7 @@ public static class BuildScript
             Debug.Log(scene);
 
         Build(fullPath, scenes);
-        Debug.Log("✅ MASTER build OK → " + fullPath);
+        Debug.Log("MASTER build OK → " + fullPath);
     }
 
     [MenuItem("Build/Server Build INSTANCE")]
@@ -72,14 +72,14 @@ public static class BuildScript
 
         if (scenes.Length == 0)
         {
-            Debug.LogError("❌ No BootStrapInstance/Town/MapInstance found in Build Settings!");
+            Debug.LogError("No BootStrapInstance/Town/MapInstance found in Build Settings!");
             return;
         }
 
         bool hasBootstrap = scenes.Any(s => s.EndsWith("BootStrapInstance.unity"));
         if (!hasBootstrap)
         {
-            Debug.LogError("❌ BootStrapInstance.unity is missing from INSTANCE build.");
+            Debug.LogError("BootStrapInstance.unity is missing from INSTANCE build.");
             return;
         }
 
@@ -88,7 +88,7 @@ public static class BuildScript
             Debug.Log(scene);
 
         Build(fullPath, scenes);
-        Debug.Log("✅ INSTANCE build OK → " + fullPath);
+        Debug.Log("INSTANCE build OK → " + fullPath);
     }
 
     private static void Build(string fullPath, string[] scenes)
@@ -117,20 +117,20 @@ public static class BuildScript
 
         if (report.summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("✔ Build succeeded: " + fullPath);
+            Debug.Log("Build succeeded: " + fullPath);
             MakeExecutable(fullPath);
 
             string buildFolder = Path.GetDirectoryName(fullPath);
             string rootUnityPlayer = Path.Combine(buildFolder, "UnityPlayer.so");
 
             if (!File.Exists(rootUnityPlayer))
-                Debug.LogWarning("⚠ UnityPlayer.so not found next to executable. Server may fail to start.");
+                Debug.LogWarning("UnityPlayer.so not found next to executable. Server may fail to start.");
             else
-                Debug.Log("✔ UnityPlayer.so present next to executable: " + rootUnityPlayer);
+                Debug.Log("UnityPlayer.so present next to executable: " + rootUnityPlayer);
         }
         else
         {
-            Debug.LogError("❌ Build FAILED: " + report.summary.result);
+            Debug.LogError("Build FAILED: " + report.summary.result);
         }
 
         RemoveDefine("UNITY_SERVER", BuildTargetGroup.Standalone);
