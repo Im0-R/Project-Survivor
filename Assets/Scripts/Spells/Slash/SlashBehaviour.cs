@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlashBehaviour : NetworkBehaviour
 {
-    private float damage;
+    private DamageInfo damageInfo;
     private NetworkEntity owner;
     private float radius;
     private float duration;
@@ -21,10 +21,10 @@ public class SlashBehaviour : NetworkBehaviour
 
     private TrailRenderer trailRenderer;
 
-    public void Initialize(NetworkEntity ownerEntity, float dmg, float dur, float rad)
+    public void Initialize(NetworkEntity ownerEntity, DamageInfo dmgInfo, float dur, float rad)
     {
         owner = ownerEntity;
-        damage = dmg;
+        damageInfo = dmgInfo;
         duration = Mathf.Max(0.05f, dur);
         radius = rad;
 
@@ -50,6 +50,14 @@ public class SlashBehaviour : NetworkBehaviour
 
         if (isServer)
             Invoke(nameof(DespawnSelf), lifeTime);
+    }
+
+    public void Initialize(NetworkEntity ownerEntity, float dmg, float dur, float rad)
+    {
+        DamageInfo info = new DamageInfo(false);
+        info.Add(DamageType.Physical, dmg);
+
+        Initialize(ownerEntity, info, dur, rad);
     }
 
     private void Update()
@@ -112,7 +120,7 @@ public class SlashBehaviour : NetworkBehaviour
 
         alreadyHit.Add(otherNetEntity);
 
-        otherNetEntity.ApplyDamageServer(damage);
+        otherNetEntity.ApplyDamageServer(damageInfo);
     }
 
     private void DespawnSelf()
@@ -125,4 +133,4 @@ public class SlashBehaviour : NetworkBehaviour
         if (isServer)
             NetworkServer.Destroy(gameObject);
     }
-}   
+}

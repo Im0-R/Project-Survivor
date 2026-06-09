@@ -5,55 +5,49 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-
-//Create an affix for each of the value in StatId enum
 public static class AffixGenerator
 {
-
     [MenuItem("Tools/Affixes/Generate Affixes")]
-
     public static void GenerateAffixes()
     {
-        //Get all values from StatId enum
         IEnumerable<StatId> statIds = Enum.GetValues(typeof(StatId)).Cast<StatId>();
-        //Create a folder "Assets/Resources/Affixes" if it doesn't exist
+
         string folderPath = "Assets/Resources/ScriptableObjects/Affixes";
+
         if (!Directory.Exists(folderPath))
-        {
             Directory.CreateDirectory(folderPath);
-        }
+
         foreach (StatId statId in statIds)
         {
             string assetPath = Path.Combine(folderPath, $"{statId}Affix.asset");
-            if (Directory.Exists(assetPath))
+
+            if (File.Exists(assetPath))
             {
                 Debug.LogWarning($"Affix for {statId} already exists. Skipping.");
                 continue;
             }
 
-
-            //Create a new AffixSO
             AffixSO affix = ScriptableObject.CreateInstance<AffixSO>();
             affix.stat = statId;
-            affix.minValue = 1;
-            affix.maxValue = 5;
+            affix.weight = 100;
 
-
-            //Save the AffixSO as an asset
-            if (Directory.Exists(assetPath))
+            affix.tiers = new AffixTier[]
             {
-                Debug.LogWarning($"Affix for {statId} already exists. Skipping.");
-                continue;
-            }
-            AssetDatabase.CreateAsset(affix, assetPath);
+                new AffixTier
+                {
+                    tier = 1,
+                    minItemLevel = 1,
+                    minValue = 1,
+                    maxValue = 5
+                }
+            };
 
+            AssetDatabase.CreateAsset(affix, assetPath);
         }
 
-
-        //Refresh the AssetDatabase
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
         Debug.Log("Generated affixes for all StatId values.");
     }
-
 }

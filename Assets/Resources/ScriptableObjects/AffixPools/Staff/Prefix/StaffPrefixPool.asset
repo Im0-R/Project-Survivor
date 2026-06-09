@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da6e8a2b01d1bc46950f609981035ca, type: 3}
   m_Name: StaffPrefixPool
   m_EditorClassIdentifier: Assembly-CSharp::AffixPoolSO
-  affixes:
-  - {fileID: 11400000, guid: 390dbd1f2770e284a9527b180237f753, type: 2}
+  affixes: []

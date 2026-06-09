@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da6e8a2b01d1bc46950f609981035ca, type: 3}
   m_Name: HelmetPrefixPool
   m_EditorClassIdentifier: Assembly-CSharp::AffixPoolSO
-  affixes:
-  - {fileID: 11400000, guid: cdb465f5146481a478ed01ed86c9cac4, type: 2}
-  - {fileID: 11400000, guid: 4c4b88543bc57d246b92756c3d9c4f7b, type: 2}
+  affixes: []

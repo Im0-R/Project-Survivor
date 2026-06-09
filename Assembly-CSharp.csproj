@@ -131,6 +131,7 @@
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootTableRoll.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellCasterServer.cs" />
+    <Compile Include="Assets\Scripts\Stats\DamagePart.cs" />
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyChaseState.cs" />
     <Compile Include="Assets\Scripts\MapMechanic\MapEventState.cs" />
+    <Compile Include="Assets\Scripts\Stats\DamageCalculator.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotData.cs" />
     <Compile Include="Assets\Scripts\Network\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\ItemPreview.cs" />

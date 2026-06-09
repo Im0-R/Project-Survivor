@@ -12,8 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da6e8a2b01d1bc46950f609981035ca, type: 3}
   m_Name: HelmetSuffixPools
   m_EditorClassIdentifier: Assembly-CSharp::AffixPoolSO
-  affixes:
-  - {fileID: 11400000, guid: 1a61236b67ecf1c4caa7f5e7255fce16, type: 2}
-  - {fileID: 11400000, guid: 0cacebd7a9c15754bac6de6b3e553b90, type: 2}
-  - {fileID: 11400000, guid: fd21d9ff57aef924cbc0ceb2ebb42921, type: 2}
-  - {fileID: 11400000, guid: 4949e8ad8a8811640ac4281eb6d5b2cd, type: 2}
+  affixes: []

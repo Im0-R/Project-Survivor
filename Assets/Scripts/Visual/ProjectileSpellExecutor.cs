@@ -144,7 +144,7 @@ public class ProjectileSpellExecutor : ISpellExecutor
                         alreadyHit.Add(hitEntity);
                         hitCount++;
 
-                        hitEntity.ApplyDamageServer(data.damage);
+                        hitEntity.ApplyDamageServer(CreateDamageInfo(data));
 
                         if (fx != null)
                             fx.RpcSpawnImpactVisual(data.visualId, hit.point);
@@ -211,5 +211,11 @@ public class ProjectileSpellExecutor : ISpellExecutor
         if (owner is Enemy && target is Enemy) return false;
 
         return true;
+    }
+    private DamageInfo CreateDamageInfo(Spell.SpellData data)
+    {
+        DamageInfo damageInfo = new DamageInfo(false);
+        damageInfo.Add(data.damageType, data.damage);
+        return damageInfo;
     }
 }

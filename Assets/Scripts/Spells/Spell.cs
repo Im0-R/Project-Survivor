@@ -34,6 +34,7 @@ public abstract class Spell
 
         [Header("Base Stats")]
         public float damage;
+        public DamageType damageType = DamageType.Physical;
         public float speed;
         public float range;
         public float duration;
@@ -274,5 +275,37 @@ public abstract class Spell
             pierce += Mathf.RoundToInt(player.GetSpellModifier(data.spellName, "Pierce"));
 
         return Mathf.Max(0, pierce);
+    }
+    protected DamageInfo BuildDamageInfo(NetworkEntity owner, bool isCrit = false)
+    {
+        DamageInfo damageInfo = new DamageInfo(isCrit);
+
+        float finalDamage = GetFinalDamage(owner);
+        damageInfo.Add(data.damageType, finalDamage);
+
+        return damageInfo;
+    }
+    protected SpellData BuildRuntimeData(NetworkEntity owner)
+    {
+        SpellData runtimeData = data.Clone();
+
+        runtimeData.damage = GetFinalDamage(owner);
+        runtimeData.speed = GetFinalProjectileSpeed(owner);
+        runtimeData.projectileCount = GetFinalProjectileCount(owner);
+        runtimeData.pierceCount = GetFinalPierce(owner);
+
+        return runtimeData;
+    }
+
+    protected DamageInfo BuildDamageInfoFromRuntimeData(SpellData runtimeData, bool isCrit = false)
+    {
+        DamageInfo damageInfo = new DamageInfo(isCrit);
+
+        if (runtimeData == null)
+            return damageInfo;
+
+        damageInfo.Add(runtimeData.damageType, runtimeData.damage);
+
+        return damageInfo;
     }
 }

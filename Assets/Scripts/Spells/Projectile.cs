@@ -4,7 +4,7 @@ using UnityEngine;
 public class Projectile : NetworkBehaviour
 {
     private float speed;
-    private float damage;
+    private DamageInfo damageInfo;
     private NetworkEntity owner;
     private Vector3 direction;
 
@@ -16,29 +16,23 @@ public class Projectile : NetworkBehaviour
     public void Initialize(
         NetworkEntity ownerEntity,
         Transform targetTransform,
-        float dmg,
+        DamageInfo dmgInfo,
         float spd = 10f,
         float scale = 1f,
         int pierce = 0,
         Vector3? forcedDirection = null)
     {
         owner = ownerEntity;
-        damage = dmg;
+        damageInfo = dmgInfo;
         speed = spd;
         pierceRemaining = Mathf.Max(0, pierce);
 
         if (forcedDirection.HasValue)
-        {
             direction = forcedDirection.Value;
-        }
         else if (targetTransform != null)
-        {
             direction = targetTransform.position - transform.position;
-        }
         else
-        {
             direction = transform.forward;
-        }
 
         direction.y = 0f;
 
@@ -51,6 +45,22 @@ public class Projectile : NetworkBehaviour
         transform.localScale = Vector3.one * Mathf.Max(0.1f, scale);
 
         initialized = true;
+    }
+
+    public void Initialize(
+        NetworkEntity ownerEntity,
+        Transform targetTransform,
+        float dmg,
+        DamageType damageType,
+        float spd = 10f,
+        float scale = 1f,
+        int pierce = 0,
+        Vector3? forcedDirection = null)
+    {
+        DamageInfo info = new DamageInfo(false);
+        info.Add(damageType, dmg);
+
+        Initialize(ownerEntity, targetTransform, info, spd, scale, pierce, forcedDirection);
     }
 
     private void Update()
@@ -83,7 +93,7 @@ public class Projectile : NetworkBehaviour
         if (!initialized)
             return;
 
-        NetworkEntity otherNetEntity = other.GetComponent<NetworkEntity>();
+        NetworkEntity otherNetEntity = other.GetComponentInParent<NetworkEntity>();
 
         if (otherNetEntity == null || otherNetEntity == owner)
             return;
@@ -94,7 +104,7 @@ public class Projectile : NetworkBehaviour
         if (otherNetEntity is Enemy && owner is Enemy)
             return;
 
-        otherNetEntity.ApplyDamageServer(damage);
+        otherNetEntity.ApplyDamageServer(damageInfo);
 
         if (pierceRemaining > 0)
         {

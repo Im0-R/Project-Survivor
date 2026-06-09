@@ -172,7 +172,7 @@ public class NetworkEntity : NetworkBehaviour
     }
 
     [Server]
-    public void ApplyDamageServer(float amount, bool isCrit = false)
+    public void ApplyDamageServer(DamageInfo damageInfo)
     {
         if (StatComp == null)
             return;
@@ -180,7 +180,7 @@ public class NetworkEntity : NetworkBehaviour
         if (isDead)
             return;
 
-        StatComp.TakeDamage(amount, isCrit);
+        StatComp.TakeDamage(damageInfo);
 
         if (StatComp.Get(StatId.CurrentHealth) <= 0f)
         {
@@ -200,7 +200,6 @@ public class NetworkEntity : NetworkBehaviour
             OnDeath?.Invoke();
         }
     }
-
     public void RequestDeathServer()
     {
         if (!isServer)

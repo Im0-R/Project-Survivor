@@ -168,14 +168,20 @@ public class StatsComponent : NetworkBehaviour
         stats[StatId.CurrentMana] = Mathf.Clamp(oldMana, 0f, maxMana);
     }
     [Server]
-    public void TakeDamage(float amount, bool isCrit = false)
+    public void TakeDamage(DamageInfo damageInfo)
     {
+        float finalDamage = DamageCalculator.CalculateFinalDamage(this, damageInfo);
+
         float oldHealth = Get(StatId.CurrentHealth);
-        float newHealth = Mathf.Max(0f, oldHealth - amount);
+        float newHealth = Mathf.Max(0f, oldHealth - finalDamage);
 
         SetFinalStatServer(StatId.CurrentHealth, newHealth);
 
-        RpcShowDamagePopup(transform.position, Mathf.RoundToInt(amount), isCrit);
+        RpcShowDamagePopup(
+            transform.position,
+            Mathf.RoundToInt(finalDamage),
+            damageInfo.isCrit
+        );
     }
     [Server]
     public void Heal(float amount)

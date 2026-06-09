@@ -49,59 +49,36 @@ public class ItemBaseSO : ScriptableObject
     [SerializeField] private int baseVitality;
     public int BaseVitality => baseVitality;
 
-    [Header("Main affix pools")]
-    [SerializeField] private AffixPoolSO prefixPool;
-    [SerializeField] private AffixPoolSO suffixPool;
-
-    [Header("Additional affix pools")]
-    [SerializeField] private AffixPoolSO[] additionalPrefixPools;
-    [SerializeField] private AffixPoolSO[] additionalSuffixPools;
-
-    public AffixPoolSO GetPrefixes()
-    {
-        return prefixPool;
-    }
-
-    public AffixPoolSO GetSuffixes()
-    {
-        return suffixPool;
-    }
+    [Header("Affix pools")]
+    [SerializeField] private AffixPoolSO[] prefixPools;
+    [SerializeField] private AffixPoolSO[] suffixPools;
 
     public AffixSO[] GetMergedPrefixes()
     {
-        return MergeAffixes(prefixPool, additionalPrefixPools);
+        return MergeAffixes(prefixPools);
     }
 
     public AffixSO[] GetMergedSuffixes()
     {
-        return MergeAffixes(suffixPool, additionalSuffixPools);
+        return MergeAffixes(suffixPools);
     }
 
-    private AffixSO[] MergeAffixes(AffixPoolSO mainPool, AffixPoolSO[] additionalPools)
+    private AffixSO[] MergeAffixes(AffixPoolSO[] pools)
     {
         HashSet<AffixSO> merged = new HashSet<AffixSO>();
 
-        if (mainPool != null && mainPool.affixes != null)
+        if (pools == null)
+            return merged.ToArray();
+
+        foreach (AffixPoolSO pool in pools)
         {
-            foreach (AffixSO affix in mainPool.affixes)
+            if (pool == null || pool.affixes == null)
+                continue;
+
+            foreach (AffixSO affix in pool.affixes)
             {
                 if (affix != null)
                     merged.Add(affix);
-            }
-        }
-
-        if (additionalPools != null)
-        {
-            foreach (AffixPoolSO pool in additionalPools)
-            {
-                if (pool == null || pool.affixes == null)
-                    continue;
-
-                foreach (AffixSO affix in pool.affixes)
-                {
-                    if (affix != null)
-                        merged.Add(affix);
-                }
             }
         }
 
@@ -120,6 +97,7 @@ public class ItemBaseSO : ScriptableObject
         }
 
         string wantedName = ExtractBaseNameFromAssetName();
+
         if (baseName != wantedName)
         {
             baseName = wantedName;
