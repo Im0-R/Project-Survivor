@@ -15,7 +15,7 @@ MonoBehaviour:
   baseId: 440202070
   baseName: RustyStaff
   slotType: 1
-  itemLevelRequirement: 0
+  itemLevelRequirement: 1
   icon: {fileID: 21300000, guid: 172774604c1bee84185a69041576525b, type: 3}
   baseAttack: 10
   baseDefense: 0

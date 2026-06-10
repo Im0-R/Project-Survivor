@@ -33,8 +33,8 @@ public class ItemBaseSO : ScriptableObject
     [SerializeField] private EquipmentSlot slotType = EquipmentSlot.None;
     public EquipmentSlot SlotType => slotType;
 
-    [SerializeField] private int itemLevelRequirement;
-    public int ItemLevelRequirement => itemLevelRequirement;
+    [SerializeField] private int itemLevel;
+    public int ItemLevel => itemLevel;
 
     [SerializeField] private Sprite icon;
     public Sprite Icon => icon;

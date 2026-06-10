@@ -34,42 +34,43 @@ public class AffixSO : ScriptableObject
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (affixId == 0)
-            affixId = GenerateID();
-
-        affixName = name;
+        affixId = Mathf.Max(0, affixId);
         weight = Mathf.Max(0, weight);
 
         tierCount = Mathf.Max(1, tierCount);
         maxGeneratedValue = Mathf.Max(1, maxGeneratedValue);
         itemLevelStep = Mathf.Max(1, itemLevelStep);
 
+        if (string.IsNullOrEmpty(affixName))
+            affixName = name;
+
+        if (affixId == 0)
+            affixId = GenerateID();
+
         if (autoGenerateTiers)
             GenerateTiers();
 
         ValidateTiers();
-
-        UnityEditor.EditorUtility.SetDirty(this);
     }
 
     private void GenerateTiers()
     {
-        tiers = new AffixTier[tierCount];
-
-        float step = maxGeneratedValue / (float)tierCount;
+        if (tiers == null || tiers.Length != tierCount)
+            tiers = new AffixTier[tierCount];
 
         for (int i = 0; i < tierCount; i++)
         {
-            int minValue = Mathf.FloorToInt(step * i) + 1;
-            int maxValue = Mathf.FloorToInt(step * (i + 1));
+            if (tiers[i] == null)
+                tiers[i] = new AffixTier();
 
-            tiers[i] = new AffixTier
-            {
-                tier = tierCount - i,
-                minItemLevel = i * itemLevelStep + 1,
-                minValue = minValue,
-                maxValue = Mathf.Max(minValue, maxValue)
-            };
+            int tierNumber = i + 1;
+            int maxValue = Mathf.RoundToInt(maxGeneratedValue * (tierNumber / (float)tierCount));
+            int minValue = Mathf.Max(1, maxValue - Mathf.CeilToInt(maxGeneratedValue / (float)tierCount));
+
+            tiers[i].tier = tierNumber;
+            tiers[i].minItemLevel = 1 + i * itemLevelStep;
+            tiers[i].minValue = minValue;
+            tiers[i].maxValue = Mathf.Max(minValue, maxValue);
         }
     }
 
@@ -78,22 +79,25 @@ public class AffixSO : ScriptableObject
         if (tiers == null)
             return;
 
-        foreach (AffixTier tier in tiers)
+        for (int i = 0; i < tiers.Length; i++)
         {
-            if (tier == null)
-                continue;
+            if (tiers[i] == null)
+                tiers[i] = new AffixTier();
 
-            tier.minItemLevel = Mathf.Max(1, tier.minItemLevel);
-            tier.minValue = Mathf.Max(0, tier.minValue);
-
-            if (tier.minValue > tier.maxValue)
-                tier.maxValue = tier.minValue;
+            tiers[i].tier = Mathf.Max(1, tiers[i].tier);
+            tiers[i].minItemLevel = Mathf.Max(1, tiers[i].minItemLevel);
+            tiers[i].minValue = Mathf.Max(0, tiers[i].minValue);
+            tiers[i].maxValue = Mathf.Max(tiers[i].minValue, tiers[i].maxValue);
         }
     }
 
     private int GenerateID()
     {
         string path = UnityEditor.AssetDatabase.GetAssetPath(this);
+
+        if (string.IsNullOrEmpty(path))
+            return 0;
+
         string guid = UnityEditor.AssetDatabase.AssetPathToGUID(path);
 
         if (string.IsNullOrEmpty(guid))

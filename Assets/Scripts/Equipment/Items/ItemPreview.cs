@@ -8,7 +8,7 @@ public class ItemPreview : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private TextMeshProUGUI baseType;
-    [SerializeField] private TextMeshProUGUI itemLevelRequired;
+    [SerializeField] private TextMeshProUGUI itemLevel;
 
     [SerializeField] private GameObject modsContainer;
     [SerializeField] private GameObject modLineUI;
@@ -41,8 +41,7 @@ public class ItemPreview : MonoBehaviour
         itemName.color = color;
 
         baseType.text = itemBase.BaseName;
-        itemLevelRequired.text = $"Level {itemBase.ItemLevelRequirement}";
-
+        itemLevel.text = $"Item Level {item.itemLevel}";
         foreach (Transform child in modsContainer.transform)
         {
             Destroy(child.gameObject);
