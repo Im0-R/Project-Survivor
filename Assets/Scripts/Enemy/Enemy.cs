@@ -300,6 +300,13 @@ public class Enemy : NetworkEntity
     {
         difficultyPoints = Mathf.Max(0, points);
     }
+    [Server]
+    public void SetMonsterLevel(int level)
+    {
+        monsterLevel = Mathf.Max(1, level);
+
+        Debug.Log($"[Enemy] MonsterLevel set to {monsterLevel}");
+    }
     private void OnDisable()
     {
         if (!isServer) return;

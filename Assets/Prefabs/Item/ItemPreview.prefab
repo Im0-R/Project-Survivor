@@ -963,7 +963,7 @@ MonoBehaviour:
   backGroundImage: {fileID: 5303568136499163774}
   itemName: {fileID: 6058239973847181134}
   baseType: {fileID: 744370489153281537}
-  itemLevelRequired: {fileID: 2832255127728129136}
+  itemLevel: {fileID: 2832255127728129136}
   modsContainer: {fileID: 985421799669769496}
   modLineUI: {fileID: 3765309196004032482, guid: 1c576fb4237e7cf4ca9ca1df812c2dc6, type: 3}
   normalColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}

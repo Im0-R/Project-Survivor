@@ -69,8 +69,19 @@ public class EnemyPool : NetworkBehaviour
         if (enemyScript != null)
         {
             enemyScript.SetDifficultyPoints(difficulty);
+
+            int monsterLevel = difficulty;
+            enemyScript.SetMonsterLevel(monsterLevel);
+
             enemyScript.ResetForSpawn();
+
             EnemyManager.Instance?.RegisterEnemy(enemyScript);
+
+            Debug.Log(
+                $"[EnemyPool] Spawned enemy with " +
+                $"difficulty={difficulty} " +
+                $"monsterLevel={monsterLevel}"
+            );
         }
         Debug.Log($"[EnemyPool] Spawned {enemy.name} at {finalPos} | scene={enemy.scene.name}");
         return enemy;
