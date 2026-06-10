@@ -91,7 +91,7 @@ public class InstanceState : NetworkBehaviour
 
         mapId = newMapId;
         seed = newSeed;
-        difficulty = Mathf.Clamp(newDifficulty, 1, 10);
+        difficulty = newDifficulty;
 
         Debug.Log(
             $"[InstanceState] Server map set | mapId={mapId} | " +
