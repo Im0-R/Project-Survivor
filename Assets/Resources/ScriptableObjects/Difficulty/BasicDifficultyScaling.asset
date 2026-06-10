@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca31c601f47aeb243b837834beda024e, type: 3}
   m_Name: BasicDifficultyScaling
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyScalingSO
-  healthPercentPerPoint: 10
-  damagePercentPerPoint: 5
-  moveSpeedPercentPerPoint: 2
+  healthPercentPerPoint: 5
+  damagePercentPerPoint: 3
+  moveSpeedPercentPerPoint: 1
   experiencePercentPerPoint: 5
   lootQuantityPercentPerPoint: 8
   currencyQuantityPercentPerPoint: 3
