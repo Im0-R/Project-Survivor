@@ -124,7 +124,7 @@ public class LootManager : MonoBehaviour
                     $"[LOOT][Entry] " +
                     $"dropType={entry.dropType} " +
                     $"itemBase={(entry.itemBase != null ? entry.itemBase.name : "NULL")} " +
-                    $"currency={(entry.currency != null ? entry.currency.name : "NULL")} " +
+                    $"currency={(entry.sigil != null ? entry.sigil.name : "NULL")} " +
                     $"minAmount={entry.minAmount} " +
                     $"maxAmount={entry.maxAmount}"
                 );
@@ -254,7 +254,7 @@ public class LootManager : MonoBehaviour
 
     private void SpawnCurrency(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
     {
-        if (entry.currency == null)
+        if (entry.sigil == null)
             return;
 
         if (currencyObject == null)
@@ -267,7 +267,7 @@ public class LootManager : MonoBehaviour
 
         GameObject obj = Instantiate(currencyObject, position, Quaternion.identity);
 
-        CurrencyPickup pickup = obj.GetComponent<CurrencyPickup>();
+        SigilPickUp pickup = obj.GetComponent<SigilPickUp>();
         if (pickup == null)
         {
             Debug.LogError("[LootManager] currencyObject has no CurrencyPickup.");
@@ -275,8 +275,7 @@ public class LootManager : MonoBehaviour
             return;
         }
 
-        pickup.Init(entry.currency.currencyId, amount);
-        NetworkServer.Spawn(obj);
+        pickup.Init(entry.sigil.sigilId, amount); NetworkServer.Spawn(obj);
     }
 
     private void SpawnGold(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
