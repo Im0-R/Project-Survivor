@@ -29,10 +29,92 @@ public static class LootGenerator
 
         ItemRarity rarity = RollRarity(rng);
 
+        ItemInstance item = new ItemInstance
+        {
+            itemName = itemBase.BaseName,
+            instanceId = nextInstanceId++,
+            baseId = itemBase.BaseId,
+            rarity = rarity,
+            itemLevel = itemLevel,
+            equipSlot = itemBase.SlotType,
+            corrupted = false
+        };
+
+        item.EnsureLists();
+
+        RollAffixesForExistingItem(item, rng);
+
+        return item;
+    }
+
+    public static void RollSingleAffixForExistingItem(ItemInstance item, System.Random rng)
+    {
+        if (item == null || rng == null)
+            return;
+
+        item.EnsureLists();
+
+        ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
+        if (itemBase == null)
+            return;
+
+        HashSet<int> usedAffixIds = GetUsedAffixIds(item);
+
+        bool canRollPrefix = item.prefixes.Count < 3;
+        bool canRollSuffix = item.suffixes.Count < 3;
+
+        if (!canRollPrefix && !canRollSuffix)
+            return;
+
+        bool rollPrefix;
+
+        if (canRollPrefix && canRollSuffix)
+            rollPrefix = rng.NextDouble() < 0.5;
+        else
+            rollPrefix = canRollPrefix;
+
+        if (rollPrefix)
+        {
+            RollFromArray(
+                itemBase.GetMergedPrefixes(),
+                1,
+                item.itemLevel,
+                rng,
+                item.prefixes,
+                usedAffixIds,
+                AffixSlot.Prefix);
+        }
+        else
+        {
+            RollFromArray(
+                itemBase.GetMergedSuffixes(),
+                1,
+                item.itemLevel,
+                rng,
+                item.suffixes,
+                usedAffixIds,
+                AffixSlot.Suffix);
+        }
+    }
+
+    public static void RollAffixesForExistingItem(ItemInstance item, System.Random rng)
+    {
+        if (item == null || rng == null)
+            return;
+
+        item.EnsureLists();
+
+        ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
+        if (itemBase == null)
+            return;
+
+        item.prefixes.Clear();
+        item.suffixes.Clear();
+
         int prefixCount = 0;
         int suffixCount = 0;
 
-        switch (rarity)
+        switch (item.rarity)
         {
             case ItemRarity.Normal:
                 break;
@@ -61,25 +143,36 @@ public static class LootGenerator
                 break;
         }
 
-        AffixSO[] mergedPrefixes = itemBase.GetMergedPrefixes();
-        AffixSO[] mergedSuffixes = itemBase.GetMergedSuffixes();
-
-        List<ItemAffix> rolledAffixes = new List<ItemAffix>(prefixCount + suffixCount);
         HashSet<int> usedAffixIds = new HashSet<int>();
 
-        RollFromArray(mergedPrefixes, prefixCount, itemLevel, rng, rolledAffixes, usedAffixIds);
-        RollFromArray(mergedSuffixes, suffixCount, itemLevel, rng, rolledAffixes, usedAffixIds);
+        RollFromArray(
+            itemBase.GetMergedPrefixes(),
+            prefixCount,
+            item.itemLevel,
+            rng,
+            item.prefixes,
+            usedAffixIds,
+            AffixSlot.Prefix);
 
-        return new ItemInstance
-        {
-            itemName = itemBase.BaseName,
-            instanceId = nextInstanceId++,
-            baseId = itemBase.BaseId,
-            rarity = rarity,
-            itemLevel = itemLevel,
-            affixes = rolledAffixes.ToArray(),
-            equipSlot = itemBase.SlotType
-        };
+        RollFromArray(
+            itemBase.GetMergedSuffixes(),
+            suffixCount,
+            item.itemLevel,
+            rng,
+            item.suffixes,
+            usedAffixIds,
+            AffixSlot.Suffix);
+    }
+
+    public static void RerollAffixValues(ItemInstance item, System.Random rng)
+    {
+        if (item == null || rng == null)
+            return;
+
+        item.EnsureLists();
+
+        RerollAffixListValues(item.prefixes, item.itemLevel, rng);
+        RerollAffixListValues(item.suffixes, item.itemLevel, rng);
     }
 
     private static ItemRarity RollRarity(System.Random rng)
@@ -99,7 +192,8 @@ public static class LootGenerator
         int itemLevel,
         System.Random rng,
         List<ItemAffix> outAffixes,
-        HashSet<int> usedAffixIds)
+        HashSet<int> usedAffixIds,
+        AffixSlot slot)
     {
         if (count <= 0)
             return;
@@ -127,7 +221,8 @@ public static class LootGenerator
             {
                 affixId = pickedAffix.affixId,
                 tier = pickedTier.tier,
-                value = value
+                value = value,
+                slot = slot
             });
         }
     }
@@ -191,7 +286,7 @@ public static class LootGenerator
 
     private static bool HasValidTier(AffixSO affix, int itemLevel)
     {
-        if (affix.tiers == null || affix.tiers.Length == 0)
+        if (affix == null || affix.tiers == null || affix.tiers.Length == 0)
             return false;
 
         for (int i = 0; i < affix.tiers.Length; i++)
@@ -236,5 +331,65 @@ public static class LootGenerator
             return false;
 
         return true;
+    }
+
+    private static void RerollAffixListValues(
+        List<ItemAffix> affixes,
+        int itemLevel,
+        System.Random rng)
+    {
+        if (affixes == null)
+            return;
+
+        for (int i = 0; i < affixes.Count; i++)
+        {
+            ItemAffix affixInstance = affixes[i];
+
+            AffixSO affixSO = AffixDatabase.Get(affixInstance.affixId);
+            if (affixSO == null)
+                continue;
+
+            AffixTier tier = GetTierByNumber(affixSO, affixInstance.tier);
+
+            if (tier == null || !IsTierValid(tier, itemLevel))
+                continue;
+
+            affixInstance.value = rng.Next(tier.minValue, tier.maxValue + 1);
+            affixes[i] = affixInstance;
+        }
+    }
+
+    private static AffixTier GetTierByNumber(AffixSO affix, int tierNumber)
+    {
+        if (affix == null || affix.tiers == null)
+            return null;
+
+        for (int i = 0; i < affix.tiers.Length; i++)
+        {
+            AffixTier tier = affix.tiers[i];
+
+            if (tier != null && tier.tier == tierNumber)
+                return tier;
+        }
+
+        return null;
+    }
+
+    private static HashSet<int> GetUsedAffixIds(ItemInstance item)
+    {
+        HashSet<int> usedAffixIds = new HashSet<int>();
+
+        if (item == null)
+            return usedAffixIds;
+
+        item.EnsureLists();
+
+        for (int i = 0; i < item.prefixes.Count; i++)
+            usedAffixIds.Add(item.prefixes[i].affixId);
+
+        for (int i = 0; i < item.suffixes.Count; i++)
+            usedAffixIds.Add(item.suffixes[i].affixId);
+
+        return usedAffixIds;
     }
 }

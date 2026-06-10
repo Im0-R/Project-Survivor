@@ -61,9 +61,11 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Equipment\Sigil\Effect\SigilOfAlchemyEffectSO.cs" />
     <Compile Include="Assets\Scripts\Stats\RunStatsComponent.cs" />
     <Compile Include="Assets\Scripts\Loot\LootProfileSO.cs" />
     <Compile Include="Assets\Scripts\Client\ClientConnectionManager.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\SigilDatabase.cs" />
     <Compile Include="Assets\Scripts\Network\InstanceBootStrap.cs" />
     <Compile Include="Assets\Scripts\Stats\RunSpellModifiers.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipment.cs" />
@@ -120,7 +122,9 @@
     <Compile Include="Assets\Scripts\CanvasSwitcher.cs" />
     <Compile Include="Assets\Scripts\Loot\CurrencySO.cs" />
     <Compile Include="Assets\Scripts\Network\Server\ServerAutoStart.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\Effect\SigilOfTransmutationEffectSO.cs" />
     <Compile Include="Assets\Scripts\Loot\CurrencyPickUp.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\Effect\SigilOfChaosEffectSO.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\MapMechanic\MapEventTimerUI.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\AffixPoolSO.cs" />
@@ -130,17 +134,20 @@
     <Compile Include="Assets\Scripts\Loot\UI\LootPreviewUI.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootTableRoll.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\Effect\SigilOfExaltationEffectSO.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellCasterServer.cs" />
     <Compile Include="Assets\Scripts\Stats\DamagePart.cs" />
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
     <Compile Include="Assets\Scripts\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\HumanoidAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaLoadoutSlotUI.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\SigilSO.cs" />
     <Compile Include="Assets\Scripts\Stash\StashBackGroundSlot.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellVisualDatabase.cs" />
     <Compile Include="Assets\Scripts\Enemy\TypesEnemy\EnemyMelee.cs" />
     <Compile Include="Assets\Scripts\Manager\ServerTimeManager.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Sigil\Effect\SigilOfAnnulmentEffectSO.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyAttackState.cs" />
     <Compile Include="Assets\Scripts\Equipment\Items\PlayerEquipmentData.cs" />
     <Compile Include="Assets\Scripts\Network\Messages\AuthMessages.cs" />

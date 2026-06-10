@@ -37,42 +37,54 @@ public class ItemPreview : MonoBehaviour
 
         backGroundImage.color = color;
 
-        itemName.text = item.itemName;
+        itemName.text = string.IsNullOrEmpty(item.itemName) ? itemBase.BaseName : item.itemName;
         itemName.color = color;
 
         baseType.text = itemBase.BaseName;
         itemLevel.text = $"Item Level {item.itemLevel}";
+
+        ClearMods();
+
+        AddAffixLines(item.prefixes, "Prefix");
+        AddAffixLines(item.suffixes, "Suffix");
+
+        Debug.Log($"[ItemPreview] itemName={item.itemName}, rarity={item.rarity}, affixesCount={item.TotalAffixCount}");
+    }
+
+    private void ClearMods()
+    {
         foreach (Transform child in modsContainer.transform)
         {
             Destroy(child.gameObject);
         }
+    }
 
-        if (item.affixes != null)
+    private void AddAffixLines(System.Collections.Generic.List<ItemAffix> affixes, string label)
+    {
+        if (affixes == null)
+            return;
+
+        for (int i = 0; i < affixes.Count; i++)
         {
-            for (int i = 0; i < item.affixes.Length; i++)
+            GameObject modLine = Instantiate(modLineUI, modsContainer.transform);
+            TextMeshProUGUI modText = modLine.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (modText == null)
             {
-                GameObject modLine = Instantiate(modLineUI, modsContainer.transform);
-                TextMeshProUGUI modText = modLine.GetComponentInChildren<TextMeshProUGUI>();
-
-                if (modText == null)
-                {
-                    Debug.LogError("[ItemPreview] modLineUI prefab has no TextMeshProUGUI.");
-                    continue;
-                }
-
-                AffixSO affix = AffixDatabase.Get(item.affixes[i].affixId);
-
-                if (affix == null)
-                {
-                    modText.text = "Unknown Mod";
-                    continue;
-                }
-
-                modText.text = $"{item.affixes[i].value} to {affix.stat}";
+                Debug.LogError("[ItemPreview] modLineUI prefab has no TextMeshProUGUI.");
+                continue;
             }
-        }
 
-        Debug.Log($"[ItemPreview] itemName={item.itemName}, rarity={item.rarity}, affixesCount={(item.affixes != null ? item.affixes.Length : -1)}");
+            AffixSO affix = AffixDatabase.Get(affixes[i].affixId);
+
+            if (affix == null)
+            {
+                modText.text = "Unknown Mod";
+                continue;
+            }
+
+            modText.text = $"[{label}] +{affixes[i].value} to {affix.stat}";
+        }
     }
 
     public Color GetWantedColor(ItemRarity itemRarity)

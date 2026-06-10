@@ -123,15 +123,8 @@ public class PlayerEquipment : NetworkBehaviour
         targetStats.AddFinalStatServer(StatId.Armor, baseSO.BaseDefense);
         targetStats.AddFinalStatServer(StatId.MaxHealth, baseSO.BaseVitality);
 
-        if (inst.affixes == null) return;
-
-        foreach (var affixInstance in inst.affixes)
-        {
-            AffixSO affixSO = AffixDatabase.Get(affixInstance.affixId);
-            if (affixSO == null) continue;
-
-            targetStats.AddFinalStatServer(affixSO.stat, affixInstance.value);
-        }
+        ApplyAffixStats(inst.prefixes, targetStats);
+        ApplyAffixStats(inst.suffixes, targetStats);
     }
 
     public ItemInstance GetEquippedItem(EquipmentSlot slot)
@@ -238,7 +231,23 @@ public class PlayerEquipment : NetworkBehaviour
             bootsJson = bootsJson
         };
     }
+    [Server]
+    private void ApplyAffixStats(
+    System.Collections.Generic.List<ItemAffix> affixes,
+    StatsComponent targetStats)
+    {
+        if (affixes == null)
+            return;
 
+        foreach (ItemAffix affixInstance in affixes)
+        {
+            AffixSO affixSO = AffixDatabase.Get(affixInstance.affixId);
+            if (affixSO == null)
+                continue;
+
+            targetStats.AddFinalStatServer(affixSO.stat, affixInstance.value);
+        }
+    }
     [Server]
     public void LoadSaveData(PlayerEquipmentData data)
     {
