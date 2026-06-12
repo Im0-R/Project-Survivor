@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56a56b2abd8e840ad80a15cf8be10a, type: 3}
   m_Name: LootTable_Currency
   m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
-  entries: []
+  entries:
+  - dropType: 1
+    itemBase: {fileID: 0}
+    sigil: {fileID: 0}
+    minAmount: 0
+    maxAmount: 0
+    weight: 0

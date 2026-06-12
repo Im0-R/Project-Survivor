@@ -10,13 +10,8 @@ public enum LootDropType
 [System.Serializable]
 public class LootTableEntry
 {
-    public LootDropType dropType;
-
-    [Header("Item")]
-    public ItemBaseSO itemBase;
-
-    [Header("Currency")]
-    public CurrencySO sigil;
+    [Header("Drop")]
+    public LootableSO drop;
 
     [Header("Amount")]
     public int minAmount = 1;

@@ -23,71 +23,26 @@ public class LootManager : MonoBehaviour
         float extraCurrencyMultiplier = 1f,
         float extraGoldMultiplier = 1f)
     {
-        Debug.Log(
-            $"[LOOT][GenerateDrops] " +
-            $"serverActive={NetworkServer.active} " +
-            $"profile={(profile != null ? profile.name : "NULL")} " +
-            $"itemLevel={itemLevel} " +
-            $"seed={seed} " +
-            $"position={position}"
-        );
-
         if (!NetworkServer.active)
         {
             Debug.LogError("[LOOT][GenerateDrops] Server not active!");
             return;
         }
 
-        if (profile == null)
+        if (profile == null || profile.tableRolls == null || profile.tableRolls.Length == 0)
         {
-            Debug.LogError("[LOOT][GenerateDrops] profile NULL");
-            return;
-        }
-
-        if (profile.tableRolls == null)
-        {
-            Debug.LogError("[LOOT][GenerateDrops] tableRolls NULL");
-            return;
-        }
-
-        if (profile.tableRolls.Length == 0)
-        {
-            Debug.LogError("[LOOT][GenerateDrops] tableRolls EMPTY");
+            Debug.LogError("[LOOT][GenerateDrops] Invalid loot profile.");
             return;
         }
 
         System.Random rng = new System.Random(seed);
 
-        Debug.Log($"[LOOT][GenerateDrops] tableRollCount={profile.tableRolls.Length}");
-
         foreach (LootTableRoll tableRoll in profile.tableRolls)
         {
-            if (tableRoll == null)
-            {
-                Debug.LogWarning("[LOOT][TableRoll] tableRoll NULL");
+            if (tableRoll == null || tableRoll.table == null)
                 continue;
-            }
 
-            Debug.Log(
-                $"[LOOT][TableRoll] " +
-                $"table={(tableRoll.table != null ? tableRoll.table.name : "NULL")} " +
-                $"chance={tableRoll.chanceToRoll} " +
-                $"minRolls={tableRoll.minRolls} " +
-                $"maxRolls={tableRoll.maxRolls} " +
-                $"quantityMultiplier={tableRoll.quantityMultiplier}"
-            );
-
-            if (tableRoll.table == null)
-            {
-                Debug.LogWarning("[LOOT][TableRoll] table NULL");
-                continue;
-            }
-
-            bool passedChance = RollChance(rng, tableRoll.chanceToRoll);
-
-            Debug.Log($"[LOOT][Chance] passed={passedChance}");
-
-            if (!passedChance)
+            if (!RollChance(rng, tableRoll.chanceToRoll))
                 continue;
 
             int baseRolls = rng.Next(tableRoll.minRolls, tableRoll.maxRolls + 1);
@@ -101,30 +56,16 @@ public class LootManager : MonoBehaviour
             finalRolls += profile.additionalRolls;
             finalRolls = Mathf.Max(0, finalRolls);
 
-            Debug.Log(
-                $"[LOOT][Rolls] " +
-                $"baseRolls={baseRolls} " +
-                $"quantity={quantity} " +
-                $"finalRolls={finalRolls}"
-            );
-
             for (int i = 0; i < finalRolls; i++)
             {
                 LootTableEntry entry = tableRoll.table.RollOne(rng);
 
-                Debug.Log(
-                    $"[LOOT][RollOne] " +
-                    $"entryNull={entry == null}"
-                );
-
-                if (entry == null)
+                if (entry == null || entry.drop == null)
                     continue;
 
                 Debug.Log(
                     $"[LOOT][Entry] " +
-                    $"dropType={entry.dropType} " +
-                    $"itemBase={(entry.itemBase != null ? entry.itemBase.name : "NULL")} " +
-                    $"currency={(entry.sigil != null ? entry.sigil.name : "NULL")} " +
+                    $"drop={entry.drop.DisplayName} " +
                     $"minAmount={entry.minAmount} " +
                     $"maxAmount={entry.maxAmount}"
                 );
@@ -140,8 +81,6 @@ public class LootManager : MonoBehaviour
                 );
             }
         }
-
-        Debug.Log("[LOOT][GenerateDrops] END");
     }
 
     private bool RollChance(System.Random rng, float chance)
@@ -165,32 +104,27 @@ public class LootManager : MonoBehaviour
         float extraCurrencyMultiplier,
         float extraGoldMultiplier)
     {
+        if (entry == null || entry.drop == null)
+            return;
+
         Vector3 position = GetDropPosition(centerPosition, rng);
 
-        switch (entry.dropType)
+        if (entry.drop is LootableSO itemBase)
         {
-            case LootDropType.Item:
-                SpawnItem(entry, itemLevel, rng, position);
-                break;
-
-            case LootDropType.Currency:
-                SpawnSigil(
-                    entry,
-                    profile.currencyQuantityMultiplier * extraCurrencyMultiplier,
-                    rng,
-                    position
-                );
-                break;
-
-            case LootDropType.Gold:
-                SpawnGold(
-                    entry,
-                    profile.goldQuantityMultiplier * extraGoldMultiplier,
-                    rng,
-                    position
-                );
-                break;
+            SpawnItem(itemBase, itemLevel, rng, position);
+            return;
         }
+
+        if (entry.drop is CurrencySO currency)
+        {
+            float multiplier = profile.currencyQuantityMultiplier * extraCurrencyMultiplier;
+            int amount = RollAmount(entry, multiplier, rng);
+
+            SpawnCurrency(currency, amount, position);
+            return;
+        }
+
+        Debug.LogWarning($"[LOOT] Unsupported drop type: {entry.drop.GetType().Name}");
     }
 
     private Vector3 GetDropPosition(Vector3 center, System.Random rng)
@@ -201,90 +135,71 @@ public class LootManager : MonoBehaviour
         return center + new Vector3(x, 0f, z);
     }
 
-    private void SpawnItem(LootTableEntry entry, int itemLevel, System.Random rng, Vector3 position)
+    private void SpawnItem(
+        ItemBaseSO itemBase,
+        int itemLevel,
+        System.Random rng,
+        Vector3 position)
     {
-        Debug.Log(
-            $"[LOOT][SpawnItem] " +
-            $"itemBase={(entry.itemBase != null ? entry.itemBase.name : "NULL")} " +
-            $"itemLevel={itemLevel} " +
-            $"position={position}"
-        );
-
-        if (entry.itemBase == null)
-        {
-            Debug.LogError("[LOOT][SpawnItem] itemBase NULL");
+        if (itemBase == null)
             return;
-        }
 
         if (itemObject == null)
         {
-            Debug.LogError("[LOOT][SpawnItem] itemObject prefab missing");
+            Debug.LogError("[LOOT][SpawnItem] itemObject prefab missing.");
             return;
         }
 
-        ItemInstance itemInstance = LootGenerator.Generate(entry.itemBase, itemLevel, rng);
-
-        Debug.Log(
-            $"[LOOT][SpawnItem] GENERATED " +
-            $"name={itemInstance.itemName} " +
-            $"rarity={itemInstance.rarity}"
-        );
+        ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, rng);
 
         GameObject obj = Instantiate(itemObject, position, Quaternion.identity);
-
-        Debug.Log($"[LOOT][SpawnItem] Instantiate OK obj={obj.name}");
 
         LootPickup pickup = obj.GetComponent<LootPickup>();
 
         if (pickup == null)
         {
-            Debug.LogError("[LOOT][SpawnItem] LootPickup missing on prefab");
+            Debug.LogError("[LOOT][SpawnItem] LootPickup missing on prefab.");
             Destroy(obj);
             return;
         }
 
-        pickup.Init(itemInstance);
-
-        Debug.Log("[LOOT][SpawnItem] pickup.Init OK");
+        pickup.InitItem(itemInstance);
 
         NetworkServer.Spawn(obj);
 
-        Debug.Log("[LOOT][SpawnItem] NetworkServer.Spawn OK");
+        Debug.Log($"[LOOT][SpawnItem] Spawned {itemInstance.itemName}");
     }
 
-    private void SpawnSigil(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
+    private void SpawnCurrency(
+        CurrencySO currency,
+        int amount,
+        Vector3 position)
     {
-        if (entry.sigil == null)
+        if (currency == null)
             return;
 
         if (currencyObject == null)
         {
-            Debug.LogError("[LootManager] sigilObject prefab missing.");
+            Debug.LogError("[LOOT][SpawnCurrency] currencyObject prefab missing.");
             return;
         }
 
-        int amount = RollAmount(entry, multiplier, rng);
-
         GameObject obj = Instantiate(currencyObject, position, Quaternion.identity);
 
-        CurrencyPickUp pickup = obj.GetComponent<CurrencyPickUp>();
+        LootPickup pickup = obj.GetComponent<LootPickup>();
+
         if (pickup == null)
         {
-            Debug.LogError("[LootManager] sigilObject has no CurrencyPickup.");
+            Debug.LogError("[LOOT][SpawnCurrency] LootPickup missing on currency prefab.");
             Destroy(obj);
             return;
         }
 
-        pickup.Init(entry.sigil.currencyId, amount); NetworkServer.Spawn(obj);
-    }
+        pickup.InitCurrency(currency.CurrencyId, amount);
 
-    private void SpawnGold(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
-    {
-        int amount = RollAmount(entry, multiplier, rng);
+        NetworkServer.Spawn(obj);
 
-        Debug.Log($"[LootManager] Gold dropped: {amount}");
-
-        // Plus tard: spawn GoldPickup ici.
+        Debug.Log($"[LOOT][SpawnCurrency] Spawned {currency.CurrencyName} x{amount}");
     }
 
     private int RollAmount(LootTableEntry entry, float multiplier, System.Random rng)

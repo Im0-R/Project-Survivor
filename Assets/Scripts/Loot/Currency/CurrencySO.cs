@@ -1,14 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game/Currencies/Currency")]
-public class CurrencySO : ScriptableObject
+public class CurrencySO : LootableSO
 {
-    [Header("Identity")]
-    public int currencyId;
-    public string currencyName;
-    [TextArea] public string description;
-    public Sprite icon;
-
     [Header("Type")]
     public CurrencyType type = CurrencyType.Sigil;
     public CurrencyUse use = CurrencyUse.Item;
@@ -22,14 +16,17 @@ public class CurrencySO : ScriptableObject
     [Header("Effect")]
     public CurrencyEffectSO effect;
 
+    public int CurrencyId => Id;
+    public string CurrencyName => DisplayName;
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (currencyId == 0)
-            currencyId = GenerateID();
+        if (id == 0)
+            id = GenerateID();
 
-        if (string.IsNullOrWhiteSpace(currencyName))
-            currencyName = name;
+        if (string.IsNullOrWhiteSpace(displayName))
+            displayName = name;
     }
 
     private int GenerateID()
