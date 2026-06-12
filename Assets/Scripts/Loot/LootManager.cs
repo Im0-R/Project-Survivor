@@ -109,7 +109,7 @@ public class LootManager : MonoBehaviour
 
         Vector3 position = GetDropPosition(centerPosition, rng);
 
-        if (entry.drop is LootableSO itemBase)
+        if (entry.drop is ItemBaseSO itemBase)
         {
             SpawnItem(itemBase, itemLevel, rng, position);
             return;
