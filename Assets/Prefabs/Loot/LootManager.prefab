@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootManager
   itemObject: {fileID: 4912486867336673683, guid: 6eb136100135aea4e92262216e75b74e, type: 3}
-  currencyObject: {fileID: 4912486867336673683, guid: 6eb136100135aea4e92262216e75b74e, type: 3}
+  currencyObject: {fileID: 4912486867336673683, guid: f8b576bbd75f36048aa5a3c78dcf0ad9, type: 3}

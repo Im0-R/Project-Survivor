@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68c07c717c34e7e4d86646dad853bde8, type: 3}
+  m_Script: {fileID: 11500000, guid: 96fbbde5954238f4bbc51909bcc4d7dc, type: 3}
   m_Name: SigilOfAnnulment
-  m_EditorClassIdentifier: Assembly-CSharp::SigilSO
-  sigilId: 0
-  sigilName: Sigil of Alchemy
-  description: Removes a random modifier from an item.
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencySO
+  currencyId: 17926372
+  currencyName: SigilOfAnnulment
+  description: 
   icon: {fileID: 0}
-  maxStack: 20
-  dropWeight: 100
+  type: 0
+  use: 1
+  maxStack: 10
+  dropWeight: 30
   effect: {fileID: 11400000, guid: 752f34f572eb38846a5d6e4e77965280, type: 2}

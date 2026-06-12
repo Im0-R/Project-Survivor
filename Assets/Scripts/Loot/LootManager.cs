@@ -174,7 +174,7 @@ public class LootManager : MonoBehaviour
                 break;
 
             case LootDropType.Currency:
-                SpawnCurrency(
+                SpawnSigil(
                     entry,
                     profile.currencyQuantityMultiplier * extraCurrencyMultiplier,
                     rng,
@@ -252,14 +252,14 @@ public class LootManager : MonoBehaviour
         Debug.Log("[LOOT][SpawnItem] NetworkServer.Spawn OK");
     }
 
-    private void SpawnCurrency(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
+    private void SpawnSigil(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)
     {
         if (entry.sigil == null)
             return;
 
         if (currencyObject == null)
         {
-            Debug.LogError("[LootManager] currencyObject prefab missing.");
+            Debug.LogError("[LootManager] sigilObject prefab missing.");
             return;
         }
 
@@ -267,15 +267,15 @@ public class LootManager : MonoBehaviour
 
         GameObject obj = Instantiate(currencyObject, position, Quaternion.identity);
 
-        SigilPickUp pickup = obj.GetComponent<SigilPickUp>();
+        CurrencyPickUp pickup = obj.GetComponent<CurrencyPickUp>();
         if (pickup == null)
         {
-            Debug.LogError("[LootManager] currencyObject has no CurrencyPickup.");
+            Debug.LogError("[LootManager] sigilObject has no CurrencyPickup.");
             Destroy(obj);
             return;
         }
 
-        pickup.Init(entry.sigil.sigilId, amount); NetworkServer.Spawn(obj);
+        pickup.Init(entry.sigil.currencyId, amount); NetworkServer.Spawn(obj);
     }
 
     private void SpawnGold(LootTableEntry entry, float multiplier, System.Random rng, Vector3 position)

@@ -15,8 +15,8 @@ public class LootTableEntry
     [Header("Item")]
     public ItemBaseSO itemBase;
 
-    [Header("Currency / Sigil")]
-    public SigilSO sigil;
+    [Header("Currency")]
+    public CurrencySO sigil;
 
     [Header("Amount")]
     public int minAmount = 1;

@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68c07c717c34e7e4d86646dad853bde8, type: 3}
+  m_Script: {fileID: 11500000, guid: 96fbbde5954238f4bbc51909bcc4d7dc, type: 3}
   m_Name: SigilOfTransmutation
-  m_EditorClassIdentifier: Assembly-CSharp::SigilSO
-  sigilId: 0
-  sigilName: Sigil of Alchemy
-  description: Transforms a normal item into a magic item with random modifiers.
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencySO
+  currencyId: 17926372
+  currencyName: SigilOfTransmutation
+  description: 
   icon: {fileID: 0}
+  type: 0
+  use: 1
   maxStack: 20
   dropWeight: 100
   effect: {fileID: 11400000, guid: e94433dbd145644438239cbccab6c2d5, type: 2}

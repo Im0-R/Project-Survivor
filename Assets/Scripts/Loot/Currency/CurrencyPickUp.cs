@@ -2,17 +2,17 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SigilPickUp : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class CurrencyPickUp : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SyncVar] private int sigilId;
+    [SyncVar] private int currencyId;
     [SyncVar] private int amount;
 
     [SerializeField] private float pickupRadius = 2f;
 
     [Server]
-    public void Init(int newSigilId, int newAmount)
+    public void Init(int newCurrencyId, int newAmount)
     {
-        sigilId = newSigilId;
+        currencyId = newCurrencyId;
         amount = Mathf.Max(1, newAmount);
     }
 
@@ -38,13 +38,13 @@ public class SigilPickUp : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
         if (distance > pickupRadius)
             return;
 
-        PlayerSigilInventory inventory =
-            sender.identity.GetComponent<PlayerSigilInventory>();
+        PlayerCurrencyInventory inventory =
+            sender.identity.GetComponent<PlayerCurrencyInventory>();
 
         if (inventory == null)
             return;
 
-        bool added = inventory.AddSigil(sigilId, amount);
+        bool added = inventory.AddCurrency(currencyId, amount);
 
         if (added)
             NetworkServer.Destroy(gameObject);
@@ -52,11 +52,11 @@ public class SigilPickUp : NetworkBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SigilSO sigil = SigilDatabase.Get(sigilId);
-        if (sigil == null)
+        CurrencySO currency = CurrencyDatabase.Get(currencyId);
+        if (currency == null)
             return;
 
-        Debug.Log($"[CurrencyPickup] {sigil.sigilName} x{amount}");
+        Debug.Log($"[CurrencyPickup] {currency.currencyName} x{amount}");
     }
 
     public void OnPointerExit(PointerEventData eventData)

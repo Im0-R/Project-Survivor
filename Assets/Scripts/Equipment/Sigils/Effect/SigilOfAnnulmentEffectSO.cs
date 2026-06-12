@@ -1,9 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game/Sigils/Effects/Sigil of Annulment")]
-public class SigilOfAnnulmentEffectSO : SigilEffectSO
+[CreateAssetMenu(menuName = "Game/Currencies/Effects/Sigil of Annulment")]
+public class SigilOfAnnulmentEffectSO : ItemCurrencyEffectSO
 {
-    public override bool CanApply(ItemInstance item)
+    public override bool CanUseOnItem(ItemInstance item)
     {
         if (item == null || item.corrupted)
             return false;
@@ -13,11 +13,12 @@ public class SigilOfAnnulmentEffectSO : SigilEffectSO
         return item.prefixes.Count > 0 || item.suffixes.Count > 0;
     }
 
-    public override void Apply(ItemInstance item, System.Random rng)
+    public override void UseOnItem(ItemInstance item, System.Random rng)
     {
         item.EnsureLists();
 
         int totalAffixes = item.prefixes.Count + item.suffixes.Count;
+
         if (totalAffixes <= 0)
             return;
 

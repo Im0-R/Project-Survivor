@@ -1,12 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game/Sigils/Effects/Sigil of Exaltation")]
-public class SigilOfExaltationEffectSO : SigilEffectSO
+[CreateAssetMenu(menuName = "Game/Currencies/Effects/Sigil of Exaltation")]
+public class SigilOfExaltationEffectSO : ItemCurrencyEffectSO
 {
     [SerializeField] private int maxPrefixes = 3;
     [SerializeField] private int maxSuffixes = 3;
 
-    public override bool CanApply(ItemInstance item)
+    public override bool CanUseOnItem(ItemInstance item)
     {
         if (item == null || item.corrupted)
             return false;
@@ -19,7 +19,7 @@ public class SigilOfExaltationEffectSO : SigilEffectSO
         return item.prefixes.Count < maxPrefixes || item.suffixes.Count < maxSuffixes;
     }
 
-    public override void Apply(ItemInstance item, System.Random rng)
+    public override void UseOnItem(ItemInstance item, System.Random rng)
     {
         item.EnsureLists();
         LootGenerator.RollSingleAffixForExistingItem(item, rng);

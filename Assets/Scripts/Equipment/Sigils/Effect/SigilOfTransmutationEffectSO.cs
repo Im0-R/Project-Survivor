@@ -1,16 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game/Sigils/Effects/Sigil of Transmutation")]
-public class SigilOfTransmutationEffectSO : SigilEffectSO
+[CreateAssetMenu(menuName = "Game/Currencies/Effects/Sigil of Transmutation")]
+public class SigilOfTransmutationEffectSO : ItemCurrencyEffectSO
 {
-    public override bool CanApply(ItemInstance item)
+    public override bool CanUseOnItem(ItemInstance item)
     {
         return item != null
             && item.rarity == ItemRarity.Normal
             && !item.corrupted;
     }
 
-    public override void Apply(ItemInstance item, System.Random rng)
+    public override void UseOnItem(ItemInstance item, System.Random rng)
     {
         item.EnsureLists();
 
