@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fbbde5954238f4bbc51909bcc4d7dc, type: 3}
   m_Name: SigilOfChaos
   m_EditorClassIdentifier: Assembly-CSharp::CurrencySO
-  currencyId: 17926372
-  currencyName: SigilOfChaos
-  description: 
-  icon: {fileID: 0}
+  id: 1647311451
+  displayName: Sigil Of Chaos
+  icon: {fileID: 21300000, guid: 3b274db5149cdd44284918e47cf7c34d, type: 3}
   type: 0
   use: 1
   maxStack: 20

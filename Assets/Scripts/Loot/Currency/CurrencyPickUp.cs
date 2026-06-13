@@ -56,7 +56,7 @@ public class CurrencyPickUp : NetworkBehaviour, IPointerEnterHandler, IPointerEx
         if (currency == null)
             return;
 
-        Debug.Log($"[CurrencyPickup] {currency.currencyName} x{amount}");
+        Debug.Log($"[CurrencyPickup] {currency.DisplayName} x{amount}");
     }
 
     public void OnPointerExit(PointerEventData eventData)

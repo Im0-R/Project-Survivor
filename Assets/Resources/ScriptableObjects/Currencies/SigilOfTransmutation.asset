@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fbbde5954238f4bbc51909bcc4d7dc, type: 3}
   m_Name: SigilOfTransmutation
   m_EditorClassIdentifier: Assembly-CSharp::CurrencySO
-  currencyId: 17926372
-  currencyName: SigilOfTransmutation
-  description: 
-  icon: {fileID: 0}
+  id: 1708920240
+  displayName: Sigil Of Transmutation
+  icon: {fileID: 21300000, guid: e7d29a79bc7fae248887c8a08a160303, type: 3}
   type: 0
   use: 1
   maxStack: 20

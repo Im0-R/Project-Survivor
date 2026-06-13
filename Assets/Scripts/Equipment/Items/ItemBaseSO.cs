@@ -21,7 +21,7 @@ public enum EquipmentSlot
 }
 
 [CreateAssetMenu(menuName = "Game/ItemBase")]
-public class ItemBaseSO : ScriptableObject
+public class ItemBaseSO : LootableSO
 {
     [SerializeField] private int baseId;
     public int BaseId => baseId;
@@ -36,7 +36,6 @@ public class ItemBaseSO : ScriptableObject
     [SerializeField] private int itemLevel;
     public int ItemLevel => itemLevel;
 
-    [SerializeField] private Sprite icon;
     public Sprite Icon => icon;
 
     [Header("Base stats")]

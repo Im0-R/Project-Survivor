@@ -160,6 +160,7 @@
     <Compile Include="Assets\Scripts\Spells\FrostballSpell.cs" />
     <Compile Include="Assets\Scripts\Network\InterestManagement\ProximityInterestManagement.cs" />
     <Compile Include="Assets\Scripts\Loot\LootPickUp.cs" />
+    <Compile Include="Assets\Scripts\Equipment\Items\LootableSO.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellCastMode.cs" />
     <Compile Include="Assets\AuthentificatorLogin.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />

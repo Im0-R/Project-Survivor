@@ -16,13 +16,13 @@ public static class CurrencyDatabase
             if (currency == null)
                 continue;
 
-            if (currenciesById.ContainsKey(currency.currencyId))
+            if (currenciesById.ContainsKey(currency.Id))
             {
-                Debug.LogError($"[CurrencyDatabase] Duplicate currencyId={currency.currencyId}");
+                Debug.LogError($"[CurrencyDatabase] Duplicate currencyId={currency.Id}");
                 continue;
             }
 
-            currenciesById.Add(currency.currencyId, currency);
+            currenciesById.Add(currency.Id, currency);
         }
 
         Debug.Log($"[CurrencyDatabase] Loaded {currenciesById.Count} currencies.");

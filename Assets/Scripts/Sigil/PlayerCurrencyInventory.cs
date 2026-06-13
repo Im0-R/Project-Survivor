@@ -20,7 +20,7 @@ public class PlayerCurrencyInventory : NetworkBehaviour
         else
             Currencies.Add(currencyId, amount);
 
-        Debug.Log($"[CurrencyInventory] Added {amount}x {currency.currencyName}");
+        Debug.Log($"[CurrencyInventory] Added {amount}x {currency.DisplayName}");
         return true;
     }
 
@@ -82,6 +82,6 @@ public class PlayerCurrencyInventory : NetworkBehaviour
         RemoveCurrency(currencyId, 1);
         inventory.SetSlot(itemIndex, item);
 
-        Debug.Log($"[CurrencyInventory] Used {currency.currencyName} on {item.itemName}");
+        Debug.Log($"[CurrencyInventory] Used {currency.DisplayName} on {item.itemName}");
     }
 }

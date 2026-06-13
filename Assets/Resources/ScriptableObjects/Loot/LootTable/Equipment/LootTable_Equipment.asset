@@ -13,27 +13,19 @@ MonoBehaviour:
   m_Name: LootTable_Equipment
   m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
   entries:
-  - dropType: 0
-    weight: 100
-    itemBase: {fileID: 11400000, guid: bcb3a28e00f3b4a4e934f5ca477c9f68, type: 2}
-    currency: {fileID: 0}
+  - drop: {fileID: 11400000, guid: bcb3a28e00f3b4a4e934f5ca477c9f68, type: 2}
     minAmount: 1
     maxAmount: 1
-  - dropType: 0
     weight: 100
-    itemBase: {fileID: 11400000, guid: 5ce5d8113603975438e5b6eef519af67, type: 2}
-    currency: {fileID: 0}
+  - drop: {fileID: 11400000, guid: 5ce5d8113603975438e5b6eef519af67, type: 2}
     minAmount: 1
     maxAmount: 1
-  - dropType: 0
     weight: 100
-    itemBase: {fileID: 11400000, guid: 1e4336097655bad4fa553009a488cc33, type: 2}
-    currency: {fileID: 0}
+  - drop: {fileID: 11400000, guid: 1e4336097655bad4fa553009a488cc33, type: 2}
     minAmount: 1
     maxAmount: 1
-  - dropType: 0
     weight: 100
-    itemBase: {fileID: 11400000, guid: bcbc84375bcd6cf4e9212f969110e03b, type: 2}
-    currency: {fileID: 0}
+  - drop: {fileID: 11400000, guid: bcbc84375bcd6cf4e9212f969110e03b, type: 2}
     minAmount: 1
     maxAmount: 1
+    weight: 100
