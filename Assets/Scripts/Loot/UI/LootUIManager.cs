@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class LootUIManager : MonoBehaviour
 {
@@ -8,17 +8,29 @@ public class LootUIManager : MonoBehaviour
     [SerializeField] private LootLabelUI labelPrefab;
     [SerializeField] private Canvas canvas;
 
-    [SerializeField]
-    private
+    private readonly Dictionary<LootPickup, LootLabelUI> labels =
+        new Dictionary<LootPickup, LootLabelUI>();
 
-    void Awake() => Instance = this;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void RegisterLoot(LootPickup loot)
     {
         LootLabelUI label = Instantiate(labelPrefab, canvas.transform);
         label.Bind(loot);
 
-        Debug.Log($"[LootUIManager] Registered loot UI for {loot.GetItem().itemName}");
+        labels.Add(loot, label);
+    }
+
+    public void UnregisterLoot(LootPickup loot)
+    {
+        if (!labels.TryGetValue(loot, out LootLabelUI label))
+            return;
+
+        Destroy(label.gameObject);
+        labels.Remove(loot);
     }
 
     public void RequestPickup(LootPickup loot)
@@ -28,6 +40,7 @@ public class LootUIManager : MonoBehaviour
             Debug.LogError("[LootUIManager] No local PlayerPickupController found!");
             return;
         }
+
         PlayerPickupController.Local.RequestPickup(loot);
     }
 }

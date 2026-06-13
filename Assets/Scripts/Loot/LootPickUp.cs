@@ -29,6 +29,14 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
             LootUIManager.Instance.RegisterLoot(this);
     }
 
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (LootUIManager.Instance != null)
+            LootUIManager.Instance.UnregisterLoot(this);
+    }
+
     [Server]
     public void InitItem(ItemInstance item)
     {

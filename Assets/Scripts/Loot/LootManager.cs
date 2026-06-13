@@ -5,9 +5,8 @@ public class LootManager : MonoBehaviour
 {
     public static LootManager Instance;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject itemObject;
-    [SerializeField] private GameObject currencyObject;
+    [Header("Prefab")]
+    [SerializeField] private GameObject lootPickupPrefab;
 
     private void Awake()
     {
@@ -63,13 +62,6 @@ public class LootManager : MonoBehaviour
                 if (entry == null || entry.drop == null)
                     continue;
 
-                Debug.Log(
-                    $"[LOOT][Entry] " +
-                    $"drop={entry.drop.DisplayName} " +
-                    $"minAmount={entry.minAmount} " +
-                    $"maxAmount={entry.maxAmount}"
-                );
-
                 SpawnDrop(
                     entry,
                     profile,
@@ -81,6 +73,64 @@ public class LootManager : MonoBehaviour
                 );
             }
         }
+    }
+
+    private void SpawnDrop(
+        LootTableEntry entry,
+        LootProfileSO profile,
+        int itemLevel,
+        System.Random rng,
+        Vector3 centerPosition,
+        float extraCurrencyMultiplier,
+        float extraGoldMultiplier)
+    {
+        Vector3 position = GetDropPosition(centerPosition, rng);
+
+        if (entry.drop is ItemBaseSO itemBase)
+        {
+            ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, rng);
+            SpawnLootPickup(position, pickup => pickup.InitItem(itemInstance));
+
+            Debug.Log($"[LOOT][SpawnItem] Spawned {itemInstance.itemName}");
+            return;
+        }
+
+        if (entry.drop is CurrencySO currency)
+        {
+            float multiplier = profile.currencyQuantityMultiplier * extraCurrencyMultiplier;
+            int amount = RollAmount(entry, multiplier, rng);
+
+            SpawnLootPickup(position, pickup => pickup.InitCurrency(currency.CurrencyId, amount));
+
+            Debug.Log($"[LOOT][SpawnCurrency] Spawned {currency.CurrencyName} x{amount}");
+            return;
+        }
+
+        Debug.LogWarning($"[LOOT] Unsupported drop type: {entry.drop.GetType().Name}");
+    }
+
+    private void SpawnLootPickup(Vector3 position, System.Action<LootPickup> initAction)
+    {
+        if (lootPickupPrefab == null)
+        {
+            Debug.LogError("[LOOT][SpawnLootPickup] lootPickupPrefab missing.");
+            return;
+        }
+
+        GameObject obj = Instantiate(lootPickupPrefab, position, Quaternion.identity);
+
+        LootPickup pickup = obj.GetComponent<LootPickup>();
+
+        if (pickup == null)
+        {
+            Debug.LogError("[LOOT][SpawnLootPickup] LootPickup missing on prefab.");
+            Destroy(obj);
+            return;
+        }
+
+        initAction?.Invoke(pickup);
+
+        NetworkServer.Spawn(obj);
     }
 
     private bool RollChance(System.Random rng, float chance)
@@ -95,111 +145,12 @@ public class LootManager : MonoBehaviour
         return roll <= chance;
     }
 
-    private void SpawnDrop(
-        LootTableEntry entry,
-        LootProfileSO profile,
-        int itemLevel,
-        System.Random rng,
-        Vector3 centerPosition,
-        float extraCurrencyMultiplier,
-        float extraGoldMultiplier)
-    {
-        if (entry == null || entry.drop == null)
-            return;
-
-        Vector3 position = GetDropPosition(centerPosition, rng);
-
-        if (entry.drop is ItemBaseSO itemBase)
-        {
-            SpawnItem(itemBase, itemLevel, rng, position);
-            return;
-        }
-
-        if (entry.drop is CurrencySO currency)
-        {
-            float multiplier = profile.currencyQuantityMultiplier * extraCurrencyMultiplier;
-            int amount = RollAmount(entry, multiplier, rng);
-
-            SpawnCurrency(currency, amount, position);
-            return;
-        }
-
-        Debug.LogWarning($"[LOOT] Unsupported drop type: {entry.drop.GetType().Name}");
-    }
-
     private Vector3 GetDropPosition(Vector3 center, System.Random rng)
     {
         float x = (float)(rng.NextDouble() * 1.6f - 0.8f);
         float z = (float)(rng.NextDouble() * 1.6f - 0.8f);
 
         return center + new Vector3(x, 0f, z);
-    }
-
-    private void SpawnItem(
-        ItemBaseSO itemBase,
-        int itemLevel,
-        System.Random rng,
-        Vector3 position)
-    {
-        if (itemBase == null)
-            return;
-
-        if (itemObject == null)
-        {
-            Debug.LogError("[LOOT][SpawnItem] itemObject prefab missing.");
-            return;
-        }
-
-        ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, rng);
-
-        GameObject obj = Instantiate(itemObject, position, Quaternion.identity);
-
-        LootPickup pickup = obj.GetComponent<LootPickup>();
-
-        if (pickup == null)
-        {
-            Debug.LogError("[LOOT][SpawnItem] LootPickup missing on prefab.");
-            Destroy(obj);
-            return;
-        }
-
-        pickup.InitItem(itemInstance);
-
-        NetworkServer.Spawn(obj);
-
-        Debug.Log($"[LOOT][SpawnItem] Spawned {itemInstance.itemName}");
-    }
-
-    private void SpawnCurrency(
-        CurrencySO currency,
-        int amount,
-        Vector3 position)
-    {
-        if (currency == null)
-            return;
-
-        if (currencyObject == null)
-        {
-            Debug.LogError("[LOOT][SpawnCurrency] currencyObject prefab missing.");
-            return;
-        }
-
-        GameObject obj = Instantiate(currencyObject, position, Quaternion.identity);
-
-        LootPickup pickup = obj.GetComponent<LootPickup>();
-
-        if (pickup == null)
-        {
-            Debug.LogError("[LOOT][SpawnCurrency] LootPickup missing on currency prefab.");
-            Destroy(obj);
-            return;
-        }
-
-        pickup.InitCurrency(currency.CurrencyId, amount);
-
-        NetworkServer.Spawn(obj);
-
-        Debug.Log($"[LOOT][SpawnCurrency] Spawned {currency.CurrencyName} x{amount}");
     }
 
     private int RollAmount(LootTableEntry entry, float multiplier, System.Random rng)

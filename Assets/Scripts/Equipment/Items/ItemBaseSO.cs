@@ -36,8 +36,6 @@ public class ItemBaseSO : LootableSO
     [SerializeField] private int itemLevel;
     public int ItemLevel => itemLevel;
 
-    public Sprite Icon => icon;
-
     [Header("Base stats")]
     [SerializeField] private int baseAttack;
     public int BaseAttack => baseAttack;
