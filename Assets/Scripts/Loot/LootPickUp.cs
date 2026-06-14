@@ -205,17 +205,16 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ItemInstance item = GetItem();
+        LootPayload payload = GetPayload();
 
-        if (item != null)
-        {
-            if (ItemPreviewManager.Instance != null)
-                ItemPreviewManager.Instance.InitPreview(item);
-
+        if (payload == null)
             return;
-        }
 
-        Debug.Log($"[LootPickup] {GetDisplayName()}");
+        if (ItemPreviewManager.Instance != null)
+        {
+            InventoryItemData data = InventoryItemData.FromPayload(payload);
+            ItemPreviewManager.Instance.InitPreview(data);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

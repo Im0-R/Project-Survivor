@@ -2,39 +2,41 @@ using UnityEngine;
 
 public class ItemPreviewManager : MonoBehaviour
 {
-    // singleton instance
     public static ItemPreviewManager Instance;
 
-    public GameObject itemPreviewPrefab;
+    [SerializeField] private GameObject itemPreviewPrefab;
+    [SerializeField] private GameObject parentCanvas;
 
-    public GameObject parentCanvas;
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
-    public void InitPreview(ItemInstance itemInstance )
+    public void InitPreview(InventoryItemData data)
     {
+        ClosePreview();
+
         GameObject preview = Instantiate(itemPreviewPrefab, parentCanvas.transform);
         ItemPreview itemPreview = preview.GetComponent<ItemPreview>();
-        itemPreview.Init(itemInstance);
+
+        if (itemPreview == null)
+        {
+            Debug.LogError("[ItemPreviewManager] Preview prefab has no ItemPreview component.");
+            return;
+        }
+
+        itemPreview.Init(data);
     }
+
     public void ClosePreview()
     {
         foreach (Transform child in parentCanvas.transform)
         {
-            ItemPreview itemPreview = child.GetComponent<ItemPreview>();
-            if (itemPreview != null)
-            {
+            if (child.GetComponent<ItemPreview>() != null)
                 Destroy(child.gameObject);
-            }
         }
     }
 }
