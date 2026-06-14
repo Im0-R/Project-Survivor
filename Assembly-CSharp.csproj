@@ -154,7 +154,6 @@
     <Compile Include="Assets\Scripts\Loot\LootTableEntry.cs" />
     <Compile Include="Assets\Scripts\Manager\InstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\Death\DeathCanvas.cs" />
-    <Compile Include="Assets\Scripts\Loot\Currency\CurrencyPickUp.cs" />
     <Compile Include="Assets\Scripts\Lootable\Sigils\Effect\SigilOfTransmutationEffectSO.cs" />
     <Compile Include="Assets\Scripts\Misc\Entity.cs" />
     <Compile Include="Assets\Scripts\Lootable\Sigils\Effect\SigilOfAlchemyEffectSO.cs" />
@@ -230,7 +229,6 @@
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
     <Compile Include="Assets\Scripts\Party\CanvasPartyTargetUI.cs" />
     <Compile Include="Assets\Scripts\Loot\LootSpawnBehaviourSO.cs" />
-    <Compile Include="Assets\Scripts\Sigil\PlayerCurrencyInventory.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
     <Compile Include="Assets\Scripts\Party\Party.cs" />
     <Compile Include="Assets\Scripts\Loot\UI\LootLabelUI.cs" />

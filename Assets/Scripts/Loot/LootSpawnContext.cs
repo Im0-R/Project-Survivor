@@ -6,16 +6,15 @@ public class LootSpawnContext
     public int itemLevel;
     public System.Random rng;
 
-    public float extraQuantityMultiplier = 1f;
     public float extraCurrencyMultiplier = 1f;
     public float extraGoldMultiplier = 1f;
 
-    public float GetQuantityMultiplier(LootQuantityGroup group)
+    public float GetTypeQuantityMultiplier(LootQuantityGroup group)
     {
         if (profile == null)
-            return extraQuantityMultiplier;
+            return 1f;
 
-        float multiplier = profile.quantityMultiplier * extraQuantityMultiplier;
+        float multiplier = 1f;
 
         switch (group)
         {
@@ -39,15 +38,14 @@ public class LootSpawnContext
 
     public int RollCountFromMultiplier(float multiplier)
     {
-        if (rng == null)
-            return Mathf.Max(0, Mathf.RoundToInt(multiplier));
+        multiplier = Mathf.Max(0f, multiplier);
 
         int guaranteed = Mathf.FloorToInt(multiplier);
         float chanceForExtra = multiplier - guaranteed;
 
         int count = guaranteed;
 
-        if (rng.NextDouble() <= chanceForExtra)
+        if (rng != null && rng.NextDouble() <= chanceForExtra)
             count++;
 
         return Mathf.Max(0, count);

@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LootManager : MonoBehaviour
@@ -7,6 +8,8 @@ public class LootManager : MonoBehaviour
 
     [Header("Prefab")]
     [SerializeField] private GameObject lootPickupPrefab;
+
+    private readonly List<LootPayload> payloadBuffer = new List<LootPayload>();
 
     private void Awake()
     {
@@ -36,6 +39,15 @@ public class LootManager : MonoBehaviour
 
         System.Random rng = new System.Random(seed);
 
+        LootSpawnContext context = new LootSpawnContext
+        {
+            profile = profile,
+            itemLevel = Mathf.Max(1, itemLevel),
+            rng = rng,
+            extraCurrencyMultiplier = extraCurrencyMultiplier,
+            extraGoldMultiplier = extraGoldMultiplier
+        };
+
         foreach (LootTableRoll tableRoll in profile.tableRolls)
         {
             if (tableRoll == null || tableRoll.table == null)
@@ -62,54 +74,49 @@ public class LootManager : MonoBehaviour
                 if (entry == null || entry.drop == null)
                     continue;
 
-                SpawnDrop(
-                    entry,
-                    profile,
-                    itemLevel,
-                    rng,
-                    position,
-                    extraCurrencyMultiplier,
-                    extraGoldMultiplier
-                );
+                SpawnDrop(entry, context, position);
             }
         }
     }
 
     private void SpawnDrop(
         LootTableEntry entry,
-        LootProfileSO profile,
-        int itemLevel,
-        System.Random rng,
-        Vector3 centerPosition,
-        float extraCurrencyMultiplier,
-        float extraGoldMultiplier)
+        LootSpawnContext context,
+        Vector3 centerPosition)
     {
-        Vector3 position = GetDropPosition(centerPosition, rng);
+        LootableSO lootable = entry.drop;
 
-        if (entry.drop is ItemBaseSO itemBase)
+        if (lootable.SpawnBehaviour == null)
         {
-            ItemInstance itemInstance = LootGenerator.Generate(itemBase, itemLevel, rng);
-            SpawnLootPickup(position, pickup => pickup.InitItem(itemInstance));
-
-            Debug.Log($"[LOOT][SpawnItem] Spawned {itemInstance.itemName}");
+            Debug.LogError($"[LOOT] Missing SpawnBehaviour on {lootable.name}");
             return;
         }
 
-        if (entry.drop is CurrencySO currency)
-        {
-            float multiplier = profile.currencyQuantityMultiplier * extraCurrencyMultiplier;
-            int amount = RollAmount(entry, multiplier, rng);
+        payloadBuffer.Clear();
 
-            SpawnLootPickup(position, pickup => pickup.InitCurrency(currency.CurrencyId, amount));
+        lootable.SpawnBehaviour.BuildPayloads(
+            lootable,
+            entry,
+            context,
+            payloadBuffer
+        );
 
-            Debug.Log($"[LOOT][SpawnCurrency] Spawned {currency.CurrencyName} x{amount}");
+        if (payloadBuffer.Count == 0)
             return;
-        }
 
-        Debug.LogWarning($"[LOOT] Unsupported drop type: {entry.drop.GetType().Name}");
+        for (int i = 0; i < payloadBuffer.Count; i++)
+        {
+            LootPayload payload = payloadBuffer[i];
+
+            if (payload == null || payload.lootableId == 0)
+                continue;
+
+            Vector3 position = GetDropPosition(centerPosition, context.rng);
+            SpawnLootPickup(payload, position);
+        }
     }
 
-    private void SpawnLootPickup(Vector3 position, System.Action<LootPickup> initAction)
+    private void SpawnLootPickup(LootPayload payload, Vector3 position)
     {
         if (lootPickupPrefab == null)
         {
@@ -128,9 +135,11 @@ public class LootManager : MonoBehaviour
             return;
         }
 
-        initAction?.Invoke(pickup);
+        pickup.Init(payload);
 
         NetworkServer.Spawn(obj);
+
+        Debug.Log($"[LOOT] Spawned {pickup.GetDisplayName()}");
     }
 
     private bool RollChance(System.Random rng, float chance)
@@ -151,16 +160,5 @@ public class LootManager : MonoBehaviour
         float z = (float)(rng.NextDouble() * 1.6f - 0.8f);
 
         return center + new Vector3(x, 0f, z);
-    }
-
-    private int RollAmount(LootTableEntry entry, float multiplier, System.Random rng)
-    {
-        int min = Mathf.Min(entry.minAmount, entry.maxAmount);
-        int max = Mathf.Max(entry.minAmount, entry.maxAmount);
-
-        int amount = rng.Next(min, max + 1);
-        amount = Mathf.RoundToInt(amount * multiplier);
-
-        return Mathf.Max(1, amount);
     }
 }

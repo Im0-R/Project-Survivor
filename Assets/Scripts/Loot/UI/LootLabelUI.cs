@@ -16,14 +16,23 @@ public class LootLabelUI : MonoBehaviour
     {
         target = loot;
 
+        if (target != null)
+            target.OnVisualChanged += RefreshLabel;
+
         RefreshLabel();
 
-        button.onClick.RemoveListener(OnClick);
-        button.onClick.AddListener(OnClick);
+        if (button != null)
+        {
+            button.onClick.RemoveListener(OnClick);
+            button.onClick.AddListener(OnClick);
+        }
     }
 
     private void OnDestroy()
     {
+        if (target != null)
+            target.OnVisualChanged -= RefreshLabel;
+
         if (button != null)
             button.onClick.RemoveListener(OnClick);
     }
@@ -31,6 +40,9 @@ public class LootLabelUI : MonoBehaviour
     public void OnClick()
     {
         if (target == null)
+            return;
+
+        if (LootUIManager.Instance == null)
             return;
 
         LootUIManager.Instance.RequestPickup(target);
@@ -43,8 +55,6 @@ public class LootLabelUI : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        RefreshLabel();
 
         if (Camera.main == null)
             return;

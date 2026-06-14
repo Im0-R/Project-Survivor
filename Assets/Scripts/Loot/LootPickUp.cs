@@ -1,162 +1,151 @@
 using Mirror;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum PickupType
-{
-    Item,
-    Currency
-}
-
 public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SyncVar] private PickupType pickupType;
-
-    [SyncVar] private string itemJson = "";
-    [SyncVar] private int currencyId;
-    [SyncVar] private int amount;
+    [SyncVar(hook = nameof(OnPayloadJsonChanged))]
+    private string payloadJson = "";
 
     [SyncVar] private uint ownerNetId;
     [SyncVar] public bool IsClaimed = false;
 
     [SerializeField] private float pickupRadius = 2f;
 
+    private LootPayload cachedPayload;
+
+    public event Action OnVisualChanged;
+
     public override void OnStartClient()
     {
         base.OnStartClient();
 
+        RebuildCachedPayload();
+
         if (LootUIManager.Instance != null)
             LootUIManager.Instance.RegisterLoot(this);
+
+        OnVisualChanged?.Invoke();
     }
 
     public override void OnStopClient()
     {
-        base.OnStopClient();
-
         if (LootUIManager.Instance != null)
             LootUIManager.Instance.UnregisterLoot(this);
+
+        base.OnStopClient();
     }
 
     [Server]
-    public void InitItem(ItemInstance item)
+    public void Init(LootPayload payload)
     {
-        pickupType = PickupType.Item;
-        itemJson = item != null ? JsonUtility.ToJson(item) : "";
-        currencyId = 0;
-        amount = 0;
+        if (payload == null)
+        {
+            Debug.LogError("[LootPickup] Init failed: payload is null.");
+            return;
+        }
+
+        payload.amount = Mathf.Max(1, payload.amount);
+
+        cachedPayload = payload;
+        payloadJson = JsonUtility.ToJson(payload);
     }
 
-    [Server]
-    public void InitCurrency(int newCurrencyId, int newAmount)
+    private void OnPayloadJsonChanged(string oldValue, string newValue)
     {
-        pickupType = PickupType.Currency;
-        itemJson = "";
-        currencyId = newCurrencyId;
-        amount = Mathf.Max(1, newAmount);
+        RebuildCachedPayload();
+        OnVisualChanged?.Invoke();
+    }
+
+    private void RebuildCachedPayload()
+    {
+        cachedPayload = DeserializePayload(payloadJson);
+    }
+
+    public LootPayload GetPayload()
+    {
+        if (cachedPayload == null && !string.IsNullOrWhiteSpace(payloadJson))
+            RebuildCachedPayload();
+
+        return cachedPayload;
+    }
+
+    public LootableSO GetLootable()
+    {
+        LootPayload payload = GetPayload();
+
+        if (payload == null || payload.lootableId == 0)
+            return null;
+
+        return LootableDatabase.Get(payload.lootableId);
     }
 
     public ItemInstance GetItem()
     {
-        if (pickupType != PickupType.Item)
+        LootPayload payload = GetPayload();
+
+        if (payload == null || !payload.IsGeneratedItem())
             return null;
 
-        if (string.IsNullOrWhiteSpace(itemJson))
-            return null;
-
-        ItemInstance item = JsonUtility.FromJson<ItemInstance>(itemJson);
+        ItemInstance item = JsonUtility.FromJson<ItemInstance>(payload.itemJson);
         item?.EnsureLists();
 
         return item;
     }
 
-    public CurrencySO GetCurrency()
-    {
-        if (pickupType != PickupType.Currency)
-            return null;
-
-        return CurrencyDatabase.Get(currencyId);
-    }
-
     public int GetAmount()
     {
-        return amount;
-    }
-
-    public PickupType GetPickupType()
-    {
-        return pickupType;
+        LootPayload payload = GetPayload();
+        return payload != null ? payload.amount : 0;
     }
 
     public string GetDisplayName()
     {
-        if (pickupType == PickupType.Item)
+        LootPayload payload = GetPayload();
+
+        if (payload == null)
+            return "Unknown Loot";
+
+        string baseName = "";
+
+        if (!string.IsNullOrWhiteSpace(payload.displayNameOverride))
         {
-            ItemInstance item = GetItem();
+            baseName = payload.displayNameOverride;
+        }
+        else
+        {
+            LootableSO lootable = GetLootable();
 
-            if (item == null)
-                return "Unknown Item";
+            if (lootable == null)
+                return $"Lootable {payload.lootableId}";
 
-            return item.itemName;
+            baseName = lootable.DisplayName;
         }
 
-        if (pickupType == PickupType.Currency)
-        {
-            CurrencySO currency = GetCurrency();
+        if (payload.amount > 1 && !payload.IsGeneratedItem())
+            return $"{baseName} x{payload.amount}";
 
-            if (currency == null)
-                return $"Currency x{amount}";
-
-            return amount > 1
-                ? $"{currency.DisplayName} x{amount}"
-                : currency.DisplayName;
-        }
-
-        return "Unknown Loot";
+        return baseName;
     }
 
     public Sprite GetIcon()
     {
-        if (pickupType == PickupType.Currency)
-        {
-            CurrencySO currency = GetCurrency();
-            return currency != null ? currency.Icon : null;
-        }
-
-        if (pickupType == PickupType.Item)
-        {
-            ItemInstance item = GetItem();
-
-            if (item == null)
-                return null;
-
-            ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
-            return itemBase != null ? itemBase.Icon : null;
-        }
-
-        return null;
+        LootableSO lootable = GetLootable();
+        return lootable != null ? lootable.Icon : null;
     }
 
     public Color GetLabelColor()
     {
-        if (pickupType == PickupType.Item)
-        {
-            ItemInstance item = GetItem();
+        LootPayload payload = GetPayload();
 
-            if (item != null)
-                return GetRarityColor(item.rarity);
+        if (payload != null && payload.hasRarityColor)
+            return GetRarityColor(payload.rarity);
 
-            return Color.white;
-        }
+        LootableSO lootable = GetLootable();
 
-        if (pickupType == PickupType.Currency)
-        {
-            CurrencySO currency = GetCurrency();
-
-            if (currency != null)
-                return currency.LabelColor;
-
-            return Color.white;
-        }
+        if (lootable != null)
+            return lootable.LabelColor;
 
         return Color.white;
     }
@@ -181,6 +170,11 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         if (ownerNetId != 0 && sender.identity.netId != ownerNetId)
             return;
 
+        LootPayload payload = GetPayload();
+
+        if (payload == null || payload.lootableId == 0 || payload.amount <= 0)
+            return;
+
         float distance = Vector3.Distance(
             sender.identity.transform.position,
             transform.position
@@ -189,58 +183,18 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         if (distance > pickupRadius)
             return;
 
-        switch (pickupType)
-        {
-            case PickupType.Item:
-                TryPickupItem(sender);
-                break;
-
-            case PickupType.Currency:
-                TryPickupCurrency(sender);
-                break;
-        }
-    }
-
-    [Server]
-    private void TryPickupItem(NetworkConnectionToClient sender)
-    {
-        if (string.IsNullOrWhiteSpace(itemJson))
-            return;
-
-        ItemInstance item = JsonUtility.FromJson<ItemInstance>(itemJson);
-
-        if (item == null || item.instanceId == 0)
-            return;
-
-        item.EnsureLists();
-
         PlayerInventory inventory = sender.identity.GetComponent<PlayerInventory>();
 
         if (inventory == null)
-            return;
-
-        bool added = inventory.Server_AddItem(item);
-
-        if (!added)
-            return;
-
-        IsClaimed = true;
-        NetworkServer.Destroy(gameObject);
-    }
-
-    [Server]
-    private void TryPickupCurrency(NetworkConnectionToClient sender)
-    {
-        if (currencyId == 0 || amount <= 0)
-            return;
-
-        PlayerCurrencyInventory inventory =
-            sender.identity.GetComponent<PlayerCurrencyInventory>();
+            inventory = sender.identity.GetComponentInChildren<PlayerInventory>(true);
 
         if (inventory == null)
+        {
+            Debug.LogError("[LootPickup] PlayerInventory missing.");
             return;
+        }
 
-        bool added = inventory.AddCurrency(currencyId, amount);
+        bool added = inventory.Server_AddLoot(payload);
 
         if (!added)
             return;
@@ -251,29 +205,46 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (pickupType == PickupType.Item)
+        ItemInstance item = GetItem();
+
+        if (item != null)
         {
             if (ItemPreviewManager.Instance != null)
-                ItemPreviewManager.Instance.InitPreview(GetItem());
+                ItemPreviewManager.Instance.InitPreview(item);
 
             return;
         }
 
-        if (pickupType == PickupType.Currency)
-        {
-            CurrencySO currency = GetCurrency();
-
-            if (currency != null)
-                Debug.Log($"[LootPickup] {currency.CurrencyName} x{amount}");
-        }
+        Debug.Log($"[LootPickup] {GetDisplayName()}");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (pickupType == PickupType.Item)
+        if (GetItem() != null)
         {
             if (ItemPreviewManager.Instance != null)
                 ItemPreviewManager.Instance.ClosePreview();
+        }
+    }
+
+    private LootPayload DeserializePayload(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return null;
+
+        try
+        {
+            LootPayload payload = JsonUtility.FromJson<LootPayload>(json);
+
+            if (payload != null)
+                payload.amount = Mathf.Max(1, payload.amount);
+
+            return payload;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[LootPickup] Payload deserialize failed: {e}");
+            return null;
         }
     }
 

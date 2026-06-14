@@ -18,7 +18,8 @@ public class StackableLootSpawnBehaviourSO : LootSpawnBehaviourSO
 
         int baseAmount = context.rng.Next(min, max + 1);
 
-        float multiplier = context.GetQuantityMultiplier(lootable.QuantityGroup);
+        float multiplier = context.GetTypeQuantityMultiplier(lootable.QuantityGroup);
+
         int finalAmount = Mathf.RoundToInt(baseAmount * multiplier);
         finalAmount = Mathf.Max(1, finalAmount);
 

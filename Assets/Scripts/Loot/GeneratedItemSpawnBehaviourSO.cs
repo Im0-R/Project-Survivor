@@ -21,7 +21,7 @@ public class GeneratedItemSpawnBehaviourSO : LootSpawnBehaviourSO
             return;
         }
 
-        float multiplier = context.GetQuantityMultiplier(lootable.QuantityGroup);
+        float multiplier = context.GetTypeQuantityMultiplier(lootable.QuantityGroup);
         int count = context.RollCountFromMultiplier(multiplier);
 
         for (int i = 0; i < count; i++)
