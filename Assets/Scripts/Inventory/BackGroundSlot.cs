@@ -12,12 +12,20 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
     public EquipmentSlot SlotType => slotType;
     public bool IsEquipmentSlot => slotType != EquipmentSlot.Any;
 
-    public void SetId(int newId) => id = newId;
+    public void SetId(int newId)
+    {
+        id = newId;
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (CanvasInventory.Instance == null)
+            return;
+
         ItemCard card = eventData.pointerDrag?.GetComponent<ItemCard>();
-        if (card == null) return;
+
+        if (card == null)
+            return;
 
         CanvasInventory.Instance.RequestDrop(card, this);
     }

@@ -23,8 +23,7 @@ public enum EquipmentSlot
 [CreateAssetMenu(menuName = "Game/ItemBase")]
 public class ItemBaseSO : LootableSO
 {
-    [SerializeField] private int baseId;
-    public int BaseId => baseId;
+    public int BaseId => Id;
 
     [Header("Identity")]
     [SerializeField] private string baseName;
@@ -87,9 +86,9 @@ public class ItemBaseSO : LootableSO
     {
         bool changed = false;
 
-        if (baseId == 0)
+        if (id == 0)
         {
-            baseId = GenerateID();
+            id = GenerateID();
             changed = true;
         }
 
@@ -101,15 +100,19 @@ public class ItemBaseSO : LootableSO
             changed = true;
         }
 
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            displayName = baseName;
+            changed = true;
+        }
+
         if (slotType == EquipmentSlot.None)
         {
             Debug.LogWarning($"[ItemBaseSO] {name} n'a pas de slot défini.", this);
         }
 
         if (changed)
-        {
             UnityEditor.EditorUtility.SetDirty(this);
-        }
     }
 
     private string ExtractBaseNameFromAssetName()
@@ -133,10 +136,14 @@ public class ItemBaseSO : LootableSO
         return Mathf.Abs(guid.GetHashCode());
     }
 
-    [ContextMenu("Regenerate Base ID")]
+    [ContextMenu("Regenerate Item ID")]
     private void RegenerateID()
     {
-        baseId = GenerateID();
+        id = GenerateID();
+
+        if (string.IsNullOrWhiteSpace(displayName))
+            displayName = baseName;
+
         UnityEditor.EditorUtility.SetDirty(this);
     }
 #endif

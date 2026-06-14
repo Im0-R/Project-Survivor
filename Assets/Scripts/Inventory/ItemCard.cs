@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public enum ItemCardSource
 {
@@ -9,49 +10,90 @@ public enum ItemCardSource
     Stash
 }
 
-public class ItemCard : MonoBehaviour,
-    IBeginDragHandler,
-    IDragHandler,
-    IEndDragHandler,
-    IPointerEnterHandler,
-    IPointerExitHandler
+public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private ItemInstance itemInstance;
+    [Header("UI")]
+    [SerializeField] private Image icon;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text amountText;
 
-    [Header("Visuals")]
-    [SerializeField] private Image rarityImage;
-    [SerializeField] private Image baseImage;
-
-    public int SlotIndex { get; private set; } = -1;
-    public ItemCardSource Source { get; private set; } = ItemCardSource.Inventory;
+    private LootableSO lootable;
+    private InventoryItemData slotData;
+    private ItemInstance itemInstance;
 
     private Transform originalParent;
     private CanvasGroup canvasGroup;
-    private RectTransform rectTransform;
+
+    public int SlotIndex { get; private set; } = -1;
+    public ItemCardSource Source { get; private set; }
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-
         canvasGroup = GetComponent<CanvasGroup>();
+
         if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
-    public void SetSlotIndex(int idx)
+    public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
     {
-        SlotIndex = idx;
-    }
+        lootable = newLootable;
+        slotData = newSlotData;
+        itemInstance = null;
 
-    public void SetSource(ItemCardSource source)
-    {
-        Source = source;
+        if (lootable == null)
+            return;
+
+        if (icon != null)
+            icon.sprite = lootable.Icon;
+
+        if (nameText != null)
+        {
+            if (!string.IsNullOrWhiteSpace(slotData.displayNameOverride))
+                nameText.text = slotData.displayNameOverride;
+            else
+                nameText.text = lootable.DisplayName;
+        }
+
+        if (amountText != null)
+            amountText.text = slotData.amount > 1 ? slotData.amount.ToString() : "";
+
+        if (lootable is ItemBaseSO && !string.IsNullOrWhiteSpace(slotData.itemJson))
+        {
+            itemInstance = JsonUtility.FromJson<ItemInstance>(slotData.itemJson);
+        }
     }
 
     public void SetItemInstance(ItemInstance item)
     {
         itemInstance = item;
-        ChangeVisual();
+
+        if (item == null)
+            return;
+
+        LootableSO foundLootable = LootableDatabase.Get(item.baseId);
+
+        InventoryItemData generatedData = new InventoryItemData
+        {
+            lootableId = item.baseId,
+            amount = 1,
+            itemJson = JsonUtility.ToJson(item),
+            displayNameOverride = item.itemName,
+            rarity = item.rarity,
+            hasRarityColor = true
+        };
+
+        SetLootable(foundLootable, generatedData);
+    }
+
+    public LootableSO GetLootable()
+    {
+        return lootable;
+    }
+
+    public InventoryItemData GetSlotData()
+    {
+        return slotData;
     }
 
     public ItemInstance GetItemInstance()
@@ -59,123 +101,43 @@ public class ItemCard : MonoBehaviour,
         return itemInstance;
     }
 
+    public void SetSlotIndex(int index)
+    {
+        SlotIndex = index;
+    }
+
+    public void SetSource(ItemCardSource source)
+    {
+        Source = source;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (itemInstance == null || itemInstance.instanceId == 0)
-            return;
-
-        if (Source == ItemCardSource.Equipment)
-        {
-            Debug.Log("[ItemCard] Drag from equipment disabled for now.");
-            return;
-        }
-
         originalParent = transform.parent;
 
-        canvasGroup.blocksRaycasts = false;
+        if (CanvasInventory.Instance != null && CanvasInventory.Instance.DragRoot != null)
+            transform.SetParent(CanvasInventory.Instance.DragRoot);
 
-        Transform dragRoot = GetDragRoot();
-        if (dragRoot != null)
-            transform.SetParent(dragRoot, true);
-
-        transform.SetAsLastSibling();
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (itemInstance == null || itemInstance.instanceId == 0)
-            return;
-
-        if (canvasGroup.blocksRaycasts)
-            return;
-
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
+        if (originalParent != null)
+            transform.SetParent(originalParent);
 
-        Transform dragRoot = GetDragRoot();
+        RectTransform rt = GetComponent<RectTransform>();
 
-        if (dragRoot != null && transform.parent == dragRoot)
-        {
-            transform.SetParent(originalParent, true);
+        if (rt != null)
+            rt.anchoredPosition = Vector2.zero;
 
-            if (rectTransform != null)
-                rectTransform.anchoredPosition = Vector2.zero;
-        }
-    }
-
-    private Transform GetDragRoot()
-    {
-        if (CanvasInventory.Instance != null && CanvasInventory.Instance.DragRoot != null)
-            return CanvasInventory.Instance.DragRoot;
-
-        Canvas parentCanvas = GetComponentInParent<Canvas>();
-        if (parentCanvas != null)
-            return parentCanvas.transform;
-
-        return transform.root;
-    }
-
-    public void ChangeVisual()
-    {
-        if (itemInstance == null || itemInstance.instanceId == 0)
-        {
-            if (baseImage != null)
-                baseImage.sprite = null;
-
-            if (rarityImage != null)
-                rarityImage.color = Color.white;
-
-            return;
-        }
-
-        ItemBaseSO baseSO = ItemDatabase.GetBase(itemInstance.baseId);
-
-        if (baseSO != null && baseImage != null)
-            baseImage.sprite = baseSO.Icon;
-
-        if (rarityImage == null)
-            return;
-
-        switch (itemInstance.rarity)
-        {
-            case ItemRarity.Normal:
-                rarityImage.color = Color.gray;
-                break;
-
-            case ItemRarity.Magic:
-                rarityImage.color = Color.blue;
-                break;
-
-            case ItemRarity.Rare:
-                rarityImage.color = Color.yellow;
-                break;
-
-            case ItemRarity.Unique:
-                rarityImage.color = Color.orange;
-                break;
-
-            default:
-                rarityImage.color = Color.white;
-                break;
-        }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (itemInstance == null || itemInstance.instanceId == 0)
-            return;
-
-        if (ItemPreviewManager.Instance != null)
-            ItemPreviewManager.Instance.InitPreview(itemInstance);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (ItemPreviewManager.Instance != null)
-            ItemPreviewManager.Instance.ClosePreview();
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = true;
     }
 }
