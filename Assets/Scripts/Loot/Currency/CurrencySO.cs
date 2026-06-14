@@ -7,9 +7,6 @@ public class CurrencySO : LootableSO
     public CurrencyType type = CurrencyType.Sigil;
     public CurrencyUse use = CurrencyUse.Item;
 
-    [Header("Stack")]
-    public int maxStack = 20;
-
     [Header("Drop")]
     public int dropWeight = 100;
 
