@@ -41,7 +41,6 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
     public void InitItem(ItemInstance item)
     {
         pickupType = PickupType.Item;
-
         itemJson = item != null ? JsonUtility.ToJson(item) : "";
         currencyId = 0;
         amount = 0;
@@ -51,7 +50,6 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
     public void InitCurrency(int newCurrencyId, int newAmount)
     {
         pickupType = PickupType.Currency;
-
         itemJson = "";
         currencyId = newCurrencyId;
         amount = Mathf.Max(1, newAmount);
@@ -87,6 +85,80 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
     public PickupType GetPickupType()
     {
         return pickupType;
+    }
+
+    public string GetDisplayName()
+    {
+        if (pickupType == PickupType.Item)
+        {
+            ItemInstance item = GetItem();
+
+            if (item == null)
+                return "Unknown Item";
+
+            return item.itemName;
+        }
+
+        if (pickupType == PickupType.Currency)
+        {
+            CurrencySO currency = GetCurrency();
+
+            if (currency == null)
+                return $"Currency x{amount}";
+
+            return amount > 1
+                ? $"{currency.DisplayName} x{amount}"
+                : currency.DisplayName;
+        }
+
+        return "Unknown Loot";
+    }
+
+    public Sprite GetIcon()
+    {
+        if (pickupType == PickupType.Currency)
+        {
+            CurrencySO currency = GetCurrency();
+            return currency != null ? currency.Icon : null;
+        }
+
+        if (pickupType == PickupType.Item)
+        {
+            ItemInstance item = GetItem();
+
+            if (item == null)
+                return null;
+
+            ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
+            return itemBase != null ? itemBase.Icon : null;
+        }
+
+        return null;
+    }
+
+    public Color GetLabelColor()
+    {
+        if (pickupType == PickupType.Item)
+        {
+            ItemInstance item = GetItem();
+
+            if (item != null)
+                return GetRarityColor(item.rarity);
+
+            return Color.white;
+        }
+
+        if (pickupType == PickupType.Currency)
+        {
+            CurrencySO currency = GetCurrency();
+
+            if (currency != null)
+                return currency.LabelColor;
+
+            return Color.white;
+        }
+
+        return Color.white;
     }
 
     public void RequestPickup()
@@ -202,6 +274,27 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             if (ItemPreviewManager.Instance != null)
                 ItemPreviewManager.Instance.ClosePreview();
+        }
+    }
+
+    private Color GetRarityColor(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ItemRarity.Normal:
+                return new Color(0.5f, 0.5f, 0.5f);
+
+            case ItemRarity.Magic:
+                return new Color(0.3f, 0.5f, 1f);
+
+            case ItemRarity.Rare:
+                return new Color(1f, 0.85f, 0.2f);
+
+            case ItemRarity.Unique:
+                return new Color(1f, 0.5f, 0.1f);
+
+            default:
+                return Color.white;
         }
     }
 }

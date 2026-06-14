@@ -8,56 +8,67 @@ public class LootLabelUI : MonoBehaviour
     public Button button;
 
     [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image iconImage;
+
     private LootPickup target;
 
     public void Bind(LootPickup loot)
     {
         target = loot;
-        ItemInstance item = loot.GetItem();
 
-        label.text = BuildLabel(loot);
+        RefreshLabel();
 
-        if (backgroundImage != null && item != null)
-        {
-            backgroundImage.color = GetRarityColor(item.rarity);
-        }
+        button.onClick.RemoveListener(OnClick);
         button.onClick.AddListener(OnClick);
+    }
+
+    private void OnDestroy()
+    {
+        if (button != null)
+            button.onClick.RemoveListener(OnClick);
     }
 
     public void OnClick()
     {
+        if (target == null)
+            return;
+
         LootUIManager.Instance.RequestPickup(target);
     }
 
-    void Update()
+    private void Update()
     {
-        if (target == null) { Destroy(gameObject); return; }
+        if (target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        RefreshLabel();
+
+        if (Camera.main == null)
+            return;
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(target.transform.position);
         transform.position = screenPos + Vector3.up * 20f;
     }
 
-    string BuildLabel(LootPickup loot)
+    private void RefreshLabel()
     {
-        return $"{loot.GetItem().itemName}";
-    }
-    private Color GetRarityColor(ItemRarity rarity)
-    {
-        switch (rarity)
+        if (target == null)
+            return;
+
+        if (label != null)
+            label.text = target.GetDisplayName();
+
+        if (backgroundImage != null)
+            backgroundImage.color = target.GetLabelColor();
+
+        if (iconImage != null)
         {
-            case ItemRarity.Normal:
-                return new Color(0.5f, 0.5f, 0.5f);
-
-            case ItemRarity.Magic:
-                return new Color(0.3f, 0.5f, 1f);
-
-            case ItemRarity.Rare:
-                return new Color(1f, 0.85f, 0.2f);
-
-            case ItemRarity.Unique:
-                return new Color(1f, 0.5f, 0.1f);
+            Sprite icon = target.GetIcon();
+            iconImage.sprite = icon;
+            iconImage.enabled = icon != null;
         }
-
-        return Color.white;
     }
 }

@@ -15,6 +15,11 @@ MonoBehaviour:
   id: 1495992151
   displayName: Sigil Of Exaltation
   icon: {fileID: 21300000, guid: 215af4b4c17fb9f4199284fb7ebb386d, type: 3}
+  quantityGroup: 2
+  spawnBehaviour: {fileID: 11400000, guid: bac7540f65febd24c9eaf9d3ccfc23c3, type: 2}
+  stackable: 1
+  maxStack: 20
+  labelColor: {r: 1, g: 1, b: 1, a: 1}
   type: 0
   use: 1
   maxStack: 10

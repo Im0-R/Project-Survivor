@@ -15,6 +15,11 @@ MonoBehaviour:
   id: 0
   displayName: RustyStaff
   icon: {fileID: 21300000, guid: 172774604c1bee84185a69041576525b, type: 3}
+  quantityGroup: 1
+  spawnBehaviour: {fileID: 11400000, guid: 1719b84fd346f5f46a975a6c838af8fd, type: 2}
+  stackable: 0
+  maxStack: 1
+  labelColor: {r: 1, g: 1, b: 1, a: 1}
   baseId: 440202070
   baseName: RustyStaff
   slotType: 1

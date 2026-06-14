@@ -15,6 +15,11 @@ MonoBehaviour:
   id: 1647311451
   displayName: Sigil Of Chaos
   icon: {fileID: 21300000, guid: 3b274db5149cdd44284918e47cf7c34d, type: 3}
+  quantityGroup: 2
+  spawnBehaviour: {fileID: 11400000, guid: bac7540f65febd24c9eaf9d3ccfc23c3, type: 2}
+  stackable: 1
+  maxStack: 20
+  labelColor: {r: 1, g: 1, b: 1, a: 1}
   type: 0
   use: 1
   maxStack: 20
