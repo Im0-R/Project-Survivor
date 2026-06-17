@@ -166,7 +166,9 @@ public class ItemPreview : MonoBehaviour
         if (descriptionText != null)
         {
             descriptionText.gameObject.SetActive(true);
-            descriptionText.text = "No description available.";
+            descriptionText.text = string.IsNullOrWhiteSpace(data.description)
+                ? "No description available."
+                : data.description  ;
         }
     }
 
