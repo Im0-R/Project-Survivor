@@ -48,8 +48,6 @@ public class CanvasStash : MonoBehaviour
 
         if (closeButton != null)
             closeButton.onClick.AddListener(Close);
-
-        Debug.Log($"[CanvasStash] StashSlots={stashSlots.Length}");
     }
 
     public void Open(PlayerStash stash, PlayerInventory inventory)
@@ -132,15 +130,15 @@ public class CanvasStash : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ItemInstance item = currentStash.GetCurrentTabItemByIndex(i);
+            InventoryItemData data = currentStash.GetCurrentTabSlotDataByIndex(i);
 
-            if (item == null || item.instanceId == 0)
+            if (data == null || data.lootableId == 0 || data.amount <= 0)
                 continue;
 
             GameObject cardObj = Instantiate(itemCardPrefab, stashSlots[i].transform);
 
             ItemCard card = cardObj.GetComponent<ItemCard>();
-            card.SetItemInstance(item);
+            card.SetInventoryItemData(data);
             card.SetSlotIndex(i);
             card.SetSource(ItemCardSource.Stash);
 

@@ -291,4 +291,31 @@ public class ItemCard : MonoBehaviour,
                 return Color.white;
         }
     }
+    public void SetInventoryItemData(InventoryItemData data)
+    {
+        slotData = data;
+
+        if (data == null)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(data.itemJson))
+        {
+            ItemInstance item = JsonUtility.FromJson<ItemInstance>(data.itemJson);
+            SetItemInstance(item);
+            return;
+        }
+
+        LootableSO lootable = LootableDatabase.Get(data.lootableId);
+
+        if (nameText != null)
+            nameText.text = string.IsNullOrWhiteSpace(data.displayNameOverride)
+                ? lootable != null ? lootable.DisplayName : $"Lootable {data.lootableId}"
+                : data.displayNameOverride;
+
+        if (icon != null)
+            icon.sprite = lootable != null ? lootable.Icon : null;
+
+        if (amountText != null)
+            amountText.text = data.amount > 1 ? data.amount.ToString() : "";
+    }
 }

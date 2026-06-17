@@ -380,7 +380,43 @@ public class PlayerInventory : NetworkBehaviour
 
         SavePlayerStateServer();
     }
+    public InventoryItemData GetSlotDataByIndex(int index)
+    {
+        if (index < 0 || index >= ItemsJson.Count)
+            return null;
 
+        if (string.IsNullOrWhiteSpace(ItemsJson[index]))
+            return null;
+
+        return JsonUtility.FromJson<InventoryItemData>(ItemsJson[index]);
+    }
+
+    [Server]
+    public void SetSlotData(int index, InventoryItemData data)
+    {
+        if (index < 0 || index >= ItemsJson.Count)
+            return;
+
+        ItemsJson[index] = data == null ? "" : JsonUtility.ToJson(data);
+    }
+
+    [Server]
+    public bool AddSlotData(InventoryItemData data)
+    {
+        if (data == null || data.lootableId == 0 || data.amount <= 0)
+            return false;
+
+        for (int i = 0; i < ItemsJson.Count; i++)
+        {
+            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
+            {
+                ItemsJson[i] = JsonUtility.ToJson(data);
+                return true;
+            }
+        }
+
+        return false;
+    }
     [Server]
     public void RemoveAt(int index)
     {

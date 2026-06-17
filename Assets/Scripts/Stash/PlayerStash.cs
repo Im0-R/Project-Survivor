@@ -79,10 +79,6 @@ public class PlayerStash : NetworkBehaviour
         OnTabsChanged?.Invoke();
     }
 
-    // =========================
-    // Commands
-    // =========================
-
     [Command]
     public void CmdOpenTab(int tabIndex)
     {
@@ -96,34 +92,9 @@ public class PlayerStash : NetworkBehaviour
     }
 
     [Command]
-    public void CmdRenameTab(int tabIndex, string newName)
-    {
-        RenameTabServer(tabIndex, newName);
-    }
-
-    [Command]
     public void CmdMoveOrSwapCurrentTab(int from, int to)
     {
         MoveOrSwapCurrentTabServer(from, to);
-    }
-
-    [Command]
-    public void CmdMoveInventoryToCurrentStashTab(int inventoryIndex)
-    {
-        PlayerInventory inventory = GetComponent<PlayerInventory>();
-        if (inventory == null) return;
-
-        ItemInstance item = inventory.GetItemByIndex(inventoryIndex);
-        if (item == null || item.instanceId == 0) return;
-
-        bool added = AddItemToTabServer(CurrentTabIndex, item);
-        if (!added) return;
-
-        inventory.RemoveAt(inventoryIndex);
-
-        RefreshSyncedCurrentTab();
-
-        Debug.Log($"[Stash] Moved inventory slot {inventoryIndex} to first empty slot in stash tab {CurrentTabIndex}.");
     }
 
     [Command]
@@ -142,40 +113,19 @@ public class PlayerStash : NetworkBehaviour
         if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
         if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
 
-        ItemInstance inventoryItem = inventory.GetItemByIndex(inventoryIndex);
-        if (inventoryItem == null || inventoryItem.instanceId == 0) return;
+        InventoryItemData inventoryData = inventory.GetSlotDataByIndex(inventoryIndex);
+        if (IsInvalidSlotData(inventoryData)) return;
 
-        ItemInstance stashItem = GetItemFromTab(CurrentTabIndex, stashIndex);
+        InventoryItemData stashDataInSlot = DeserializeSlotData(tab.itemsJson[stashIndex]);
 
-        tab.itemsJson[stashIndex] = SerializeItem(inventoryItem);
+        tab.itemsJson[stashIndex] = SerializeSlotData(inventoryData);
 
-        if (stashItem != null && stashItem.instanceId != 0)
-            inventory.SetSlot(inventoryIndex, stashItem);
+        if (!IsInvalidSlotData(stashDataInSlot))
+            inventory.SetSlotData(inventoryIndex, stashDataInSlot);
         else
-            inventory.RemoveAt(inventoryIndex);
+            inventory.SetSlotData(inventoryIndex, null);
 
         RefreshSyncedCurrentTab();
-
-        Debug.Log($"[Stash] Inventory slot {inventoryIndex} moved/swapped to stash slot {stashIndex}");
-    }
-
-    [Command]
-    public void CmdMoveStashToInventory(int stashIndex)
-    {
-        PlayerInventory inventory = GetComponent<PlayerInventory>();
-        if (inventory == null) return;
-
-        ItemInstance item = GetItemFromTab(CurrentTabIndex, stashIndex);
-        if (item == null || item.instanceId == 0) return;
-
-        bool added = inventory.AddItem(item);
-        if (!added) return;
-
-        RemoveAtServer(CurrentTabIndex, stashIndex);
-
-        RefreshSyncedCurrentTab();
-
-        Debug.Log($"[Stash] Moved stash tab {CurrentTabIndex} slot {stashIndex} to first empty inventory slot.");
     }
 
     [Command]
@@ -194,26 +144,36 @@ public class PlayerStash : NetworkBehaviour
         if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
         if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
 
-        ItemInstance stashItem = GetItemFromTab(CurrentTabIndex, stashIndex);
-        if (stashItem == null || stashItem.instanceId == 0) return;
+        InventoryItemData stashSlotData = DeserializeSlotData(tab.itemsJson[stashIndex]);
+        if (IsInvalidSlotData(stashSlotData)) return;
 
-        ItemInstance inventoryItem = inventory.GetItemByIndex(inventoryIndex);
+        InventoryItemData inventorySlotData = inventory.GetSlotDataByIndex(inventoryIndex);
 
-        inventory.SetSlot(inventoryIndex, stashItem);
+        inventory.SetSlotData(inventoryIndex, stashSlotData);
 
-        if (inventoryItem != null && inventoryItem.instanceId != 0)
-            tab.itemsJson[stashIndex] = SerializeItem(inventoryItem);
+        if (!IsInvalidSlotData(inventorySlotData))
+            tab.itemsJson[stashIndex] = SerializeSlotData(inventorySlotData);
         else
             tab.itemsJson[stashIndex] = "";
 
         RefreshSyncedCurrentTab();
-
-        Debug.Log($"[Stash] Stash slot {stashIndex} moved/swapped to inventory slot {inventoryIndex}");
     }
 
-    // =========================
-    // Server API
-    // =========================
+    [Command]
+    public void CmdMoveStashToInventory(int stashIndex)
+    {
+        PlayerInventory inventory = GetComponent<PlayerInventory>();
+        if (inventory == null) return;
+
+        InventoryItemData stashSlotData = GetCurrentTabSlotDataByIndex(stashIndex);
+        if (IsInvalidSlotData(stashSlotData)) return;
+
+        bool added = inventory.AddSlotData(stashSlotData);
+        if (!added) return;
+
+        RemoveAtServer(CurrentTabIndex, stashIndex);
+        RefreshSyncedCurrentTab();
+    }
 
     [Server]
     public void OpenTabServer(int tabIndex)
@@ -233,16 +193,11 @@ public class PlayerStash : NetworkBehaviour
         EnsureDefaultTabs();
 
         if (stashData.tabs.Count >= maxTabCount)
-        {
-            Debug.LogWarning("[Stash] Cannot create tab: max tab count reached.");
             return false;
-        }
-
-        string safeName = SanitizeTabName(tabName);
 
         StashTabData tab = new StashTabData
         {
-            tabName = safeName,
+            tabName = SanitizeTabName(tabName),
             itemsJson = CreateEmptySlots()
         };
 
@@ -253,68 +208,7 @@ public class PlayerStash : NetworkBehaviour
         RefreshSyncedTabNames();
         RefreshSyncedCurrentTab();
 
-        Debug.Log($"[Stash] Created tab '{safeName}' index={CurrentTabIndex}");
-
         return true;
-    }
-
-    [Server]
-    public void RenameTabServer(int tabIndex, string newName)
-    {
-        EnsureDefaultTabs();
-
-        if (!IsValidTabIndex(tabIndex))
-            return;
-
-        stashData.tabs[tabIndex].tabName = SanitizeTabName(newName);
-
-        RefreshSyncedTabNames();
-
-        Debug.Log($"[Stash] Renamed tab {tabIndex} to '{stashData.tabs[tabIndex].tabName}'");
-    }
-
-    [Server]
-    public bool AddItemToCurrentTabServer(ItemInstance item)
-    {
-        return AddItemToTabServer(CurrentTabIndex, item);
-    }
-
-    [Server]
-    public bool AddItemToTabServer(int tabIndex, ItemInstance item)
-    {
-        EnsureDefaultTabs();
-
-        if (!IsValidTabIndex(tabIndex))
-            return false;
-
-        if (item == null || item.instanceId == 0)
-        {
-            Debug.LogError("[Stash] AddItem failed: invalid item");
-            return false;
-        }
-
-        StashTabData tab = stashData.tabs[tabIndex];
-        EnsureTabSlots(tab);
-
-        string json = SerializeItem(item);
-
-        for (int i = 0; i < tab.itemsJson.Count; i++)
-        {
-            if (IsEmptySlot(tab.itemsJson[i]))
-            {
-                tab.itemsJson[i] = json;
-
-                if (tabIndex == CurrentTabIndex)
-                    RefreshSyncedCurrentTab();
-
-                Debug.Log($"[Stash] Added item={item.itemName} baseId={item.baseId} rarity={item.rarity} tab={tabIndex} slot={i}");
-
-                return true;
-            }
-        }
-
-        Debug.LogWarning($"[Stash] AddItem failed: tab {tabIndex} full");
-        return false;
     }
 
     [Server]
@@ -349,8 +243,7 @@ public class PlayerStash : NetworkBehaviour
     {
         EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(tabIndex))
-            return;
+        if (!IsValidTabIndex(tabIndex)) return;
 
         StashTabData tab = stashData.tabs[tabIndex];
         EnsureTabSlots(tab);
@@ -390,55 +283,20 @@ public class PlayerStash : NetworkBehaviour
 
         RefreshSyncedTabNames();
         RefreshSyncedCurrentTab();
-
-        Debug.Log($"[PlayerStash] Loaded stash with {stashData.tabs.Count} tabs.");
     }
-
-    [Server]
-    public void ClearStashServer()
-    {
-        stashData = new PlayerStashData();
-
-        EnsureDefaultTabs();
-
-        CurrentTabIndex = 0;
-
-        RefreshSyncedTabNames();
-        RefreshSyncedCurrentTab();
-
-        Debug.Log("[PlayerStash] Stash cleared.");
-    }
-
-    // =========================
-    // Client/Public Read API
-    // =========================
 
     public int TabCount => TabNames.Count;
     public int CurrentTabSlotCount => CurrentTabItemsJson.Count;
 
-    public ItemInstance GetCurrentTabItemByIndex(int index)
+    public InventoryItemData GetCurrentTabSlotDataByIndex(int index)
     {
         if (index < 0 || index >= CurrentTabItemsJson.Count)
-            return default;
+            return null;
 
         if (IsEmptySlot(CurrentTabItemsJson[index]))
-            return default;
+            return null;
 
-        return DeserializeItem(CurrentTabItemsJson[index]);
-    }
-
-    public ItemInstance[] GetCurrentTabItems()
-    {
-        ItemInstance[] items = new ItemInstance[CurrentTabItemsJson.Count];
-
-        for (int i = 0; i < CurrentTabItemsJson.Count; i++)
-        {
-            items[i] = IsEmptySlot(CurrentTabItemsJson[i])
-                ? default
-                : DeserializeItem(CurrentTabItemsJson[i]);
-        }
-
-        return items;
+        return DeserializeSlotData(CurrentTabItemsJson[index]);
     }
 
     public string GetTabName(int index)
@@ -448,10 +306,6 @@ public class PlayerStash : NetworkBehaviour
 
         return TabNames[index];
     }
-
-    // =========================
-    // Internal helpers
-    // =========================
 
     [Server]
     private void EnsureDefaultTabs()
@@ -473,22 +327,8 @@ public class PlayerStash : NetworkBehaviour
             });
         }
 
-        for (int i = 0; i < stashData.tabs.Count; i++)
-        {
-            if (stashData.tabs[i] == null)
-            {
-                stashData.tabs[i] = new StashTabData
-                {
-                    tabName = $"Tab {i + 1}",
-                    itemsJson = CreateEmptySlots()
-                };
-            }
-
-            if (string.IsNullOrWhiteSpace(stashData.tabs[i].tabName))
-                stashData.tabs[i].tabName = $"Tab {i + 1}";
-
-            EnsureTabSlots(stashData.tabs[i]);
-        }
+        foreach (StashTabData tab in stashData.tabs)
+            EnsureTabSlots(tab);
 
         if (CurrentTabIndex < 0 || CurrentTabIndex >= stashData.tabs.Count)
             CurrentTabIndex = 0;
@@ -523,14 +363,7 @@ public class PlayerStash : NetworkBehaviour
         TabNames.Clear();
 
         for (int i = 0; i < stashData.tabs.Count; i++)
-        {
-            string name = stashData.tabs[i].tabName;
-
-            if (string.IsNullOrWhiteSpace(name))
-                name = $"Tab {i + 1}";
-
-            TabNames.Add(name);
-        }
+            TabNames.Add(stashData.tabs[i].tabName);
 
         OnTabsChanged?.Invoke();
     }
@@ -546,15 +379,8 @@ public class PlayerStash : NetworkBehaviour
         StashTabData tab = stashData.tabs[CurrentTabIndex];
         EnsureTabSlots(tab);
 
-        for (int i = 0; i < tab.itemsJson.Count; i++)
-        {
-            string slotJson = tab.itemsJson[i];
-
-            if (IsEmptySlot(slotJson))
-                CurrentTabItemsJson.Add("");
-            else
-                CurrentTabItemsJson.Add(slotJson);
-        }
+        foreach (string slotJson in tab.itemsJson)
+            CurrentTabItemsJson.Add(IsEmptySlot(slotJson) ? "" : slotJson);
 
         OnStashChanged?.Invoke();
     }
@@ -565,25 +391,6 @@ public class PlayerStash : NetworkBehaviour
                stashData.tabs != null &&
                tabIndex >= 0 &&
                tabIndex < stashData.tabs.Count;
-    }
-
-    private ItemInstance GetItemFromTab(int tabIndex, int slotIndex)
-    {
-        if (!IsValidTabIndex(tabIndex))
-            return default;
-
-        StashTabData tab = stashData.tabs[tabIndex];
-
-        if (tab.itemsJson == null)
-            return default;
-
-        if (slotIndex < 0 || slotIndex >= tab.itemsJson.Count)
-            return default;
-
-        if (IsEmptySlot(tab.itemsJson[slotIndex]))
-            return default;
-
-        return DeserializeItem(tab.itemsJson[slotIndex]);
     }
 
     private string SanitizeTabName(string tabName)
@@ -609,39 +416,44 @@ public class PlayerStash : NetworkBehaviour
         if (json == "{}" || json == "[]" || json == "null")
             return true;
 
-        ItemInstance item = DeserializeItem(json);
+        InventoryItemData data = DeserializeSlotData(json);
 
-        return item == null || item.instanceId == 0;
+        return IsInvalidSlotData(data);
     }
 
-    private ItemInstance DeserializeItem(string json)
+    private bool IsInvalidSlotData(InventoryItemData data)
+    {
+        return data == null || data.lootableId == 0 || data.amount <= 0;
+    }
+
+    private InventoryItemData DeserializeSlotData(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
-            return default;
+            return null;
 
         try
         {
-            return JsonUtility.FromJson<ItemInstance>(json);
+            return JsonUtility.FromJson<InventoryItemData>(json);
         }
         catch (Exception e)
         {
-            Debug.LogError($"[Stash] Deserialize failed. json={json} error={e}");
-            return default;
+            Debug.LogError($"[Stash] Deserialize slot failed. json={json} error={e}");
+            return null;
         }
     }
 
-    private string SerializeItem(ItemInstance item)
+    private string SerializeSlotData(InventoryItemData data)
     {
-        if (item == null || item.instanceId == 0)
+        if (IsInvalidSlotData(data))
             return "";
 
         try
         {
-            return JsonUtility.ToJson(item);
+            return JsonUtility.ToJson(data);
         }
         catch (Exception e)
         {
-            Debug.LogError($"[Stash] Serialize failed. item={item.itemName} error={e}");
+            Debug.LogError($"[Stash] Serialize slot failed. error={e}");
             return "";
         }
     }
