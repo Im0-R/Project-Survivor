@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5734032782947312882}
   - component: {fileID: 57537282701470502}
+  - component: {fileID: 335286041159060069}
   m_Layer: 0
   m_Name: CanvasInventory
   m_TagString: Untagged
@@ -52,8 +53,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasInventory
   LocalInventory: {fileID: 0}
+  LocalEquipment: {fileID: 0}
   DragRoot: {fileID: 1206150189156972142}
+  inventorySlots: []
+  equipmentSlots: []
   itemCardPrefab: {fileID: 3822715666718912106, guid: 8cb4f096fe3af934ba1991f5de2845aa, type: 3}
+--- !u!114 &335286041159060069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560385222445526314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 707f7b366e1b99144a10adae1c21a051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyTargetingManager
 --- !u!1 &7487784835979904126
 GameObject:
   m_ObjectHideFlags: 0

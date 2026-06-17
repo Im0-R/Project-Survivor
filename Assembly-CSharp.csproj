@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\Network\PortalInstances.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTag.cs" />
     <Compile Include="Assets\ServerOnly\Database\DatabaseManager.cs" />
+    <Compile Include="Assets\Scripts\Loot\Currency\CurrencyTargetingManager.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaButtonUI.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />

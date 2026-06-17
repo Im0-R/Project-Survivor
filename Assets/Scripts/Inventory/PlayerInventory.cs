@@ -93,6 +93,95 @@ public class PlayerInventory : NetworkBehaviour
 #endif
     }
 
+    [Command]
+    public void CmdUseCurrencyOnItem(int currencySlotIndex, int targetItemSlotIndex)
+    {
+        UseCurrencyOnItemServer(currencySlotIndex, targetItemSlotIndex);
+    }
+
+    [Server]
+    private bool UseCurrencyOnItemServer(int currencySlotIndex, int targetItemSlotIndex)
+    {
+        EnsureSlots();
+
+        if (!IsValidSlot(currencySlotIndex) || !IsValidSlot(targetItemSlotIndex))
+            return false;
+
+        if (currencySlotIndex == targetItemSlotIndex)
+            return false;
+
+        InventoryItemData currencyData = GetDataByIndex(currencySlotIndex);
+        InventoryItemData targetData = GetDataByIndex(targetItemSlotIndex);
+
+        if (currencyData == null || targetData == null)
+            return false;
+
+        if (!targetData.IsGeneratedItem())
+            return false;
+
+        LootableSO lootable = LootableDatabase.Get(currencyData.lootableId);
+        CurrencySO currency = lootable as CurrencySO;
+
+        if (currency == null)
+            return false;
+
+        ItemCurrencyEffectSO itemEffect = currency.effect as ItemCurrencyEffectSO;
+
+        if (itemEffect == null)
+            return false;
+
+        ItemInstance targetItem = DeserializeItem(targetData.itemJson);
+
+        if (targetItem == null || targetItem.instanceId == 0)
+            return false;
+
+        if (!itemEffect.CanUseOnItem(targetItem))
+            return false;
+
+        System.Random rng = new System.Random();
+
+        itemEffect.UseOnItem(targetItem, rng);
+        targetItem.EnsureLists();
+
+        targetData.itemJson = JsonUtility.ToJson(targetItem);
+        targetData.displayNameOverride = targetItem.itemName;
+        targetData.hasRarityColor = true;
+        targetData.rarity = targetItem.rarity;
+        targetData.amount = 1;
+
+        ItemsJson[targetItemSlotIndex] = SerializeInventoryData(targetData);
+
+        ConsumeOneAt(currencySlotIndex);
+
+        SavePlayerStateServer();
+
+        Debug.Log($"[Inventory] Used currency={currency.DisplayName} on item={targetItem.itemName}");
+
+        return true;
+    }
+
+    [Server]
+    private void ConsumeOneAt(int index)
+    {
+        if (!IsValidSlot(index))
+            return;
+
+        InventoryItemData data = GetDataByIndex(index);
+
+        if (data == null)
+            return;
+
+        data.amount--;
+
+        if (data.amount <= 0)
+        {
+            ItemsJson[index] = "";
+            return;
+        }
+
+        ItemsJson[index] = SerializeInventoryData(data);
+    }
+
     [Server]
     public bool Server_AddLoot(LootPayload payload)
     {
@@ -214,7 +303,9 @@ public class PlayerInventory : NetworkBehaviour
                 itemJson = "",
                 displayNameOverride = data.displayNameOverride,
                 hasRarityColor = data.hasRarityColor,
-                rarity = data.rarity
+                rarity = data.rarity,
+                lootableType = data.lootableType,
+                description = data.description
             };
 
             ItemsJson[i] = SerializeInventoryData(newStack);
@@ -279,7 +370,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         EnsureSlots();
 
-        if (index < 0 || index >= ItemsJson.Count)
+        if (!IsValidSlot(index))
             return;
 
         if (item == null || item.instanceId == 0)
@@ -301,7 +392,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         EnsureSlots();
 
-        if (index < 0 || index >= ItemsJson.Count)
+        if (!IsValidSlot(index))
             return false;
 
         if (IsEmptySlot(ItemsJson[index]))
@@ -334,10 +425,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         EnsureSlots();
 
-        if (from < 0 || from >= ItemsJson.Count)
-            return false;
-
-        if (to < 0 || to >= ItemsJson.Count)
+        if (!IsValidSlot(from) || !IsValidSlot(to))
             return false;
 
         if (from == to)
@@ -385,7 +473,7 @@ public class PlayerInventory : NetworkBehaviour
 
     public InventoryItemData GetDataByIndex(int index)
     {
-        if (index < 0 || index >= ItemsJson.Count)
+        if (!IsValidSlot(index))
             return null;
 
         if (IsEmptySlot(ItemsJson[index]))
@@ -444,6 +532,11 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         return -1;
+    }
+
+    private bool IsValidSlot(int index)
+    {
+        return index >= 0 && index < ItemsJson.Count;
     }
 
     private bool IsEmptySlot(string json)
@@ -536,7 +629,8 @@ public class PlayerInventory : NetworkBehaviour
             itemJson = JsonUtility.ToJson(item),
             displayNameOverride = item.itemName,
             hasRarityColor = true,
-            rarity = item.rarity
+            rarity = item.rarity,
+            lootableType = LootableType.GeneratedItem
         };
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 public class SigilOfTransmutationEffectSO : ItemCurrencyEffectSO
 {
     public override bool CanUseOnItem(ItemInstance item)
-    {
+    {   
         return item != null
             && item.rarity == ItemRarity.Normal
             && !item.corrupted;
