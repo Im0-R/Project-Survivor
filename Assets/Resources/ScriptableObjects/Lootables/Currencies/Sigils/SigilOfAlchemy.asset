@@ -19,7 +19,7 @@ MonoBehaviour:
   spawnBehaviour: {fileID: 11400000, guid: bac7540f65febd24c9eaf9d3ccfc23c3, type: 2}
   stackable: 1
   maxStack: 20
-  labelColor: {r: 1, g: 1, b: 1, a: 1}
+  labelColor: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
   type: 0
   use: 1
   dropWeight: 80
