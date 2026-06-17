@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2849094600817742629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6547248249034745450}
+  - component: {fileID: 1945611269645775086}
+  m_Layer: 0
+  m_Name: CurrencyTargetingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6547248249034745450
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2849094600817742629}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5734032782947312882}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1945611269645775086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2849094600817742629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 707f7b366e1b99144a10adae1c21a051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyTargetingManager
 --- !u!1 &3560385222445526314
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +58,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5734032782947312882}
   - component: {fileID: 57537282701470502}
-  - component: {fileID: 335286041159060069}
   m_Layer: 0
   m_Name: CanvasInventory
   m_TagString: Untagged
@@ -33,6 +80,7 @@ RectTransform:
   - {fileID: 1466889786001282544}
   - {fileID: 6901395106003416547}
   - {fileID: 1206150189156972142}
+  - {fileID: 6547248249034745450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -58,18 +106,6 @@ MonoBehaviour:
   inventorySlots: []
   equipmentSlots: []
   itemCardPrefab: {fileID: 3822715666718912106, guid: 8cb4f096fe3af934ba1991f5de2845aa, type: 3}
---- !u!114 &335286041159060069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3560385222445526314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 707f7b366e1b99144a10adae1c21a051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CurrencyTargetingManager
 --- !u!1 &7487784835979904126
 GameObject:
   m_ObjectHideFlags: 0

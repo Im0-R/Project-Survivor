@@ -15,7 +15,8 @@ public class ItemCard : MonoBehaviour,
     IDragHandler,
     IEndDragHandler,
     IPointerEnterHandler,
-    IPointerExitHandler
+    IPointerExitHandler,
+    IPointerClickHandler
 {
     [Header("UI")]
     [SerializeField] private Image backgroundImage;
@@ -103,6 +104,98 @@ public class ItemCard : MonoBehaviour,
         };
 
         SetLootable(foundLootable, generatedData);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (slotData == null)
+            return;
+
+        if (Source != ItemCardSource.Inventory)
+            return;
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            TrySelectCurrency();
+            return;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            TryUseSelectedCurrencyOnThisItem();
+        }
+    }
+
+    private void TrySelectCurrency()
+    {
+        if (CurrencyTargetingManager.Instance == null)
+        {
+            Debug.LogError("[ItemCard] CurrencyTargetingManager.Instance is null.");
+            return;
+        }
+
+        if (slotData.lootableType != LootableType.Currency &&
+            slotData.lootableType != LootableType.Sigil)
+        {
+            return;
+        }
+
+        CurrencySO currency = lootable as CurrencySO;
+
+        if (currency == null)
+        {
+            Debug.LogWarning("[ItemCard] Selected lootable is not a CurrencySO.");
+            return;
+        }
+
+        if (currency.effect is not ItemCurrencyEffectSO)
+        {
+            Debug.LogWarning($"[ItemCard] Currency {currency.DisplayName} has no item effect.");
+            return;
+        }
+
+        PlayerInventory inventory = GetLocalInventory();
+
+        if (inventory == null)
+        {
+            Debug.LogError("[ItemCard] No local PlayerInventory found.");
+            return;
+        }
+
+        CurrencyTargetingManager.Instance.StartTargeting(inventory, SlotIndex, currency);
+
+        Debug.Log($"[ItemCard] Selected currency {currency.DisplayName} from slot {SlotIndex}");
+    }
+
+    private void TryUseSelectedCurrencyOnThisItem()
+    {
+        if (CurrencyTargetingManager.Instance == null)
+            return;
+
+        if (!CurrencyTargetingManager.Instance.IsTargetingItem)
+            return;
+
+        if (slotData.lootableType != LootableType.GeneratedItem &&
+            string.IsNullOrWhiteSpace(slotData.itemJson))
+        {
+            Debug.LogWarning("[ItemCard] Target is not a generated item.");
+            return;
+        }
+
+        CurrencyTargetingManager.Instance.TryUseOnItem(SlotIndex);
+
+        Debug.Log($"[ItemCard] Trying to use selected currency on item slot {SlotIndex}");
+    }
+
+    private PlayerInventory GetLocalInventory()
+    {
+        if (CanvasInventory.Instance != null && CanvasInventory.Instance.LocalInventory != null)
+            return CanvasInventory.Instance.LocalInventory;
+
+        if (Mirror.NetworkClient.localPlayer != null)
+            return Mirror.NetworkClient.localPlayer.GetComponent<PlayerInventory>();
+
+        return null;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

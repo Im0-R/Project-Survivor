@@ -1108,8 +1108,8 @@ MonoBehaviour:
   magicColor: {r: 0, g: 0.3210199, b: 1, a: 1}
   rareColor: {r: 1, g: 0.7924761, b: 0.0047169924, a: 1}
   uniqueColor: {r: 1, g: 0.40135294, b: 0, a: 1}
-  sigilColor: {r: 0, g: 0, b: 0, a: 0}
-  currencyColor: {r: 0, g: 0, b: 0, a: 0}
+  sigilColor: {r: 0, g: 0, b: 0, a: 1}
+  currencyColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!225 &7682545819389892890
 CanvasGroup:
   m_ObjectHideFlags: 0
