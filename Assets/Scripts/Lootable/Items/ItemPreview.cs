@@ -31,24 +31,25 @@ public class ItemPreview : MonoBehaviour
 
         ClearMods();
 
-        switch (data.lootableType)
+        if (data.lootableType == LootableType.GeneratedItem || !string.IsNullOrWhiteSpace(data.itemJson))
         {
-            case LootableType.GeneratedItem:
-                InitGeneratedItem(data);
-                break;
-
-            case LootableType.Sigil:
-                InitSimpleLoot(data, sigilColor);
-                break;
-
-            case LootableType.Currency:
-                InitSimpleLoot(data, currencyColor);
-                break;
-
-            default:
-                InitUnknown(data);
-                break;
+            InitGeneratedItem(data);
+            return;
         }
+
+        if (data.lootableType == LootableType.Sigil)
+        {
+            InitSimpleLoot(data, sigilColor);
+            return;
+        }
+
+        if (data.lootableType == LootableType.Currency)
+        {
+            InitSimpleLoot(data, currencyColor);
+            return;
+        }
+
+        InitUnknown(data);
     }
 
     private void InitGeneratedItem(InventoryItemData data)
@@ -58,31 +59,49 @@ public class ItemPreview : MonoBehaviour
         if (item == null)
         {
             Debug.LogError("[ItemPreview] Failed to parse ItemInstance.");
+            InitUnknown(data);
             return;
         }
+
+        item.EnsureLists();
 
         ItemBaseSO itemBase = ItemDatabase.GetBase(item.baseId);
 
         if (itemBase == null)
         {
             Debug.LogError($"[ItemPreview] No ItemBase found for baseId={item.baseId}");
+            InitUnknown(data);
             return;
         }
 
         Color color = GetWantedColor(item.rarity);
 
-        backGroundImage.color = color;
+        if (backGroundImage != null)
+            backGroundImage.color = color;
 
-        itemName.text = string.IsNullOrEmpty(item.itemName) ? itemBase.BaseName : item.itemName;
-        itemName.color = color;
+        if (itemName != null)
+        {
+            itemName.text = string.IsNullOrEmpty(item.itemName) ? itemBase.BaseName : item.itemName;
+            itemName.color = color;
+        }
 
-        baseType.gameObject.SetActive(true);
-        itemLevel.gameObject.SetActive(true);
-        modsContainer.SetActive(true);
-        descriptionText.gameObject.SetActive(false);
+        if (baseType != null)
+        {
+            baseType.gameObject.SetActive(true);
+            baseType.text = itemBase.BaseName;
+        }
 
-        baseType.text = itemBase.BaseName;
-        itemLevel.text = $"Item Level {item.itemLevel}";
+        if (itemLevel != null)
+        {
+            itemLevel.gameObject.SetActive(true);
+            itemLevel.text = $"Item Level {item.itemLevel}";
+        }
+
+        if (modsContainer != null)
+            modsContainer.SetActive(true);
+
+        if (descriptionText != null)
+            descriptionText.gameObject.SetActive(false);
 
         AddAffixLines(item.prefixes, "Prefix");
         AddAffixLines(item.suffixes, "Suffix");
@@ -90,46 +109,79 @@ public class ItemPreview : MonoBehaviour
 
     private void InitSimpleLoot(InventoryItemData data, Color color)
     {
-        backGroundImage.color = color;
+        if (backGroundImage != null)
+            backGroundImage.color = color;
 
-        itemName.text = data.displayNameOverride;
-        itemName.color = color;
+        if (itemName != null)
+        {
+            itemName.text = string.IsNullOrWhiteSpace(data.displayNameOverride)
+                ? $"Lootable {data.lootableId}"
+                : data.displayNameOverride;
 
-        baseType.gameObject.SetActive(false);
-        itemLevel.gameObject.SetActive(false);
-        modsContainer.SetActive(false);
+            itemName.color = color;
+        }
 
-        descriptionText.gameObject.SetActive(true);
-        descriptionText.text = data.description;
+        if (baseType != null)
+            baseType.gameObject.SetActive(false);
+
+        if (itemLevel != null)
+            itemLevel.gameObject.SetActive(false);
+
+        if (modsContainer != null)
+            modsContainer.SetActive(false);
+
+        if (descriptionText != null)
+        {
+            descriptionText.gameObject.SetActive(true);
+
+            descriptionText.text = string.IsNullOrWhiteSpace(data.description)
+                ? "No description available."
+                : data.description;
+        }
     }
 
     private void InitUnknown(InventoryItemData data)
     {
-        backGroundImage.color = Color.gray;
+        if (backGroundImage != null)
+            backGroundImage.color = Color.gray;
 
-        itemName.text = string.IsNullOrEmpty(data.displayNameOverride)
-            ? "Unknown Loot"
-            : data.displayNameOverride;
+        if (itemName != null)
+        {
+            itemName.text = string.IsNullOrEmpty(data.displayNameOverride)
+                ? "Unknown Loot"
+                : data.displayNameOverride;
 
-        itemName.color = Color.white;
+            itemName.color = Color.white;
+        }
 
-        baseType.gameObject.SetActive(false);
-        itemLevel.gameObject.SetActive(false);
-        modsContainer.SetActive(false);
+        if (baseType != null)
+            baseType.gameObject.SetActive(false);
 
-        descriptionText.gameObject.SetActive(true);
-        descriptionText.text = "No description available.";
+        if (itemLevel != null)
+            itemLevel.gameObject.SetActive(false);
+
+        if (modsContainer != null)
+            modsContainer.SetActive(false);
+
+        if (descriptionText != null)
+        {
+            descriptionText.gameObject.SetActive(true);
+            descriptionText.text = "No description available.";
+        }
     }
 
     private void ClearMods()
     {
+        if (modsContainer == null)
+            return;
+
         foreach (Transform child in modsContainer.transform)
             Destroy(child.gameObject);
     }
 
     private void AddAffixLines(System.Collections.Generic.List<ItemAffix> affixes, string label)
     {
-        if (affixes == null)
+        if (affixes == null || modsContainer == null || modLineUI == null)
             return;
 
         for (int i = 0; i < affixes.Count; i++)
@@ -161,12 +213,16 @@ public class ItemPreview : MonoBehaviour
         {
             case ItemRarity.Normal:
                 return normalColor;
+
             case ItemRarity.Magic:
                 return magicColor;
+
             case ItemRarity.Rare:
                 return rareColor;
+
             case ItemRarity.Unique:
                 return uniqueColor;
+
             default:
                 return Color.white;
         }

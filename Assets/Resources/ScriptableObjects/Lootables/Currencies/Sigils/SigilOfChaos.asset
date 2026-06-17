@@ -22,6 +22,6 @@ MonoBehaviour:
   labelColor: {r: 1, g: 1, b: 1, a: 1}
   type: 0
   use: 1
-  maxStack: 20
   dropWeight: 100
   effect: {fileID: 11400000, guid: 7e422a49c0cbac440b5a087d3b7506bb, type: 2}
+  description: Reforges a Rare item with new random modifiers.

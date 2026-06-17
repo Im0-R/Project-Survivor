@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1f1a54381b02643b543798ece8cd3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemCard
+  backgroundImage: {fileID: 6699641043813685196}
   icon: {fileID: 1457365707422341899}
   nameText: {fileID: 0}
   amountText: {fileID: 3911879857669518814}
@@ -185,7 +186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -36, y: 5.8}
+  m_AnchoredPosition: {x: -49.8, y: 44.6}
   m_SizeDelta: {x: 69.1602, y: 51.3754}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5203324740929591606

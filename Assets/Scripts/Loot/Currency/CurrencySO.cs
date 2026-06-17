@@ -13,6 +13,10 @@ public class CurrencySO : LootableSO
     [Header("Effect")]
     public CurrencyEffectSO effect;
 
+    [Header("UI")]
+    [TextArea(3, 8)]
+    public string description;
+
     public int CurrencyId => Id;
     public string CurrencyName => DisplayName;
 

@@ -10,9 +10,15 @@ public enum ItemCardSource
     Stash
 }
 
-public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ItemCard : MonoBehaviour,
+    IBeginDragHandler,
+    IDragHandler,
+    IEndDragHandler,
+    IPointerEnterHandler,
+    IPointerExitHandler
 {
     [Header("UI")]
+    [SerializeField] private Image backgroundImage;
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text amountText;
@@ -41,11 +47,22 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         slotData = newSlotData;
         itemInstance = null;
 
-        if (lootable == null)
+        if (lootable == null || slotData == null)
             return;
 
+        if (backgroundImage != null)
+        {
+            if (slotData.hasRarityColor)
+                backgroundImage.color = GetRarityColor(slotData.rarity);
+            else
+                backgroundImage.color = lootable.LabelColor;
+        }
+
         if (icon != null)
+        {
             icon.sprite = lootable.Icon;
+            icon.enabled = lootable.Icon != null;
+        }
 
         if (nameText != null)
         {
@@ -58,9 +75,10 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (amountText != null)
             amountText.text = slotData.amount > 1 ? slotData.amount.ToString() : "";
 
-        if (lootable is ItemBaseSO && !string.IsNullOrWhiteSpace(slotData.itemJson))
+        if (!string.IsNullOrWhiteSpace(slotData.itemJson))
         {
             itemInstance = JsonUtility.FromJson<ItemInstance>(slotData.itemJson);
+            itemInstance?.EnsureLists();
         }
     }
 
@@ -76,6 +94,7 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         InventoryItemData generatedData = new InventoryItemData
         {
             lootableId = item.baseId,
+            lootableType = LootableType.GeneratedItem,
             amount = 1,
             itemJson = JsonUtility.ToJson(item),
             displayNameOverride = item.itemName,
@@ -84,6 +103,21 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         };
 
         SetLootable(foundLootable, generatedData);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (slotData == null)
+            return;
+
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.InitPreview(slotData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
     }
 
     public LootableSO GetLootable()
@@ -115,6 +149,9 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         originalParent = transform.parent;
 
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
+
         if (CanvasInventory.Instance != null && CanvasInventory.Instance.DragRoot != null)
             transform.SetParent(CanvasInventory.Instance.DragRoot);
 
@@ -139,5 +176,26 @@ public class ItemCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
+    }
+
+    private Color GetRarityColor(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ItemRarity.Normal:
+                return new Color(0.5f, 0.5f, 0.5f);
+
+            case ItemRarity.Magic:
+                return new Color(0.3f, 0.5f, 1f);
+
+            case ItemRarity.Rare:
+                return new Color(1f, 0.85f, 0.2f);
+
+            case ItemRarity.Unique:
+                return new Color(1f, 0.5f, 0.1f);
+
+            default:
+                return Color.white;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+
 public enum LootableType
 {
     Unknown,
@@ -6,6 +7,7 @@ public enum LootableType
     Sigil,
     Currency
 }
+
 [Serializable]
 public class InventoryItemData
 {
@@ -32,20 +34,36 @@ public class InventoryItemData
         if (payload == null)
             return null;
 
+        LootableSO lootable = LootableDatabase.Get(payload.lootableId);
+
+        LootableType type = LootableType.Unknown;
+        string description = "";
+
+        if (!string.IsNullOrWhiteSpace(payload.itemJson))
+        {
+            type = LootableType.GeneratedItem;
+        }
+        else if (lootable is CurrencySO currency)
+        {
+            type = currency.type == CurrencyType.Sigil
+                ? LootableType.Sigil
+                : LootableType.Currency;
+
+            description = currency.description;
+        }
         return new InventoryItemData
         {
             lootableId = payload.lootableId,
             amount = payload.amount,
             itemJson = payload.itemJson,
-            displayNameOverride = payload.displayNameOverride,
+            displayNameOverride = !string.IsNullOrWhiteSpace(payload.displayNameOverride)
+                ? payload.displayNameOverride
+                : lootable != null ? lootable.DisplayName : "",
+
             hasRarityColor = payload.hasRarityColor,
             rarity = payload.rarity,
-
-            lootableType = !string.IsNullOrWhiteSpace(payload.itemJson)
-                ? LootableType.GeneratedItem
-                : LootableType.Unknown,
-
-            description = ""
+            lootableType = type,
+            description = description
         };
     }
 }

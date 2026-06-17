@@ -22,6 +22,6 @@ MonoBehaviour:
   labelColor: {r: 1, g: 1, b: 1, a: 1}
   type: 0
   use: 1
-  maxStack: 20
   dropWeight: 80
   effect: {fileID: 11400000, guid: c35bb2405920b0648b461b17988fa68a, type: 2}
+  description: Upgrades a Normal item into a Rare item.

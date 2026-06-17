@@ -22,6 +22,6 @@ MonoBehaviour:
   labelColor: {r: 1, g: 1, b: 1, a: 1}
   type: 0
   use: 1
-  maxStack: 20
   dropWeight: 100
   effect: {fileID: 11400000, guid: e94433dbd145644438239cbccab6c2d5, type: 2}
+  description: Upgrades a Normal item into a Magic item.
