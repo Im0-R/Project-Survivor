@@ -82,7 +82,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4912486867336673683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29f8c24dfa1b5c44eb54da600fe46a7a, type: 3}
+  m_Script: {fileID: 11500000, guid: d4396ece844a5194aa7c2426d58d18e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootPickup
   syncDirection: 0

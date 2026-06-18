@@ -57,39 +57,47 @@ public class ItemCard : MonoBehaviour,
             ItemPreviewManager.Instance.ClosePreview();
     }
 
-public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
+    public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
     {
         lootable = newLootable;
         slotData = newSlotData;
         itemInstance = null;
 
-        if (lootable == null || slotData == null)
+        if (slotData == null)
             return;
 
+        LootVisualStyle style = LootVisualManager.Instance != null
+            ? LootVisualManager.Instance.Resolve(slotData)
+            : LootVisualStyle.CreateFallback();
+
+        // The ItemCard background is intentionally identical for every item.
         if (backgroundImage != null)
-        {
-            if (slotData.hasRarityColor)
-                backgroundImage.color = GetRarityColor(slotData.rarity);
-            //else
-            //    backgroundImage.color = lootable.LabelColor;
-        }
+            backgroundImage.color = style.itemCardBackgroundColor;
 
         if (icon != null)
         {
-            icon.sprite = lootable.Icon;
-            icon.enabled = lootable.Icon != null;
+            icon.sprite = lootable != null ? lootable.Icon : null;
+            icon.enabled = icon.sprite != null;
         }
 
         if (nameText != null)
         {
             if (!string.IsNullOrWhiteSpace(slotData.displayNameOverride))
                 nameText.text = slotData.displayNameOverride;
-            else
+            else if (lootable != null)
                 nameText.text = lootable.DisplayName;
+            else
+                nameText.text = $"Lootable {slotData.lootableId}";
+
+            nameText.color = style.itemCardTextColor;
         }
 
         if (amountText != null)
-            amountText.text = slotData.amount > 1 ? slotData.amount.ToString() : "";
+        {
+            amountText.text = slotData.amount > 1
+                ? slotData.amount.ToString()
+                : "";
+        }
 
         if (!string.IsNullOrWhiteSpace(slotData.itemJson))
         {
@@ -121,6 +129,27 @@ public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
         SetLootable(foundLootable, generatedData);
     }
 
+    public void SetInventoryItemData(InventoryItemData data)
+    {
+        if (data == null)
+        {
+            slotData = null;
+            lootable = null;
+            itemInstance = null;
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(data.itemJson))
+        {
+            ItemInstance item = JsonUtility.FromJson<ItemInstance>(data.itemJson);
+            SetItemInstance(item);
+            return;
+        }
+
+        LootableSO foundLootable = LootableDatabase.Get(data.lootableId);
+        SetLootable(foundLootable, data);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (slotData == null)
@@ -136,9 +165,7 @@ public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
         }
 
         if (eventData.button == PointerEventData.InputButton.Left)
-        {
             TryUseSelectedCurrencyOnThisItem();
-        }
     }
 
     private void TrySelectCurrency()
@@ -269,53 +296,5 @@ public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
 
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
-    }
-
-    private Color GetRarityColor(ItemRarity rarity)
-    {
-        switch (rarity)
-        {
-            case ItemRarity.Normal:
-                return new Color(0.5f, 0.5f, 0.5f);
-
-            case ItemRarity.Magic:
-                return new Color(0.3f, 0.5f, 1f);
-
-            case ItemRarity.Rare:
-                return new Color(1f, 0.85f, 0.2f);
-
-            case ItemRarity.Unique:
-                return new Color(1f, 0.5f, 0.1f);
-
-            default:
-                return Color.white;
-        }
-    }
-    public void SetInventoryItemData(InventoryItemData data)
-    {
-        slotData = data;
-
-        if (data == null)
-            return;
-
-        if (!string.IsNullOrWhiteSpace(data.itemJson))
-        {
-            ItemInstance item = JsonUtility.FromJson<ItemInstance>(data.itemJson);
-            SetItemInstance(item);
-            return;
-        }
-
-        LootableSO lootable = LootableDatabase.Get(data.lootableId);
-
-        if (nameText != null)
-            nameText.text = string.IsNullOrWhiteSpace(data.displayNameOverride)
-                ? lootable != null ? lootable.DisplayName : $"Lootable {data.lootableId}"
-                : data.displayNameOverride;
-
-        if (icon != null)
-            icon.sprite = lootable != null ? lootable.Icon : null;
-
-        if (amountText != null)
-            amountText.text = data.amount > 1 ? data.amount.ToString() : "";
     }
 }

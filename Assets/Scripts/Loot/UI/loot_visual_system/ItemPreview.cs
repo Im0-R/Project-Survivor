@@ -14,13 +14,6 @@ public class ItemPreview : MonoBehaviour
     [SerializeField] private GameObject modsContainer;
     [SerializeField] private GameObject modLineUI;
 
-    [SerializeField] private Color normalColor;
-    [SerializeField] private Color magicColor;
-    [SerializeField] private Color rareColor;
-    [SerializeField] private Color uniqueColor;
-    [SerializeField] private Color sigilColor;
-    [SerializeField] private Color currencyColor;
-
     public void Init(InventoryItemData data)
     {
         if (data == null)
@@ -31,35 +24,55 @@ public class ItemPreview : MonoBehaviour
 
         ClearMods();
 
-        if (data.lootableType == LootableType.GeneratedItem || !string.IsNullOrWhiteSpace(data.itemJson))
+        LootVisualStyle style = LootVisualManager.Instance != null
+            ? LootVisualManager.Instance.Resolve(data)
+            : LootVisualStyle.CreateFallback();
+
+        ApplySharedStyle(style);
+
+        if (data.lootableType == LootableType.GeneratedItem ||
+            !string.IsNullOrWhiteSpace(data.itemJson))
         {
-            InitGeneratedItem(data);
+            InitGeneratedItem(data, style);
             return;
         }
 
-        if (data.lootableType == LootableType.Sigil)
+        if (data.lootableType == LootableType.Sigil ||
+            data.lootableType == LootableType.Currency)
         {
-            InitSimpleLoot(data, sigilColor);
+            InitSimpleLoot(data, style);
             return;
         }
 
-        if (data.lootableType == LootableType.Currency)
-        {
-            InitSimpleLoot(data, currencyColor);
-            return;
-        }
-
-        InitUnknown(data);
+        InitUnknown(data, style);
     }
 
-    private void InitGeneratedItem(InventoryItemData data)
+    private void ApplySharedStyle(LootVisualStyle style)
+    {
+        if (backGroundImage != null)
+            backGroundImage.color = style.previewBackgroundColor;
+
+        if (itemName != null)
+            itemName.color = style.previewNameTextColor;
+
+        if (baseType != null)
+            baseType.color = style.previewBodyTextColor;
+
+        if (itemLevel != null)
+            itemLevel.color = style.previewBodyTextColor;
+
+        if (descriptionText != null)
+            descriptionText.color = style.previewBodyTextColor;
+    }
+
+    private void InitGeneratedItem(InventoryItemData data, LootVisualStyle style)
     {
         ItemInstance item = JsonUtility.FromJson<ItemInstance>(data.itemJson);
 
         if (item == null)
         {
             Debug.LogError("[ItemPreview] Failed to parse ItemInstance.");
-            InitUnknown(data);
+            InitUnknown(data, style);
             return;
         }
 
@@ -70,31 +83,31 @@ public class ItemPreview : MonoBehaviour
         if (itemBase == null)
         {
             Debug.LogError($"[ItemPreview] No ItemBase found for baseId={item.baseId}");
-            InitUnknown(data);
+            InitUnknown(data, style);
             return;
         }
 
-        Color color = GetWantedColor(item.rarity);
-
-        if (backGroundImage != null)
-            backGroundImage.color = color;
-
         if (itemName != null)
         {
-            itemName.text = string.IsNullOrEmpty(item.itemName) ? itemBase.BaseName : item.itemName;
-            itemName.color = color;
+            itemName.gameObject.SetActive(true);
+            itemName.text = string.IsNullOrWhiteSpace(item.itemName)
+                ? itemBase.BaseName
+                : item.itemName;
+            itemName.color = style.previewNameTextColor;
         }
 
         if (baseType != null)
         {
             baseType.gameObject.SetActive(true);
             baseType.text = itemBase.BaseName;
+            baseType.color = style.previewBodyTextColor;
         }
 
         if (itemLevel != null)
         {
             itemLevel.gameObject.SetActive(true);
             itemLevel.text = $"Item Level {item.itemLevel}";
+            itemLevel.color = style.previewBodyTextColor;
         }
 
         if (modsContainer != null)
@@ -103,16 +116,13 @@ public class ItemPreview : MonoBehaviour
         if (descriptionText != null)
             descriptionText.gameObject.SetActive(false);
 
-        AddAffixLines(item.prefixes, "Prefix");
-        AddAffixLines(item.suffixes, "Suffix");
+        AddAffixLines(item.prefixes, "Prefix", style.previewModTextColor);
+        AddAffixLines(item.suffixes, "Suffix", style.previewModTextColor);
     }
 
-    private void InitSimpleLoot(InventoryItemData data, Color color)
+    private void InitSimpleLoot(InventoryItemData data, LootVisualStyle style)
     {
         LootableSO lootable = LootableDatabase.Get(data.lootableId);
-
-        if (backGroundImage != null)
-            backGroundImage.color = color;
 
         if (itemName != null)
         {
@@ -125,7 +135,7 @@ public class ItemPreview : MonoBehaviour
                 finalName = $"Lootable {data.lootableId}";
 
             itemName.text = finalName;
-            itemName.color = color;
+            itemName.color = style.previewNameTextColor;
             itemName.gameObject.SetActive(true);
         }
 
@@ -141,25 +151,26 @@ public class ItemPreview : MonoBehaviour
         if (descriptionText != null)
         {
             descriptionText.gameObject.SetActive(true);
+            descriptionText.color = style.previewBodyTextColor;
 
-            descriptionText.text = string.IsNullOrWhiteSpace(data.description)
-                ? lootable != null ? lootable.DisplayName : "No description available."
-                : data.description;
+            if (!string.IsNullOrWhiteSpace(data.description))
+                descriptionText.text = data.description;
+            else if (lootable != null)
+                descriptionText.text = lootable.DisplayName;
+            else
+                descriptionText.text = "No description available.";
         }
     }
 
-    private void InitUnknown(InventoryItemData data)
+    private void InitUnknown(InventoryItemData data, LootVisualStyle style)
     {
-        if (backGroundImage != null)
-            backGroundImage.color = Color.gray;
-
         if (itemName != null)
         {
-            itemName.text = string.IsNullOrEmpty(data.displayNameOverride)
+            itemName.gameObject.SetActive(true);
+            itemName.text = string.IsNullOrWhiteSpace(data.displayNameOverride)
                 ? "Unknown Loot"
                 : data.displayNameOverride;
-
-            itemName.color = Color.white;
+            itemName.color = style.previewNameTextColor;
         }
 
         if (baseType != null)
@@ -174,9 +185,10 @@ public class ItemPreview : MonoBehaviour
         if (descriptionText != null)
         {
             descriptionText.gameObject.SetActive(true);
+            descriptionText.color = style.previewBodyTextColor;
             descriptionText.text = string.IsNullOrWhiteSpace(data.description)
                 ? "No description available."
-                : data.description  ;
+                : data.description;
         }
     }
 
@@ -189,7 +201,10 @@ public class ItemPreview : MonoBehaviour
             Destroy(child.gameObject);
     }
 
-    private void AddAffixLines(System.Collections.Generic.List<ItemAffix> affixes, string label)
+    private void AddAffixLines(
+        System.Collections.Generic.List<ItemAffix> affixes,
+        string label,
+        Color textColor)
     {
         if (affixes == null || modsContainer == null || modLineUI == null)
             return;
@@ -205,6 +220,8 @@ public class ItemPreview : MonoBehaviour
                 continue;
             }
 
+            modText.color = textColor;
+
             AffixSO affix = AffixDatabase.Get(affixes[i].affixId);
 
             if (affix == null)
@@ -214,27 +231,6 @@ public class ItemPreview : MonoBehaviour
             }
 
             modText.text = $"[{label}] +{affixes[i].value} to {affix.stat}";
-        }
-    }
-
-    private Color GetWantedColor(ItemRarity itemRarity)
-    {
-        switch (itemRarity)
-        {
-            case ItemRarity.Normal:
-                return normalColor;
-
-            case ItemRarity.Magic:
-                return magicColor;
-
-            case ItemRarity.Rare:
-                return rareColor;
-
-            case ItemRarity.Unique:
-                return uniqueColor;
-
-            default:
-                return Color.white;
         }
     }
 }

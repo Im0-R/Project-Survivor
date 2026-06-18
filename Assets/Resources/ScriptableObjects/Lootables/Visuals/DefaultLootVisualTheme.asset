@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4261f564b49b7a4bb39d056bffb2dcf, type: 3}
+  m_Name: DefaultLootVisualTheme
+  m_EditorClassIdentifier: Assembly-CSharp::LootVisualThemeSO
+  normal:
+    lootLabelBackgroundColor: {r: 0.28, g: 0.28, b: 0.28, a: 0.95}
+    lootLabelTextColor: {r: 1, g: 1, b: 1, a: 1}
+    previewNameTextColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    itemCardTextColor: {r: 1, g: 1, b: 1, a: 1}
+  magic:
+    lootLabelBackgroundColor: {r: 0.18, g: 0.32, b: 0.68, a: 0.95}
+    lootLabelTextColor: {r: 1, g: 1, b: 1, a: 1}
+    previewNameTextColor: {r: 0.35, g: 0.55, b: 1, a: 1}
+    itemCardTextColor: {r: 0.35, g: 0.55, b: 1, a: 1}
+  rare:
+    lootLabelBackgroundColor: {r: 1, g: 0.82, b: 0.15, a: 0.95}
+    lootLabelTextColor: {r: 0, g: 0, b: 0, a: 1}
+    previewNameTextColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+    itemCardTextColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+  unique:
+    lootLabelBackgroundColor: {r: 1, g: 0.48, b: 0.08, a: 0.95}
+    lootLabelTextColor: {r: 0, g: 0, b: 0, a: 1}
+    previewNameTextColor: {r: 1, g: 0.5, b: 0.1, a: 1}
+    itemCardTextColor: {r: 1, g: 0.5, b: 0.1, a: 1}
+  sigil:
+    lootLabelBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
+    lootLabelTextColor: {r: 0, g: 0, b: 0, a: 1}
+    previewNameTextColor: {r: 0.75, g: 0.45, b: 1, a: 1}
+    itemCardTextColor: {r: 0.75, g: 0.45, b: 1, a: 1}
+  currency:
+    lootLabelBackgroundColor: {r: 0.86, g: 0.92, b: 1, a: 0.95}
+    lootLabelTextColor: {r: 0, g: 0, b: 0, a: 1}
+    previewNameTextColor: {r: 0.35, g: 0.85, b: 1, a: 1}
+    itemCardTextColor: {r: 0.35, g: 0.85, b: 1, a: 1}
+  unknown:
+    lootLabelBackgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    lootLabelTextColor: {r: 1, g: 1, b: 1, a: 1}
+    previewNameTextColor: {r: 1, g: 1, b: 1, a: 1}
+    itemCardTextColor: {r: 1, g: 1, b: 1, a: 1}
+  previewBackgroundColor: {r: 0.06, g: 0.06, b: 0.06, a: 0.96}
+  previewBodyTextColor: {r: 1, g: 1, b: 1, a: 1}
+  previewModTextColor: {r: 0.5, g: 0.7, b: 1, a: 1}
+  itemCardBackgroundColor: {r: 0.12, g: 0.12, b: 0.12, a: 1}
+  defaultLootLabelScale: 1

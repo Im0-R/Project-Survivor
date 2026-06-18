@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LootLabelUI : MonoBehaviour
+public class LootLabelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text label;
     public Button button;
@@ -14,6 +15,9 @@ public class LootLabelUI : MonoBehaviour
 
     public void Bind(LootPickup loot)
     {
+        if (target != null)
+            target.OnVisualChanged -= RefreshLabel;
+
         target = loot;
 
         if (target != null)
@@ -39,10 +43,7 @@ public class LootLabelUI : MonoBehaviour
 
     public void OnClick()
     {
-        if (target == null)
-            return;
-
-        if (LootUIManager.Instance == null)
+        if (target == null || LootUIManager.Instance == null)
             return;
 
         LootUIManager.Instance.RequestPickup(target);
@@ -63,16 +64,32 @@ public class LootLabelUI : MonoBehaviour
         transform.position = screenPos + Vector3.up * 20f;
     }
 
-    private void RefreshLabel()
+    public void RefreshLabel()
     {
         if (target == null)
             return;
 
+        InventoryItemData data = target.GetInventoryItemData();
+
+        LootVisualStyle style = LootVisualManager.Instance != null
+            ? LootVisualManager.Instance.Resolve(data)
+            : LootVisualStyle.CreateFallback();
+
+        gameObject.SetActive(style.visible);
+
+        if (!style.visible)
+            return;
+
+        transform.localScale = Vector3.one * style.lootLabelScale;
+
         if (label != null)
+        {
             label.text = target.GetDisplayName();
+            label.color = style.lootLabelTextColor;
+        }
 
         if (backgroundImage != null)
-            backgroundImage.color = target.GetLabelColor();
+            backgroundImage.color = style.lootLabelBackgroundColor;
 
         if (iconImage != null)
         {
@@ -80,5 +97,24 @@ public class LootLabelUI : MonoBehaviour
             iconImage.sprite = icon;
             iconImage.enabled = icon != null;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (target == null || ItemPreviewManager.Instance == null)
+            return;
+
+        InventoryItemData data = target.GetInventoryItemData();
+
+        if (data == null)
+            return;
+
+        ItemPreviewManager.Instance.InitPreview(data, transform as RectTransform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
     }
 }

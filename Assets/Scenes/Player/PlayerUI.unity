@@ -208,6 +208,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1542715541563163465, guid: 085ddfce9c73b2046943cbc81ed450bc, type: 3}
   m_PrefabInstance: {fileID: 4415145208878725979}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &513904393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513904394}
+  - component: {fileID: 513904395}
+  m_Layer: 0
+  m_Name: LootVisualManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513904394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513904393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 377.63034, y: 0, z: 2302.3074}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513904395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513904393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770cd85a3a09bd342b29037dc1f179c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootVisualManager
+  visualTheme: {fileID: 11400000, guid: 4e61e86a976d9114a998536ce55ae06f, type: 2}
+  activeLootFilter: {fileID: 11400000, guid: 0274346538a0f2d42bd022e8bbb24095, type: 2}
 --- !u!223 &1040727741 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 9116613346382731796, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
@@ -1509,6 +1555,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8688140787051954883, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
   m_PrefabInstance: {fileID: 1714588464}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1714588469 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1951461558750590498, guid: 85d39f90fcac6aa40830e0f7d391728d, type: 3}
+  m_PrefabInstance: {fileID: 1714588464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1722017676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4376757397119581986, guid: 52df64a9a70c4b34bb5d74a3c0e40e96, type: 3}
@@ -1702,6 +1753,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6090627822654360250, guid: 748e99b3eed54fb43adebec08dc2ea4f, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1714588469}
     - target: {fileID: 7737315063667832477, guid: 748e99b3eed54fb43adebec08dc2ea4f, type: 3}
       propertyPath: m_Name
       value: LootUIManager
@@ -1850,3 +1905,4 @@ SceneRoots:
   - {fileID: 307937360}
   - {fileID: 2021426650}
   - {fileID: 1336965233}
+  - {fileID: 513904394}

@@ -1,9 +1,8 @@
 using Mirror;
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class LootPickup : NetworkBehaviour
 {
     [SyncVar(hook = nameof(OnPayloadJsonChanged))]
     private string payloadJson = "";
@@ -71,6 +70,16 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         return cachedPayload;
     }
 
+    public InventoryItemData GetInventoryItemData()
+    {
+        LootPayload payload = GetPayload();
+
+        if (payload == null)
+            return null;
+
+        return InventoryItemData.FromPayload(payload);
+    }
+
     public LootableSO GetLootable()
     {
         LootPayload payload = GetPayload();
@@ -107,7 +116,7 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         if (payload == null)
             return "Unknown Loot";
 
-        string baseName = "";
+        string baseName;
 
         if (!string.IsNullOrWhiteSpace(payload.displayNameOverride))
         {
@@ -133,21 +142,6 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         LootableSO lootable = GetLootable();
         return lootable != null ? lootable.Icon : null;
-    }
-
-    public Color GetLabelColor()
-    {
-        LootPayload payload = GetPayload();
-
-        if (payload != null && payload.hasRarityColor)
-            return GetRarityColor(payload.rarity);
-
-        LootableSO lootable = GetLootable();
-
-        if (lootable != null)
-            return lootable.LabelColor;
-
-        return Color.white;
     }
 
     public void RequestPickup()
@@ -203,29 +197,6 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         NetworkServer.Destroy(gameObject);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        LootPayload payload = GetPayload();
-
-        if (payload == null)
-            return;
-
-        if (ItemPreviewManager.Instance != null)
-        {
-            InventoryItemData data = InventoryItemData.FromPayload(payload);
-            ItemPreviewManager.Instance.InitPreview(data, transform as RectTransform);
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (GetItem() != null)
-        {
-            if (ItemPreviewManager.Instance != null)
-                ItemPreviewManager.Instance.ClosePreview();
-        }
-    }
-
     private LootPayload DeserializePayload(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -244,27 +215,6 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             Debug.LogError($"[LootPickup] Payload deserialize failed: {e}");
             return null;
-        }
-    }
-
-    private Color GetRarityColor(ItemRarity rarity)
-    {
-        switch (rarity)
-        {
-            case ItemRarity.Normal:
-                return new Color(0.5f, 0.5f, 0.5f);
-
-            case ItemRarity.Magic:
-                return new Color(0.3f, 0.5f, 1f);
-
-            case ItemRarity.Rare:
-                return new Color(1f, 0.85f, 0.2f);
-
-            case ItemRarity.Unique:
-                return new Color(1f, 0.5f, 0.1f);
-
-            default:
-                return Color.white;
         }
     }
 }

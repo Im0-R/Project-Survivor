@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class LootableSO : ScriptableObject
@@ -15,8 +16,9 @@ public abstract class LootableSO : ScriptableObject
     [SerializeField] protected bool stackable = false;
     [SerializeField] protected int maxStack = 1;
 
-    [Header("Visual")]
-    [SerializeField] protected Color labelColor = Color.white;
+    // Kept temporarily so existing ScriptableObject assets do not lose serialized data.
+    // The new visual system no longer reads this value.
+    [SerializeField, HideInInspector] protected Color labelColor = Color.white;
 
     public int Id => id;
     public string DisplayName => displayName;
@@ -28,5 +30,6 @@ public abstract class LootableSO : ScriptableObject
     public bool Stackable => stackable;
     public int MaxStack => maxStack;
 
+    [Obsolete("Use LootVisualManager and LootVisualThemeSO instead.")]
     public Color LabelColor => labelColor;
 }

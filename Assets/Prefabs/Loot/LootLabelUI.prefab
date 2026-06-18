@@ -183,12 +183,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8092429848267663662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54d0795c9bde7534598f7140a5ecb2f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d6142061148aca47ae78ad497909b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootLabelUI
   label: {fileID: 7109127893161737962}
   button: {fileID: 88567719137489208}
   backgroundImage: {fileID: 3243979585594845142}
+  iconImage: {fileID: 0}
 --- !u!222 &2232786543954600400
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -16,8 +16,29 @@ public class LootUIManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        if (LootVisualManager.Instance != null)
+            LootVisualManager.Instance.OnVisualSettingsChanged += RefreshAllLabels;
+    }
+
+    private void OnDestroy()
+    {
+        if (LootVisualManager.Instance != null)
+            LootVisualManager.Instance.OnVisualSettingsChanged -= RefreshAllLabels;
+
+        if (Instance == this)
+            Instance = null;
+    }
+
     public void RegisterLoot(LootPickup loot)
     {
+        if (loot == null || labelPrefab == null || canvas == null)
+            return;
+
+        if (labels.ContainsKey(loot))
+            return;
+
         LootLabelUI label = Instantiate(labelPrefab, canvas.transform);
         label.Bind(loot);
 
@@ -26,10 +47,15 @@ public class LootUIManager : MonoBehaviour
 
     public void UnregisterLoot(LootPickup loot)
     {
+        if (loot == null)
+            return;
+
         if (!labels.TryGetValue(loot, out LootLabelUI label))
             return;
 
-        Destroy(label.gameObject);
+        if (label != null)
+            Destroy(label.gameObject);
+
         labels.Remove(loot);
     }
 
@@ -42,5 +68,14 @@ public class LootUIManager : MonoBehaviour
         }
 
         PlayerPickupController.Local.RequestPickup(loot);
+    }
+
+    public void RefreshAllLabels()
+    {
+        foreach (LootLabelUI label in labels.Values)
+        {
+            if (label != null)
+                label.RefreshLabel();
+        }
     }
 }

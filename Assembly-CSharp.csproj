@@ -76,10 +76,10 @@
     <Compile Include="Assets\Scripts\Party\CanvasPartyListUI.cs" />
     <Compile Include="Assets\Scripts\Map\ClientMapInstanceReceiver.cs" />
     <Compile Include="Assets\Scripts\Lootable\Items\ItemBaseSO.cs" />
-    <Compile Include="Assets\Scripts\Lootable\Items\ItemPreview.cs" />
     <Compile Include="Assets\Scripts\UI\GameUILoader.cs" />
     <Compile Include="Assets\Scripts\Inventory\TrashSlotUI.cs" />
     <Compile Include="Assets\Scripts\Loot\LootGenerator.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootLabelUI.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellTypeReference.cs" />
     <Compile Include="Assets\Scripts\Debug\TestDebugLog.cs" />
     <Compile Include="Assets\Scripts\Loot\Currency\CurrencyEffect\ItemCurrencyEffectSO.cs" />
@@ -94,11 +94,13 @@
     <Compile Include="Assets\Scripts\Loot\Currency\CurrencyTargetingManager.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\ArcanaButtonUI.cs" />
     <Compile Include="Assets\ServerOnly\Database\ServerCommandHandler.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Enemy\States\EnemyDeadState.cs" />
     <Compile Include="Assets\Scripts\Fight\HitboxHitHumanoidMonster.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\CanvasArcana.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellVisualId.cs" />
     <Compile Include="Assets\Scripts\Lootable\Items\PlayerEquipment.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Stash\StashInteractable.cs" />
     <Compile Include="Assets\Scripts\Difficulty\DifficultyScalingSO.cs" />
     <Compile Include="Assets\Scripts\Manager\SpellsManager.cs" />
@@ -107,8 +109,8 @@
     <Compile Include="Assets\Scripts\Loot\Currency\CurrencyEffect\CurrencyEffectSO.cs" />
     <Compile Include="Assets\Scripts\Manager\ClientSideInstanceManager.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasTarget.cs" />
-    <Compile Include="Assets\Scripts\Lootable\Items\LootableSO.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellNetworkFX.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootFilterSO.cs" />
     <Compile Include="Assets\Scripts\Map\MapDifficultyCanvas.cs" />
     <Compile Include="Assets\Scripts\Spells\FireballSpell.cs" />
     <Compile Include="Assets\Scripts\KeepAlive.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Assets\Scripts\Lootable\Sigils\Effect\SigilOfChaosEffectSO.cs" />
     <Compile Include="Assets\Scripts\Lootable\Items\EquipItemRequest.cs" />
     <Compile Include="Assets\Scripts\Spells\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootVisualManager.cs" />
     <Compile Include="Assets\Scripts\MapMechanic\MapEventActivator.cs" />
     <Compile Include="Assets\Scripts\Stats\StatsComponent.cs" />
     <Compile Include="Assets\Scripts\Particles\ParticlesSpawner.cs" />
@@ -130,14 +133,16 @@
     <Compile Include="Assets\Scripts\Loot\LootPayload.cs" />
     <Compile Include="Assets\Scripts\Client\InGameConsole.cs" />
     <Compile Include="Assets\Scripts\MapMechanic\MapEventTimerUI.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootVisualStyle.cs" />
     <Compile Include="Assets\Scripts\Loot\Currency\CurrencyDatabase.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileSpellExecutor.cs" />
     <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\Inventory\ItemCard.cs" />
     <Compile Include="Assets\Scripts\Lootable\Items\AffixSO.cs" />
     <Compile Include="Assets\Scripts\Loot\UI\LootPreviewUI.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootableSO.cs" />
     <Compile Include="Assets\Scripts\Network\Client\ClientNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Loot\LootTableRoll.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootVisualThemeSO.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellCasterServer.cs" />
     <Compile Include="Assets\Scripts\Stats\DamagePart.cs" />
     <Compile Include="Assets\Scripts\Map\InstanceState.cs" />
@@ -160,10 +165,10 @@
     <Compile Include="Assets\Scripts\Lootable\Sigils\Effect\SigilOfAlchemyEffectSO.cs" />
     <Compile Include="Assets\Scripts\Network\NetworkEntity.cs" />
     <Compile Include="Assets\Scripts\Spells\FrostballSpell.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\LootPickup.cs" />
     <Compile Include="Assets\Scripts\Loot\GeneratedItemSpawnBehaviourSO.cs" />
     <Compile Include="Assets\Scripts\Lootable\Sigils\Effect\SigilOfExaltationEffectSO.cs" />
     <Compile Include="Assets\Scripts\Network\InterestManagement\ProximityInterestManagement.cs" />
-    <Compile Include="Assets\Scripts\Loot\LootPickUp.cs" />
     <Compile Include="Assets\Scripts\Visual\SpellCastMode.cs" />
     <Compile Include="Assets\AuthentificatorLogin.cs" />
     <Compile Include="Assets\Scripts\UI\CanvasLogin.cs" />
@@ -225,6 +230,7 @@
     <Compile Include="Assets\Scripts\Particles\ParticleOnDeathEffects.cs" />
     <Compile Include="Assets\Scripts\Loot\Currency\CurrencyEnums.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPickupController.cs" />
+    <Compile Include="Assets\Scripts\Loot\UI\loot_visual_system\ItemPreview.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\Arcana\RuneButtonUI.cs" />
     <Compile Include="Assets\Scripts\Stash\PlayerStash.cs" />
@@ -232,10 +238,8 @@
     <Compile Include="Assets\Scripts\Loot\LootSpawnBehaviourSO.cs" />
     <Compile Include="Assets\Scripts\Loot\LootManager.cs" />
     <Compile Include="Assets\Scripts\Party\Party.cs" />
-    <Compile Include="Assets\Scripts\Loot\UI\LootLabelUI.cs" />
     <Compile Include="Assets\Scripts\Spells\RuneSO.cs" />
     <Compile Include="Assets\Scripts\Visual\ProjectileSpell.cs" />
-    <Compile Include="Assets\Scripts\Loot\UI\LootUIManager.cs" />
     <Compile Include="Assets\Scripts\Stash\CanvasStash.cs" />
     <Compile Include="Assets\Scripts\UI\SpellsSlotsUI.cs" />
   </ItemGroup>
