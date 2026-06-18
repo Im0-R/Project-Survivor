@@ -5,21 +5,36 @@ public class StashInteractable : NetworkBehaviour, IInteractable
 {
     public void OnInteract()
     {
-        if (!NetworkClient.active) return;
-        if (NetworkClient.localPlayer == null) return;
+        if (!NetworkClient.active)
+            return;
 
-        PlayerStash stash = NetworkClient.localPlayer.GetComponent<PlayerStash>();
-        PlayerInventory inventory = NetworkClient.localPlayer.GetComponent<PlayerInventory>();
+        if (NetworkClient.localPlayer == null)
+            return;
+
+        PlayerStash stash =
+            NetworkClient.localPlayer.GetComponent<PlayerStash>();
+
+        PlayerInventory inventory =
+            NetworkClient.localPlayer.GetComponent<PlayerInventory>();
 
         if (stash == null)
         {
-            Debug.LogError("[StashInteractable] Local player has no PlayerStash.");
+            Debug.LogError(
+                "[StashInteractable] Local player has no PlayerStash.");
+            return;
+        }
+
+        if (inventory == null)
+        {
+            Debug.LogError(
+                "[StashInteractable] Local player has no PlayerInventory.");
             return;
         }
 
         if (CanvasStash.Instance == null)
         {
-            Debug.LogError("[StashInteractable] CanvasStash.Instance is null.");
+            Debug.LogError(
+                "[StashInteractable] CanvasStash.Instance is null.");
             return;
         }
 

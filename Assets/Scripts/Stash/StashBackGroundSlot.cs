@@ -14,8 +14,13 @@ public class StashBackGroundSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (CanvasStash.Instance == null)
+            return;
+
         ItemCard card = eventData.pointerDrag?.GetComponent<ItemCard>();
-        if (card == null) return;
+
+        if (card == null)
+            return;
 
         CanvasStash.Instance.RequestDrop(card, this);
     }
