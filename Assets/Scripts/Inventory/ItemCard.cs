@@ -42,7 +42,22 @@ public class ItemCard : MonoBehaviour,
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
-    public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (slotData == null)
+            return;
+
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.InitPreview(slotData, transform as RectTransform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
+    }
+
+public void SetLootable(LootableSO newLootable, InventoryItemData newSlotData)
     {
         lootable = newLootable;
         slotData = newSlotData;
@@ -55,8 +70,8 @@ public class ItemCard : MonoBehaviour,
         {
             if (slotData.hasRarityColor)
                 backgroundImage.color = GetRarityColor(slotData.rarity);
-            else
-                backgroundImage.color = lootable.LabelColor;
+            //else
+            //    backgroundImage.color = lootable.LabelColor;
         }
 
         if (icon != null)
@@ -196,21 +211,6 @@ public class ItemCard : MonoBehaviour,
             return Mirror.NetworkClient.localPlayer.GetComponent<PlayerInventory>();
 
         return null;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (slotData == null)
-            return;
-
-        if (ItemPreviewManager.Instance != null)
-            ItemPreviewManager.Instance.InitPreview(slotData);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (ItemPreviewManager.Instance != null)
-            ItemPreviewManager.Instance.ClosePreview();
     }
 
     public LootableSO GetLootable()

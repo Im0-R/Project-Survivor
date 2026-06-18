@@ -213,7 +213,7 @@ public class LootPickup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHa
         if (ItemPreviewManager.Instance != null)
         {
             InventoryItemData data = InventoryItemData.FromPayload(payload);
-            ItemPreviewManager.Instance.InitPreview(data);
+            ItemPreviewManager.Instance.InitPreview(data, transform as RectTransform);
         }
     }
 

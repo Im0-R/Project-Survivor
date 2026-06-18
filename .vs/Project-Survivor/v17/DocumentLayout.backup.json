@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\lootable\\sigils\\effect\\sigiloftransmutationeffectso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\loot\\currency\\currencyeffect\\itemcurrencyeffectso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\loot\\currency\\currencyeffect\\itemcurrencyeffectso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\currency\\currencyeffect\\itemcurrencyeffectso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\loot\\currency\\currencyso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\loot\\currency\\currencyso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\currency\\currencyso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -31,7 +31,7 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\lootable\\lootabledatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\lootable\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\lootable\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\lootable\\items\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -508,8 +508,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\Currency\\CurrencyEffect\\ItemCurrencyEffectSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-17T12:43:18.156Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-17T12:43:18.156Z"
             },
             {
               "$type": "Document",
@@ -534,8 +533,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Lootable\\Items\\ItemPreview.cs",
               "ViewState": "AgIAAI4AAAAAAAAAAAAcwJoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-17T09:42:34.931Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-17T09:42:34.931Z"
             },
             {
               "$type": "Document",
@@ -547,8 +545,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\UI\\LootLabelUI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-13T18:55:14.475Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-13T18:55:14.475Z"
             },
             {
               "$type": "Document",
@@ -560,8 +557,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\Currency\\CurrencySO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T10:30:51.708Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-14T10:30:51.708Z"
             },
             {
               "$type": "Document",
@@ -573,8 +569,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootManager.cs",
               "ViewState": "AgIAAGEAAAAAAAAAAAAwwIAAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-28T09:36:16.031Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-28T09:36:16.031Z"
             },
             {
               "$type": "Document",
@@ -586,8 +581,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\GeneratedItemSpawnBehaviourSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T11:41:03.757Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-14T11:41:03.757Z"
             },
             {
               "$type": "Document",
@@ -599,8 +593,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\InventoryItemData.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAewDQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T10:40:00.418Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-14T10:40:00.418Z"
             },
             {
               "$type": "Document",
@@ -612,8 +605,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Lootable\\LootableDatabase.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAmwDIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T10:29:36.355Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-14T10:29:36.355Z"
             },
             {
               "$type": "Document",
@@ -625,8 +617,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\ItemCard.cs",
               "ViewState": "AgIAAJgAAAAAAAAAAAAYwMgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T14:30:48.898Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T14:30:48.898Z"
             },
             {
               "$type": "Document",
@@ -638,8 +629,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Lootable\\Items\\LootableSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T10:29:23.926Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-14T10:29:23.926Z"
             },
             {
               "$type": "Document",
@@ -663,8 +653,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\LootPickUp.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAAAwE0AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T14:14:32.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T14:14:32.718Z"
             },
             {
               "$type": "Document",
@@ -724,7 +713,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyPickUp.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAiwEAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T10:31:15.838Z"
+              "WhenOpened": "2026-06-14T10:31:15.838Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -760,7 +750,8 @@
               "RelativeToolTip": "Assets\\Editor\\BuildScript.cs",
               "ViewState": "AgIAAHYAAAAAAAAAAAAYwI4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T15:08:07.297Z"
+              "WhenOpened": "2026-01-28T15:08:07.297Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -784,7 +775,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAywCEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T14:33:30.123Z"
+              "WhenOpened": "2026-01-28T14:33:30.123Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -808,7 +800,8 @@
               "RelativeToolTip": "Assets\\Editor\\AffixGenerator.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAcwDQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T12:30:57.531Z"
+              "WhenOpened": "2026-06-09T12:30:57.531Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -820,7 +813,8 @@
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Sigils\\SigilSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-12T08:08:21.151Z"
+              "WhenOpened": "2026-06-12T08:08:21.151Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -832,7 +826,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigils\\Effect\\SigilOfExaltationEffectSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-12T08:08:32.171Z"
+              "WhenOpened": "2026-06-12T08:08:32.171Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -844,7 +839,8 @@
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Sigils\\SigilDatabase.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAcwC4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-10T21:45:17.717Z"
+              "WhenOpened": "2026-06-10T21:45:17.717Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -856,7 +852,8 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\SigilPickUp.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwB4AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-12T08:08:34.254Z"
+              "WhenOpened": "2026-06-12T08:08:34.254Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -868,7 +865,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\SigilSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-10T13:42:31.441Z"
+              "WhenOpened": "2026-06-10T13:42:31.441Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -880,7 +878,8 @@
               "RelativeToolTip": "Assets\\Scripts\\Sigil\\PlayerSigilInventory.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAuwFEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-12T08:06:30.369Z"
+              "WhenOpened": "2026-06-12T08:06:30.369Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -891,7 +890,8 @@
               "ToolTip": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\Effect\\SigilOfExaltationEffectSO.cs",
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\Effect\\SigilOfExaltationEffectSO.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-10T14:26:07.69Z"
+              "WhenOpened": "2026-06-10T14:26:07.69Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -903,7 +903,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAgwCoAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T18:45:43.6Z"
+              "WhenOpened": "2026-04-12T18:45:43.6Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -915,7 +916,8 @@
               "RelativeToolTip": "Assets\\Scripts\\Equipment\\Items\\SigilSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-10T13:18:21.387Z"
+              "WhenOpened": "2026-06-10T13:18:21.387Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -927,7 +929,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
               "ViewState": "AgIAAGQAAAAAAAAAAAAuwJEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T11:18:40.205Z"
+              "WhenOpened": "2026-01-26T11:18:40.205Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -939,7 +942,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAYwGkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T13:49:08.535Z"
+              "WhenOpened": "2026-01-21T13:49:08.535Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -951,7 +955,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAgwBkAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T14:06:53.576Z"
+              "WhenOpened": "2026-01-28T14:06:53.576Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -963,7 +968,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-03T21:54:34.073Z"
+              "WhenOpened": "2026-05-03T21:54:34.073Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -975,7 +981,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAAAqwFYAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T14:49:30.483Z"
+              "WhenOpened": "2026-01-28T14:49:30.483Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -987,7 +994,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T17:37:35.841Z"
+              "WhenOpened": "2026-05-09T17:37:35.841Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -999,7 +1007,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\CurrencyPickUp.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-28T09:39:00.892Z"
+              "WhenOpened": "2026-05-28T09:39:00.892Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -1011,7 +1020,8 @@
               "RelativeToolTip": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T10:39:23.604Z"
+              "WhenOpened": "2026-04-26T10:39:23.604Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

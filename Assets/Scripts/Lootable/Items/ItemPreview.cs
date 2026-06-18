@@ -109,16 +109,24 @@ public class ItemPreview : MonoBehaviour
 
     private void InitSimpleLoot(InventoryItemData data, Color color)
     {
+        LootableSO lootable = LootableDatabase.Get(data.lootableId);
+
         if (backGroundImage != null)
             backGroundImage.color = color;
 
         if (itemName != null)
         {
-            itemName.text = string.IsNullOrWhiteSpace(data.displayNameOverride)
-                ? $"Lootable {data.lootableId}"
-                : data.displayNameOverride;
+            string finalName = data.displayNameOverride;
 
+            if (string.IsNullOrWhiteSpace(finalName) && lootable != null)
+                finalName = lootable.DisplayName;
+
+            if (string.IsNullOrWhiteSpace(finalName))
+                finalName = $"Lootable {data.lootableId}";
+
+            itemName.text = finalName;
             itemName.color = color;
+            itemName.gameObject.SetActive(true);
         }
 
         if (baseType != null)
@@ -135,7 +143,7 @@ public class ItemPreview : MonoBehaviour
             descriptionText.gameObject.SetActive(true);
 
             descriptionText.text = string.IsNullOrWhiteSpace(data.description)
-                ? "No description available."
+                ? lootable != null ? lootable.DisplayName : "No description available."
                 : data.description;
         }
     }
