@@ -18,6 +18,8 @@ public class CanvasInventory : MonoBehaviour
 
     [SerializeField] private GameObject itemCardPrefab;
 
+    private ItemCard activeDraggedCard;
+
     private void Awake()
     {
         Instance = this;
@@ -81,6 +83,8 @@ public class CanvasInventory : MonoBehaviour
 
     private void RefreshAll()
     {
+        CancelActiveDrag();
+
         PopulateInventory();
         PopulateEquipment();
     }
@@ -392,5 +396,50 @@ public class CanvasInventory : MonoBehaviour
             return;
 
         inv.CmdMoveOrSwap(from, to);
+    }
+    public void RegisterActiveDrag(ItemCard card)
+    {
+        if (card == null)
+            return;
+
+        if (activeDraggedCard != null && activeDraggedCard != card)
+            activeDraggedCard.CancelDrag();
+
+        activeDraggedCard = card;
+    }
+
+    public void UnregisterActiveDrag(ItemCard card)
+    {
+        if (activeDraggedCard == card)
+            activeDraggedCard = null;
+    }
+
+    public void CancelActiveDrag()
+    {
+        ItemCard cardToCancel = activeDraggedCard;
+        activeDraggedCard = null;
+
+        if (cardToCancel != null)
+            cardToCancel.CancelDrag();
+
+        ClearDetachedDragCards();
+    }
+
+    private void ClearDetachedDragCards()
+    {
+        if (DragRoot == null)
+            return;
+
+        for (int i = DragRoot.childCount - 1; i >= 0; i--)
+        {
+            Transform child = DragRoot.GetChild(i);
+            ItemCard card = child.GetComponent<ItemCard>();
+
+            if (card == null)
+                continue;
+
+            card.gameObject.SetActive(false);
+            Destroy(card.gameObject);
+        }
     }
 }
