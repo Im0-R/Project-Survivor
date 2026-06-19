@@ -21,7 +21,7 @@ public class PlayerStash : NetworkBehaviour
     [Header("Stash Settings")]
     [SerializeField] private int slotsPerTab = 100;
     [SerializeField] private int defaultTabCount = 1;
-    [SerializeField] private int maxTabCount = 20;
+    [SerializeField] private int maxTabCount = 3;
 
     // Server-authoritative persistent data.
     private PlayerStashData stashData = new();
@@ -33,6 +33,9 @@ public class PlayerStash : NetworkBehaviour
     private readonly List<string> clientTabNames = new();
 
     public int CurrentTabIndex { get; private set; }
+
+    public int MaxTabCount => Mathf.Max(1, maxTabCount);
+    public bool CanCreateMoreTabs => TabCount < MaxTabCount;
 
     // Full snapshot events, used only when opening the stash or changing tab.
     public event Action OnStashChanged;
@@ -55,6 +58,7 @@ public class PlayerStash : NetworkBehaviour
     public void CmdRequestOpenStash()
     {
         stashViewOpenServer = true;
+
         EnsureDefaultTabs();
         SendFullStateToOwner();
     }
@@ -177,6 +181,7 @@ public class PlayerStash : NetworkBehaviour
 
         inventory.SetSlotData(inventoryIndex, stashSlotData);
         tab.itemsJson[stashIndex] = newStashJson;
+
         SendSlotDeltaToOwner(stashIndex, newStashJson);
     }
 
@@ -229,9 +234,9 @@ public class PlayerStash : NetworkBehaviour
     {
         EnsureDefaultTabs();
 
-        if (stashData.tabs.Count >= maxTabCount)
+        if (stashData.tabs.Count >= MaxTabCount)
         {
-            Debug.LogWarning("[PlayerStash] Maximum tab count reached.");
+            Debug.LogWarning("[PlayerStash] Cannot create tab, max tab count reached.");
             return false;
         }
 
@@ -393,7 +398,11 @@ public class PlayerStash : NetworkBehaviour
         if (!stashViewOpenServer || !CanSendToOwner())
             return;
 
-        TargetReceiveSlotDelta(connectionToClient, currentTabIndexServer, slotIndex, slotJson ?? "");
+        TargetReceiveSlotDelta(
+            connectionToClient,
+            currentTabIndexServer,
+            slotIndex,
+            slotJson ?? "");
     }
 
     [Server]
@@ -436,6 +445,7 @@ public class PlayerStash : NetworkBehaviour
         string[] itemsJson)
     {
         ReplaceClientCurrentTab(tabIndex, itemsJson);
+
         OnStashChanged?.Invoke();
         OnTabsChanged?.Invoke();
     }
@@ -527,7 +537,7 @@ public class PlayerStash : NetworkBehaviour
         stashData ??= new PlayerStashData();
         stashData.tabs ??= new List<StashTabData>();
 
-        int wantedTabCount = Mathf.Max(1, defaultTabCount);
+        int wantedTabCount = Mathf.Clamp(defaultTabCount, 1, MaxTabCount);
 
         while (stashData.tabs.Count < wantedTabCount)
         {
@@ -537,6 +547,8 @@ public class PlayerStash : NetworkBehaviour
                 itemsJson = CreateEmptySlots()
             });
         }
+
+        TrimExtraTabs();
 
         for (int i = 0; i < stashData.tabs.Count; i++)
         {
@@ -557,6 +569,26 @@ public class PlayerStash : NetworkBehaviour
 
         if (!IsValidTabIndex(currentTabIndexServer))
             currentTabIndexServer = 0;
+    }
+
+    [Server]
+    private void TrimExtraTabs()
+    {
+        if (stashData == null || stashData.tabs == null)
+            return;
+
+        while (stashData.tabs.Count > MaxTabCount)
+        {
+            int lastIndex = stashData.tabs.Count - 1;
+
+            Debug.LogWarning(
+                $"[PlayerStash] Removing extra stash tab '{stashData.tabs[lastIndex].tabName}' index={lastIndex}.");
+
+            stashData.tabs.RemoveAt(lastIndex);
+        }
+
+        if (!IsValidTabIndex(currentTabIndexServer))
+            currentTabIndexServer = Mathf.Max(0, stashData.tabs.Count - 1);
     }
 
     [Server]

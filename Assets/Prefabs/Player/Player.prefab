@@ -2729,9 +2729,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   slotsPerTab: 48
-  defaultTabCount: 1
-  maxTabCount: 20
-  CurrentTabIndex: 0
+  defaultTabCount: 3
+  maxTabCount: 3
 --- !u!114 &8923659421738781033
 MonoBehaviour:
   m_ObjectHideFlags: 0
