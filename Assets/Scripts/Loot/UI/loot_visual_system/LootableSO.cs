@@ -16,6 +16,9 @@ public abstract class LootableSO : ScriptableObject
     [SerializeField] protected bool stackable = false;
     [SerializeField] protected int maxStack = 1;
 
+    [Header("Trade")]
+    [SerializeField] protected bool tradeable = true;
+
     // Kept temporarily so existing ScriptableObject assets do not lose serialized data.
     // The new visual system no longer reads this value.
     [SerializeField, HideInInspector] protected Color labelColor = Color.white;
@@ -29,6 +32,8 @@ public abstract class LootableSO : ScriptableObject
 
     public bool Stackable => stackable;
     public int MaxStack => maxStack;
+
+    public bool Tradeable => tradeable;
 
     [Obsolete("Use LootVisualManager and LootVisualThemeSO instead.")]
     public Color LabelColor => labelColor;

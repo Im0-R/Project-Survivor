@@ -9,15 +9,26 @@ public class PlayerInventoryData
     public List<string> itemsJson = new List<string>();
 }
 
-public class PlayerInventory : NetworkBehaviour
+public class PlayerInventory : NetworkBehaviour, ITradeInventory
 {
     public class SyncListString : SyncList<string> { }
+
+    private class TradeSlotLock
+    {
+        public string lockId;
+        public int reservedAmount;
+    }
 
     public SyncListString ItemsJson = new SyncListString();
 
     [SerializeField] private int maxSlots = 40;
 
     public event Action OnInventoryChanged;
+
+    private readonly Dictionary<int, TradeSlotLock> tradeLocks = new Dictionary<int, TradeSlotLock>();
+
+    public int Count => ItemsJson.Count;
+    public int TradeSlotCount => ItemsJson.Count;
 
     private void Update()
     {
@@ -54,6 +65,7 @@ public class PlayerInventory : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+
         ItemsJson.Callback += OnItemsChanged;
         OnInventoryChanged?.Invoke();
     }
@@ -61,6 +73,7 @@ public class PlayerInventory : NetworkBehaviour
     public override void OnStopClient()
     {
         ItemsJson.Callback -= OnItemsChanged;
+
         base.OnStopClient();
     }
 
@@ -93,6 +106,381 @@ public class PlayerInventory : NetworkBehaviour
 #endif
     }
 
+    // =========================================================
+    // TRADE API
+    // =========================================================
+
+    [Server]
+    public bool TryGetTradePayloadServer(int slotIndex, out LootPayload payload)
+    {
+        payload = null;
+
+        EnsureSlots();
+
+        if (!IsValidSlot(slotIndex))
+            return false;
+
+        InventoryItemData data = GetDataByIndex(slotIndex);
+
+        if (data == null)
+            return false;
+
+        payload = CreatePayloadFromInventoryData(data);
+
+        return payload != null && payload.IsValid();
+    }
+
+    [Server]
+    public bool IsTradeSlotLockedServer(int slotIndex)
+    {
+        return tradeLocks.ContainsKey(slotIndex);
+    }
+
+    [Server]
+    public bool TryLockTradeSlotServer(int slotIndex, int amount, string lockId)
+    {
+        EnsureSlots();
+
+        if (!IsValidSlot(slotIndex))
+            return false;
+
+        if (amount <= 0)
+            return false;
+
+        if (string.IsNullOrWhiteSpace(lockId))
+            return false;
+
+        if (tradeLocks.ContainsKey(slotIndex))
+            return false;
+
+        if (!TryGetTradePayloadServer(slotIndex, out LootPayload payload))
+            return false;
+
+        if (payload.amount < amount)
+            return false;
+
+        tradeLocks.Add(slotIndex, new TradeSlotLock
+        {
+            lockId = lockId,
+            reservedAmount = amount
+        });
+
+        Debug.Log($"[Inventory] Trade lock slot={slotIndex} amount={amount} lockId={lockId}");
+
+        return true;
+    }
+
+    [Server]
+    public void UnlockTradeSlotServer(int slotIndex, string lockId)
+    {
+        if (!tradeLocks.TryGetValue(slotIndex, out TradeSlotLock currentLock))
+            return;
+
+        if (currentLock.lockId != lockId)
+            return;
+
+        tradeLocks.Remove(slotIndex);
+
+        Debug.Log($"[Inventory] Trade unlock slot={slotIndex}");
+    }
+
+    [Server]
+    public bool CanReceiveTradePayloadsServer(List<LootPayload> payloads)
+    {
+        EnsureSlots();
+
+        if (payloads == null || payloads.Count == 0)
+            return true;
+
+        List<string> simulatedSlots = new List<string>(ItemsJson);
+
+        ApplySimulatedTradeRemovals(simulatedSlots);
+
+        for (int i = 0; i < payloads.Count; i++)
+        {
+            InventoryItemData data = CreateDataFromPayload(payloads[i]);
+
+            if (data == null)
+                return false;
+
+            bool added = SimulateAddInventoryData(simulatedSlots, data);
+
+            if (!added)
+                return false;
+        }
+
+        return true;
+    }
+
+    [Server]
+    public string CreateTradeSnapshotServer()
+    {
+        EnsureSlots();
+
+        PlayerInventoryData snapshot = new PlayerInventoryData
+        {
+            itemsJson = new List<string>(ItemsJson)
+        };
+
+        return JsonUtility.ToJson(snapshot);
+    }
+
+    [Server]
+    public void RestoreTradeSnapshotServer(string snapshotJson)
+    {
+        if (string.IsNullOrWhiteSpace(snapshotJson))
+            return;
+
+        try
+        {
+            PlayerInventoryData data = JsonUtility.FromJson<PlayerInventoryData>(snapshotJson);
+            LoadSaveData(data);
+
+            tradeLocks.Clear();
+
+            Debug.Log("[Inventory] Trade snapshot restored.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Inventory] RestoreTradeSnapshotServer failed. error={e}");
+        }
+    }
+
+    [Server]
+    public bool TryRemoveTradePayloadServer(
+        int slotIndex,
+        int amount,
+        string lockId,
+        out LootPayload removedPayload
+    )
+    {
+        removedPayload = null;
+
+        EnsureSlots();
+
+        if (!IsValidSlot(slotIndex))
+            return false;
+
+        if (!tradeLocks.TryGetValue(slotIndex, out TradeSlotLock currentLock))
+            return false;
+
+        if (currentLock.lockId != lockId)
+            return false;
+
+        if (currentLock.reservedAmount != amount)
+            return false;
+
+        InventoryItemData currentData = GetDataByIndex(slotIndex);
+
+        if (currentData == null)
+            return false;
+
+        if (currentData.amount < amount)
+            return false;
+
+        removedPayload = CreatePayloadFromInventoryData(currentData);
+
+        if (removedPayload == null)
+            return false;
+
+        removedPayload.amount = amount;
+
+        if (currentData.amount == amount)
+        {
+            ItemsJson[slotIndex] = "";
+        }
+        else
+        {
+            currentData.amount -= amount;
+            ItemsJson[slotIndex] = SerializeInventoryData(currentData);
+        }
+
+        tradeLocks.Remove(slotIndex);
+
+        SavePlayerStateServer();
+
+        Debug.Log($"[Inventory] Trade removed slot={slotIndex} amount={amount}");
+
+        return true;
+    }
+
+    [Server]
+    public bool TryAddTradePayloadServer(LootPayload payload)
+    {
+        if (payload == null || !payload.IsValid())
+            return false;
+
+        InventoryItemData data = CreateDataFromPayload(payload);
+
+        if (data == null)
+            return false;
+
+        bool added = AddInventoryData(data);
+
+        if (added)
+            Debug.Log($"[Inventory] Trade received lootableId={payload.lootableId} amount={payload.amount}");
+
+        return added;
+    }
+
+    [Server]
+    private void ApplySimulatedTradeRemovals(List<string> simulatedSlots)
+    {
+        foreach (KeyValuePair<int, TradeSlotLock> pair in tradeLocks)
+        {
+            int index = pair.Key;
+            int reservedAmount = pair.Value.reservedAmount;
+
+            if (index < 0 || index >= simulatedSlots.Count)
+                continue;
+
+            InventoryItemData data = DeserializeInventoryData(simulatedSlots[index]);
+
+            if (data == null)
+                continue;
+
+            data.amount -= reservedAmount;
+
+            if (data.amount <= 0)
+                simulatedSlots[index] = "";
+            else
+                simulatedSlots[index] = SerializeInventoryData(data);
+        }
+    }
+
+    private bool SimulateAddInventoryData(List<string> simulatedSlots, InventoryItemData data)
+    {
+        if (data == null || data.lootableId == 0 || data.amount <= 0)
+            return false;
+
+        if (data.IsGeneratedItem())
+            return SimulateAddToEmptySlot(simulatedSlots, data);
+
+        LootableSO lootable = LootableDatabase.Get(data.lootableId);
+
+        bool stackable = lootable != null && lootable.Stackable;
+        int maxStack = stackable ? Mathf.Max(1, lootable.MaxStack) : 1;
+
+        if (!stackable)
+        {
+            data.amount = 1;
+            return SimulateAddToEmptySlot(simulatedSlots, data);
+        }
+
+        return SimulateAddStackable(simulatedSlots, data, maxStack);
+    }
+
+    private bool SimulateAddStackable(List<string> simulatedSlots, InventoryItemData data, int maxStack)
+    {
+        int remaining = data.amount;
+
+        for (int i = 0; i < simulatedSlots.Count; i++)
+        {
+            if (remaining <= 0)
+                break;
+
+            InventoryItemData slotData = DeserializeInventoryData(simulatedSlots[i]);
+
+            if (slotData == null)
+                continue;
+
+            if (slotData.IsGeneratedItem())
+                continue;
+
+            if (slotData.lootableId != data.lootableId)
+                continue;
+
+            int space = maxStack - slotData.amount;
+
+            if (space <= 0)
+                continue;
+
+            int added = Mathf.Min(space, remaining);
+
+            slotData.amount += added;
+            remaining -= added;
+
+            simulatedSlots[i] = SerializeInventoryData(slotData);
+        }
+
+        for (int i = 0; i < simulatedSlots.Count; i++)
+        {
+            if (remaining <= 0)
+                break;
+
+            if (!IsEmptySlot(simulatedSlots[i]))
+                continue;
+
+            int added = Mathf.Min(maxStack, remaining);
+
+            InventoryItemData newStack = new InventoryItemData
+            {
+                lootableId = data.lootableId,
+                amount = added,
+                itemJson = "",
+                displayNameOverride = data.displayNameOverride,
+                hasRarityColor = data.hasRarityColor,
+                rarity = data.rarity,
+                lootableType = data.lootableType,
+                description = data.description
+            };
+
+            simulatedSlots[i] = SerializeInventoryData(newStack);
+            remaining -= added;
+        }
+
+        return remaining <= 0;
+    }
+
+    private bool SimulateAddToEmptySlot(List<string> simulatedSlots, InventoryItemData data)
+    {
+        for (int i = 0; i < simulatedSlots.Count; i++)
+        {
+            if (!IsEmptySlot(simulatedSlots[i]))
+                continue;
+
+            simulatedSlots[i] = SerializeInventoryData(data);
+            return true;
+        }
+
+        return false;
+    }
+
+    private LootPayload CreatePayloadFromInventoryData(InventoryItemData data)
+    {
+        if (data == null || data.lootableId == 0 || data.amount <= 0)
+            return null;
+
+        return new LootPayload
+        {
+            lootableId = data.lootableId,
+            amount = Mathf.Max(1, data.amount),
+            itemJson = data.itemJson ?? "",
+            displayNameOverride = data.displayNameOverride ?? "",
+            hasRarityColor = data.hasRarityColor,
+            rarity = data.rarity
+        };
+    }
+
+    private InventoryItemData CreateDataFromPayload(LootPayload payload)
+    {
+        if (payload == null || payload.lootableId == 0 || payload.amount <= 0)
+            return null;
+
+        InventoryItemData data = InventoryItemData.FromPayload(payload);
+
+        if (data == null)
+            return null;
+
+        data.amount = Mathf.Max(1, payload.amount);
+
+        return data;
+    }
+
+    // =========================================================
+    // CURRENCY / SIGIL
+    // =========================================================
+
     [Command]
     public void CmdUseCurrencyOnItem(int currencySlotIndex, int targetItemSlotIndex)
     {
@@ -109,6 +497,12 @@ public class PlayerInventory : NetworkBehaviour
 
         if (currencySlotIndex == targetItemSlotIndex)
             return false;
+
+        if (IsTradeSlotLockedServer(currencySlotIndex) || IsTradeSlotLockedServer(targetItemSlotIndex))
+        {
+            Debug.LogWarning("[Inventory] Cannot use currency: one of the slots is locked by trade.");
+            return false;
+        }
 
         InventoryItemData currencyData = GetDataByIndex(currencySlotIndex);
         InventoryItemData targetData = GetDataByIndex(targetItemSlotIndex);
@@ -166,6 +560,9 @@ public class PlayerInventory : NetworkBehaviour
         if (!IsValidSlot(index))
             return;
 
+        if (IsTradeSlotLockedServer(index))
+            return;
+
         InventoryItemData data = GetDataByIndex(index);
 
         if (data == null)
@@ -181,6 +578,10 @@ public class PlayerInventory : NetworkBehaviour
 
         ItemsJson[index] = SerializeInventoryData(data);
     }
+
+    // =========================================================
+    // ADD ITEMS / LOOT
+    // =========================================================
 
     [Server]
     public bool Server_AddLoot(LootPayload payload)
@@ -215,6 +616,7 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         InventoryItemData data = CreateDataFromItem(item);
+
         return AddInventoryData(data);
     }
 
@@ -263,6 +665,9 @@ public class PlayerInventory : NetworkBehaviour
             if (remaining <= 0)
                 break;
 
+            if (IsTradeSlotLockedServer(i))
+                continue;
+
             InventoryItemData slotData = GetDataByIndex(i);
 
             if (slotData == null)
@@ -280,6 +685,7 @@ public class PlayerInventory : NetworkBehaviour
                 continue;
 
             int added = Mathf.Min(space, remaining);
+
             slotData.amount += added;
             remaining -= added;
 
@@ -290,6 +696,9 @@ public class PlayerInventory : NetworkBehaviour
         {
             if (remaining <= 0)
                 break;
+
+            if (IsTradeSlotLockedServer(i))
+                continue;
 
             if (!IsEmptySlot(ItemsJson[i]))
                 continue;
@@ -313,6 +722,7 @@ public class PlayerInventory : NetworkBehaviour
         }
 
         SavePlayerStateServer();
+
         return true;
     }
 
@@ -322,6 +732,9 @@ public class PlayerInventory : NetworkBehaviour
 
         for (int i = 0; i < ItemsJson.Count; i++)
         {
+            if (IsTradeSlotLockedServer(i))
+                continue;
+
             if (IsEmptySlot(ItemsJson[i]))
             {
                 available += maxStack;
@@ -350,6 +763,9 @@ public class PlayerInventory : NetworkBehaviour
     {
         for (int i = 0; i < ItemsJson.Count; i++)
         {
+            if (IsTradeSlotLockedServer(i))
+                continue;
+
             if (!IsEmptySlot(ItemsJson[i]))
                 continue;
 
@@ -358,20 +774,32 @@ public class PlayerInventory : NetworkBehaviour
             Debug.Log($"[Inventory] Added lootableId={data.lootableId} amount={data.amount} slot={i}");
 
             SavePlayerStateServer();
+
             return true;
         }
 
         Debug.LogWarning("[Inventory] Add failed: inventory full.");
+
         return false;
     }
 
+    // =========================================================
+    // SET / REMOVE / MOVE
+    // =========================================================
+
     [Server]
-    public void SetSlot(int index, ItemInstance item)
+    public bool SetSlot(int index, ItemInstance item)
     {
         EnsureSlots();
 
         if (!IsValidSlot(index))
-            return;
+            return false;
+
+        if (IsTradeSlotLockedServer(index))
+        {
+            Debug.LogWarning($"[Inventory] Cannot SetSlot: slot {index} is locked by trade.");
+            return false;
+        }
 
         if (item == null || item.instanceId == 0)
             ItemsJson[index] = "";
@@ -379,7 +807,10 @@ public class PlayerInventory : NetworkBehaviour
             ItemsJson[index] = SerializeInventoryData(CreateDataFromItem(item));
 
         SavePlayerStateServer();
+
+        return true;
     }
+
     public InventoryItemData GetSlotDataByIndex(int index)
     {
         if (index < 0 || index >= ItemsJson.Count)
@@ -392,12 +823,24 @@ public class PlayerInventory : NetworkBehaviour
     }
 
     [Server]
-    public void SetSlotData(int index, InventoryItemData data)
+    public bool SetSlotData(int index, InventoryItemData data)
     {
-        if (index < 0 || index >= ItemsJson.Count)
-            return;
+        EnsureSlots();
 
-        ItemsJson[index] = data == null ? "" : JsonUtility.ToJson(data);
+        if (!IsValidSlot(index))
+            return false;
+
+        if (IsTradeSlotLockedServer(index))
+        {
+            Debug.LogWarning($"[Inventory] Cannot SetSlotData: slot {index} is locked by trade.");
+            return false;
+        }
+
+        ItemsJson[index] = data == null ? "" : SerializeInventoryData(data);
+
+        SavePlayerStateServer();
+
+        return true;
     }
 
     [Server]
@@ -406,21 +849,13 @@ public class PlayerInventory : NetworkBehaviour
         if (data == null || data.lootableId == 0 || data.amount <= 0)
             return false;
 
-        for (int i = 0; i < ItemsJson.Count; i++)
-        {
-            if (string.IsNullOrWhiteSpace(ItemsJson[i]))
-            {
-                ItemsJson[i] = JsonUtility.ToJson(data);
-                return true;
-            }
-        }
-
-        return false;
+        return AddInventoryData(data);
     }
+
     [Server]
-    public void RemoveAt(int index)
+    public bool RemoveAt(int index)
     {
-        DeleteItemServer(index);
+        return DeleteItemServer(index);
     }
 
     [Server]
@@ -430,6 +865,12 @@ public class PlayerInventory : NetworkBehaviour
 
         if (!IsValidSlot(index))
             return false;
+
+        if (IsTradeSlotLockedServer(index))
+        {
+            Debug.LogWarning($"[Inventory] Cannot delete slot={index}: locked by trade.");
+            return false;
+        }
 
         if (IsEmptySlot(ItemsJson[index]))
             return false;
@@ -441,6 +882,7 @@ public class PlayerInventory : NetworkBehaviour
         Debug.Log($"[Inventory] Deleted slot={index} lootableId={(deletedData != null ? deletedData.lootableId : 0)}");
 
         SavePlayerStateServer();
+
         return true;
     }
 
@@ -467,14 +909,22 @@ public class PlayerInventory : NetworkBehaviour
         if (from == to)
             return true;
 
+        if (IsTradeSlotLockedServer(from) || IsTradeSlotLockedServer(to))
+        {
+            Debug.LogWarning("[Inventory] Cannot move/swap: one of the slots is locked by trade.");
+            return false;
+        }
+
         if (IsEmptySlot(ItemsJson[from]))
             return false;
 
         string temp = ItemsJson[from];
+
         ItemsJson[from] = ItemsJson[to];
         ItemsJson[to] = temp;
 
         SavePlayerStateServer();
+
         return true;
     }
 
@@ -497,15 +947,24 @@ public class PlayerInventory : NetworkBehaviour
         if (index < 0)
             return false;
 
+        if (IsTradeSlotLockedServer(index))
+        {
+            Debug.LogWarning($"[Inventory] Cannot remove instanceId={instanceId}: slot locked by trade.");
+            return false;
+        }
+
         ItemsJson[index] = "";
 
         Debug.Log($"[Inventory] Deleted generated item instanceId={instanceId} slot={index}");
 
         SavePlayerStateServer();
+
         return true;
     }
 
-    public int Count => ItemsJson.Count;
+    // =========================================================
+    // READ API
+    // =========================================================
 
     public InventoryItemData GetDataByIndex(int index)
     {
@@ -544,6 +1003,7 @@ public class PlayerInventory : NetworkBehaviour
 
         inst = null;
         index = -1;
+
         return false;
     }
 
@@ -569,6 +1029,10 @@ public class PlayerInventory : NetworkBehaviour
 
         return -1;
     }
+
+    // =========================================================
+    // HELPERS
+    // =========================================================
 
     private bool IsValidSlot(int index)
     {
@@ -670,6 +1134,10 @@ public class PlayerInventory : NetworkBehaviour
         };
     }
 
+    // =========================================================
+    // SAVE / LOAD
+    // =========================================================
+
     [Server]
     public PlayerInventoryData GetSaveData()
     {
@@ -684,6 +1152,8 @@ public class PlayerInventory : NetworkBehaviour
     [Server]
     public void LoadSaveData(PlayerInventoryData data)
     {
+        tradeLocks.Clear();
+
         ItemsJson.Clear();
 
         for (int i = 0; i < maxSlots; i++)
@@ -702,9 +1172,19 @@ public class PlayerInventory : NetworkBehaviour
         Debug.Log($"[PlayerInventory] Inventory loaded with {ItemsJson.Count} slots.");
     }
 
+    // =========================================================
+    // DEBUG CLEAR
+    // =========================================================
+
     [Command]
     public void CmdClearInventory()
     {
+        if (tradeLocks.Count > 0)
+        {
+            Debug.LogWarning("[Inventory] Cannot clear inventory while trade slots are locked.");
+            return;
+        }
+
         ClearInventoryServer();
 
 #if !UNITY_CLIENT || UNITY_EDITOR
@@ -733,6 +1213,12 @@ public class PlayerInventory : NetworkBehaviour
     {
         EnsureSlots();
 
+        if (tradeLocks.Count > 0)
+        {
+            Debug.LogWarning("[Inventory] Cannot clear inventory while trade slots are locked.");
+            return;
+        }
+
         for (int i = 0; i < ItemsJson.Count; i++)
             ItemsJson[i] = "";
 
@@ -742,6 +1228,12 @@ public class PlayerInventory : NetworkBehaviour
     [Command]
     public void CmdClearPlayerState()
     {
+        if (tradeLocks.Count > 0)
+        {
+            Debug.LogWarning("[PlayerState] Cannot clear player state while trade slots are locked.");
+            return;
+        }
+
         ClearInventoryServer();
 
         PlayerEquipment equipment = GetComponent<PlayerEquipment>();

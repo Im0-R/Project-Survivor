@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class LootPayload
@@ -16,5 +17,30 @@ public class LootPayload
     public bool IsGeneratedItem()
     {
         return !string.IsNullOrWhiteSpace(itemJson);
+    }
+
+    public bool IsValid()
+    {
+        return lootableId != 0 && amount > 0;
+    }
+
+    public LootPayload Clone()
+    {
+        return new LootPayload
+        {
+            lootableId = lootableId,
+            amount = Mathf.Max(1, amount),
+            itemJson = itemJson ?? "",
+            displayNameOverride = displayNameOverride ?? "",
+            hasRarityColor = hasRarityColor,
+            rarity = rarity
+        };
+    }
+
+    public LootPayload CloneWithAmount(int newAmount)
+    {
+        LootPayload clone = Clone();
+        clone.amount = Mathf.Max(1, newAmount);
+        return clone;
     }
 }

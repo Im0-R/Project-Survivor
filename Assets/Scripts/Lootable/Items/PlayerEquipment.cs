@@ -38,24 +38,51 @@ public class PlayerEquipment : NetworkBehaviour
     [Command]
     public void CmdEquipFromInventoryIndex(int inventoryIndex)
     {
-        if (inv == null) return;
+        if (inv == null)
+            return;
+
+        ITradeInventory tradeInventory = inv as ITradeInventory;
+
+        if (tradeInventory != null && tradeInventory.IsTradeSlotLockedServer(inventoryIndex))
+        {
+            Debug.LogWarning("[PlayerEquipment] Cannot equip item: inventory slot is locked by trade.");
+            return;
+        }
 
         ItemInstance newItem = inv.GetItemByIndex(inventoryIndex);
-        if (newItem == null || newItem.instanceId == 0) return;
+
+        if (newItem == null || newItem.instanceId == 0)
+            return;
 
         ItemBaseSO baseSO = ItemDatabase.GetBase(newItem.baseId);
-        if (baseSO == null) return;
+
+        if (baseSO == null)
+            return;
 
         EquipmentSlot slot = baseSO.SlotType;
 
+        if (slot == EquipmentSlot.None || slot == EquipmentSlot.Any)
+        {
+            Debug.LogWarning($"[PlayerEquipment] Cannot equip {newItem.itemName}: invalid slot={slot}");
+            return;
+        }
+
         ItemInstance oldEquipped = GetEquippedItem(slot);
 
-        SetEquippedItem(slot, newItem);
+        bool inventoryUpdated;
 
         if (oldEquipped != null && oldEquipped.instanceId != 0)
-            inv.SetSlot(inventoryIndex, oldEquipped);
+            inventoryUpdated = inv.SetSlot(inventoryIndex, oldEquipped);
         else
-            inv.SetSlot(inventoryIndex, null);
+            inventoryUpdated = inv.SetSlot(inventoryIndex, null);
+
+        if (!inventoryUpdated)
+        {
+            Debug.LogWarning("[PlayerEquipment] Equip cancelled: failed to update inventory slot.");
+            return;
+        }
+
+        SetEquippedItem(slot, newItem);
 
         RecalculateStatsServer();
 
@@ -67,15 +94,22 @@ public class PlayerEquipment : NetworkBehaviour
     {
         Debug.LogWarning($"[PlayerEquipment] CmdUnequip CALLED slot={slot} by connection={connectionToClient?.connectionId}");
 
-        if (inv == null) return;
+        if (inv == null)
+            return;
+
+        if (slot == EquipmentSlot.None || slot == EquipmentSlot.Any)
+            return;
 
         ItemInstance equipped = GetEquippedItem(slot);
-        if (equipped == null || equipped.instanceId == 0) return;
+
+        if (equipped == null || equipped.instanceId == 0)
+            return;
 
         bool added = inv.AddItem(equipped);
+
         if (!added)
         {
-            Debug.LogWarning("[PlayerEquipment] Inventaire plein, impossible de déséquiper.");
+            Debug.LogWarning("[PlayerEquipment] Inventory full, cannot unequip.");
             return;
         }
 
@@ -91,7 +125,8 @@ public class PlayerEquipment : NetworkBehaviour
         if (stats == null)
             stats = GetComponent<StatsComponent>();
 
-        if (stats == null) return;
+        if (stats == null)
+            return;
 
         stats.RecalculateFinalStatsServer(this);
 
@@ -103,7 +138,8 @@ public class PlayerEquipment : NetworkBehaviour
     [Server]
     public void ApplyEquipmentStatsToServer(StatsComponent targetStats)
     {
-        if (targetStats == null) return;
+        if (targetStats == null)
+            return;
 
         ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Weapon), targetStats);
         ApplyEquippedItem(GetEquippedItem(EquipmentSlot.Helmet), targetStats);
@@ -114,10 +150,13 @@ public class PlayerEquipment : NetworkBehaviour
     [Server]
     private void ApplyEquippedItem(ItemInstance inst, StatsComponent targetStats)
     {
-        if (inst == null || inst.instanceId == 0) return;
+        if (inst == null || inst.instanceId == 0)
+            return;
 
         ItemBaseSO baseSO = ItemDatabase.GetBase(inst.baseId);
-        if (baseSO == null) return;
+
+        if (baseSO == null)
+            return;
 
         targetStats.AddFinalStatServer(StatId.DamageMult, baseSO.BaseAttack);
         targetStats.AddFinalStatServer(StatId.Armor, baseSO.BaseDefense);
@@ -217,7 +256,10 @@ public class PlayerEquipment : NetworkBehaviour
         if (string.IsNullOrWhiteSpace(json))
             return default;
 
-        return JsonUtility.FromJson<ItemInstance>(json);
+        ItemInstance item = JsonUtility.FromJson<ItemInstance>(json);
+        item?.EnsureLists();
+
+        return item;
     }
 
     [Server]
@@ -231,10 +273,11 @@ public class PlayerEquipment : NetworkBehaviour
             bootsJson = bootsJson
         };
     }
+
     [Server]
     private void ApplyAffixStats(
-    System.Collections.Generic.List<ItemAffix> affixes,
-    StatsComponent targetStats)
+        System.Collections.Generic.List<ItemAffix> affixes,
+        StatsComponent targetStats)
     {
         if (affixes == null)
             return;
@@ -242,12 +285,14 @@ public class PlayerEquipment : NetworkBehaviour
         foreach (ItemAffix affixInstance in affixes)
         {
             AffixSO affixSO = AffixDatabase.Get(affixInstance.affixId);
+
             if (affixSO == null)
                 continue;
 
             targetStats.AddFinalStatServer(affixSO.stat, affixInstance.value);
         }
     }
+
     [Server]
     public void LoadSaveData(PlayerEquipmentData data)
     {

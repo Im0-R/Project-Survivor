@@ -23,12 +23,10 @@ public class PlayerStash : NetworkBehaviour
     [SerializeField] private int defaultTabCount = 1;
     [SerializeField] private int maxTabCount = 3;
 
-    // Server-authoritative persistent data.
     private PlayerStashData stashData = new();
     private int currentTabIndexServer;
     private bool stashViewOpenServer;
 
-    // Client-only cache for the tab currently displayed.
     private readonly List<string> clientCurrentTabItemsJson = new();
     private readonly List<string> clientTabNames = new();
 
@@ -37,11 +35,8 @@ public class PlayerStash : NetworkBehaviour
     public int MaxTabCount => Mathf.Max(1, maxTabCount);
     public bool CanCreateMoreTabs => TabCount < MaxTabCount;
 
-    // Full snapshot events, used only when opening the stash or changing tab.
     public event Action OnStashChanged;
     public event Action OnTabsChanged;
-
-    // Delta event, used when only one slot changed.
     public event Action<int> OnStashSlotChanged;
 
     public override void OnStartServer()
@@ -105,8 +100,17 @@ public class PlayerStash : NetworkBehaviour
     public void CmdMoveInventoryToCurrentStashSlot(int inventoryIndex, int stashIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
+
         if (inventory == null)
             return;
+
+        ITradeInventory tradeInventory = inventory as ITradeInventory;
+
+        if (tradeInventory != null && tradeInventory.IsTradeSlotLockedServer(inventoryIndex))
+        {
+            Debug.LogWarning("[PlayerStash] Cannot move inventory item to stash: inventory slot is locked by trade.");
+            return;
+        }
 
         EnsureDefaultTabs();
 
@@ -123,21 +127,30 @@ public class PlayerStash : NetworkBehaviour
             return;
 
         InventoryItemData inventoryData = inventory.GetSlotDataByIndex(inventoryIndex);
+
         if (IsInvalidSlotData(inventoryData))
             return;
 
         InventoryItemData previousStashData = DeserializeSlotData(tab.itemsJson[stashIndex]);
 
         string newStashJson = SerializeSlotData(inventoryData);
+
         if (string.IsNullOrWhiteSpace(newStashJson))
             return;
 
-        tab.itemsJson[stashIndex] = newStashJson;
+        InventoryItemData newInventoryData = IsInvalidSlotData(previousStashData)
+            ? null
+            : previousStashData;
 
-        if (IsInvalidSlotData(previousStashData))
-            inventory.SetSlotData(inventoryIndex, null);
-        else
-            inventory.SetSlotData(inventoryIndex, previousStashData);
+        bool inventoryUpdated = inventory.SetSlotData(inventoryIndex, newInventoryData);
+
+        if (!inventoryUpdated)
+        {
+            Debug.LogWarning("[PlayerStash] Move inventory to stash cancelled: failed to update inventory slot.");
+            return;
+        }
+
+        tab.itemsJson[stashIndex] = newStashJson;
 
         SendSlotDeltaToOwner(stashIndex, newStashJson);
     }
@@ -146,8 +159,17 @@ public class PlayerStash : NetworkBehaviour
     public void CmdMoveCurrentStashToInventorySlot(int stashIndex, int inventoryIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
+
         if (inventory == null)
             return;
+
+        ITradeInventory tradeInventory = inventory as ITradeInventory;
+
+        if (tradeInventory != null && tradeInventory.IsTradeSlotLockedServer(inventoryIndex))
+        {
+            Debug.LogWarning("[PlayerStash] Cannot move stash item to inventory slot: inventory slot is locked by trade.");
+            return;
+        }
 
         EnsureDefaultTabs();
 
@@ -164,6 +186,7 @@ public class PlayerStash : NetworkBehaviour
             return;
 
         InventoryItemData stashSlotData = DeserializeSlotData(tab.itemsJson[stashIndex]);
+
         if (IsInvalidSlotData(stashSlotData))
             return;
 
@@ -179,7 +202,14 @@ public class PlayerStash : NetworkBehaviour
                 return;
         }
 
-        inventory.SetSlotData(inventoryIndex, stashSlotData);
+        bool inventoryUpdated = inventory.SetSlotData(inventoryIndex, stashSlotData);
+
+        if (!inventoryUpdated)
+        {
+            Debug.LogWarning("[PlayerStash] Move stash to inventory cancelled: failed to update inventory slot.");
+            return;
+        }
+
         tab.itemsJson[stashIndex] = newStashJson;
 
         SendSlotDeltaToOwner(stashIndex, newStashJson);
@@ -189,6 +219,7 @@ public class PlayerStash : NetworkBehaviour
     public void CmdMoveStashToInventory(int stashIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
+
         if (inventory == null)
             return;
 
@@ -201,13 +232,17 @@ public class PlayerStash : NetworkBehaviour
         EnsureTabSlots(tab);
 
         InventoryItemData stashSlotData = DeserializeSlotData(tab.itemsJson[stashIndex]);
+
         if (IsInvalidSlotData(stashSlotData))
             return;
 
-        if (!inventory.AddSlotData(stashSlotData))
+        bool added = inventory.AddSlotData(stashSlotData);
+
+        if (!added)
             return;
 
         tab.itemsJson[stashIndex] = "";
+
         SendSlotDeltaToOwner(stashIndex, "");
     }
 
@@ -368,7 +403,8 @@ public class PlayerStash : NetworkBehaviour
             connectionToClient,
             currentTabIndexServer,
             BuildTabNamesSnapshot(),
-            BuildCurrentTabSnapshot());
+            BuildCurrentTabSnapshot()
+        );
     }
 
     [Server]
@@ -380,7 +416,8 @@ public class PlayerStash : NetworkBehaviour
         TargetReceiveTabSnapshot(
             connectionToClient,
             currentTabIndexServer,
-            BuildCurrentTabSnapshot());
+            BuildCurrentTabSnapshot()
+        );
     }
 
     [Server]
@@ -402,7 +439,8 @@ public class PlayerStash : NetworkBehaviour
             connectionToClient,
             currentTabIndexServer,
             slotIndex,
-            slotJson ?? "");
+            slotJson ?? ""
+        );
     }
 
     [Server]
@@ -421,7 +459,8 @@ public class PlayerStash : NetworkBehaviour
             firstIndex,
             firstJson ?? "",
             secondIndex,
-            secondJson ?? "");
+            secondJson ?? ""
+        );
     }
 
     [TargetRpc]
@@ -473,6 +512,7 @@ public class PlayerStash : NetworkBehaviour
             return;
 
         clientCurrentTabItemsJson[slotIndex] = slotJson ?? "";
+
         OnStashSlotChanged?.Invoke(slotIndex);
     }
 
@@ -582,7 +622,8 @@ public class PlayerStash : NetworkBehaviour
             int lastIndex = stashData.tabs.Count - 1;
 
             Debug.LogWarning(
-                $"[PlayerStash] Removing extra stash tab '{stashData.tabs[lastIndex].tabName}' index={lastIndex}.");
+                $"[PlayerStash] Removing extra stash tab '{stashData.tabs[lastIndex].tabName}' index={lastIndex}."
+            );
 
             stashData.tabs.RemoveAt(lastIndex);
         }
