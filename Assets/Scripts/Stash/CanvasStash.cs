@@ -1,7 +1,7 @@
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class CanvasStash : MonoBehaviour
 {
@@ -29,6 +29,12 @@ public class CanvasStash : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
         if (root != null)
@@ -50,19 +56,28 @@ public class CanvasStash : MonoBehaviour
             closeButton.onClick.AddListener(Close);
     }
 
+    private void OnDestroy()
+    {
+        UnsubscribeFromCurrentStash();
+
+        if (addTabButton != null)
+            addTabButton.onClick.RemoveListener(CreateTab);
+
+        if (closeButton != null)
+            closeButton.onClick.RemoveListener(Close);
+
+        if (Instance == this)
+            Instance = null;
+    }
+
     public void Open(PlayerStash stash, PlayerInventory inventory)
     {
+        UnsubscribeFromCurrentStash();
+
         currentStash = stash;
         currentInventory = inventory;
 
-        if (currentStash != null)
-        {
-            currentStash.OnStashChanged -= RefreshAll;
-            currentStash.OnTabsChanged -= RefreshTabs;
-
-            currentStash.OnStashChanged += RefreshAll;
-            currentStash.OnTabsChanged += RefreshTabs;
-        }
+        SubscribeToCurrentStash();
 
         if (root != null)
             root.SetActive(true);
@@ -70,53 +85,71 @@ public class CanvasStash : MonoBehaviour
         if (CanvasInventory.Instance != null)
             CanvasInventory.Instance.gameObject.SetActive(true);
 
-        RefreshAll();
+        // Avoid displaying stale cached data while the server snapshot arrives.
+        ClearStashCards();
+        ClearTabButtons();
+
+        currentStash?.CmdRequestOpenStash();
     }
 
     public void Close()
     {
-        if (currentStash != null)
-        {
-            currentStash.OnStashChanged -= RefreshAll;
-            currentStash.OnTabsChanged -= RefreshTabs;
-        }
+        if (currentStash != null && currentStash.isOwned)
+            currentStash.CmdCloseStash();
+
+        UnsubscribeFromCurrentStash();
 
         currentStash = null;
         currentInventory = null;
 
+        ClearStashCards();
+        ClearTabButtons();
+
         if (root != null)
             root.SetActive(false);
+
+        if (ItemPreviewManager.Instance != null)
+            ItemPreviewManager.Instance.ClosePreview();
     }
 
-    private void RefreshAll()
+    private void SubscribeToCurrentStash()
     {
-        RefreshTabs();
-        PopulateStash();
+        if (currentStash == null)
+            return;
+
+        currentStash.OnStashChanged += PopulateStash;
+        currentStash.OnStashSlotChanged += RefreshSlot;
+        currentStash.OnTabsChanged += RefreshTabs;
+    }
+
+    private void UnsubscribeFromCurrentStash()
+    {
+        if (currentStash == null)
+            return;
+
+        currentStash.OnStashChanged -= PopulateStash;
+        currentStash.OnStashSlotChanged -= RefreshSlot;
+        currentStash.OnTabsChanged -= RefreshTabs;
     }
 
     private void RefreshTabs()
     {
-        if (tabsParent == null || tabButtonPrefab == null) return;
+        ClearTabButtons();
 
-        for (int i = tabsParent.childCount - 1; i >= 0; i--)
-            Destroy(tabsParent.GetChild(i).gameObject);
-
-        if (currentStash == null) return;
+        if (currentStash == null || tabsParent == null || tabButtonPrefab == null)
+            return;
 
         for (int i = 0; i < currentStash.TabCount; i++)
         {
-            int index = i;
-
+            int tabIndex = i;
             Button button = Instantiate(tabButtonPrefab, tabsParent);
 
             TMP_Text text = button.GetComponentInChildren<TMP_Text>();
             if (text != null)
-                text.text = currentStash.GetTabName(index);
+                text.text = currentStash.GetTabName(tabIndex);
 
-            button.onClick.AddListener(() =>
-            {
-                currentStash.CmdOpenTab(index);
-            });
+            button.interactable = tabIndex != currentStash.CurrentTabIndex;
+            button.onClick.AddListener(() => currentStash.CmdOpenTab(tabIndex));
         }
     }
 
@@ -124,66 +157,124 @@ public class CanvasStash : MonoBehaviour
     {
         ClearStashCards();
 
-        if (currentStash == null) return;
+        if (currentStash == null)
+            return;
 
         int count = Mathf.Min(currentStash.CurrentTabSlotCount, stashSlots.Length);
 
         for (int i = 0; i < count; i++)
+            CreateOrRefreshCard(i);
+
+    }
+
+    private void RefreshSlot(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= stashSlots.Length)
+            return;
+
+        ClearSlotCard(slotIndex);
+        CreateOrRefreshCard(slotIndex);
+    }
+
+    private void CreateOrRefreshCard(int slotIndex)
+    {
+        if (currentStash == null)
+            return;
+
+        if (slotIndex < 0 || slotIndex >= stashSlots.Length)
+            return;
+
+        InventoryItemData data = currentStash.GetCurrentTabSlotDataByIndex(slotIndex);
+
+        if (data == null || data.lootableId == 0 || data.amount <= 0)
+            return;
+
+        GameObject cardObject = Instantiate(itemCardPrefab, stashSlots[slotIndex].transform);
+
+        ItemCard card = cardObject.GetComponent<ItemCard>();
+        if (card == null)
         {
-            InventoryItemData data = currentStash.GetCurrentTabSlotDataByIndex(i);
-
-            if (data == null || data.lootableId == 0 || data.amount <= 0)
-                continue;
-
-            GameObject cardObj = Instantiate(itemCardPrefab, stashSlots[i].transform);
-
-            ItemCard card = cardObj.GetComponent<ItemCard>();
-            card.SetInventoryItemData(data);
-            card.SetSlotIndex(i);
-            card.SetSource(ItemCardSource.Stash);
-
-            RectTransform rt = cardObj.GetComponent<RectTransform>();
-            rt.anchoredPosition = Vector2.zero;
-            rt.localScale = Vector3.one;
+            Debug.LogError("[CanvasStash] itemCardPrefab has no ItemCard component.");
+            Destroy(cardObject);
+            return;
         }
+
+        card.SetInventoryItemData(data);
+        card.SetSlotIndex(slotIndex);
+        card.SetSource(ItemCardSource.Stash);
+
+        RectTransform rectTransform = cardObject.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.localScale = Vector3.one;
+        }
+    }
+
+    private void ClearSlotCard(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= stashSlots.Length)
+            return;
+
+        ItemCard[] cards = stashSlots[slotIndex].GetComponentsInChildren<ItemCard>(true);
+
+        foreach (ItemCard card in cards)
+            Destroy(card.gameObject);
     }
 
     private void ClearStashCards()
     {
-        foreach (var slot in stashSlots)
+        foreach (StashBackGroundSlot slot in stashSlots)
         {
-            if (slot == null) continue;
+            if (slot == null)
+                continue;
 
             ItemCard[] cards = slot.GetComponentsInChildren<ItemCard>(true);
 
-            foreach (var card in cards)
+            foreach (ItemCard card in cards)
                 Destroy(card.gameObject);
         }
     }
 
+    private void ClearTabButtons()
+    {
+        if (tabsParent == null)
+            return;
+
+        for (int i = tabsParent.childCount - 1; i >= 0; i--)
+            Destroy(tabsParent.GetChild(i).gameObject);
+    }
+
     public void RequestDrop(ItemCard card, StashBackGroundSlot targetSlot)
     {
-        if (card == null || targetSlot == null) return;
-        if (currentStash == null) return;
+        if (card == null || targetSlot == null || currentStash == null)
+            return;
 
         int targetStashSlot = targetSlot.Id;
 
         if (card.Source == ItemCardSource.Inventory)
         {
-            currentStash.CmdMoveInventoryToCurrentStashSlot(card.SlotIndex, targetStashSlot);
+            currentStash.CmdMoveInventoryToCurrentStashSlot(
+                card.SlotIndex,
+                targetStashSlot);
             return;
         }
 
         if (card.Source == ItemCardSource.Stash)
         {
-            currentStash.CmdMoveOrSwapCurrentTab(card.SlotIndex, targetStashSlot);
-            return;
+            currentStash.CmdMoveOrSwapCurrentTab(
+                card.SlotIndex,
+                targetStashSlot);
         }
     }
 
     private void CreateTab()
     {
-        if (currentStash == null) return;
+        if (currentStash == null)
+            return;
 
         int nextIndex = currentStash.TabCount + 1;
         currentStash.CmdCreateTab($"Tab {nextIndex}");

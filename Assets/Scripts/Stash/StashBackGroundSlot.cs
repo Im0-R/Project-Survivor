@@ -18,7 +18,6 @@ public class StashBackGroundSlot : MonoBehaviour, IDropHandler
             return;
 
         ItemCard card = eventData.pointerDrag?.GetComponent<ItemCard>();
-
         if (card == null)
             return;
 

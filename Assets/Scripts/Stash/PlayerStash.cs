@@ -1,7 +1,7 @@
 using Mirror;
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class PlayerStashData
@@ -18,77 +18,77 @@ public class StashTabData
 
 public class PlayerStash : NetworkBehaviour
 {
-    public class SyncListString : SyncList<string> { }
-
     [Header("Stash Settings")]
     [SerializeField] private int slotsPerTab = 100;
     [SerializeField] private int defaultTabCount = 1;
     [SerializeField] private int maxTabCount = 20;
 
-    public SyncListString CurrentTabItemsJson = new SyncListString();
-    public SyncListString TabNames = new SyncListString();
+    // Server-authoritative persistent data.
+    private PlayerStashData stashData = new();
+    private int currentTabIndexServer;
+    private bool stashViewOpenServer;
 
-    [SyncVar(hook = nameof(OnCurrentTabChanged))]
-    public int CurrentTabIndex;
+    // Client-only cache for the tab currently displayed.
+    private readonly List<string> clientCurrentTabItemsJson = new();
+    private readonly List<string> clientTabNames = new();
 
-    private PlayerStashData stashData = new PlayerStashData();
+    public int CurrentTabIndex { get; private set; }
 
+    // Full snapshot events, used only when opening the stash or changing tab.
     public event Action OnStashChanged;
     public event Action OnTabsChanged;
+
+    // Delta event, used when only one slot changed.
+    public event Action<int> OnStashSlotChanged;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         EnsureDefaultTabs();
-        RefreshSyncedTabNames();
-        RefreshSyncedCurrentTab();
     }
 
-    public override void OnStartClient()
+    // =========================================================
+    // Client requests
+    // =========================================================
+
+    [Command]
+    public void CmdRequestOpenStash()
     {
-        base.OnStartClient();
-
-        CurrentTabItemsJson.Callback += OnCurrentTabItemsChanged;
-        TabNames.Callback += OnTabNamesChanged;
-
-        OnStashChanged?.Invoke();
-        OnTabsChanged?.Invoke();
+        stashViewOpenServer = true;
+        EnsureDefaultTabs();
+        SendFullStateToOwner();
     }
 
-    public override void OnStopClient()
+    [Command]
+    public void CmdCloseStash()
     {
-        CurrentTabItemsJson.Callback -= OnCurrentTabItemsChanged;
-        TabNames.Callback -= OnTabNamesChanged;
-
-        base.OnStopClient();
-    }
-
-    private void OnCurrentTabItemsChanged(SyncList<string>.Operation op, int index, string oldItem, string newItem)
-    {
-        OnStashChanged?.Invoke();
-    }
-
-    private void OnTabNamesChanged(SyncList<string>.Operation op, int index, string oldItem, string newItem)
-    {
-        OnTabsChanged?.Invoke();
-    }
-
-    private void OnCurrentTabChanged(int oldIndex, int newIndex)
-    {
-        OnStashChanged?.Invoke();
-        OnTabsChanged?.Invoke();
+        stashViewOpenServer = false;
     }
 
     [Command]
     public void CmdOpenTab(int tabIndex)
     {
-        OpenTabServer(tabIndex);
+        EnsureDefaultTabs();
+
+        if (!IsValidTabIndex(tabIndex))
+            return;
+
+        currentTabIndexServer = tabIndex;
+        stashViewOpenServer = true;
+
+        SendCurrentTabSnapshotToOwner();
     }
 
     [Command]
     public void CmdCreateTab(string tabName)
     {
         CreateTabServer(tabName);
+    }
+
+    [Command]
+    public void CmdRenameTab(int tabIndex, string newName)
+    {
+        RenameTabServer(tabIndex, newName);
     }
 
     [Command]
@@ -101,79 +101,114 @@ public class PlayerStash : NetworkBehaviour
     public void CmdMoveInventoryToCurrentStashSlot(int inventoryIndex, int stashIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
-        if (inventory == null) return;
+        if (inventory == null)
+            return;
 
         EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(CurrentTabIndex)) return;
+        if (!IsValidTabIndex(currentTabIndexServer))
+            return;
 
-        StashTabData tab = stashData.tabs[CurrentTabIndex];
+        StashTabData tab = stashData.tabs[currentTabIndexServer];
         EnsureTabSlots(tab);
 
-        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
-        if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
+        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count)
+            return;
+
+        if (!IsValidSlotIndex(stashIndex))
+            return;
 
         InventoryItemData inventoryData = inventory.GetSlotDataByIndex(inventoryIndex);
-        if (IsInvalidSlotData(inventoryData)) return;
+        if (IsInvalidSlotData(inventoryData))
+            return;
 
-        InventoryItemData stashDataInSlot = DeserializeSlotData(tab.itemsJson[stashIndex]);
+        InventoryItemData previousStashData = DeserializeSlotData(tab.itemsJson[stashIndex]);
 
-        tab.itemsJson[stashIndex] = SerializeSlotData(inventoryData);
+        string newStashJson = SerializeSlotData(inventoryData);
+        if (string.IsNullOrWhiteSpace(newStashJson))
+            return;
 
-        if (!IsInvalidSlotData(stashDataInSlot))
-            inventory.SetSlotData(inventoryIndex, stashDataInSlot);
-        else
+        tab.itemsJson[stashIndex] = newStashJson;
+
+        if (IsInvalidSlotData(previousStashData))
             inventory.SetSlotData(inventoryIndex, null);
+        else
+            inventory.SetSlotData(inventoryIndex, previousStashData);
 
-        RefreshSyncedCurrentTab();
+        SendSlotDeltaToOwner(stashIndex, newStashJson);
     }
 
     [Command]
     public void CmdMoveCurrentStashToInventorySlot(int stashIndex, int inventoryIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
-        if (inventory == null) return;
+        if (inventory == null)
+            return;
 
         EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(CurrentTabIndex)) return;
+        if (!IsValidTabIndex(currentTabIndexServer))
+            return;
 
-        StashTabData tab = stashData.tabs[CurrentTabIndex];
+        StashTabData tab = stashData.tabs[currentTabIndexServer];
         EnsureTabSlots(tab);
 
-        if (stashIndex < 0 || stashIndex >= tab.itemsJson.Count) return;
-        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count) return;
+        if (!IsValidSlotIndex(stashIndex))
+            return;
+
+        if (inventoryIndex < 0 || inventoryIndex >= inventory.Count)
+            return;
 
         InventoryItemData stashSlotData = DeserializeSlotData(tab.itemsJson[stashIndex]);
-        if (IsInvalidSlotData(stashSlotData)) return;
+        if (IsInvalidSlotData(stashSlotData))
+            return;
 
         InventoryItemData inventorySlotData = inventory.GetSlotDataByIndex(inventoryIndex);
 
-        inventory.SetSlotData(inventoryIndex, stashSlotData);
+        string newStashJson = "";
 
         if (!IsInvalidSlotData(inventorySlotData))
-            tab.itemsJson[stashIndex] = SerializeSlotData(inventorySlotData);
-        else
-            tab.itemsJson[stashIndex] = "";
+        {
+            newStashJson = SerializeSlotData(inventorySlotData);
 
-        RefreshSyncedCurrentTab();
+            if (string.IsNullOrWhiteSpace(newStashJson))
+                return;
+        }
+
+        inventory.SetSlotData(inventoryIndex, stashSlotData);
+        tab.itemsJson[stashIndex] = newStashJson;
+        SendSlotDeltaToOwner(stashIndex, newStashJson);
     }
 
     [Command]
     public void CmdMoveStashToInventory(int stashIndex)
     {
         PlayerInventory inventory = GetComponent<PlayerInventory>();
-        if (inventory == null) return;
+        if (inventory == null)
+            return;
 
-        InventoryItemData stashSlotData = GetCurrentTabSlotDataByIndex(stashIndex);
-        if (IsInvalidSlotData(stashSlotData)) return;
+        EnsureDefaultTabs();
 
-        bool added = inventory.AddSlotData(stashSlotData);
-        if (!added) return;
+        if (!IsValidTabIndex(currentTabIndexServer) || !IsValidSlotIndex(stashIndex))
+            return;
 
-        RemoveAtServer(CurrentTabIndex, stashIndex);
-        RefreshSyncedCurrentTab();
+        StashTabData tab = stashData.tabs[currentTabIndexServer];
+        EnsureTabSlots(tab);
+
+        InventoryItemData stashSlotData = DeserializeSlotData(tab.itemsJson[stashIndex]);
+        if (IsInvalidSlotData(stashSlotData))
+            return;
+
+        if (!inventory.AddSlotData(stashSlotData))
+            return;
+
+        tab.itemsJson[stashIndex] = "";
+        SendSlotDeltaToOwner(stashIndex, "");
     }
+
+    // =========================================================
+    // Server API
+    // =========================================================
 
     [Server]
     public void OpenTabServer(int tabIndex)
@@ -183,8 +218,10 @@ public class PlayerStash : NetworkBehaviour
         if (!IsValidTabIndex(tabIndex))
             return;
 
-        CurrentTabIndex = tabIndex;
-        RefreshSyncedCurrentTab();
+        currentTabIndexServer = tabIndex;
+
+        if (stashViewOpenServer)
+            SendCurrentTabSnapshotToOwner();
     }
 
     [Server]
@@ -193,22 +230,38 @@ public class PlayerStash : NetworkBehaviour
         EnsureDefaultTabs();
 
         if (stashData.tabs.Count >= maxTabCount)
+        {
+            Debug.LogWarning("[PlayerStash] Maximum tab count reached.");
             return false;
+        }
 
-        StashTabData tab = new StashTabData
+        StashTabData tab = new()
         {
             tabName = SanitizeTabName(tabName),
             itemsJson = CreateEmptySlots()
         };
 
         stashData.tabs.Add(tab);
+        currentTabIndexServer = stashData.tabs.Count - 1;
 
-        CurrentTabIndex = stashData.tabs.Count - 1;
-
-        RefreshSyncedTabNames();
-        RefreshSyncedCurrentTab();
+        if (stashViewOpenServer)
+            SendFullStateToOwner();
 
         return true;
+    }
+
+    [Server]
+    public void RenameTabServer(int tabIndex, string newName)
+    {
+        EnsureDefaultTabs();
+
+        if (!IsValidTabIndex(tabIndex))
+            return;
+
+        stashData.tabs[tabIndex].tabName = SanitizeTabName(newName);
+
+        if (stashViewOpenServer)
+            SendTabNamesToOwner();
     }
 
     [Server]
@@ -216,24 +269,28 @@ public class PlayerStash : NetworkBehaviour
     {
         EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(CurrentTabIndex))
+        if (!IsValidTabIndex(currentTabIndexServer))
             return false;
 
-        StashTabData tab = stashData.tabs[CurrentTabIndex];
-        EnsureTabSlots(tab);
+        if (!IsValidSlotIndex(from) || !IsValidSlotIndex(to))
+            return false;
 
-        if (from < 0 || from >= tab.itemsJson.Count) return false;
-        if (to < 0 || to >= tab.itemsJson.Count) return false;
-        if (from == to) return true;
+        if (from == to)
+            return true;
+
+        StashTabData tab = stashData.tabs[currentTabIndexServer];
+        EnsureTabSlots(tab);
 
         if (IsEmptySlot(tab.itemsJson[from]))
             return false;
 
-        string temp = tab.itemsJson[from];
-        tab.itemsJson[from] = tab.itemsJson[to];
-        tab.itemsJson[to] = temp;
+        string fromJson = tab.itemsJson[from];
+        string toJson = tab.itemsJson[to];
 
-        RefreshSyncedCurrentTab();
+        tab.itemsJson[from] = toJson;
+        tab.itemsJson[to] = fromJson;
+
+        SendTwoSlotDeltaToOwner(from, toJson, to, fromJson);
 
         return true;
     }
@@ -243,18 +300,16 @@ public class PlayerStash : NetworkBehaviour
     {
         EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(tabIndex)) return;
+        if (!IsValidTabIndex(tabIndex) || !IsValidSlotIndex(slotIndex))
+            return;
 
         StashTabData tab = stashData.tabs[tabIndex];
         EnsureTabSlots(tab);
 
-        if (slotIndex < 0 || slotIndex >= tab.itemsJson.Count)
-            return;
-
         tab.itemsJson[slotIndex] = "";
 
-        if (tabIndex == CurrentTabIndex)
-            RefreshSyncedCurrentTab();
+        if (stashViewOpenServer && tabIndex == currentTabIndexServer)
+            SendSlotDeltaToOwner(slotIndex, "");
     }
 
     [Server]
@@ -275,46 +330,202 @@ public class PlayerStash : NetworkBehaviour
 
         EnsureDefaultTabs();
 
-        foreach (StashTabData tab in stashData.tabs)
-            EnsureTabSlots(tab);
+        if (!IsValidTabIndex(currentTabIndexServer))
+            currentTabIndexServer = 0;
 
-        if (CurrentTabIndex < 0 || CurrentTabIndex >= stashData.tabs.Count)
-            CurrentTabIndex = 0;
-
-        RefreshSyncedTabNames();
-        RefreshSyncedCurrentTab();
+        if (stashViewOpenServer)
+            SendFullStateToOwner();
     }
 
-    public int TabCount => TabNames.Count;
-    public int CurrentTabSlotCount => CurrentTabItemsJson.Count;
+    [Server]
+    public void ClearStashServer()
+    {
+        stashData = new PlayerStashData();
+        currentTabIndexServer = 0;
+
+        EnsureDefaultTabs();
+
+        if (stashViewOpenServer)
+            SendFullStateToOwner();
+    }
+
+    // =========================================================
+    // Server -> owner synchronization
+    // =========================================================
+
+    [Server]
+    private void SendFullStateToOwner()
+    {
+        if (!CanSendToOwner())
+            return;
+
+        TargetReceiveFullState(
+            connectionToClient,
+            currentTabIndexServer,
+            BuildTabNamesSnapshot(),
+            BuildCurrentTabSnapshot());
+    }
+
+    [Server]
+    private void SendCurrentTabSnapshotToOwner()
+    {
+        if (!CanSendToOwner())
+            return;
+
+        TargetReceiveTabSnapshot(
+            connectionToClient,
+            currentTabIndexServer,
+            BuildCurrentTabSnapshot());
+    }
+
+    [Server]
+    private void SendTabNamesToOwner()
+    {
+        if (!CanSendToOwner())
+            return;
+
+        TargetReceiveTabNames(connectionToClient, BuildTabNamesSnapshot());
+    }
+
+    [Server]
+    private void SendSlotDeltaToOwner(int slotIndex, string slotJson)
+    {
+        if (!stashViewOpenServer || !CanSendToOwner())
+            return;
+
+        TargetReceiveSlotDelta(connectionToClient, currentTabIndexServer, slotIndex, slotJson ?? "");
+    }
+
+    [Server]
+    private void SendTwoSlotDeltaToOwner(
+        int firstIndex,
+        string firstJson,
+        int secondIndex,
+        string secondJson)
+    {
+        if (!stashViewOpenServer || !CanSendToOwner())
+            return;
+
+        TargetReceiveTwoSlotDelta(
+            connectionToClient,
+            currentTabIndexServer,
+            firstIndex,
+            firstJson ?? "",
+            secondIndex,
+            secondJson ?? "");
+    }
+
+    [TargetRpc]
+    private void TargetReceiveFullState(
+        NetworkConnectionToClient target,
+        int tabIndex,
+        string[] tabNames,
+        string[] itemsJson)
+    {
+        ReplaceClientTabNames(tabNames);
+        ReplaceClientCurrentTab(tabIndex, itemsJson);
+
+        OnTabsChanged?.Invoke();
+        OnStashChanged?.Invoke();
+    }
+
+    [TargetRpc]
+    private void TargetReceiveTabSnapshot(
+        NetworkConnectionToClient target,
+        int tabIndex,
+        string[] itemsJson)
+    {
+        ReplaceClientCurrentTab(tabIndex, itemsJson);
+        OnStashChanged?.Invoke();
+        OnTabsChanged?.Invoke();
+    }
+
+    [TargetRpc]
+    private void TargetReceiveTabNames(
+        NetworkConnectionToClient target,
+        string[] tabNames)
+    {
+        ReplaceClientTabNames(tabNames);
+        OnTabsChanged?.Invoke();
+    }
+
+    [TargetRpc]
+    private void TargetReceiveSlotDelta(
+        NetworkConnectionToClient target,
+        int tabIndex,
+        int slotIndex,
+        string slotJson)
+    {
+        if (tabIndex != CurrentTabIndex)
+            return;
+
+        if (slotIndex < 0 || slotIndex >= clientCurrentTabItemsJson.Count)
+            return;
+
+        clientCurrentTabItemsJson[slotIndex] = slotJson ?? "";
+        OnStashSlotChanged?.Invoke(slotIndex);
+    }
+
+    [TargetRpc]
+    private void TargetReceiveTwoSlotDelta(
+        NetworkConnectionToClient target,
+        int tabIndex,
+        int firstIndex,
+        string firstJson,
+        int secondIndex,
+        string secondJson)
+    {
+        if (tabIndex != CurrentTabIndex)
+            return;
+
+        bool firstValid = firstIndex >= 0 && firstIndex < clientCurrentTabItemsJson.Count;
+        bool secondValid = secondIndex >= 0 && secondIndex < clientCurrentTabItemsJson.Count;
+
+        if (firstValid)
+            clientCurrentTabItemsJson[firstIndex] = firstJson ?? "";
+
+        if (secondValid)
+            clientCurrentTabItemsJson[secondIndex] = secondJson ?? "";
+
+        if (firstValid)
+            OnStashSlotChanged?.Invoke(firstIndex);
+
+        if (secondValid && secondIndex != firstIndex)
+            OnStashSlotChanged?.Invoke(secondIndex);
+    }
+
+    // =========================================================
+    // Client read API
+    // =========================================================
+
+    public int TabCount => clientTabNames.Count;
+    public int CurrentTabSlotCount => clientCurrentTabItemsJson.Count;
 
     public InventoryItemData GetCurrentTabSlotDataByIndex(int index)
     {
-        if (index < 0 || index >= CurrentTabItemsJson.Count)
+        if (index < 0 || index >= clientCurrentTabItemsJson.Count)
             return null;
 
-        if (IsEmptySlot(CurrentTabItemsJson[index]))
-            return null;
-
-        return DeserializeSlotData(CurrentTabItemsJson[index]);
+        return DeserializeSlotData(clientCurrentTabItemsJson[index]);
     }
 
     public string GetTabName(int index)
     {
-        if (index < 0 || index >= TabNames.Count)
+        if (index < 0 || index >= clientTabNames.Count)
             return "";
 
-        return TabNames[index];
+        return clientTabNames[index];
     }
+
+    // =========================================================
+    // Internal helpers
+    // =========================================================
 
     [Server]
     private void EnsureDefaultTabs()
     {
-        if (stashData == null)
-            stashData = new PlayerStashData();
-
-        if (stashData.tabs == null)
-            stashData.tabs = new List<StashTabData>();
+        stashData ??= new PlayerStashData();
+        stashData.tabs ??= new List<StashTabData>();
 
         int wantedTabCount = Mathf.Max(1, defaultTabCount);
 
@@ -327,18 +538,31 @@ public class PlayerStash : NetworkBehaviour
             });
         }
 
-        foreach (StashTabData tab in stashData.tabs)
-            EnsureTabSlots(tab);
+        for (int i = 0; i < stashData.tabs.Count; i++)
+        {
+            if (stashData.tabs[i] == null)
+            {
+                stashData.tabs[i] = new StashTabData
+                {
+                    tabName = $"Tab {i + 1}",
+                    itemsJson = CreateEmptySlots()
+                };
+            }
 
-        if (CurrentTabIndex < 0 || CurrentTabIndex >= stashData.tabs.Count)
-            CurrentTabIndex = 0;
+            if (string.IsNullOrWhiteSpace(stashData.tabs[i].tabName))
+                stashData.tabs[i].tabName = $"Tab {i + 1}";
+
+            EnsureTabSlots(stashData.tabs[i]);
+        }
+
+        if (!IsValidTabIndex(currentTabIndexServer))
+            currentTabIndexServer = 0;
     }
 
     [Server]
     private void EnsureTabSlots(StashTabData tab)
     {
-        if (tab.itemsJson == null)
-            tab.itemsJson = new List<string>();
+        tab.itemsJson ??= new List<string>();
 
         while (tab.itemsJson.Count < slotsPerTab)
             tab.itemsJson.Add("");
@@ -349,7 +573,7 @@ public class PlayerStash : NetworkBehaviour
 
     private List<string> CreateEmptySlots()
     {
-        List<string> slots = new List<string>();
+        List<string> slots = new(slotsPerTab);
 
         for (int i = 0; i < slotsPerTab; i++)
             slots.Add("");
@@ -358,31 +582,57 @@ public class PlayerStash : NetworkBehaviour
     }
 
     [Server]
-    private void RefreshSyncedTabNames()
+    private string[] BuildCurrentTabSnapshot()
     {
-        TabNames.Clear();
+        EnsureDefaultTabs();
 
-        for (int i = 0; i < stashData.tabs.Count; i++)
-            TabNames.Add(stashData.tabs[i].tabName);
+        StashTabData tab = stashData.tabs[currentTabIndexServer];
+        EnsureTabSlots(tab);
 
-        OnTabsChanged?.Invoke();
+        return tab.itemsJson.ToArray();
     }
 
     [Server]
-    private void RefreshSyncedCurrentTab()
+    private string[] BuildTabNamesSnapshot()
     {
-        CurrentTabItemsJson.Clear();
+        EnsureDefaultTabs();
 
-        if (!IsValidTabIndex(CurrentTabIndex))
+        string[] names = new string[stashData.tabs.Count];
+
+        for (int i = 0; i < stashData.tabs.Count; i++)
+            names[i] = stashData.tabs[i].tabName;
+
+        return names;
+    }
+
+    private void ReplaceClientCurrentTab(int tabIndex, string[] itemsJson)
+    {
+        CurrentTabIndex = tabIndex;
+
+        clientCurrentTabItemsJson.Clear();
+
+        if (itemsJson == null)
             return;
 
-        StashTabData tab = stashData.tabs[CurrentTabIndex];
-        EnsureTabSlots(tab);
+        for (int i = 0; i < itemsJson.Length; i++)
+            clientCurrentTabItemsJson.Add(itemsJson[i] ?? "");
+    }
 
-        foreach (string slotJson in tab.itemsJson)
-            CurrentTabItemsJson.Add(IsEmptySlot(slotJson) ? "" : slotJson);
+    private void ReplaceClientTabNames(string[] tabNames)
+    {
+        clientTabNames.Clear();
 
-        OnStashChanged?.Invoke();
+        if (tabNames == null)
+            return;
+
+        for (int i = 0; i < tabNames.Length; i++)
+            clientTabNames.Add(tabNames[i] ?? $"Tab {i + 1}");
+    }
+
+    [Server]
+    private bool CanSendToOwner()
+    {
+        return connectionToClient != null && connectionToClient.isReady;
     }
 
     private bool IsValidTabIndex(int tabIndex)
@@ -393,32 +643,27 @@ public class PlayerStash : NetworkBehaviour
                tabIndex < stashData.tabs.Count;
     }
 
+    private bool IsValidSlotIndex(int slotIndex)
+    {
+        return slotIndex >= 0 && slotIndex < slotsPerTab;
+    }
+
     private string SanitizeTabName(string tabName)
     {
         if (string.IsNullOrWhiteSpace(tabName))
             return $"Tab {stashData.tabs.Count + 1}";
 
-        tabName = tabName.Trim();
+        string safeName = tabName.Trim();
 
-        if (tabName.Length > 24)
-            tabName = tabName.Substring(0, 24);
+        if (safeName.Length > 24)
+            safeName = safeName.Substring(0, 24);
 
-        return tabName;
+        return safeName;
     }
 
     private bool IsEmptySlot(string json)
     {
-        if (string.IsNullOrWhiteSpace(json))
-            return true;
-
-        json = json.Trim();
-
-        if (json == "{}" || json == "[]" || json == "null")
-            return true;
-
-        InventoryItemData data = DeserializeSlotData(json);
-
-        return IsInvalidSlotData(data);
+        return IsInvalidSlotData(DeserializeSlotData(json));
     }
 
     private bool IsInvalidSlotData(InventoryItemData data)
@@ -435,9 +680,9 @@ public class PlayerStash : NetworkBehaviour
         {
             return JsonUtility.FromJson<InventoryItemData>(json);
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            Debug.LogError($"[Stash] Deserialize slot failed. json={json} error={e}");
+            Debug.LogError($"[PlayerStash] Failed to deserialize slot: {exception}");
             return null;
         }
     }
@@ -451,9 +696,9 @@ public class PlayerStash : NetworkBehaviour
         {
             return JsonUtility.ToJson(data);
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            Debug.LogError($"[Stash] Serialize slot failed. error={e}");
+            Debug.LogError($"[PlayerStash] Failed to serialize slot: {exception}");
             return "";
         }
     }
