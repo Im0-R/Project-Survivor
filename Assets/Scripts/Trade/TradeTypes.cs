@@ -21,9 +21,13 @@ public class TradeInviteDto
 public class TradeOfferEntry
 {
     public uint ownerNetId;
+
     public int sourceSlotIndex;
+    public int offerSlotIndex;
+
     public int amount;
     public string lockId;
+
     public LootPayload payload;
     public string payloadHash;
 }
@@ -31,14 +35,17 @@ public class TradeOfferEntry
 [Serializable]
 public class TradeOfferView
 {
-    public int offerIndex;
+    public int offerSlotIndex;
+
     public uint ownerNetId;
     public int sourceSlotIndex;
 
     public int lootableId;
     public int amount;
+
     public string itemJson;
     public string displayName;
+
     public bool hasRarityColor;
     public ItemRarity rarity;
 }
@@ -56,6 +63,8 @@ public class TradeStateDto
 
     public int revision;
     public string offerHash;
+
+    public int maxOfferSlots;
 
     public bool selfReady;
     public bool otherReady;

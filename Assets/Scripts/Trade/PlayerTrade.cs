@@ -27,10 +27,6 @@ public class PlayerTrade : NetworkBehaviour
         base.OnStopServer();
     }
 
-    // =========================================================
-    // Client -> Server
-    // =========================================================
-
     [Command]
     public void CmdRequestTrade(uint targetNetId)
     {
@@ -68,7 +64,7 @@ public class PlayerTrade : NetworkBehaviour
     }
 
     [Command]
-    public void CmdAddInventoryItemToTrade(int slotIndex, int amount, int knownRevision)
+    public void CmdAddInventoryItemToTrade(int inventorySlotIndex, int amount, int knownRevision)
     {
         if (TradeManager.Instance == null)
         {
@@ -78,14 +74,56 @@ public class PlayerTrade : NetworkBehaviour
 
         TradeManager.Instance.AddInventoryItemToTrade(
             this,
-            slotIndex,
+            inventorySlotIndex,
             amount,
             knownRevision
         );
     }
 
     [Command]
-    public void CmdRemoveOfferSlot(int offerIndex, int knownRevision)
+    public void CmdAddInventoryItemToTradeSlot(
+        int inventorySlotIndex,
+        int amount,
+        int offerSlotIndex,
+        int knownRevision)
+    {
+        if (TradeManager.Instance == null)
+        {
+            Debug.LogWarning("[PlayerTrade] Cannot add item to trade slot: TradeManager.Instance is null.");
+            return;
+        }
+
+        TradeManager.Instance.AddInventoryItemToTradeSlot(
+            this,
+            inventorySlotIndex,
+            amount,
+            offerSlotIndex,
+            knownRevision
+        );
+    }
+
+    [Command]
+    public void CmdMoveOfferSlot(
+        int fromOfferSlotIndex,
+        int toOfferSlotIndex,
+        int knownRevision)
+    {
+        if (TradeManager.Instance == null)
+        {
+            Debug.LogWarning("[PlayerTrade] Cannot move offer slot: TradeManager.Instance is null.");
+            return;
+        }
+
+        TradeManager.Instance.MoveOfferSlot(
+            this,
+            fromOfferSlotIndex,
+            toOfferSlotIndex,
+            knownRevision
+        );
+    }
+
+    [Command]
+    public void CmdRemoveOfferSlot(int offerSlotIndex, int knownRevision)
     {
         if (TradeManager.Instance == null)
         {
@@ -95,7 +133,7 @@ public class PlayerTrade : NetworkBehaviour
 
         TradeManager.Instance.RemoveOfferSlot(
             this,
-            offerIndex,
+            offerSlotIndex,
             knownRevision
         );
     }
@@ -143,10 +181,6 @@ public class PlayerTrade : NetworkBehaviour
 
         TradeManager.Instance.CancelTradeFor(this, "Trade cancelled.");
     }
-
-    // =========================================================
-    // Server -> Client
-    // =========================================================
 
     [TargetRpc]
     public void TargetReceiveTradeInvite(NetworkConnectionToClient target, string inviteJson)

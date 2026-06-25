@@ -7,7 +7,9 @@ public enum ItemCardSource
 {
     Inventory,
     Equipment,
-    Stash
+    Stash,
+    TradeSelf,
+    TradeOther
 }
 
 public class ItemCard : MonoBehaviour,
@@ -90,7 +92,6 @@ public class ItemCard : MonoBehaviour,
             ? LootVisualManager.Instance.Resolve(slotData)
             : LootVisualStyle.CreateFallback();
 
-        // Le fond reste identique pour toutes les ItemCards.
         if (backgroundImage != null)
             backgroundImage.color = style.itemCardBackgroundColor;
 
@@ -200,6 +201,23 @@ public class ItemCard : MonoBehaviour,
         if (slotData == null || isDragging)
             return;
 
+        // Dans ton offre de trade, clic droit = retirer de l'offre.
+        if (Source == ItemCardSource.TradeSelf)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                if (CanvasTrade.Instance != null)
+                    CanvasTrade.Instance.RequestRemoveSelfOfferSlot(SlotIndex);
+
+                return;
+            }
+        }
+
+        // L'offre adverse est seulement lisible.
+        if (Source == ItemCardSource.TradeOther)
+            return;
+
+        // Les currencies ne s'utilisent que depuis l'inventaire.
         if (Source != ItemCardSource.Inventory)
             return;
 
@@ -354,26 +372,26 @@ public class ItemCard : MonoBehaviour,
         if (isDragging || isBeingDestroyed)
             return;
 
+        // On ne peut jamais déplacer les items de l'autre joueur.
+        if (Source == ItemCardSource.TradeOther)
+            return;
+
         originalParent = transform.parent;
         isDragging = true;
 
         if (ItemPreviewManager.Instance != null)
             ItemPreviewManager.Instance.ClosePreview();
 
-        if (CanvasInventory.Instance != null)
+        Transform dragParent = ResolveDragRoot();
+
+        if (dragParent != null)
         {
-            CanvasInventory.Instance.RegisterActiveDrag(this);
-
-            if (CanvasInventory.Instance.DragRoot != null)
-            {
-                transform.SetParent(
-                    CanvasInventory.Instance.DragRoot,
-                    true
-                );
-
-                transform.SetAsLastSibling();
-            }
+            transform.SetParent(dragParent, true);
+            transform.SetAsLastSibling();
         }
+
+        if (CanvasInventory.Instance != null)
+            CanvasInventory.Instance.RegisterActiveDrag(this);
 
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
@@ -398,6 +416,7 @@ public class ItemCard : MonoBehaviour,
     /// <summary>
     /// Utilisé lorsqu'un drag se termine normalement.
     /// La carte retourne temporairement dans son slot.
+    /// Ensuite le serveur renvoie l'état réel du trade / inventaire.
     /// </summary>
     public void ReturnToOriginalSlot()
     {
@@ -444,10 +463,32 @@ public class ItemCard : MonoBehaviour,
         if (ItemPreviewManager.Instance != null)
             ItemPreviewManager.Instance.ClosePreview();
 
-        // Destroy s'effectue en fin de frame,
-        // donc on cache immédiatement l'ancienne carte.
         gameObject.SetActive(false);
         Destroy(gameObject);
+    }
+
+    private Transform ResolveDragRoot()
+    {
+        if (Source == ItemCardSource.TradeSelf &&
+            CanvasTrade.Instance != null &&
+            CanvasTrade.Instance.DragRoot != null)
+        {
+            return CanvasTrade.Instance.DragRoot;
+        }
+
+        if (CanvasInventory.Instance != null &&
+            CanvasInventory.Instance.DragRoot != null)
+        {
+            return CanvasInventory.Instance.DragRoot;
+        }
+
+        if (CanvasTrade.Instance != null &&
+            CanvasTrade.Instance.DragRoot != null)
+        {
+            return CanvasTrade.Instance.DragRoot;
+        }
+
+        return transform.root;
     }
 
     private void ResetRectTransform()
@@ -465,8 +506,6 @@ public class ItemCard : MonoBehaviour,
 
     private void OnDisable()
     {
-        // Ne pas remettre la carte dans son ancien parent ici.
-        // Une fermeture forcée est gérée par CanvasInventory.
         if (ItemPreviewManager.Instance != null)
             ItemPreviewManager.Instance.ClosePreview();
     }
