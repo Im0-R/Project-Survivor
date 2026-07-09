@@ -13,6 +13,7 @@ public class CanvasPartyTargetUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI targetNameTMP;
     [SerializeField] private Button inviteButton;
     [SerializeField] private Button teleportButton;
+    [SerializeField] private Button tradeButton;
 
     [Header("Debug")]
     [SerializeField] private bool enableClientLogs = true;
@@ -36,6 +37,12 @@ public class CanvasPartyTargetUI : MonoBehaviour
         {
             teleportButton.onClick.RemoveListener(OnTeleportClicked);
             teleportButton.onClick.AddListener(OnTeleportClicked);
+        }
+
+        if (tradeButton != null)
+        {
+            tradeButton.onClick.RemoveListener(OnTradeClicked);
+            tradeButton.onClick.AddListener(OnTradeClicked);
         }
 
         LogClient("Awake initialized.");
@@ -91,7 +98,10 @@ public class CanvasPartyTargetUI : MonoBehaviour
             return;
         }
 
-        LogClient($"NetworkEntity found: {GetEntityName(entHit)} | netId={entHit.netId} | isLocalPlayer={entHit.isLocalPlayer}");
+        LogClient(
+            $"NetworkEntity found: {GetEntityName(entHit)} | " +
+            $"netId={entHit.netId} | isLocalPlayer={entHit.isLocalPlayer}"
+        );
 
         if (entHit.isLocalPlayer)
         {
@@ -188,6 +198,54 @@ public class CanvasPartyTargetUI : MonoBehaviour
         LogClient($"Sending teleport request to {GetEntityName(currentTarget)} | netId={currentTarget.netId}");
 
         localPlayer.CmdTeleportToPartyMember(currentTarget.netId);
+
+        Close();
+    }
+
+    private void OnTradeClicked()
+    {
+        LogClient("Trade button clicked.");
+
+        if (currentTarget == null)
+        {
+            LogClient("Trade clicked but currentTarget is null.");
+            return;
+        }
+
+        if (NetworkClient.localPlayer == null)
+        {
+            LogClient("Trade clicked but NetworkClient.localPlayer is null.");
+            return;
+        }
+
+        PlayerTrade localTrade = NetworkClient.localPlayer.GetComponent<PlayerTrade>();
+
+        if (localTrade == null)
+        {
+            LogClient("Trade clicked but local player has no PlayerTrade.");
+            return;
+        }
+
+        PlayerTrade targetTrade = currentTarget.GetComponent<PlayerTrade>();
+
+        if (targetTrade == null)
+            targetTrade = currentTarget.GetComponentInParent<PlayerTrade>();
+
+        if (targetTrade == null)
+            targetTrade = currentTarget.GetComponentInChildren<PlayerTrade>();
+
+        if (targetTrade == null)
+        {
+            LogClient("Trade clicked but target has no PlayerTrade.");
+            return;
+        }
+
+        LogClient(
+            $"Sending trade request to {GetEntityName(currentTarget)} | " +
+            $"targetTradeNetId={targetTrade.netId}"
+        );
+
+        localTrade.CmdRequestTrade(targetTrade.netId);
 
         Close();
     }

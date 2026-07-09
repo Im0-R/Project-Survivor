@@ -6,16 +6,13 @@ public interface ITradeInventory
 
     bool TryGetTradePayloadServer(int slotIndex, out LootPayload payload);
 
-    bool IsTradeSlotLockedServer(int slotIndex);
-
     bool TryLockTradeSlotServer(int slotIndex, int amount, string lockId);
-
     void UnlockTradeSlotServer(int slotIndex, string lockId);
+    bool IsTradeSlotLockedServer(int slotIndex);
 
     bool CanReceiveTradePayloadsServer(List<LootPayload> payloads);
 
     string CreateTradeSnapshotServer();
-
     void RestoreTradeSnapshotServer(string snapshotJson);
 
     bool TryRemoveTradePayloadServer(

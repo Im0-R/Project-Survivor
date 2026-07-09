@@ -11,7 +11,9 @@ public class TradeManager : NetworkBehaviour
     [Header("Rules")]
     [SerializeField] private float maxTradeDistance = 5f;
     [SerializeField] private float inviteDuration = 15f;
-    [SerializeField] private int maxOfferSlots = 12;
+
+    [Tooltip("Doit correspondre au nombre de slots dans SelfTradeSlots et OtherTradeSlots.")]
+    [SerializeField] private int maxOfferSlots = 24;
 
     private readonly Dictionary<string, TradeSession> sessionsById = new Dictionary<string, TradeSession>();
     private readonly Dictionary<uint, string> sessionByPlayerNetId = new Dictionary<uint, string>();
@@ -126,10 +128,41 @@ public class TradeManager : NetworkBehaviour
     [Server]
     public void AddInventoryItemToTrade(
         PlayerTrade player,
-        int slotIndex,
+        int inventorySlotIndex,
         int amount,
-        int knownRevision
-    )
+        int knownRevision)
+    {
+        if (!TryGetSession(player, out TradeSession session))
+        {
+            SendError(player, "You are not in a trade.");
+            return;
+        }
+
+        List<TradeOfferEntry> ownOffers = GetOffers(session, player);
+        int firstEmptyOfferSlot = FindFirstEmptyOfferSlot(ownOffers);
+
+        if (firstEmptyOfferSlot < 0)
+        {
+            SendError(player, "Your trade offer is full.");
+            return;
+        }
+
+        AddInventoryItemToTradeSlot(
+            player,
+            inventorySlotIndex,
+            amount,
+            firstEmptyOfferSlot,
+            knownRevision
+        );
+    }
+
+    [Server]
+    public void AddInventoryItemToTradeSlot(
+        PlayerTrade player,
+        int inventorySlotIndex,
+        int amount,
+        int offerSlotIndex,
+        int knownRevision)
     {
         if (!TryGetSession(player, out TradeSession session))
         {
@@ -144,6 +177,12 @@ public class TradeManager : NetworkBehaviour
             return;
         }
 
+        if (offerSlotIndex < 0 || offerSlotIndex >= maxOfferSlots)
+        {
+            SendError(player, "Invalid trade slot.");
+            return;
+        }
+
         ITradeInventory inventory = GetTradeInventory(player);
 
         if (inventory == null)
@@ -152,7 +191,7 @@ public class TradeManager : NetworkBehaviour
             return;
         }
 
-        if (slotIndex < 0 || slotIndex >= inventory.TradeSlotCount)
+        if (inventorySlotIndex < 0 || inventorySlotIndex >= inventory.TradeSlotCount)
         {
             SendError(player, "Invalid inventory slot.");
             return;
@@ -162,19 +201,25 @@ public class TradeManager : NetworkBehaviour
 
         if (ownOffers.Count >= maxOfferSlots)
         {
-            SendError(player, "Trade offer is full.");
+            SendError(player, "Your trade offer is full.");
             return;
         }
 
-        if (ownOffers.Any(o => o.sourceSlotIndex == slotIndex))
+        if (ownOffers.Any(o => o.offerSlotIndex == offerSlotIndex))
         {
-            SendError(player, "This slot is already in your trade offer.");
+            SendError(player, "This trade slot is already occupied.");
             return;
         }
 
-        if (!inventory.TryGetTradePayloadServer(slotIndex, out LootPayload payload))
+        if (ownOffers.Any(o => o.sourceSlotIndex == inventorySlotIndex))
         {
-            SendError(player, "No item in this slot.");
+            SendError(player, "This inventory slot is already in your trade offer.");
+            return;
+        }
+
+        if (!inventory.TryGetTradePayloadServer(inventorySlotIndex, out LootPayload payload))
+        {
+            SendError(player, "No item in this inventory slot.");
             return;
         }
 
@@ -186,9 +231,9 @@ public class TradeManager : NetworkBehaviour
 
         amount = Mathf.Clamp(amount, 1, payload.amount);
 
-        string lockId = BuildLockId(session, player, slotIndex);
+        string lockId = BuildLockId(session, player, inventorySlotIndex);
 
-        if (!inventory.TryLockTradeSlotServer(slotIndex, amount, lockId))
+        if (!inventory.TryLockTradeSlotServer(inventorySlotIndex, amount, lockId))
         {
             SendError(player, "This item is already locked.");
             return;
@@ -199,7 +244,8 @@ public class TradeManager : NetworkBehaviour
         TradeOfferEntry entry = new TradeOfferEntry
         {
             ownerNetId = player.netId,
-            sourceSlotIndex = slotIndex,
+            sourceSlotIndex = inventorySlotIndex,
+            offerSlotIndex = offerSlotIndex,
             amount = amount,
             lockId = lockId,
             payload = offeredPayload,
@@ -212,7 +258,11 @@ public class TradeManager : NetworkBehaviour
     }
 
     [Server]
-    public void RemoveOfferSlot(PlayerTrade player, int offerIndex, int knownRevision)
+    public void MoveOfferSlot(
+        PlayerTrade player,
+        int fromOfferSlotIndex,
+        int toOfferSlotIndex,
+        int knownRevision)
     {
         if (!TryGetSession(player, out TradeSession session))
         {
@@ -227,22 +277,74 @@ public class TradeManager : NetworkBehaviour
             return;
         }
 
+        if (fromOfferSlotIndex < 0 || fromOfferSlotIndex >= maxOfferSlots)
+            return;
+
+        if (toOfferSlotIndex < 0 || toOfferSlotIndex >= maxOfferSlots)
+            return;
+
+        if (fromOfferSlotIndex == toOfferSlotIndex)
+            return;
+
         List<TradeOfferEntry> offers = GetOffers(session, player);
 
-        if (offerIndex < 0 || offerIndex >= offers.Count)
+        TradeOfferEntry fromEntry = offers.FirstOrDefault(o => o.offerSlotIndex == fromOfferSlotIndex);
+
+        if (fromEntry == null)
+            return;
+
+        TradeOfferEntry toEntry = offers.FirstOrDefault(o => o.offerSlotIndex == toOfferSlotIndex);
+
+        if (toEntry == null)
         {
-            SendError(player, "Invalid offer slot.");
+            fromEntry.offerSlotIndex = toOfferSlotIndex;
+        }
+        else
+        {
+            toEntry.offerSlotIndex = fromOfferSlotIndex;
+            fromEntry.offerSlotIndex = toOfferSlotIndex;
+        }
+
+        MarkOfferChanged(session, "Offer changed.");
+    }
+
+    [Server]
+    public void RemoveOfferSlot(PlayerTrade player, int offerSlotIndex, int knownRevision)
+    {
+        if (!TryGetSession(player, out TradeSession session))
+        {
+            SendError(player, "You are not in a trade.");
             return;
         }
 
-        TradeOfferEntry entry = offers[offerIndex];
+        if (knownRevision != session.revision)
+        {
+            SendError(player, "Trade changed. Refresh required.");
+            SendUpdate(session, "Trade changed.");
+            return;
+        }
+
+        if (offerSlotIndex < 0 || offerSlotIndex >= maxOfferSlots)
+        {
+            SendError(player, "Invalid trade slot.");
+            return;
+        }
+
+        List<TradeOfferEntry> offers = GetOffers(session, player);
+        TradeOfferEntry entry = offers.FirstOrDefault(o => o.offerSlotIndex == offerSlotIndex);
+
+        if (entry == null)
+        {
+            SendError(player, "No item in this trade slot.");
+            return;
+        }
 
         ITradeInventory inventory = GetTradeInventory(player);
 
         if (inventory != null)
             inventory.UnlockTradeSlotServer(entry.sourceSlotIndex, entry.lockId);
 
-        offers.RemoveAt(offerIndex);
+        offers.Remove(entry);
 
         MarkOfferChanged(session, "Offer changed.");
     }
@@ -518,8 +620,7 @@ public class TradeManager : NetworkBehaviour
     private bool ValidatePlayerOffers(
         PlayerTrade owner,
         List<TradeOfferEntry> offers,
-        out string reason
-    )
+        out string reason)
     {
         reason = "";
 
@@ -531,6 +632,9 @@ public class TradeManager : NetworkBehaviour
             return false;
         }
 
+        HashSet<int> usedOfferSlots = new HashSet<int>();
+        HashSet<int> usedSourceSlots = new HashSet<int>();
+
         for (int i = 0; i < offers.Count; i++)
         {
             TradeOfferEntry offer = offers[i];
@@ -538,6 +642,24 @@ public class TradeManager : NetworkBehaviour
             if (offer.ownerNetId != owner.netId)
             {
                 reason = "Offer owner mismatch.";
+                return false;
+            }
+
+            if (offer.offerSlotIndex < 0 || offer.offerSlotIndex >= maxOfferSlots)
+            {
+                reason = "Invalid offer slot.";
+                return false;
+            }
+
+            if (!usedOfferSlots.Add(offer.offerSlotIndex))
+            {
+                reason = "Duplicate trade offer slot.";
+                return false;
+            }
+
+            if (!usedSourceSlots.Add(offer.sourceSlotIndex))
+            {
+                reason = "Duplicate inventory source slot.";
                 return false;
             }
 
@@ -677,8 +799,7 @@ public class TradeManager : NetworkBehaviour
         TradeSession session,
         PlayerTrade viewer,
         string offerHash,
-        string message
-    )
+        string message)
     {
         bool viewerIsA = viewer == session.playerA;
 
@@ -704,6 +825,7 @@ public class TradeManager : NetworkBehaviour
 
             revision = session.revision,
             offerHash = offerHash,
+            maxOfferSlots = maxOfferSlots,
 
             selfReady = viewerIsA ? session.playerAReady : session.playerBReady,
             otherReady = viewerIsA ? session.playerBReady : session.playerAReady,
@@ -719,11 +841,21 @@ public class TradeManager : NetworkBehaviour
             message = message ?? ""
         };
 
-        for (int i = 0; i < selfOffers.Count; i++)
-            dto.selfOffers.Add(TradeUtility.ToView(selfOffers[i], i));
+        foreach (TradeOfferEntry offer in selfOffers.OrderBy(o => o.offerSlotIndex))
+        {
+            TradeOfferView view = TradeUtility.ToView(offer);
 
-        for (int i = 0; i < otherOffers.Count; i++)
-            dto.otherOffers.Add(TradeUtility.ToView(otherOffers[i], i));
+            if (view != null)
+                dto.selfOffers.Add(view);
+        }
+
+        foreach (TradeOfferEntry offer in otherOffers.OrderBy(o => o.offerSlotIndex))
+        {
+            TradeOfferView view = TradeUtility.ToView(offer);
+
+            if (view != null)
+                dto.otherOffers.Add(view);
+        }
 
         return dto;
     }
@@ -824,6 +956,20 @@ public class TradeManager : NetworkBehaviour
         }
 
         return null;
+    }
+
+    [Server]
+    private int FindFirstEmptyOfferSlot(List<TradeOfferEntry> offers)
+    {
+        for (int i = 0; i < maxOfferSlots; i++)
+        {
+            bool used = offers.Any(o => o.offerSlotIndex == i);
+
+            if (!used)
+                return i;
+        }
+
+        return -1;
     }
 
     [Server]

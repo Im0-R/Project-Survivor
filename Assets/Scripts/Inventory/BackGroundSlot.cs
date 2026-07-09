@@ -50,6 +50,7 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
 
         if (card == null)
             return;
+
         if (context == BackGroundSlotContext.TradeSelf)
         {
             if (CanvasTrade.Instance == null)
@@ -60,9 +61,7 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
         }
 
         if (context == BackGroundSlotContext.TradeOther)
-        {
             return;
-        }
 
         if (card.Source == ItemCardSource.TradeSelf)
         {
@@ -72,9 +71,6 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
             return;
         }
 
-        // =====================================================
-        // Inventaire / équipement normal
-        // =====================================================
         if (CanvasInventory.Instance == null)
             return;
 

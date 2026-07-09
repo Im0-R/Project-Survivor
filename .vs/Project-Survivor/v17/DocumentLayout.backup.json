@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradeutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradeutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\trade\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\trade\\tradeutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradeutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,11 +31,11 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\ui\\loot_visual_system\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\trade\\tradeofferlineui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradeofferlineui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradeofferlineui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\trade\\tradeinvitepopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradeinvitepopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradeinvitepopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -548,17 +548,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PlayerTrade.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\PlayerTrade.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\PlayerTrade.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\PlayerTrade.cs",
               "RelativeToolTip": "Assets\\Scripts\\Trade\\PlayerTrade.cs",
-              "ViewState": "AgIAAJsAAAAAAAAAAAAYwMgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowC0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-25T14:34:06.404Z",
               "EditorCaption": ""
@@ -573,8 +573,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAQwCMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-25T13:10:16.301Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-25T13:10:16.301Z"
             },
             {
               "$type": "Document",
@@ -586,8 +585,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeOfferLineUI.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAAwEMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-19T12:58:11.378Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T12:58:11.378Z"
             },
             {
               "$type": "Document",
@@ -599,18 +597,17 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\CanvasTrade.cs",
               "ViewState": "AgIAAFIAAAAAAAAAAAAowHQAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-19T11:55:55.267Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T11:55:55.267Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "TradeUtility.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeUtility.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeUtility.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeUtility.cs",
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeUtility.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAewGQAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAIwIoAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-19T10:05:27.383Z",
               "EditorCaption": ""
@@ -625,8 +622,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeTypes.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAA3wE4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-19T10:04:34.319Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T10:04:34.319Z"
             },
             {
               "$type": "Document",
@@ -650,8 +646,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemCard.cs",
               "ViewState": "AgIAANUBAAAAAAAAAAAzwOoBAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-18T12:26:07.596Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-18T12:26:07.596Z"
             },
             {
               "$type": "Document",
@@ -663,8 +658,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAYwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T14:28:46.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-28T14:28:46.883Z"
             },
             {
               "$type": "Document",
@@ -676,8 +670,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeManager.cs",
               "ViewState": "AgIAAEMDAAAAAAAAAAA4wFYDAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-19T11:50:29.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T11:50:29.248Z"
             },
             {
               "$type": "Document",

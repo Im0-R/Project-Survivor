@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class TradeInvitePopup : MonoBehaviour
 {
+    [Header("Root")]
     [SerializeField] private GameObject root;
+
+    [Header("UI")]
     [SerializeField] private TMP_Text messageText;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button declineButton;
 
-    private TradeInviteDto currentInvite;
+    private uint currentRequesterNetId;
 
     private void Awake()
     {
@@ -26,17 +29,22 @@ public class TradeInvitePopup : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerTrade.ClientTradeInviteReceived += OnInviteReceived;
+        PlayerTrade.ClientTradeInviteReceived += OnTradeInviteReceived;
+        PlayerTrade.ClientTradeClosed += OnTradeClosed;
     }
 
     private void OnDisable()
     {
-        PlayerTrade.ClientTradeInviteReceived -= OnInviteReceived;
+        PlayerTrade.ClientTradeInviteReceived -= OnTradeInviteReceived;
+        PlayerTrade.ClientTradeClosed -= OnTradeClosed;
     }
 
-    private void OnInviteReceived(TradeInviteDto invite)
+    private void OnTradeInviteReceived(TradeInviteDto invite)
     {
-        currentInvite = invite;
+        if (invite == null)
+            return;
+
+        currentRequesterNetId = invite.requesterNetId;
 
         if (messageText != null)
             messageText.text = $"{invite.requesterName} wants to trade with you.";
@@ -45,37 +53,36 @@ public class TradeInvitePopup : MonoBehaviour
             root.SetActive(true);
     }
 
+    private void OnTradeClosed(string reason)
+    {
+        Hide();
+    }
+
     private void Accept()
     {
-        if (currentInvite == null)
-            return;
-
         PlayerTrade localTrade = GetLocalTrade();
 
         if (localTrade == null)
             return;
 
-        localTrade.CmdAcceptTradeInvite(currentInvite.requesterNetId);
-
-        Close();
+        localTrade.CmdAcceptTradeInvite(currentRequesterNetId);
+        Hide();
     }
 
     private void Decline()
     {
-        if (currentInvite == null)
-            return;
-
         PlayerTrade localTrade = GetLocalTrade();
 
-        if (localTrade != null)
-            localTrade.CmdDeclineTradeInvite(currentInvite.requesterNetId);
+        if (localTrade == null)
+            return;
 
-        Close();
+        localTrade.CmdDeclineTradeInvite(currentRequesterNetId);
+        Hide();
     }
 
-    private void Close()
+    private void Hide()
     {
-        currentInvite = null;
+        currentRequesterNetId = 0;
 
         if (root != null)
             root.SetActive(false);

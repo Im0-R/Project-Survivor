@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -23,8 +24,7 @@ public static class TradeUtility
 
     public static string BuildOfferHash(
         List<TradeOfferEntry> playerAOffers,
-        List<TradeOfferEntry> playerBOffers
-    )
+        List<TradeOfferEntry> playerBOffers)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -37,23 +37,21 @@ public static class TradeUtility
     private static void AppendOffers(
         StringBuilder sb,
         string label,
-        List<TradeOfferEntry> offers
-    )
+        List<TradeOfferEntry> offers)
     {
         sb.Append(label).Append(":");
 
         if (offers == null)
             return;
 
-        for (int i = 0; i < offers.Count; i++)
+        foreach (TradeOfferEntry offer in offers.OrderBy(o => o.offerSlotIndex))
         {
-            TradeOfferEntry offer = offers[i];
-
             sb.Append("[")
-                .Append(i)
+                .Append("offerSlot=")
+                .Append(offer.offerSlotIndex)
                 .Append("|owner=")
                 .Append(offer.ownerNetId)
-                .Append("|slot=")
+                .Append("|sourceSlot=")
                 .Append(offer.sourceSlotIndex)
                 .Append("|amount=")
                 .Append(offer.amount)
@@ -65,8 +63,7 @@ public static class TradeUtility
 
     public static bool PayloadStillMatchesOffer(
         LootPayload currentPayload,
-        TradeOfferEntry offer
-    )
+        TradeOfferEntry offer)
     {
         if (currentPayload == null || offer == null || offer.payload == null)
             return false;
@@ -86,13 +83,17 @@ public static class TradeUtility
         return currentHash == offer.payloadHash;
     }
 
-    public static TradeOfferView ToView(TradeOfferEntry entry, int offerIndex)
+    public static TradeOfferView ToView(TradeOfferEntry entry)
     {
+        if (entry == null || entry.payload == null)
+            return null;
+
         LootPayload payload = entry.payload;
 
         return new TradeOfferView
         {
-            offerIndex = offerIndex,
+            offerSlotIndex = entry.offerSlotIndex,
+
             ownerNetId = entry.ownerNetId,
             sourceSlotIndex = entry.sourceSlotIndex,
 
