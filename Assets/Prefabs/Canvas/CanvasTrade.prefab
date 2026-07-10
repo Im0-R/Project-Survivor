@@ -1580,16 +1580,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595b309f897c94d439dcfee653a14cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasTrade
-  root: {fileID: 8399479100454461995}
+  root: {fileID: 1662730714559231873}
   titleText: {fileID: 0}
   statusText: {fileID: 3325750585034203004}
   revisionText: {fileID: 0}
-  selfOfferParent: {fileID: 4137607446605080776}
-  otherOfferParent: {fileID: 4039944006866075532}
-  offerLinePrefab: {fileID: 0}
-  readyButton: {fileID: 0}
-  finalAcceptButton: {fileID: 0}
-  cancelButton: {fileID: 0}
+  selfTradeSlots:
+  - {fileID: 3258830569720942550}
+  - {fileID: 0}
+  otherTradeSlots: []
+  itemCardPrefab: {fileID: 3822715666718912106, guid: 8cb4f096fe3af934ba1991f5de2845aa, type: 3}
+  dragRoot: {fileID: 0}
+  readyButton: {fileID: 2158492884171204605}
+  finalAcceptButton: {fileID: 634440708068893178}
+  cancelButton: {fileID: 1215650795073097992}
+  openInventoryOnTrade: 1
 --- !u!1 &8628093134318671996
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,6 +3561,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed11ca67a2f89f94d8db5e2d0c3c6c78, type: 3}
+--- !u!114 &3258830569720942550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8270272269229505955, guid: ed11ca67a2f89f94d8db5e2d0c3c6c78, type: 3}
+  m_PrefabInstance: {fileID: 6916502000974082677}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c091f0462a26ffa48807496f5ef576f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackGroundSlot
 --- !u!224 &6039553072282931660 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 877239208469439417, guid: ed11ca67a2f89f94d8db5e2d0c3c6c78, type: 3}
