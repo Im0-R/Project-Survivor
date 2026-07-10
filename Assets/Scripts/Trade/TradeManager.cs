@@ -4,7 +4,7 @@ using System.Linq;
 using Mirror;
 using UnityEngine;
 
-public class TradeManager : NetworkBehaviour
+public class TradeManager : MonoBehaviour
 {
     public static TradeManager Instance { get; private set; }
 
@@ -15,33 +15,78 @@ public class TradeManager : NetworkBehaviour
     [Tooltip("Doit correspondre au nombre de slots dans SelfTradeSlots et OtherTradeSlots.")]
     [SerializeField] private int maxOfferSlots = 24;
 
+    [Header("Debug")]
+    [SerializeField] private bool enableServerLogs = true;
+
     private readonly Dictionary<string, TradeSession> sessionsById = new Dictionary<string, TradeSession>();
     private readonly Dictionary<uint, string> sessionByPlayerNetId = new Dictionary<uint, string>();
     private readonly List<TradeInvite> pendingInvites = new List<TradeInvite>();
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+            LogWarning($"Another TradeManager already exists. Previous={Instance.name}, New={name}");
+
         Instance = this;
+
+        Log(
+            $"Awake | activeInHierarchy={gameObject.activeInHierarchy} | " +
+            $"enabled={enabled} | NetworkServer.active={NetworkServer.active}"
+        );
+    }
+
+    private void OnEnable()
+    {
+        Log($"OnEnable | activeInHierarchy={gameObject.activeInHierarchy} | NetworkServer.active={NetworkServer.active}");
+    }
+
+    private void OnDisable()
+    {
+        LogWarning($"OnDisable | activeInHierarchy={gameObject.activeInHierarchy} | NetworkServer.active={NetworkServer.active}");
     }
 
     [Server]
     public void RequestTrade(PlayerTrade requester, uint targetNetId)
     {
+        Log(
+            $"RequestTrade called | " +
+            $"requester={(requester != null ? requester.name : "null")} | " +
+            $"requesterNetId={(requester != null ? requester.netId.ToString() : "null")} | " +
+            $"targetNetId={targetNetId} | NetworkServer.active={NetworkServer.active}"
+        );
+
         CleanupExpiredInvites();
 
         if (requester == null)
+        {
+            LogWarning("RequestTrade failed: requester is null.");
             return;
+        }
 
         if (!NetworkServer.spawned.TryGetValue(targetNetId, out NetworkIdentity targetIdentity))
         {
+            LogWarning($"RequestTrade failed: target not found in NetworkServer.spawned. targetNetId={targetNetId}");
             SendError(requester, "Target player not found.");
             return;
         }
 
+        Log(
+            $"Target identity found | name={targetIdentity.name} | " +
+            $"netId={targetIdentity.netId} | active={targetIdentity.gameObject.activeInHierarchy}"
+        );
+
         PlayerTrade target = targetIdentity.GetComponent<PlayerTrade>();
+
+        if (target == null)
+        {
+            LogWarning($"RequestTrade failed: target identity has no PlayerTrade. target={targetIdentity.name}");
+            SendError(requester, "Target has no PlayerTrade.");
+            return;
+        }
 
         if (!CanStartTrade(requester, target, out string reason))
         {
+            LogWarning($"RequestTrade refused by CanStartTrade | reason={reason}");
             SendError(requester, reason);
             return;
         }
@@ -68,9 +113,19 @@ public class TradeManager : NetworkBehaviour
             requesterName = requester.TradeDisplayName
         };
 
+        string inviteJson = JsonUtility.ToJson(dto);
+
+        Log(
+            $"Sending trade invite | " +
+            $"from={requester.name} netId={requester.netId} | " +
+            $"to={target.name} netId={target.netId} | " +
+            $"targetConnectionNull={target.connectionToClient == null} | " +
+            $"json={inviteJson}"
+        );
+
         target.TargetReceiveTradeInvite(
             target.connectionToClient,
-            JsonUtility.ToJson(dto)
+            inviteJson
         );
 
         SendError(requester, $"Trade invite sent to {target.TradeDisplayName}.");
@@ -79,6 +134,11 @@ public class TradeManager : NetworkBehaviour
     [Server]
     public void AcceptTradeInvite(PlayerTrade target, uint requesterNetId)
     {
+        Log(
+            $"AcceptTradeInvite called | " +
+            $"target={(target != null ? target.name : "null")} | requesterNetId={requesterNetId}"
+        );
+
         CleanupExpiredInvites();
 
         TradeInvite invite = pendingInvites.FirstOrDefault(i =>
@@ -89,6 +149,7 @@ public class TradeManager : NetworkBehaviour
 
         if (invite == null)
         {
+            LogWarning("AcceptTradeInvite failed: invite not found or expired.");
             SendError(target, "Trade invite expired.");
             return;
         }
@@ -97,6 +158,7 @@ public class TradeManager : NetworkBehaviour
 
         if (!CanStartTrade(invite.requester, invite.target, out string reason))
         {
+            LogWarning($"AcceptTradeInvite failed in CanStartTrade | reason={reason}");
             SendError(invite.requester, reason);
             SendError(invite.target, reason);
             return;
@@ -108,6 +170,11 @@ public class TradeManager : NetworkBehaviour
     [Server]
     public void DeclineTradeInvite(PlayerTrade target, uint requesterNetId)
     {
+        Log(
+            $"DeclineTradeInvite called | " +
+            $"target={(target != null ? target.name : "null")} | requesterNetId={requesterNetId}"
+        );
+
         CleanupExpiredInvites();
 
         TradeInvite invite = pendingInvites.FirstOrDefault(i =>
@@ -117,7 +184,10 @@ public class TradeManager : NetworkBehaviour
         );
 
         if (invite == null)
+        {
+            LogWarning("DeclineTradeInvite ignored: invite not found.");
             return;
+        }
 
         pendingInvites.Remove(invite);
 
@@ -164,6 +234,12 @@ public class TradeManager : NetworkBehaviour
         int offerSlotIndex,
         int knownRevision)
     {
+        Log(
+            $"AddInventoryItemToTradeSlot | player={player?.name} | " +
+            $"inventorySlotIndex={inventorySlotIndex} | amount={amount} | " +
+            $"offerSlotIndex={offerSlotIndex} | knownRevision={knownRevision}"
+        );
+
         if (!TryGetSession(player, out TradeSession session))
         {
             SendError(player, "You are not in a trade.");
@@ -454,6 +530,8 @@ public class TradeManager : NetworkBehaviour
     [Server]
     private void CreateSession(PlayerTrade playerA, PlayerTrade playerB)
     {
+        Log($"CreateSession | playerA={playerA.name} netId={playerA.netId} | playerB={playerB.name} netId={playerB.netId}");
+
         TradeSession session = new TradeSession
         {
             sessionId = Guid.NewGuid().ToString("N"),
@@ -473,6 +551,8 @@ public class TradeManager : NetworkBehaviour
     [Server]
     private void CommitTrade(TradeSession session)
     {
+        Log($"CommitTrade | sessionId={session?.sessionId}");
+
         if (!ValidateSessionOffers(session, out string reason))
         {
             CancelSession(session, reason);
@@ -574,7 +654,7 @@ public class TradeManager : NetworkBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"[TradeManager] Commit exception: {e}");
+            Debug.LogError($"[Server][TradeManager] Commit exception: {e}");
             success = false;
         }
 
@@ -696,6 +776,11 @@ public class TradeManager : NetworkBehaviour
     {
         reason = "";
 
+        Log(
+            $"CanStartTrade | requester={(requester != null ? requester.name : "null")} | " +
+            $"target={(target != null ? target.name : "null")}"
+        );
+
         if (requester == null || target == null)
         {
             reason = "Invalid trade target.";
@@ -720,7 +805,11 @@ public class TradeManager : NetworkBehaviour
             return false;
         }
 
-        if (Vector3.Distance(requester.transform.position, target.transform.position) > maxTradeDistance)
+        float distance = Vector3.Distance(requester.transform.position, target.transform.position);
+
+        Log($"Trade distance={distance} | maxTradeDistance={maxTradeDistance}");
+
+        if (distance > maxTradeDistance)
         {
             reason = "Target player is too far away.";
             return false;
@@ -738,13 +827,22 @@ public class TradeManager : NetworkBehaviour
             return false;
         }
 
-        if (GetTradeInventory(requester) == null)
+        ITradeInventory requesterInventory = GetTradeInventory(requester);
+        ITradeInventory targetInventory = GetTradeInventory(target);
+
+        Log(
+            $"Inventory check | " +
+            $"requesterInventoryNull={requesterInventory == null} | " +
+            $"targetInventoryNull={targetInventory == null}"
+        );
+
+        if (requesterInventory == null)
         {
             reason = "Requester has no trade inventory.";
             return false;
         }
 
-        if (GetTradeInventory(target) == null)
+        if (targetInventory == null)
         {
             reason = "Target has no trade inventory.";
             return false;
@@ -782,6 +880,11 @@ public class TradeManager : NetworkBehaviour
 
         TradeStateDto dtoA = BuildStateDto(session, session.playerA, offerHash, message);
         TradeStateDto dtoB = BuildStateDto(session, session.playerB, offerHash, message);
+
+        Log(
+            $"SendUpdate | sessionId={session.sessionId} | message={message} | " +
+            $"playerA={session.playerA.name} | playerB={session.playerB.name}"
+        );
 
         session.playerA.TargetReceiveTradeState(
             session.playerA.connectionToClient,
@@ -866,6 +969,8 @@ public class TradeManager : NetworkBehaviour
         if (session == null)
             return;
 
+        LogWarning($"CancelSession | sessionId={session.sessionId} | reason={reason}");
+
         session.state = TradeSessionState.Cancelled;
 
         UnlockAll(session);
@@ -878,6 +983,8 @@ public class TradeManager : NetworkBehaviour
     {
         if (session == null)
             return;
+
+        Log($"CloseSession | sessionId={session.sessionId} | reason={reason}");
 
         sessionsById.Remove(session.sessionId);
 
@@ -952,9 +1059,13 @@ public class TradeManager : NetworkBehaviour
         foreach (MonoBehaviour behaviour in behaviours)
         {
             if (behaviour is ITradeInventory tradeInventory)
+            {
+                Log($"GetTradeInventory found | player={player.name} | component={behaviour.GetType().Name}");
                 return tradeInventory;
+            }
         }
 
+        LogWarning($"GetTradeInventory failed | player={player.name} | no component implements ITradeInventory");
         return null;
     }
 
@@ -981,6 +1092,8 @@ public class TradeManager : NetworkBehaviour
     [Server]
     private void SendError(PlayerTrade player, string message)
     {
+        LogWarning($"SendError / Message | player={(player != null ? player.name : "null")} | message={message}");
+
         if (player == null || player.connectionToClient == null)
             return;
 
@@ -990,12 +1103,35 @@ public class TradeManager : NetworkBehaviour
     [Server]
     private void CleanupExpiredInvites()
     {
+        int before = pendingInvites.Count;
+
         pendingInvites.RemoveAll(i =>
             i == null ||
             i.requester == null ||
             i.target == null ||
             Time.time >= i.expiresAt
         );
+
+        int removed = before - pendingInvites.Count;
+
+        if (removed > 0)
+            Log($"CleanupExpiredInvites removed {removed} invite(s).");
+    }
+
+    private void Log(string message)
+    {
+        if (!enableServerLogs)
+            return;
+
+        Debug.Log($"[Server][TradeManager] {message}");
+    }
+
+    private void LogWarning(string message)
+    {
+        if (!enableServerLogs)
+            return;
+
+        Debug.LogWarning($"[Server][TradeManager] {message}");
     }
 
     private class TradeInvite
