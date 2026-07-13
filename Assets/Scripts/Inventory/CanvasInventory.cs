@@ -24,31 +24,38 @@ public class CanvasInventory : MonoBehaviour
     {
         Instance = this;
 
-        if (inventorySlots == null || inventorySlots.Length == 0)
+        if (inventorySlots == null ||
+            inventorySlots.Length == 0)
         {
-            inventorySlots = GetComponentsInChildren<BackGroundSlot>(true)
-                .Where(slot =>
-                    slot != null &&
-                    slot.SlotType == EquipmentSlot.Any)
-                .ToArray();
+            inventorySlots =
+                GetComponentsInChildren<BackGroundSlot>(true)
+                    .Where(slot =>
+                        slot != null &&
+                        slot.SlotType == EquipmentSlot.Any)
+                    .ToArray();
         }
 
-        if (equipmentSlots == null || equipmentSlots.Length == 0)
+        if (equipmentSlots == null ||
+            equipmentSlots.Length == 0)
         {
-            equipmentSlots = GetComponentsInChildren<BackGroundSlot>(true)
-                .Where(slot =>
-                    slot != null &&
-                    slot.SlotType != EquipmentSlot.Any)
-                .ToArray();
+            equipmentSlots =
+                GetComponentsInChildren<BackGroundSlot>(true)
+                    .Where(slot =>
+                        slot != null &&
+                        slot.SlotType != EquipmentSlot.Any)
+                    .ToArray();
         }
 
-        for (int i = 0; i < inventorySlots.Length; i++)
+        for (int i = 0;
+             i < inventorySlots.Length;
+             i++)
         {
             if (inventorySlots[i] != null)
                 inventorySlots[i].SetId(i);
         }
 
-        foreach (BackGroundSlot equipmentSlot in equipmentSlots)
+        foreach (BackGroundSlot equipmentSlot
+                 in equipmentSlots)
         {
             if (equipmentSlot != null)
                 equipmentSlot.SetId(-1);
@@ -57,8 +64,9 @@ public class CanvasInventory : MonoBehaviour
         gameObject.SetActive(false);
 
         Debug.Log(
-            $"[CanvasInventory] InventorySlots={inventorySlots.Length} " +
-            $"EquipmentSlots={equipmentSlots.Length}"
+            $"[CanvasInventory] InventorySlots=" +
+            $"{inventorySlots.Length} EquipmentSlots=" +
+            $"{equipmentSlots.Length}"
         );
     }
 
@@ -113,9 +121,10 @@ public class CanvasInventory : MonoBehaviour
 
         LocalInventory = inventory;
 
-        LocalEquipment = inventory != null
-            ? inventory.GetComponent<PlayerEquipment>()
-            : null;
+        LocalEquipment =
+            inventory != null
+                ? inventory.GetComponent<PlayerEquipment>()
+                : null;
 
         if (LocalInventory != null)
             LocalInventory.OnInventoryChanged += RefreshAll;
@@ -152,12 +161,14 @@ public class CanvasInventory : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            BackGroundSlot inventorySlot = inventorySlots[i];
+            BackGroundSlot inventorySlot =
+                inventorySlots[i];
 
             if (inventorySlot == null)
                 continue;
 
-            string json = LocalInventory.ItemsJson[i];
+            string json =
+                LocalInventory.ItemsJson[i];
 
             if (string.IsNullOrWhiteSpace(json))
                 continue;
@@ -165,7 +176,8 @@ public class CanvasInventory : MonoBehaviour
             InventoryItemData slotData =
                 JsonUtility.FromJson<InventoryItemData>(json);
 
-            if (slotData == null || slotData.lootableId == 0)
+            if (slotData == null ||
+                slotData.lootableId == 0)
             {
                 Debug.LogWarning(
                     $"[CanvasInventory] Invalid slot data " +
@@ -215,9 +227,11 @@ public class CanvasInventory : MonoBehaviour
         CreateEquipmentCard(EquipmentSlot.Boots);
     }
 
-    private void CreateEquipmentCard(EquipmentSlot slot)
+    private void CreateEquipmentCard(
+        EquipmentSlot slot)
     {
-        BackGroundSlot uiSlot = GetEquipmentUiSlot(slot);
+        BackGroundSlot uiSlot =
+            GetEquipmentUiSlot(slot);
 
         if (uiSlot == null)
             return;
@@ -225,8 +239,11 @@ public class CanvasInventory : MonoBehaviour
         ItemInstance item =
             LocalEquipment.GetEquippedItem(slot);
 
-        if (item == null || item.instanceId == 0)
+        if (item == null ||
+            item.instanceId == 0)
+        {
             return;
+        }
 
         LootableSO lootable =
             LootableDatabase.Get(item.baseId);
@@ -262,8 +279,11 @@ public class CanvasInventory : MonoBehaviour
         int slotIndex,
         ItemCardSource source)
     {
-        if (itemCardPrefab == null || parent == null)
+        if (itemCardPrefab == null ||
+            parent == null)
+        {
             return;
+        }
 
         GameObject cardObject =
             Instantiate(itemCardPrefab, parent);
@@ -301,7 +321,8 @@ public class CanvasInventory : MonoBehaviour
     private BackGroundSlot GetEquipmentUiSlot(
         EquipmentSlot slot)
     {
-        foreach (BackGroundSlot equipmentSlot in equipmentSlots)
+        foreach (BackGroundSlot equipmentSlot
+                 in equipmentSlots)
         {
             if (equipmentSlot != null &&
                 equipmentSlot.SlotType == slot)
@@ -385,7 +406,9 @@ public class CanvasInventory : MonoBehaviour
 
     public void CancelActiveDragAndDestroy()
     {
-        ItemCard cardToDestroy = activeDraggedCard;
+        ItemCard cardToDestroy =
+            activeDraggedCard;
+
         activeDraggedCard = null;
 
         if (cardToDestroy != null)
@@ -394,8 +417,6 @@ public class CanvasInventory : MonoBehaviour
         ClearOrphanedDragCards();
     }
 
-    // Permet aux anciens appels à CancelActiveDrag()
-    // de continuer à fonctionner.
     public void CancelActiveDrag()
     {
         CancelActiveDragAndDestroy();
@@ -406,14 +427,18 @@ public class CanvasInventory : MonoBehaviour
         if (DragRoot == null)
             return;
 
-        for (int i = DragRoot.childCount - 1; i >= 0; i--)
+        for (int i = DragRoot.childCount - 1;
+             i >= 0;
+             i--)
         {
-            Transform child = DragRoot.GetChild(i);
+            Transform child =
+                DragRoot.GetChild(i);
 
             if (child == null)
                 continue;
 
-            ItemCard card = child.GetComponent<ItemCard>();
+            ItemCard card =
+                child.GetComponent<ItemCard>();
 
             if (card == null)
                 continue;
@@ -427,44 +452,204 @@ public class CanvasInventory : MonoBehaviour
     // =========================================================
 
     public void RequestDrop(
-        ItemCard card,
-        BackGroundSlot targetSlot)
+      ItemCard card,
+      BackGroundSlot targetSlot)
     {
         if (card == null || targetSlot == null)
             return;
 
-        if (PlayerUI.Instance == null ||
-            PlayerUI.Instance.playerEnt == null)
-        {
-            return;
-        }
+        Debug.Log(
+            $"[CanvasInventory] RequestDrop | " +
+            $"source={card.Source} | " +
+            $"target={targetSlot.Id} | " +
+            $"targetType={targetSlot.SlotType}"
+        );
 
+        // Stash vers inventaire.
         if (card.Source == ItemCardSource.Stash)
         {
-            RequestMoveStashToInventory(card, targetSlot);
+            RequestMoveStashToInventory(
+                card,
+                targetSlot
+            );
+
             return;
         }
 
+        // Équipement vers inventaire.
+        if (card.Source == ItemCardSource.Equipment)
+        {
+            if (targetSlot.IsEquipmentSlot)
+                return;
+
+            RequestUnequipToInventory(
+                card,
+                targetSlot.Id
+            );
+
+            return;
+        }
+
+        // Inventaire vers équipement.
         if (targetSlot.IsEquipmentSlot)
         {
-            RequestEquip(card, targetSlot.SlotType);
+            RequestEquip(
+                card,
+                targetSlot.SlotType
+            );
+
             return;
         }
 
-        RequestMoveInventory(card, targetSlot.Id);
+        // Inventaire vers inventaire.
+        RequestMoveInventory(
+            card,
+            targetSlot.Id
+        );
     }
+
+    // =========================================================
+    // Unequip request
+    // =========================================================
+
+    private void RequestUnequipToInventory(
+       ItemCard card,
+       int targetInventorySlot)
+    {
+        if (card == null)
+            return;
+
+        if (card.Source != ItemCardSource.Equipment)
+            return;
+
+        if (targetInventorySlot < 0 ||
+            targetInventorySlot >= inventorySlots.Length)
+        {
+            Debug.LogWarning(
+                $"[CanvasInventory] Cannot unequip: " +
+                $"invalid inventory slot={targetInventorySlot}, " +
+                $"slots={inventorySlots.Length}."
+            );
+
+            return;
+        }
+
+        ItemInstance equippedItem =
+            card.GetItemInstance();
+
+        if (equippedItem == null ||
+            equippedItem.instanceId == 0)
+        {
+            Debug.LogWarning(
+                "[CanvasInventory] Cannot unequip: " +
+                "the card has no valid ItemInstance."
+            );
+
+            return;
+        }
+
+        ItemBaseSO itemBase =
+            ItemDatabase.GetBase(equippedItem.baseId);
+
+        if (itemBase == null)
+        {
+            Debug.LogWarning(
+                $"[CanvasInventory] Cannot unequip: " +
+                $"missing ItemBaseSO for baseId=" +
+                $"{equippedItem.baseId}."
+            );
+
+            return;
+        }
+
+        EquipmentSlot equipmentSlot =
+            itemBase.SlotType;
+
+        if (equipmentSlot == EquipmentSlot.None ||
+            equipmentSlot == EquipmentSlot.Any)
+        {
+            Debug.LogWarning(
+                $"[CanvasInventory] Cannot unequip: " +
+                $"invalid equipment slot={equipmentSlot}."
+            );
+
+            return;
+        }
+
+        /*
+         * On utilise le PlayerEquipment déjà relié
+         * à cet inventaire par Bind().
+         */
+        PlayerEquipment equipment = LocalEquipment;
+
+        if (equipment == null &&
+            LocalInventory != null)
+        {
+            equipment =
+                LocalInventory.GetComponent<PlayerEquipment>();
+        }
+
+        if (equipment == null &&
+            Mirror.NetworkClient.localPlayer != null)
+        {
+            equipment =
+                Mirror.NetworkClient.localPlayer
+                    .GetComponent<PlayerEquipment>();
+        }
+
+        if (equipment == null)
+        {
+            Debug.LogError(
+                "[CanvasInventory] Cannot unequip: " +
+                "no local PlayerEquipment was found."
+            );
+
+            return;
+        }
+
+        if (!equipment.isOwned)
+        {
+            Debug.LogError(
+                $"[CanvasInventory] Cannot send unequip command: " +
+                $"PlayerEquipment is not owned by this client. " +
+                $"object={equipment.name}"
+            );
+
+            return;
+        }
+
+        Debug.Log(
+            $"[CanvasInventory] Sending unequip command | " +
+            $"equipmentSlot={equipmentSlot} | " +
+            $"inventorySlot={targetInventorySlot} | " +
+            $"item={equippedItem.itemName}"
+        );
+
+        equipment.CmdUnequipToInventoryIndex(
+            equipmentSlot,
+            targetInventorySlot
+        );
+    }
+
+    // =========================================================
+    // Stash
+    // =========================================================
 
     private void RequestMoveStashToInventory(
         ItemCard card,
         BackGroundSlot targetSlot)
     {
-        if (card == null || targetSlot == null)
+        if (card == null ||
+            targetSlot == null)
+        {
             return;
+        }
 
         if (targetSlot.IsEquipmentSlot)
         {
             Debug.LogWarning(
-                "[CanvasInventory] Cannot equip directly from stash."
+                "[CanvasInventory] Cannot equip " +
+                "directly from stash."
             );
 
             return;
@@ -483,7 +668,8 @@ public class CanvasInventory : MonoBehaviour
         if (stash == null)
         {
             Debug.LogError(
-                "[CanvasInventory] PlayerStash missing on player."
+                "[CanvasInventory] PlayerStash " +
+                "missing on player."
             );
 
             return;
@@ -507,7 +693,8 @@ public class CanvasInventory : MonoBehaviour
         if (card.Source != ItemCardSource.Inventory)
         {
             Debug.LogWarning(
-                "[CanvasInventory] Only inventory items can be deleted."
+                "[CanvasInventory] Only inventory " +
+                "items can be deleted."
             );
 
             return;
@@ -529,7 +716,8 @@ public class CanvasInventory : MonoBehaviour
         if (inventory == null)
         {
             Debug.LogError(
-                "[CanvasInventory] PlayerInventory missing on player."
+                "[CanvasInventory] PlayerInventory " +
+                "missing on player."
             );
 
             return;
@@ -552,24 +740,28 @@ public class CanvasInventory : MonoBehaviour
         if (card.Source != ItemCardSource.Inventory)
             return;
 
-        LootableSO lootable = card.GetLootable();
+        LootableSO lootable =
+            card.GetLootable();
 
         if (lootable is not ItemBaseSO itemBase)
         {
             Debug.LogWarning(
-                "[CanvasInventory] This lootable cannot be equipped."
+                "[CanvasInventory] This lootable " +
+                "cannot be equipped."
             );
 
             return;
         }
 
-        ItemInstance item = card.GetItemInstance();
+        ItemInstance item =
+            card.GetItemInstance();
 
-        if (item == null || item.instanceId == 0)
+        if (item == null ||
+            item.instanceId == 0)
         {
             Debug.LogWarning(
-                "[CanvasInventory] Equipment item has no " +
-                "valid ItemInstance."
+                "[CanvasInventory] Equipment item " +
+                "has no valid ItemInstance."
             );
 
             return;
@@ -579,26 +771,44 @@ public class CanvasInventory : MonoBehaviour
         {
             Debug.LogWarning(
                 $"[CanvasInventory] Cannot equip " +
-                $"{itemBase.DisplayName} in {targetEquipmentSlot}"
+                $"{itemBase.DisplayName} in " +
+                $"{targetEquipmentSlot}"
             );
 
             return;
         }
 
-        PlayerEquipment equipment =
-            PlayerUI.Instance.playerEnt
-                .GetComponent<PlayerEquipment>();
+        PlayerEquipment equipment = LocalEquipment;
+
+        if (equipment == null &&
+            LocalInventory != null)
+        {
+            equipment =
+                LocalInventory.GetComponent<PlayerEquipment>();
+        }
 
         if (equipment == null)
         {
             Debug.LogError(
-                "[CanvasInventory] PlayerEquipment missing on player."
+                "[CanvasInventory] Local PlayerEquipment is missing."
             );
 
             return;
         }
 
-        equipment.CmdEquipFromInventoryIndex(card.SlotIndex);
+        if (equipment == null)
+        {
+            Debug.LogError(
+                "[CanvasInventory] PlayerEquipment " +
+                "missing on player."
+            );
+
+            return;
+        }
+
+        equipment.CmdEquipFromInventoryIndex(
+            card.SlotIndex
+        );
     }
 
     // =========================================================
@@ -634,7 +844,8 @@ public class CanvasInventory : MonoBehaviour
         if (inventory == null)
         {
             Debug.LogError(
-                "[CanvasInventory] PlayerInventory missing on player."
+                "[CanvasInventory] PlayerInventory " +
+                "missing on player."
             );
 
             return;
@@ -643,9 +854,15 @@ public class CanvasInventory : MonoBehaviour
         int fromSlot = card.SlotIndex;
         int toSlot = targetSlotId;
 
-        if (fromSlot < 0 || fromSlot == toSlot)
+        if (fromSlot < 0 ||
+            fromSlot == toSlot)
+        {
             return;
+        }
 
-        inventory.CmdMoveOrSwap(fromSlot, toSlot);
+        inventory.CmdMoveOrSwap(
+            fromSlot,
+            toSlot
+        );
     }
 }
