@@ -393,12 +393,6 @@ public class PlayerEquipment : NetworkBehaviour
             StatId.Armor,
             baseSO.BaseDefense
         );
-
-        targetStats.AddFinalStatServer(
-            StatId.MaxHealth,
-            baseSO.BaseVitality
-        );
-
         ApplyAffixStats(
             inst.prefixes,
             targetStats

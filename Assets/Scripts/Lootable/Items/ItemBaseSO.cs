@@ -42,9 +42,6 @@ public class ItemBaseSO : LootableSO
     [SerializeField] private int baseDefense;
     public int BaseDefense => baseDefense;
 
-    [SerializeField] private int baseVitality;
-    public int BaseVitality => baseVitality;
-
     [Header("Affix pools")]
     [SerializeField] private AffixPoolSO[] prefixPools;
     [SerializeField] private AffixPoolSO[] suffixPools;

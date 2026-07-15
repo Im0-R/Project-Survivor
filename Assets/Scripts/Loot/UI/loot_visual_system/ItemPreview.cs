@@ -73,7 +73,7 @@ public class ItemPreview : MonoBehaviour
     private void ApplySharedStyle(LootVisualStyle style)
     {
         if (backGroundImage != null)
-            backGroundImage.color = style.previewBackgroundColor;
+            backGroundImage.color = style.lootLabelBackgroundColor;
 
         if (itemName != null)
             itemName.color = style.previewNameTextColor;
@@ -313,17 +313,6 @@ public class ItemPreview : MonoBehaviour
         {
             bool created = AddBaseStatLine(
                 $"ARMOUR: {itemBase.BaseDefense}",
-                textColor
-            );
-
-            if (created)
-                lineCount++;
-        }
-
-        if (itemBase.BaseVitality != 0)
-        {
-            bool created = AddBaseStatLine(
-                $"MAXIMUM LIFE: {itemBase.BaseVitality}",
                 textColor
             );
 

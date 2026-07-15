@@ -3,16 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\loot\\ui\\loot_visual_system\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\ui\\loot_visual_system\\itempreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\lootable\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\lootable\\items\\playerequipment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:Assets\\Scripts\\Inventory\\BackGroundSlot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\loot\\ui\\loot_visual_system\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\ui\\loot_visual_system\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\trademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\trademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\BuildScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\party\\canvaspartytargetui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\party\\canvaspartytargetui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\trademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\trademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradeinvitepopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,11 +51,7 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\inventory\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|c:\\users\\l.vray\\documents\\github\\project-survivor\\assets\\scripts\\trade\\tradetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -35,16 +59,8 @@
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\tradeutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:Assets\\Scripts\\Inventory\\BackGroundSlot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\canvastrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\trade\\canvastrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\loot\\ui\\loot_visual_system\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\loot\\ui\\loot_visual_system\\itemcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\trade\\tradeofferlineui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -65,10 +81,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\lootable\\lootabledatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\lootable\\lootabledatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\inventory\\canvasinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stash\\stashinteractable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -217,10 +229,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\damagepart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\damagepart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\stats\\statscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E60C1D3C-19EE-FCAA-A505-D463EE6A54F1}|Assembly-CSharp.Player.csproj|C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\assets\\scripts\\spells\\slash\\slashbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -548,94 +556,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TradeInvitePopup.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAUwMsAAAABAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ItemPreview.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemPreview.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemPreview.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemPreview.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemPreview.cs",
+              "ViewState": "AgIAAM0BAAAAAAAAAAAkwOIBAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-25T13:10:16.301Z",
+              "WhenOpened": "2026-07-13T14:35:50.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlayerEquipment.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Items\\PlayerEquipment.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\Items\\PlayerEquipment.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Items\\PlayerEquipment.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Lootable\\Items\\PlayerEquipment.cs",
+              "ViewState": "AgIAAEUBAAAAAAAAAAAvwFcBAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T13:24:46.786Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "TradeTypes.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeTypes.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeTypes.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeTypes.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeTypes.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAYwDIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-19T10:04:34.319Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "PlayerStash.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\PlayerStash.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\PlayerStash.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\PlayerStash.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stash\\PlayerStash.cs",
-              "ViewState": "AgIAALECAAAAAAAAAAAYwLoCAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-14T19:17:02.54Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "ItemCard.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemCard.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemCard.cs",
               "RelativeToolTip": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\ItemCard.cs",
-              "ViewState": "AgIAANUBAAAAAAAAAAAzwOoBAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAOMBAAAAAAAAAAAkwPkBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-18T12:26:07.596Z"
+              "WhenOpened": "2026-06-18T12:26:07.596Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "BackGroundSlot.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\BackGroundSlot.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAYwEEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAEwLcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T14:28:46.883Z"
+              "WhenOpened": "2026-01-28T14:28:46.883Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "TradeManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeManager.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeManager.cs",
-              "ViewState": "AgIAAGcEAAAAAAAAAAAUwHcEAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAGgEAAAAAAAAAAA7wHwEAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-19T11:50:29.248Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CanvasPartyTargetUI.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
-              "ViewState": "AgIAABMBAAAAAAAAAAAnwCQBAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T08:46:54.709Z",
               "EditorCaption": ""
             },
             {
@@ -646,14 +631,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\PlayerInventory.cs",
               "RelativeToolTip": "Assets\\Scripts\\Inventory\\PlayerInventory.cs",
-              "ViewState": "AgIAAMwEAAAAAAAAAAA5wO8EAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAewDoAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-21T14:21:24.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "PlayerTrade.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\PlayerTrade.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\PlayerTrade.cs",
@@ -661,12 +646,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Trade\\PlayerTrade.cs",
               "ViewState": "AgIAABUBAAAAAAAAAAAywCsBAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-25T14:34:06.404Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-25T14:34:06.404Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "BuildScript.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\BuildScript.cs",
               "RelativeDocumentMoniker": "Assets\\Editor\\BuildScript.cs",
@@ -679,7 +663,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
+              "Title": "CanvasInventory.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
+              "ViewState": "AgIAAPgCAAAAAAAAAAAUwAwDAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T11:39:47.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StatsComponent.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsComponent.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAAUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T18:26:19.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CanvasPartyTargetUI.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Party\\CanvasPartyTargetUI.cs",
+              "ViewState": "AgIAABMBAAAAAAAAAAAnwCQBAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-29T08:46:54.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "PlayerStash.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\PlayerStash.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\PlayerStash.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\PlayerStash.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stash\\PlayerStash.cs",
+              "ViewState": "AgIAALECAAAAAAAAAAAYwLoCAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T19:17:02.54Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TradeTypes.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeTypes.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeTypes.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeTypes.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeTypes.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwDIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-19T10:04:34.319Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TradeInvitePopup.cs",
+              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
+              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Trade\\TradeInvitePopup.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAUwMsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-25T13:10:16.301Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "TradeUtility.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeUtility.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeUtility.cs",
@@ -691,7 +749,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "CanvasTrade.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\CanvasTrade.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\CanvasTrade.cs",
@@ -703,7 +761,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "TradeOfferLineUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\TradeOfferLineUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\TradeOfferLineUI.cs",
@@ -715,7 +773,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "StashBackGroundSlot.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\StashBackGroundSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\StashBackGroundSlot.cs",
@@ -727,7 +785,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "LootableSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\loot_visual_system\\LootableSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\loot_visual_system\\LootableSO.cs",
@@ -739,7 +797,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "ITradeInventory.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Trade\\ITradeInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Trade\\ITradeInventory.cs",
@@ -751,19 +809,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "CanvasInventory.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\CanvasInventory.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\CanvasInventory.cs",
-              "ViewState": "AgIAALEAAAAAAAAAAAAAALIAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T11:39:47.824Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "InventoryItemData.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\InventoryItemData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\InventoryItemData.cs",
@@ -775,7 +821,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "Enemy.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Enemy.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Enemy.cs",
@@ -787,7 +833,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "StashInteractable.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\StashInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\StashInteractable.cs",
@@ -799,7 +845,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "CanvasStash.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stash\\CanvasStash.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stash\\CanvasStash.cs",
@@ -811,7 +857,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "LootPayload.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPayload.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootPayload.cs",
@@ -823,7 +869,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "LootableDatabase.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\LootableDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\LootableDatabase.cs",
@@ -835,7 +881,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 134,
+              "DocumentIndex": 136,
               "Title": "LootPickUp.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootPickUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootPickUp.cs",
@@ -847,7 +893,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "CurrencySO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencySO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\Currency\\CurrencySO.cs",
@@ -859,7 +905,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 137,
+              "DocumentIndex": 139,
               "Title": "LootableSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Items\\LootableSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\Items\\LootableSO.cs",
@@ -871,7 +917,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 132,
+              "DocumentIndex": 134,
               "Title": "ItemCard.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Inventory\\ItemCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\ItemCard.cs",
@@ -883,7 +929,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "ItemPreviewManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Items\\ItemPreviewManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\Items\\ItemPreviewManager.cs",
@@ -895,7 +941,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 135,
+              "DocumentIndex": 137,
               "Title": "LootUIManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\LootUIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\LootUIManager.cs",
@@ -907,7 +953,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 136,
+              "DocumentIndex": 138,
               "Title": "LootLabelUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\LootLabelUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\LootLabelUI.cs",
@@ -919,7 +965,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 133,
+              "DocumentIndex": 135,
               "Title": "ItemPreview.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Items\\ItemPreview.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\Items\\ItemPreview.cs",
@@ -931,7 +977,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "CurrencyTargetingManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyTargetingManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\Currency\\CurrencyTargetingManager.cs",
@@ -943,7 +989,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "SigilOfTransmutationEffectSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Lootable\\Sigils\\Effect\\SigilOfTransmutationEffectSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Lootable\\Sigils\\Effect\\SigilOfTransmutationEffectSO.cs",
@@ -955,7 +1001,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "GeneratedItemSpawnBehaviourSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\GeneratedItemSpawnBehaviourSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\GeneratedItemSpawnBehaviourSO.cs",
@@ -967,7 +1013,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "LootManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootManager.cs",
@@ -979,7 +1025,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 30,
               "Title": "ItemCurrencyEffectSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyEffect\\ItemCurrencyEffectSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\Currency\\CurrencyEffect\\ItemCurrencyEffectSO.cs",
@@ -991,7 +1037,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "StackableLootSpawnBehaviourSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\StackableLootSpawnBehaviourSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\StackableLootSpawnBehaviourSO.cs",
@@ -1003,7 +1049,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "LootSpawnContext.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootSpawnContext.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootSpawnContext.cs",
@@ -1015,7 +1061,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "CurrencyDatabase.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\Currency\\CurrencyDatabase.cs",
@@ -1027,7 +1073,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 131,
+              "DocumentIndex": 133,
               "Title": "CurrencyPickUp.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyPickUp.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\Currency\\CurrencyPickUp.cs",
@@ -1039,7 +1085,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "LootGenerator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootGenerator.cs",
@@ -1051,7 +1097,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 130,
+              "DocumentIndex": 132,
               "Title": "ColorInspector.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Library\\PackageCache\\com.unity.visualscripting@6279e2b7c485\\Editor\\VisualScripting.Core\\Inspection\\Unity\\ColorInspector.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.visualscripting@6279e2b7c485\\Editor\\VisualScripting.Core\\Inspection\\Unity\\ColorInspector.cs",
@@ -1063,7 +1109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "LootProfileSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootProfileSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootProfileSO.cs",
@@ -1075,7 +1121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 120,
+              "DocumentIndex": 122,
               "Title": "ItemInstanceSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemInstanceSO.cs",
@@ -1087,7 +1133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 37,
               "Title": "LootTableEntry.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootTableEntry.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootTableEntry.cs",
@@ -1099,7 +1145,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 129,
+              "DocumentIndex": 131,
               "Title": "AffixGenerator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Editor\\AffixGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Editor\\AffixGenerator.cs",
@@ -1111,7 +1157,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 117,
+              "DocumentIndex": 119,
               "Title": "SigilSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigils\\SigilSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Sigils\\SigilSO.cs",
@@ -1123,7 +1169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 121,
+              "DocumentIndex": 123,
               "Title": "SigilOfExaltationEffectSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigils\\Effect\\SigilOfExaltationEffectSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigils\\Effect\\SigilOfExaltationEffectSO.cs",
@@ -1135,7 +1181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 119,
+              "DocumentIndex": 121,
               "Title": "SigilDatabase.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigils\\SigilDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Sigils\\SigilDatabase.cs",
@@ -1147,7 +1193,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 116,
+              "DocumentIndex": 118,
               "Title": "SigilPickUp.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\SigilPickUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\SigilPickUp.cs",
@@ -1159,7 +1205,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 114,
+              "DocumentIndex": 116,
               "Title": "SigilSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\SigilSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\SigilSO.cs",
@@ -1171,7 +1217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 118,
+              "DocumentIndex": 120,
               "Title": "PlayerSigilInventory.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Sigil\\PlayerSigilInventory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Sigil\\PlayerSigilInventory.cs",
@@ -1183,7 +1229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 113,
+              "DocumentIndex": 115,
               "Title": "SigilOfExaltationEffectSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\Effect\\SigilOfExaltationEffectSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Sigil\\Effect\\SigilOfExaltationEffectSO.cs",
@@ -1194,7 +1240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 124,
+              "DocumentIndex": 126,
               "Title": "PlayerEquipment.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipment.cs",
@@ -1206,7 +1252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 112,
+              "DocumentIndex": 114,
               "Title": "SigilSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\SigilSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Equipment\\Items\\SigilSO.cs",
@@ -1218,7 +1264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 122,
+              "DocumentIndex": 124,
               "Title": "ItemBaseSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemBaseSO.cs",
@@ -1230,7 +1276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 123,
+              "DocumentIndex": 125,
               "Title": "ItemPreview.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreview.cs",
@@ -1242,7 +1288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 125,
+              "DocumentIndex": 127,
               "Title": "ItemPreviewManager.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\ItemPreviewManager.cs",
@@ -1254,7 +1300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 126,
+              "DocumentIndex": 128,
               "Title": "AffixPoolSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixPoolSO.cs",
@@ -1266,7 +1312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 127,
+              "DocumentIndex": 129,
               "Title": "AffixSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\AffixSO.cs",
@@ -1278,7 +1324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 65,
               "Title": "MapConfigSO.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Resources\\ScriptableObjects\\Map\\MapConfigSO.cs",
@@ -1290,7 +1336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 115,
+              "DocumentIndex": 117,
               "Title": "CurrencyPickUp.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\CurrencyPickUp.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\CurrencyPickUp.cs",
@@ -1302,7 +1348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 128,
+              "DocumentIndex": 130,
               "Title": "PlayerEquipmentData.cs",
               "DocumentMoniker": "C:\\Users\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\lpvray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Equipment\\Items\\PlayerEquipmentData.cs",
@@ -1314,7 +1360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 39,
               "Title": "ItemDatabase.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\ItemDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\ItemDatabase.cs",
@@ -1326,7 +1372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 47,
               "Title": "EnemyMelee.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\TypesEnemy\\EnemyMelee.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\TypesEnemy\\EnemyMelee.cs",
@@ -1338,7 +1384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 41,
               "Title": "MapEventActivator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MapMechanic\\MapEventActivator.cs",
@@ -1350,7 +1396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 43,
               "Title": "MapDifficultyCanvas.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapDifficultyCanvas.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapDifficultyCanvas.cs",
@@ -1362,7 +1408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 44,
               "Title": "EnemyPool.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\EnemyPool.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyPool.cs",
@@ -1374,7 +1420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 45,
               "Title": "MapEventState.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\MapMechanic\\MapEventState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MapMechanic\\MapEventState.cs",
@@ -1386,7 +1432,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 46,
               "Title": "EnemyManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\EnemyManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\EnemyManager.cs",
@@ -1398,7 +1444,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 48,
               "Title": "Zombie.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Zombie.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Zombie.cs",
@@ -1410,7 +1456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 40,
               "Title": "InstanceState.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\InstanceState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\InstanceState.cs",
@@ -1422,7 +1468,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 42,
               "Title": "EnemySpawner.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\Spawners\\EnemySpawner.cs",
@@ -1434,7 +1480,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 49,
               "Title": "ProjectileSpellExecutor.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Visual\\ProjectileSpellExecutor.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Visual\\ProjectileSpellExecutor.cs",
@@ -1446,7 +1492,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 50,
               "Title": "LootPreviewUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\UI\\LootPreviewUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\UI\\LootPreviewUI.cs",
@@ -1458,7 +1504,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 52,
               "Title": "FrostballSpell.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FrostballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FrostballSpell.cs",
@@ -1470,7 +1516,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 53,
               "Title": "FireballSpell.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\FireballSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\FireballSpell.cs",
@@ -1482,7 +1528,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 54,
               "Title": "Projectile.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Projectile.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Projectile.cs",
@@ -1494,7 +1540,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 56,
               "Title": "DamagePart.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\DamagePart.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\DamagePart.cs",
@@ -1506,7 +1552,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 55,
               "Title": "DamageCalculator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\DamageCalculator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\DamageCalculator.cs",
@@ -1518,7 +1564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 51,
               "Title": "Spell.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Spell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Spell.cs",
@@ -1530,19 +1576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
-              "Title": "StatsComponent.cs",
-              "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "ToolTip": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stats\\StatsComponent.cs",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAAwPsAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T18:26:19.798Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 58,
               "Title": "NetworkEntity.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\NetworkEntity.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\NetworkEntity.cs",
@@ -1554,7 +1588,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 67,
               "Title": "InstanceManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceManager.cs",
@@ -1566,7 +1600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 57,
               "Title": "SlashBehaviour.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Slash\\SlashBehaviour.cs",
@@ -1578,7 +1612,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 60,
               "Title": "PlayerEntity.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerEntity.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerEntity.cs",
@@ -1590,7 +1624,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 62,
               "Title": "PortalInstances.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\PortalInstances.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\PortalInstances.cs",
@@ -1602,7 +1636,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 66,
               "Title": "InstanceBootStrap.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\InstanceBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\InstanceBootStrap.cs",
@@ -1614,7 +1648,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 59,
               "Title": "RunStatsComponent.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\RunStatsComponent.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\RunStatsComponent.cs",
@@ -1626,7 +1660,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 64,
               "Title": "InstanceNetworkManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\InstanceNetworkManager.cs",
@@ -1638,7 +1672,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 63,
               "Title": "ClientSideInstanceManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ClientSideInstanceManager.cs",
@@ -1650,7 +1684,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 61,
               "Title": "InstanceRedirectManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\InstanceRedirectManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\InstanceRedirectManager.cs",
@@ -1662,7 +1696,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 71,
               "Title": "PlayerPauseController.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerPauseController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerPauseController.cs",
@@ -1674,7 +1708,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 68,
               "Title": "DatabaseManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseManager.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseManager.cs",
@@ -1686,7 +1720,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 69,
               "Title": "PartyManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\PartyManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Party\\PartyManager.cs",
@@ -1698,7 +1732,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 72,
               "Title": "ServerTimeManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\ServerTimeManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\ServerTimeManager.cs",
@@ -1710,7 +1744,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 70,
               "Title": "SlashSpell.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\Slash\\SlashSpell.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\Slash\\SlashSpell.cs",
@@ -1722,7 +1756,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 73,
               "Title": "SpellTag.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\SpellTag.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\SpellTag.cs",
@@ -1734,7 +1768,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 74,
               "Title": "SpellSlotUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\SpellSlotUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SpellSlotUI.cs",
@@ -1746,7 +1780,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 75,
               "Title": "SpellsSlotsUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\SpellsSlotsUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SpellsSlotsUI.cs",
@@ -1758,7 +1792,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 78,
               "Title": "CanvasTarget.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasTarget.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasTarget.cs",
@@ -1770,7 +1804,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 76,
               "Title": "UIManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\UIManager.cs",
@@ -1782,7 +1816,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
+              "DocumentIndex": 77,
               "Title": "CanvasPartyListUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\CanvasPartyListUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Party\\CanvasPartyListUI.cs",
@@ -1794,7 +1828,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 81,
               "Title": "Party.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Party\\Party.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Party\\Party.cs",
@@ -1806,7 +1840,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 80,
               "Title": "IInteractable.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Interfaces\\IInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Interfaces\\IInteractable.cs",
@@ -1818,7 +1852,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 79,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerMovement.cs",
@@ -1830,7 +1864,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 82,
               "Title": "LootTableRoll.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\LootTableRoll.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\LootTableRoll.cs",
@@ -1842,7 +1876,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
+              "DocumentIndex": 83,
               "Title": "MapGenerator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapGenerator.cs",
@@ -1854,7 +1888,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 84,
               "Title": "RewardSpellsCanvas.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\RewardSpellsCanvas.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\RewardSpellsCanvas.cs",
@@ -1866,7 +1900,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 86,
               "Title": "DamagePopUpManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Damage\\DamagePopUpManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Damage\\DamagePopUpManager.cs",
@@ -1878,7 +1912,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 85,
               "Title": "SpellChoice.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\SpellChoice.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\SpellChoice.cs",
@@ -1890,7 +1924,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 87,
               "Title": "DamagePopUp.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Damage\\DamagePopUp.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Damage\\DamagePopUp.cs",
@@ -1902,7 +1936,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 89,
               "Title": "RuneSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Spells\\RuneSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Spells\\RuneSO.cs",
@@ -1914,7 +1948,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
+              "DocumentIndex": 88,
               "Title": "CanvasArcana.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\Arcana\\CanvasArcana.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Arcana\\CanvasArcana.cs",
@@ -1926,7 +1960,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 88,
+              "DocumentIndex": 90,
               "Title": "SpellsManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Manager\\SpellsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\SpellsManager.cs",
@@ -1938,7 +1972,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 89,
+              "DocumentIndex": 91,
               "Title": "PlayerStatsPanelUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerStatsPanelUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerStatsPanelUI.cs",
@@ -1950,7 +1984,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 90,
+              "DocumentIndex": 92,
               "Title": "ServerBootStrap.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\ServerBootStrap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\ServerBootStrap.cs",
@@ -1962,7 +1996,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 91,
+              "DocumentIndex": 93,
               "Title": "MyNetworkManager.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Server\\MyNetworkManager.cs",
@@ -1974,7 +2008,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 92,
+              "DocumentIndex": 94,
               "Title": "SpawnDebug.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Debug\\SpawnDebug.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Debug\\SpawnDebug.cs",
@@ -1986,7 +2020,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 93,
+              "DocumentIndex": 95,
               "Title": "ClientMapInstanceReceiver.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\ClientMapInstanceReceiver.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\ClientMapInstanceReceiver.cs",
@@ -1998,7 +2032,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 94,
+              "DocumentIndex": 96,
               "Title": "MapConfigSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Map\\MapConfigSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map\\MapConfigSO.cs",
@@ -2010,7 +2044,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 95,
+              "DocumentIndex": 97,
               "Title": "TestDebugLog.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Debug\\TestDebugLog.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Debug\\TestDebugLog.cs",
@@ -2022,7 +2056,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 99,
+              "DocumentIndex": 101,
               "Title": "AffixDatabase.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\AffixDatabase.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\AffixDatabase.cs",
@@ -2034,7 +2068,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 97,
+              "DocumentIndex": 99,
               "Title": "StatsRowUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsRowUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsRowUI.cs",
@@ -2046,7 +2080,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 96,
+              "DocumentIndex": 98,
               "Title": "PlayerUI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerUI.cs",
@@ -2058,7 +2092,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 98,
+              "DocumentIndex": 100,
               "Title": "PlayerPickupController.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Player\\PlayerPickupController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerPickupController.cs",
@@ -2070,7 +2104,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 100,
+              "DocumentIndex": 102,
               "Title": "HitboxHitHumanoidMonster.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Fight\\HitboxHitHumanoidMonster.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Fight\\HitboxHitHumanoidMonster.cs",
@@ -2082,7 +2116,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 101,
+              "DocumentIndex": 103,
               "Title": "HumanoidAnimator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\HumanoidAnimator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HumanoidAnimator.cs",
@@ -2094,7 +2128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 102,
+              "DocumentIndex": 104,
               "Title": "ServerCommandHandler.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\ServerCommandHandler.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\ServerCommandHandler.cs",
@@ -2106,7 +2140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 103,
+              "DocumentIndex": 105,
               "Title": "DatabaseInitializer.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
               "RelativeDocumentMoniker": "Assets\\ServerOnly\\Database\\DatabaseInitializer.cs",
@@ -2118,7 +2152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 104,
+              "DocumentIndex": 106,
               "Title": "ClientAccountAPI.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Network\\Client\\ClientAccountAPI.cs",
@@ -2130,7 +2164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 105,
+              "DocumentIndex": 107,
               "Title": "CanvasCreateAccount.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\UI\\CanvasCreateAccount.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CanvasCreateAccount.cs",
@@ -2142,7 +2176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 106,
+              "DocumentIndex": 108,
               "Title": "ItemGenerator.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Loot\\ItemGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Loot\\ItemGenerator.cs",
@@ -2154,7 +2188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 107,
+              "DocumentIndex": 109,
               "Title": "EnemyChaseState.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyChaseState.cs",
@@ -2166,7 +2200,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 109,
+              "DocumentIndex": 111,
               "Title": "StatsDataSO.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Stats\\StatsDataSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\StatsDataSO.cs",
@@ -2178,7 +2212,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 108,
+              "DocumentIndex": 110,
               "Title": "EnemyAttackState.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyAttackState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyAttackState.cs",
@@ -2190,7 +2224,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 110,
+              "DocumentIndex": 112,
               "Title": "CameraFollow.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Camera\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\CameraFollow.cs",
@@ -2202,7 +2236,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 111,
+              "DocumentIndex": 113,
               "Title": "EnemyDeadState.cs",
               "DocumentMoniker": "C:\\Users\\l.vray\\Documents\\GitHub\\Project-Survivor\\Assets\\Scripts\\Enemy\\States\\EnemyDeadState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\States\\EnemyDeadState.cs",
