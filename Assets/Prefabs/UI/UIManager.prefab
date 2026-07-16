@@ -44,8 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74aefb5176ddfe04982c12b454ba359e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generalCanvasParent: {fileID: 0}
   gameUICanvas: {fileID: 0}
-  inventoryCanvas: {fileID: 0}
-  spellsRewardCanvas: {fileID: 7970449152423747912, guid: 38bac2f36e8c85145bd343d2aa8ef0bc, type: 3}
+  loadingCanvas: {fileID: 0}
+  windowsParent: {fileID: 0}
+  backAction: {fileID: -6568588178799555901, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  modalParent: {fileID: 0}
+  spellsRewardCanvasPrefab: {fileID: 7970449152423747912, guid: 38bac2f36e8c85145bd343d2aa8ef0bc, type: 3}
   spellChoicePrefab: {fileID: 2556145404931912596, guid: 1eb4fabb436a16e4a98e59028beeb907, type: 3}
+  rewardCanCloseWithEscape: 1

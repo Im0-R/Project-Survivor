@@ -228,6 +228,7 @@
     <Compile Include="Assets\Scripts\Loot\LootQuantityGroup.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellSyncData.cs" />
     <Compile Include="Assets\Scripts\Lootable\Items\ItemPreviewManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Management\UIWindow.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IEnemyState.cs" />
     <Compile Include="Assets\Scripts\UI\CustomNetworkUI.cs" />
     <Compile Include="Assets\Scripts\Loot\InventoryItemData.cs" />

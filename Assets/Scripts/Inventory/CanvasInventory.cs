@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class CanvasInventory : MonoBehaviour
+public class CanvasInventory : UIWindow
 {
     public static CanvasInventory Instance { get; private set; }
 
@@ -22,6 +22,12 @@ public class CanvasInventory : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
         if (inventorySlots == null ||
@@ -61,8 +67,6 @@ public class CanvasInventory : MonoBehaviour
                 equipmentSlot.SetId(-1);
         }
 
-        gameObject.SetActive(false);
-
         Debug.Log(
             $"[CanvasInventory] InventorySlots=" +
             $"{inventorySlots.Length} EquipmentSlots=" +
@@ -96,15 +100,6 @@ public class CanvasInventory : MonoBehaviour
 
         if (Instance == this)
             Instance = null;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) &&
-            UIManager.Instance != null)
-        {
-            UIManager.Instance.HideSpellsRewardUI();
-        }
     }
 
     // =========================================================

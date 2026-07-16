@@ -160,7 +160,7 @@ public class BackGroundSlot : MonoBehaviour, IDropHandler
         if (card.Source == ItemCardSource.TradeSelf)
         {
             if (CanvasTrade.Instance != null &&
-                CanvasTrade.Instance.IsOpen())
+                CanvasTrade.Instance.HasActiveTrade)
             {
                 CanvasTrade.Instance
                     .RequestRemoveSelfOfferSlot(

@@ -4,12 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasTrade : MonoBehaviour
+public class CanvasTrade : UIWindow
 {
     public static CanvasTrade Instance { get; private set; }
-
-    [Header("Root")]
-    [SerializeField] private GameObject root;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text titleText;
@@ -40,12 +37,19 @@ public class CanvasTrade : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
-        if (root != null)
-            root.SetActive(false);
-
         SetupSlots();
+
+        PlayerTrade.ClientTradeUpdated += OnTradeUpdated;
+        PlayerTrade.ClientTradeClosed += OnTradeClosed;
+        PlayerTrade.ClientTradeError += OnTradeError;
 
         if (readyButton != null)
             readyButton.onClick.AddListener(OnReadyClicked);
@@ -57,18 +61,37 @@ public class CanvasTrade : MonoBehaviour
             cancelButton.onClick.AddListener(OnCancelClicked);
     }
 
-    private void OnEnable()
-    {
-        PlayerTrade.ClientTradeUpdated += OnTradeUpdated;
-        PlayerTrade.ClientTradeClosed += OnTradeClosed;
-        PlayerTrade.ClientTradeError += OnTradeError;
-    }
-
-    private void OnDisable()
+    private void OnDestroy()
     {
         PlayerTrade.ClientTradeUpdated -= OnTradeUpdated;
         PlayerTrade.ClientTradeClosed -= OnTradeClosed;
         PlayerTrade.ClientTradeError -= OnTradeError;
+
+        if (readyButton != null)
+            readyButton.onClick.RemoveListener(OnReadyClicked);
+
+        if (finalAcceptButton != null)
+            finalAcceptButton.onClick.RemoveListener(OnFinalAcceptClicked);
+
+        if (cancelButton != null)
+            cancelButton.onClick.RemoveListener(OnCancelClicked);
+
+        if (Instance == this)
+            Instance = null;
+    }
+
+    protected override void OnBeforeClosed()
+    {
+        // Escape, loading, reward UI and CloseAllWindows all pass here.
+        // The server remains authoritative and will confirm the closure
+        // through OnTradeClosed.
+        if (currentState == null)
+            return;
+
+        PlayerTrade localTrade = GetLocalTrade();
+
+        if (localTrade != null)
+            localTrade.CmdCancelTrade();
     }
 
     private void SetupSlots()
@@ -98,10 +121,7 @@ public class CanvasTrade : MonoBehaviour
         }
     }
 
-    public bool IsOpen()
-    {
-        return root != null && root.activeSelf && currentState != null;
-    }
+    public bool HasActiveTrade => IsOpen && currentState != null;
 
     public void RequestDrop(ItemCard card, BackGroundSlot targetSlot)
     {
@@ -182,11 +202,19 @@ public class CanvasTrade : MonoBehaviour
     {
         currentState = state;
 
-        if (root != null)
-            root.SetActive(true);
+        if (UIManager.Instance != null)
+        {
+            if (openInventoryOnTrade)
+            {
+                UIManager.Instance.OpenWindow(
+                    UIWindowId.Inventory
+                );
+            }
 
-        if (openInventoryOnTrade && CanvasInventory.Instance != null)
-            CanvasInventory.Instance.gameObject.SetActive(true);
+            UIManager.Instance.OpenWindow(
+                UIWindowId.Trade
+            );
+        }
 
         Refresh();
     }
@@ -200,8 +228,9 @@ public class CanvasTrade : MonoBehaviour
         if (statusText != null)
             statusText.text = reason;
 
-        if (root != null)
-            root.SetActive(false);
+        UIManager.Instance?.CloseWindow(
+            UIWindowId.Trade
+        );
     }
 
     private void OnTradeError(string message)
