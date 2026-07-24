@@ -592,11 +592,11 @@ public class PlayerEntity : NetworkEntity
 
     private void HandleDebugInput()
     {
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            if (CanvasArcana.Instance != null)
-                CanvasArcana.Instance.Open();
-        }
+        //if (Input.GetKeyDown(KeyCode.F2))
+        //{
+        //    if (CanvasArcana.Instance != null)
+        //        CanvasArcana.Instance.Open();
+        //}
     }
 
     [Command]

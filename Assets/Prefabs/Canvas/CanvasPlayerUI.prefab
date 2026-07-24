@@ -9378,6 +9378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a09163f3a92a0b46b0f4003b83906eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanvasArcana
+  id: 5
+  mode: 1
+  closeOnEscape: 1
+  toggleAction: {fileID: 6333269724941453232, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   root: {fileID: 4710331623447674989}
   loadoutSlots:
   - {fileID: 4935849812421942665}

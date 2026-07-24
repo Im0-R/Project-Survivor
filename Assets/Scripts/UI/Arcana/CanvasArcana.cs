@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasArcana : MonoBehaviour
+public class CanvasArcana : UIWindow
 {
     public static CanvasArcana Instance { get; private set; }
 
